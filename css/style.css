@@ -1,0 +1,10 @@
+#cover {
+	height: 420px;
+}
+#coverart {
+	position: absolute;
+	width: 300px;
+}
+#coverimage {
+	width: 300px;
+}
