@@ -3,9 +3,9 @@ Importing the font families
 font-family: 'Open Sans', sans-serif;
 font-family: 'Raleway', sans-serif;
 font-family: 'Lora', serif;
-*/
 
-@import url('https://fonts.googleapis.com/css?family=Lora:400,400i|Open+Sans:400|Raleway:700');
+
+@import url('https://fonts.googleapis.com/css?family=Lora:400,400i|Open+Sans:300,400,700|Raleway:500,700');
 
 
 .bg {
@@ -29,14 +29,33 @@ font-family: 'Lora', serif;
 	font-weight: 400 !important;
 	color: #607d8b !important;
 }
+*/
+#project-header {
+	background-color: #FAFAFA;
+    padding: 3rem;
+}
 
-#cover {
-	height: 420px;
+.avatar img{
+	 height: 5rem;
+	 display: block;
+	 margin: auto;
 }
-#coverart {
-	position: absolute;
-	width: 300px;
+
+.card-footer {
+    border: none !important;
 }
-#coverimage {
-	width: 300px;
+.tags {
+	margin-right: 0.4rem;
+	padding: 0.2rem 0.4rem;
+	border-radius: 1rem;
+	border: 1px solid #17a2b8;
+	font-size: 0.6rem;
+	color: #17a2b8 !important;
 }
+
+/*// Medium devices (tablets, 768px and up)
+@media (min-width: 768px) { 
+	.avatar {
+	position: relative;
+	}
+}*/

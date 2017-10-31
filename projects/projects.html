@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Projects | Prasanta Kr Dutta</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.0/css/font-awesome.min.css">
+    <!-- Bootstrap core CSS -->
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <!-- Material Design Bootstrap -->
+    <link href="../css/mdb.min.css" rel="stylesheet">
+    <!-- Your custom styles (optional) -->
+    <link href="../css/style.css" rel="stylesheet">
+    <link href="projects.css" rel="stylesheet">
+</head>
+
+<body class="bg">
+    <div class="jumbotron" id="project-header">
+            <div class="container">
+                <h1 class="h1-responsive display-font">Featured Works</h1>
+                <hr class="my-2">
+                <p class="text-font">Showcasing some of my projects that I have enjoyed working on, in the areas of design, photography and engineering</p>
+            </div>
+        </div>
+    </div>
+    <!-- <div class="jumbotron" id="project-header">
+        <div class="row">
+            <div class="col-12 col-md-1 avatar">
+                <img src="../img/cover.png">
+            </div>
+            <div class="col-12 col-md-11">
+                <h1 class="h1-responsive display-font">Featured Works</h1>
+                <hr class="my-2">
+                <p class="text-font">Showcasing some of my projects that I have enjoyed working on, in the areas of design, photography and engineering!</p>
+            </div>
+        </div>
+    </div> -->
+    <div class="container">
+        <div class="row d-flex" id="projects">
+        </div>
+        <!-- This is the template for the project card -->
+        <template id=card-template>
+        <div class="col-12 col-md-4 d-flex">
+            <!--Card-->                
+            <div class="card mt-3 mb-3 hoverable">
+            <a href="#" class="target" target="_blank">
+                <!--Card image-->
+                <div class="view overlay hm-white-slight">
+                <img src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20%287%29.jpg" class="img-fluid" alt="">
+                <div class="mask"></div>
+                </div>           
+
+                <!--Card content-->
+                <div class="card-body">
+                    <!--Title-->
+                    <h4 class="card-title title-font">Card title</h4>
+                    <!--Text-->
+                    <p class="card-text text-font">Some quick example content.</p>
+                    <!-- <a href="#" class="btn btn-primary">Button</a> -->
+                </div>
+                <div class="card-footer">
+                    <div class="row tags-row justify-content-end">
+                        <!--span class="tags text-font">Photography</span-->
+                    </div>
+                </div>
+            </a>
+            </div>
+            
+            <!--/.Card-->
+        </div>
+        </template>
+        <!-- End of Template -->
+    </div>
+    
+<!-- SCRIPTS -->
+    <!-- JQuery -->
+    <script type="text/javascript" src="../js/jquery-3.2.1.min.js"></script>
+    <!-- Bootstrap tooltips -->
+    <script type="text/javascript" src="../js/popper.min.js"></script>
+    <!-- Bootstrap core JavaScript -->
+    <script type="text/javascript" src="../js/bootstrap.min.js"></script>
+    <!-- MDB core JavaScript -->
+    <script type="text/javascript" src="../js/mdb.min.js"></script>
+
+    <!-- Template DOM script -->
+    <script type="text/javascript" src="projects.js"></script>
+</body>
+</html>
