@@ -32,7 +32,9 @@ font-family: 'Lora', serif;
 */
 #project-header {
 	background-color: #FAFAFA;
-    padding: 3rem;
+    padding-top: 8rem;
+    margin-bottom: 0;
+    box-shadow: none;
 }
 
 .avatar img{
@@ -44,18 +46,24 @@ font-family: 'Lora', serif;
 .card-footer {
     border: none !important;
 }
+
+/* .card .card-body p {
+    margin-bottom: 0;
+} */
 .tags {
 	margin-right: 0.4rem;
 	padding: 0.2rem 0.4rem;
 	border-radius: 1rem;
-	border: 1px solid #17a2b8;
 	font-size: 0.6rem;
+	border: 1px solid #17a2b8;	
 	color: #17a2b8 !important;
 }
 
-/*// Medium devices (tablets, 768px and up)
+/* Medium devices (tablets, 768px and up)
 @media (min-width: 768px) { 
 	.avatar {
 	position: relative;
 	}
 }*/
+
+

@@ -7,7 +7,7 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>Projects | Prasanta Kr Dutta</title>
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <!-- Bootstrap core CSS -->
     <link href="../css/bootstrap.min.css" rel="stylesheet">
     <!-- Material Design Bootstrap -->
@@ -18,6 +18,49 @@
 </head>
 
 <body class="bg">
+    <!--Navbar-->
+    <nav class="navbar navbar-expand-lg navbar-dark purple fixed-top scrolling-navbar animated fadeInDown">
+    <div class="container">   
+        <!-- Navbar brand -->
+        <a class="navbar-brand" href="#">Navbar</a>
+
+        <!-- Collapse button -->
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+            aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+
+        <!-- Collapsible content -->
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+            <!-- Links -->
+            <ul class="navbar-nav ml-auto justify-content-end">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Projects <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Features</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Pricing</a>
+                </li>
+
+                <!-- Dropdown -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>
+                    <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
+                        <a class="dropdown-item" href="#">Action</a>
+                        <a class="dropdown-item" href="#">Another action</a>
+                        <a class="dropdown-item" href="#">Something else here</a>
+                    </div>
+                </li>
+
+            </ul>
+            <!-- Links -->
+        <!-- Collapsible content -->
+    </div>
+
+    </nav>
+    <!--/.Navbar-->
+                        
     <div class="jumbotron" id="project-header">
             <div class="container">
                 <h1 class="h1-responsive display-font">Featured Works</h1>
@@ -43,13 +86,13 @@
         </div>
         <!-- This is the template for the project card -->
         <template id=card-template>
-        <div class="col-12 col-md-4 d-flex">
+        <div class="col-12 col-md-4 d-flex wow animated fadeIn" data-wow-delay="0.5s">
             <!--Card-->                
             <div class="card mt-3 mb-3 hoverable">
-            <a href="#" class="target" target="_blank">
+            <a href="#" class="target">
                 <!--Card image-->
                 <div class="view overlay hm-white-slight">
-                <img src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20%287%29.jpg" class="img-fluid" alt="">
+                <img src="" class="img-fluid" alt="">
                 <div class="mask"></div>
                 </div>           
 
@@ -84,8 +127,10 @@
     <script type="text/javascript" src="../js/bootstrap.min.js"></script>
     <!-- MDB core JavaScript -->
     <script type="text/javascript" src="../js/mdb.min.js"></script>
+    <!-- WOW scroll animator JavaScript -->
+    <script src="../js/wow.min.js"></script>
 
-    <!-- Template DOM script -->
+    <!-- Template DOM script -->    
     <script type="text/javascript" src="projects.js"></script>
 </body>
 </html>
