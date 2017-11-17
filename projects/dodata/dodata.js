@@ -27,6 +27,9 @@ function scrollFunction() {
     }
     
 }
+// Update copyright with current year
+var d = new Date();
+$("footer #date").text(d.getFullYear()); 
 
 // When the user clicks on the button, scroll to the top of the document
 // function topFunction() {
