@@ -62,7 +62,9 @@ body {
 	font-weight: 300 !important;
 	color: #607d8b !important;
 }
-
+.wide-text {
+    letter-spacing: 0.3rem;
+}
 .purple {
 	background-color: #41295a!important;
 	/* background-color: #42275a!important; */
@@ -89,8 +91,18 @@ body {
     -webkit-transition:all 0.3s;
     transition:all 0.3s;
 }
+@media (max-width: 768px) { 
+    #coverart, #coverimage {
+        width: 15rem;
+    }    
+}
 .img-small {
     width: 8rem !important;
+}
+@media (max-width: 768px) { 
+    .img-small {
+        width: 5rem !important;
+    }    
 }
 svg {
    shape-rendering: auto;
@@ -101,6 +113,11 @@ svg {
 }
 #image-row {
     margin-top: 7rem;
+}
+@media (max-width: 768px) { 
+    #image-row {
+        margin-top: 5rem;
+    }    
 }
 footer i {
     font-size: 1.6rem;
