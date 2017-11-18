@@ -16,11 +16,13 @@ var myCallback = function() {
             setTimeout(() => {
                 $('#coverimage').addClass('img-small');
                 $('#coverart').addClass('img-small');
-                $('body').addClass('bg');
+                $('body').addClass('bg');                
+            }, 500); 
+            setTimeout(() => {
                 $('.navbar').removeClass('invisible');
                 $('.page-footer').removeClass('invisible');
                 $('#chatbox').removeClass('invisible');
-            }, 500);          
+            }, 500);         
             
         }
 var myVivus = new Vivus('coverart', {
