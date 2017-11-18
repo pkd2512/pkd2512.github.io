@@ -1,7 +1,3 @@
-// window.onload(function() {
-//     // Animate loader off screen
-//     $('.se-pre-con').fadeOut("slow");
-// });
 document.addEventListener('DOMContentLoaded', function() {
     // alert("Ready!");
     $('.se-pre-con').fadeOut("slow");

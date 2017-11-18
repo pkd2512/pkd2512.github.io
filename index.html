@@ -5,9 +5,13 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>A jack of trades | Prasanta Kr Dutta</title>
+    <title>Information Experience Designer | Prasanta Kr Dutta</title>
+    <meta name="Description" content="Prasanta Kr Dutta is an Information Experience Designer from NID Bangalore, passionate about UI/UX design, Data Visualisation and Photography. He loves solving problems in an aesthetically pleasing way. When he is not designing, he likes to indulge in culinary pleasures.">
+    <meta name="Keywords" content="User interface, User Experience, Designer, Information visualization, Data Narratives, Graphic Design, User centered design, UX, UI, Data Art, Web design, Photography, Travel, Creative writer, Electronics and Communication Engineer, National Institute of Design, National Institute of Technology Durgapur">
+    <meta name="author" content="Prasanta Kr Dutta">
+    <link rel="shortcut icon" href="favicon.png" type="image/x-icon">
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/font-awesome.min.css">
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <!-- Material Design Bootstrap -->
@@ -16,31 +20,107 @@
     <link href="css/style.css" rel="stylesheet">
 </head>
 
-<body>
+<body class="bg-purple">
+    <div class="se-pre-con"></div>
+    <!--Navbar-->
+    <nav class="navbar navbar-expand-lg navbar-dark purple fixed-top scrolling-navbar wow animated fadeInDown invisible" data-wow-duration="0.5s" data-wow-delay="1s">
+        <div class="container">
+            <!-- Navbar brand -->
+            <a class="navbar-brand" href="#"><img src="img/logo.png" height="36"></a>
+
+            <!-- Collapse button -->
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Collapsible content -->
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+                <!-- Links -->
+                <ul class="navbar-nav ml-auto justify-content-end">
+                    <li class="nav-item">
+                        <a class="nav-link" href="projects">Portfolio
+                            <span class="sr-only">(current)</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="Prasanta-Kr-Dutta_resume.pdf" target="_blank">Resume
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link email-ic" href="mailto:pkd@prasantakrdutta.com?subject=Hello%20Prasanta!%20Visited%20your%20website%20today" target="_blank">
+                            <i class="fa fa-envelope" aria-hidden="true"></i> 
+                            Get in touch&emsp;|</a>
+                    </li>                 
+                    <li class="nav-item">
+                        <a class="nav-link icons-sm tw-ic" href="https://twitter.com/Da_Pacific" target="_blank"><i class="fa fa-twitter"> </i></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link icons-sm li-ic" href="https://www.linkedin.com/in/pkddapacific/" target="_blank"><i class="fa fa-linkedin"> </i></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link icons-sm ins-ic" href="https://www.instagram.com/pkd_da_pacific/" target="_blank"><i class="fa fa-instagram"> </i></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link icons-sm" href="https://www.behance.net/pkddapacific" target="_blank"><i class="fa fa-behance"> </i></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link icons-sm" href="https://medium.com/@Da_Pacific" target="_blank"><i class="fa fa-medium"> </i></a>
+                    </li>
+                </ul>
+                <!-- Links -->
+                <!-- Collapsible content -->
+            </div>
+    </nav>
+    <!--/.Navbar-->
+
     <!-- COVER -->
-    <div class="container">
-        <div class="row">
-            <div class="col">
-                <div class="mx-auto" style="width: 500px;">
-                <object class="invisible" id="coverart" type="image/svg+xml" data="img/cover.svg"></object>
-                <img class="img-fluid invisible" id="coverimage" src="img/cover.png">  
-                </div>   
+    <div class="container" id="home">
+        <div class="row" id="image-row">
+            <div class="mx-auto">
+                <object class="invisible position-absolute" id="coverart" type="image/svg+xml" data="img/cover.svg"></object> 
+                <img class="img-fluid invisible" id="coverimage" src="img/cover.png">
+            </div>
         </div>
+        <section class="invisible" id="chatbox">
+            <div class="row">
+                
+            </div>
+        </section>
     </div>
+    
 
-    <object type="text/html" data="https://www.behance.net/gallery/52114777/Icon-Design-for-local-shopping-app-Bottleview"></object>
 
+    <!--Copyright-->
+    <footer class="page-footer mt-0 purple center-on-small-only invisible">
+        <!-- <div class="container-fluid">
+            <div class="row justify-content-center pb-3">
+                <a href="#" class="btn btn-deep-purple hoverable">next up: Lorem Ipsum&nbsp;&nbsp;<i class="fa fa-long-arrow-right fa-lg" aria-hidden="true"></i></a>   
+            </div>
+        </div> -->
+        <div class="footer-copyright">                   
+            <div class="container-fluid">
+                <div class="row justify-content-center">
+                    &copy; <span id="date"></span>&nbsp;Copyright: Prasanta Kr Dutta
+                </div>
+            </div>
+        </div>
+        
+    </footer>
+    <!--/.Copyright-->
 
     <!-- SCRIPTS -->
     <!-- JQuery -->
-    <script type="text/javascript" src="../js/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
     <!-- Bootstrap tooltips -->
-    <script type="text/javascript" src="../js/popper.min.js"></script>
+    <script type="text/javascript" src="js/popper.min.js"></script>
     <!-- Bootstrap core JavaScript -->
-    <script type="text/javascript" src="../js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
     <!-- MDB core JavaScript -->
-    <script type="text/javascript" src="../js/mdb.min.js"></script>
-
+    <script type="text/javascript" src="js/mdb.min.js"></script>
+    <!-- WOW scroll animator JavaScript -->
+    <script src="js/wow.min.js"></script>
     <!-- SVG painter script -->
     <script type="text/javascript" src="js/vivus.min.js"></script>    
     <script type="text/javascript" src="js/website.js"></script>
