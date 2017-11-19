@@ -22,8 +22,7 @@ var myCallback = function() {
                 $('.navbar').removeClass('invisible');
                 $('.page-footer').removeClass('invisible');
                 $('#chatbox').removeClass('invisible');
-            }, 500);         
-            
+            }, 1);           
         }
 var myVivus = new Vivus('coverart', {
             type: 'async',
