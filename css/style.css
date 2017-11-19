@@ -97,7 +97,7 @@ body {
 }
 @media (max-width: 768px) { 
     #coverart, #coverimage {
-        width: 15rem;
+        width: 18rem;
     }    
 }
 .img-small {
