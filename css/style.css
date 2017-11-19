@@ -31,9 +31,10 @@ body {
 }
 
 .bg {
-	background: #fafafa !important;	
+    background: #fafafa url('../img/bg-mesh.png') center center no-repeat !important;	
+    /* background-blend-mode: normal; */
 }
-.bg-purple {
+.bg-purpler {
     background: #41295a; /* For browsers that do not support gradients */
     background: -webkit-linear-gradient(-90deg,#2F0743, #41295a); /* For Safari 5.1 to 6.0 */
     background: -o-linear-gradient(-90deg, #2F0743 #41295a); /* For Opera 11.1 to 12.0 */

@@ -2,11 +2,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // alert("Ready!");
     $('.se-pre-con').fadeOut("slow");
 }, false);
-
-// new WOW({
-//     mobile: true
-// }).init();
-
 var myCallback = function() {
             //console.log("cover art trace complete");
             // $('#coverart').addClass('animated fadeOut');
@@ -47,14 +42,7 @@ var myVivus = new Vivus('coverart', {
                 $('#coverart').removeClass('invisible');
             }
         }, myCallback);
-// deferred call
-// $.when(myVivus).then(function(){
-//     // Making page content visible
-//     console.log("Displaying the remaining content");
-//     $('.navbar').removeClass('invisible');
-//     $('.page-footer').removeClass('invisible');
-//     $('#chatbox').removeClass('invisible');
-// });
+
 // Change title size for smaller devices
 var vsep = $('<span>&emsp;|&emsp;</span>').addClass('v-sep d-inline-block');
 // media query event handler
