@@ -13,12 +13,12 @@ var myCallback = function() {
             $('#coverimage').addClass('animated fadeIn');
             $('#coverimage').removeClass('invisible');
             // Resizing the face
-            setTimeout(() => {
+            setTimeout(function() {
                 $('#coverimage').addClass('img-small');
                 $('#coverart').addClass('img-small');
                 $('body').addClass('bg');                
             }, 500); 
-            setTimeout(() => {
+            setTimeout(function() {
                 $('.navbar').removeClass('invisible');
                 $('.page-footer').removeClass('invisible');
                 $('#chatbox').removeClass('invisible');
