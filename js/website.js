@@ -17,12 +17,12 @@ var myCallback = function() {
                 $('#coverimage').addClass('img-small');
                 $('#coverart').addClass('img-small');
                 $('body').addClass('bg');                
-            }, 500); 
+            }, 100); 
             setTimeout(function() {
                 $('.navbar').removeClass('invisible');
                 $('.page-footer').removeClass('invisible');
                 $('#chatbox').removeClass('invisible');
-            }, 600);         
+            }, 200);         
             
         }
 var myVivus = new Vivus('coverart', {
