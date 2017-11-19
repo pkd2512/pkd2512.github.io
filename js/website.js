@@ -3,9 +3,9 @@ document.addEventListener('DOMContentLoaded', function() {
     $('.se-pre-con').fadeOut("slow");
 }, false);
 
-new WOW({
-    mobile: true
-}).init();
+// new WOW({
+//     mobile: true
+// }).init();
 
 var myCallback = function() {
             //console.log("cover art trace complete");
@@ -17,12 +17,22 @@ var myCallback = function() {
                 $('#coverimage').addClass('img-small');
                 $('#coverart').addClass('img-small');
                 $('body').addClass('bg');                
-            }, 100); 
+            }, 500); 
             setTimeout(function() {
+                $('.navbar').addClass('animated fadeInDown');
                 $('.navbar').removeClass('invisible');
                 $('.page-footer').removeClass('invisible');
+            }, 600);   
+            setTimeout(function() {
+                $('#name').addClass('animated fadeIn');
+                $('#name').removeClass('invisible');
+                //$('#chatbox').removeClass('invisible');
+            }, 700);  
+            setTimeout(function() {
+                $('#credentials').addClass('animated fadeIn');
+                $('#credentials').removeClass('invisible');
                 $('#chatbox').removeClass('invisible');
-            }, 200);         
+            }, 800);  
             
         }
 var myVivus = new Vivus('coverart', {
