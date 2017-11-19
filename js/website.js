@@ -16,13 +16,16 @@ var myCallback = function() {
             setTimeout(function() {
                 $('#coverimage').addClass('img-small');
                 $('#coverart').addClass('img-small');
-                $('body').addClass('bg');                
-            }, 500); 
-            setTimeout(function() {
+                $('body').addClass('bg'); 
                 $('.navbar').removeClass('invisible');
                 $('.page-footer').removeClass('invisible');
-                $('#chatbox').removeClass('invisible');
-            }, 1);           
+                $('#chatbox').removeClass('invisible');               
+            }, 500); 
+            // setTimeout(function() {
+            //     $('.navbar').removeClass('invisible');
+            //     $('.page-footer').removeClass('invisible');
+            //     $('#chatbox').removeClass('invisible');
+            // }, 1);           
         }
 var myVivus = new Vivus('coverart', {
             type: 'async',
