@@ -9,14 +9,17 @@ document.addEventListener('DOMContentLoaded', function() {
 
 var myCallback = function() {
             //console.log("cover art trace complete");
-            $('#coverart').addClass('animated fadeOut');
+            // $('#coverart').addClass('animated fadeOut');
             $('#coverimage').addClass('animated fadeIn');
             $('#coverimage').removeClass('invisible');
             // Resizing the face
             setTimeout(function() {
+                $('#coverart').addClass('animated fadeOut');
+                // $('#coverimage').addClass('animated fadeIn');
+                // $('#coverimage').removeClass('invisible'); 
                 $('#coverimage').addClass('img-small');
                 $('#coverart').addClass('img-small');
-                $('body').addClass('bg');                
+                $('body').addClass('bg');               
             }, 500); 
             setTimeout(function() {
                 $('.navbar').addClass('animated fadeInDown');
