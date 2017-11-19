@@ -35,7 +35,7 @@ var myCallback = function() {
                 $('#credentials').addClass('animated fadeIn');
                 $('#credentials').removeClass('invisible');
                 $('#chatbox').removeClass('invisible');
-            }, 700);  
+            }, 800);  
             
         }
 var myVivus = new Vivus('coverart', {
