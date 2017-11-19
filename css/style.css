@@ -112,7 +112,7 @@ svg {
    shape-rendering: auto;
 }
 
-#chatbox {
+#home {
     /* min-height: 100vh; */
     display: flex;
     flex-direction: column;
