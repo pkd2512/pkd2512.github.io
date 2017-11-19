@@ -13,19 +13,17 @@ var myCallback = function() {
             $('#coverimage').addClass('animated fadeIn');
             $('#coverimage').removeClass('invisible');
             // Resizing the face
-            setTimeout(function() {
+            setTimeout(() => {
                 $('#coverimage').addClass('img-small');
                 $('#coverart').addClass('img-small');
-                $('body').addClass('bg'); 
+                $('body').addClass('bg');                
+            }, 500); 
+            setTimeout(() => {
                 $('.navbar').removeClass('invisible');
                 $('.page-footer').removeClass('invisible');
-                $('#chatbox').removeClass('invisible');               
-            }, 500); 
-            // setTimeout(function() {
-            //     $('.navbar').removeClass('invisible');
-            //     $('.page-footer').removeClass('invisible');
-            //     $('#chatbox').removeClass('invisible');
-            // }, 1);           
+                $('#chatbox').removeClass('invisible');
+            }, 500);         
+            
         }
 var myVivus = new Vivus('coverart', {
             type: 'async',
