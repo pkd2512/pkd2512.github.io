@@ -22,17 +22,17 @@ var myCallback = function() {
                 $('.navbar').addClass('animated fadeInDown');
                 $('.navbar').removeClass('invisible');
                 $('.page-footer').removeClass('invisible');
-            }, 600);   
+            }, 550);   
             setTimeout(function() {
                 $('#name').addClass('animated fadeIn');
                 $('#name').removeClass('invisible');
                 //$('#chatbox').removeClass('invisible');
-            }, 700);  
+            }, 600);  
             setTimeout(function() {
                 $('#credentials').addClass('animated fadeIn');
                 $('#credentials').removeClass('invisible');
                 $('#chatbox').removeClass('invisible');
-            }, 800);  
+            }, 700);  
             
         }
 var myVivus = new Vivus('coverart', {
