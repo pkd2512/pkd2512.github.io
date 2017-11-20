@@ -3,3 +3,4 @@ _site/
 .jekyll-metadata
 Thumbs.db
 .vscode/settings.json
+chat-controller/main-chat.xlsx

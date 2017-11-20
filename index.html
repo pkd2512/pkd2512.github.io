@@ -87,11 +87,63 @@
             <div class="col-10 mx-auto"><p class="display-font display-4 invisible" id="name">Prasanta Kumar Dutta</p></div>
             <div class="w-100"></div>
             <div class="col-10 mx-auto invisible"id="credentials">
-                <p class="text-font text-uppercase wide-text small d-inline-block tag">Information Designer</p>
+                <p class="text-font pb-0 mb-2 text-uppercase wide-text small d-inline-block tag">Information Designer</p>
                 <!-- <span class="v-sep d-inline-block">&emsp;|&emsp;</span> -->
-                <p class="text-font text-uppercase wide-text small d-inline-block tag">Photographer</p>
+                <p class="text-font pb-0 mb-2 text-uppercase wide-text small d-inline-block tag">Photographer</p>
                 <!-- <span class="v-sep d-inline-block">&emsp;|&emsp;</span> -->
-                <p class="text-font text-uppercase wide-text small d-inline-block">Data Artist</p>
+                <p class="text-font pb-0 mb-2 text-uppercase wide-text small d-inline-block">Data Artist</p>
+            </div>
+            <div class="container w-75 mt-3" id="chatmsg">
+                <template id=typing-template>
+                    <div class="row my-2 justify-content-start mymsg">
+                        <div class="card purple text-left">
+                            <div class="card-body subtext-font small">
+                                <div class="spinner">
+                                    <div class="bounce1 purple"></div>
+                                    <div class="bounce2 purple"></div>
+                                    <div class="bounce3 purple"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+                <template id=mymsg-template>
+                    <div class="row my-2 justify-content-start mymsg">
+                        <div class="card purple text-left animated fadeInLeft">
+                            <div class="card-body subtext-font small">
+                                <!-- <span class="animated fadeOut">
+                                    <div class="spinner">
+                                        <div class="bounce1 purple"></div>
+                                        <div class="bounce2 purple"></div>
+                                        <div class="bounce3 purple"></div>
+                                    </div>
+                                </span> -->
+                                <p class="white-text mb-0"></p>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+                
+                <template id=reply-template>
+                    <div class="row my-1 justify-content-end">
+                        <div class="btn btn-deep-purple text-right text-font small">
+                            <p class="white-text mb-0">reply1</p>
+                        </div>            
+                        <div class="btn btn-deep-purple text-right text-font small">
+                            <p class="white-text mb-0">reply2</p>
+                        </div>
+                    </div>
+                </template>
+                <template id=reply-link-template>
+                    <div class="row my-1 justify-content-end ">
+                        <a href="#" class="rp1 btn btn-deep-purple text-right text-font small animated fadeIn" onclick="clickAndDisable(this);">
+                            <p class="white-text mb-0">link1</p>
+                        </a>            
+                        <a href="javascript:void(0);" class="rp2 btn btn-deep-purple text-right text-font small animated fadeIn" onclick="clickAndDisable(this);">
+                            <p class="white-text mb-0">link2</p>
+                        </a>
+                    </div>
+                </template>
             </div>
         </div>
     </div>
@@ -100,7 +152,7 @@
 
 
     <!--Copyright-->
-    <footer class="page-footer mt-0 purple center-on-small-only below invisible">
+    <footer class="page-footer mt-0 purple center-on-small-only below">
         <!-- <div class="container-fluid">
             <div class="row justify-content-center pb-3">
                 <a href="#" class="btn btn-deep-purple hoverable">next up: Lorem Ipsum&nbsp;&nbsp;<i class="fa fa-long-arrow-right fa-lg" aria-hidden="true"></i></a>   
@@ -126,8 +178,9 @@
     <script type="text/javascript" src="js/bootstrap.min.js"></script>
     <!-- MDB core JavaScript -->
     <script type="text/javascript" src="js/mdb.min.js"></script>
-    <!-- d3-lite JavaScript -->
-    <script type="text/javascript" src="js/d3-light.min.js"></script>
+    <!-- CSV paringJavaScript -->
+    <script type="text/javascript" src="js/d3.min.js"></script>
+    <!-- <script type="text/javascript" src="js/jquery.csv.min.js"></script> -->
     <!-- WOW scroll animator JavaScript -->
     <!-- <script src="js/wow.min.js"></script> -->
     <!-- SVG painter script -->

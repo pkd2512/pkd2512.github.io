@@ -87,96 +87,64 @@ function loadChat() {
                 hasReply: +d.hasReply,
                 me: d.me,
                 msg1: d.msg1,
-                //msg1_type: d.msg1_type,
+                msg1_type: d.msg1_type,
                 link1: d.link1,
-                linkid1: +d.linkid1,
-                target1: d.target1,
                 msg2: d.msg2,
-                //msg2_type: d.msg2_type,
+                msg2_type: d.msg2_type,
                 link2: d.link2,
-                linkid2: +d.linkid2,
-                target2: d.target2,
-                nextMsg1: +d.nextMsg1,
-                nextMsg2: +d.nextMsg2
+                nextMsg: +d.nextMsg
             };
         });
         chatter();
     });
 }
-// auto-scroll
-function scrollSmoothToBottom (id) {
-    var div = document.getElementById(id);
-    $('#' + id).animate({
-       scrollTop: div.scrollHeight - div.clientHeight
-    }, 500);
- }
- //link one click
- function clickAndDisable(link) {
-    // disable subsequent clicks
-    link.onclick = function(event) {
-       event.preventDefault();
-    }
-  }  
 /* Chat code */
-var msgCount = 0, gap = 1500;
-var delay = 0;
+var msgCount = 0, gap = 4000;
+var t = 0;
 function chatter() {
     console.log("chat loaded");
     // let t = delay+1500*msgCount;
     // let lag = Math.floor((Math.random() * 10) + 1);
-    var loc = mainChat[0].sl-1;
-    //set 1
-     {
-        msgPrinter(loc);
-
-        while(msgCount<2) {
-        msgCount++;
-        setTimeout(function() {
-        msgPrinter(++loc);        
-        }, gap*msgCount*2);            
-        }
-        setTimeout(function() {
-            replyPrinter(loc);
-        }, gap*msgCount*3);
-    }
-    //flow1
-    {
-        setTimeout(function() {
-            $('#1').bind('click',function() {
-                console.log("#1 clicked");
-                scrollSmoothToBottom('chatmsg');
-                msgPrinter(mainChat[loc].nextMsg1-1);
-                $(this).unbind('click');
-            }); 
-        }, gap*msgCount*3);
-    }
+    var loc = 0;
     
+    msgPrinter(loc, 0);
+    loc++;
+    setTimeout( function() {
+        msgPrinter(loc, 0);
+    }, 4000);
+
+       
 
 }
-
-
+function msgPrinter(loc, delay) {
+  //  setTimeout(function() {
+       // let typ = document.getElementById('typing-template').content.cloneNode(true);
+        // chatList.appendChild(typ);
+       //$('chatmsg').append(typ);
+  //  }, 6000+delay);
     
-function msgPrinter(loc) {
+  //  setTimeout(function() {
+        //$('.typing').delay(4000).remove();
         let msg = document.getElementById('mymsg-template').content;
-        console.log(loc);       
-        msg.querySelector('p').innerText = mainChat[loc].me;
         chatList.appendChild(document.importNode(msg, true));
-    //msgCount++;
-}
-function replyPrinter(loc) {
-    if(mainChat[loc].hasReply!=0) {
-        let rep = document.getElementById('reply-link-template').content;
-        console.log(loc);      
-        rep.querySelector('.rp1 p').innerText = mainChat[loc].msg1;
-        rep.querySelector('.rp1').href = mainChat[loc].link1;
-        rep.querySelector('.rp1').id = mainChat[loc].linkid1;
-        rep.querySelector('.rp1').target = mainChat[loc].target1;
-
-        rep.querySelector('.rp2 p').innerText = mainChat[loc].msg2;
-        rep.querySelector('.rp2').href = mainChat[loc].link2;
-        rep.querySelector('.rp2').id = mainChat[loc].linkid2;
-        rep.querySelector('.rp2').target = mainChat[loc].target2;
-        chatList.appendChild(document.importNode(rep, true));
-    //msgCount++;
-    }
+        var $div = $('#chatmsg').find("div:last-child");
+        //chatList.appendChild(msg); 
+        //$('#chatmsg').delay(5000).append(msg);
+        spinner = '\
+        <div class="spinner">\
+        <div class="bounce1 purple"></div>\
+        <div class="bounce2 purple"></div>\
+        <div class="bounce3 purple"></div>\
+    </div>\
+    ';
+        // $div.find('span').html(spinner).fadeOut(2000, function() {
+        //     $div.find('p').text(mainChat[loc].me);
+        // });
+        // $div.find('p').fadeIn(2000).text(mainChat[loc].me);
+        //$('#chatmsg .card-body').html(spinner);
+        //msg.querySelector('span').innerHTML = spinner;
+        msg.querySelector('p').innerText = mainChat[loc].me;
+    //    $('#chatmsg').delay(5000).append(msg);       
+  //  }, 7500+delay);
+    msgCount++;
 }

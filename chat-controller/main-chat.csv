@@ -1,2 +1,6 @@
-hasReply,me,msg1,link1,msg2,link2
-0,"Hi, glad that you dropped by.",,,,
+﻿sl,hasReply,me,msg1,linkid1,link1,target1,msg2,linkid2,link2,target2,nextMsg1,nextMsg2
+1,0,Hi there! Glad to see you drop by.,,,,,,,,,2,2
+2,0,"I am an experience designer, currently living in Bangalore, India.",,,,,,,,,3,3
+3,1,I like to solve problems in an aesthetically pleasing way and make information delightful on the digital platforms of today.,Tell me more,1,javascript:void(0);,_self,Show your work,2,/projects,_blank,4,100
+4,1,"I am currently pursuing my Masters in Information Design at National Institute of Design, Bangalore",What is Information Design,,0,,0,,0,,3,
+100,1,"Nice talking to you! If you are in Bangalore, I am sure we can discuss a lot more about design over coffee.",Sure thing,,mailto:pkd@prasantakrdutta.com?subject=Hello%20Prasanta!%20Let's%20grab%20some%20coffee!,_blank,Will let you know,,javascript:void(0);,_self,0,0
