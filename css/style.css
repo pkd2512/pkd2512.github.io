@@ -26,7 +26,8 @@ body {
     height: 100%;
 	text-rendering: optimizeLegibility;
 	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-transform: translate3d(0,0,0);
     overflow-x: hidden;
 }
 
@@ -90,7 +91,9 @@ body {
 	background: url(../img/preloader.gif) center no-repeat #41295a;
 }
 /************************/
-
+.hidden {
+    display: none;
+}
 #coverart, #coverimage {
     width: 22rem;
     -webkit-transition-timing-function: ease-in-out;
