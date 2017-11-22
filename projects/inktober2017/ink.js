@@ -39,6 +39,8 @@ function scrollFunction() {
     if ($(window).innerWidth() < 768) 
     {
         $("#top").hide();
+        $('#title').removeClass('display-1');
+        $('#title').addClass('h1');
     }
     else {
         if (document.body.scrollTop > 50 || document.documentElement.scrollTop > 50) {
@@ -47,9 +49,22 @@ function scrollFunction() {
         else {
             document.getElementById("top").style.display = "none";
         }
-    }
-    
+        $('#title').addClass('display-1');
+        $('#title').removeClass('h1');
+    }    
 }
+// changing the title size on mobile
+$(window).resize(function() {
+    if ($(window).innerWidth() < 768) 
+    {
+        $('.title').removeClass('display-1');
+        $('.title').addClass('h1');
+    }
+    else {
+        $('.title').addClass('display-1');
+        $('.title').removeClass('h1');
+    } 
+});
 // Update copyright with current year
 var d = new Date();
 $("footer #date").text(d.getFullYear()); 
