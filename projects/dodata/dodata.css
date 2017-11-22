@@ -10,6 +10,14 @@
     /* background: linear-gradient(0deg, rgba(47,7,67,0.8), rgba(65,41,90,0.8)), url("https://www.transparenttextures.com/patterns/fabric-of-squares.png"), center no-repeat; */ /* Standard syntax */
     /* background-blend-mode: overlay; */
 }
+#cover .title {
+    font-size: 6rem;
+}
+@media (max-width: 768px) {
+    #cover .title {
+        font-size: 2.5rem;
+    }
+}
 #cover .row-cover {
     min-height: 80%;
     margin-top: 10rem;

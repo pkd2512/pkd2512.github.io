@@ -23,18 +23,7 @@ function scrollFunction() {
     }
     
 }
-// changing the title size on mobile
-$(window).resize(function() {
-    if ($(window).innerWidth() < 768) 
-    {
-        $('.title').removeClass('display-1');
-        $('.title').addClass('h1');
-    }
-    else {
-        $('.title').addClass('display-1');
-        $('.title').removeClass('h1');
-    } 
-});
+
 // Update copyright with current year
 var d = new Date();
 $("footer #date").text(d.getFullYear()); 
