@@ -100,25 +100,36 @@ function loadChat() {
                 nextMsg2: +d.nextMsg2
             };
         });
+        for (let i=0;i<mainChat.length;i++)
+        {
+            msgPrinter(i);
+            replyPrinter(i);
+        }
         chatter();
     });
 }
 // auto-scroll
-function scrollSmoothToBottom (id) {
-    var div = document.getElementById(id);
-    $('#' + id).animate({
-       scrollTop: div.scrollHeight - div.clientHeight
-    }, 500);
+function scrollSmoothToBottom () {
+    var divHeight = parseInt($('footer').css("height"));
+    $('html,#chatmsg').animate({
+       scrollTop: document.body.scrollHeight-divHeight},"slow");
  }
- //link one click
+ // disable reply after click
+//  function disableReply() {
+//     $(this).unbind('click');
+//     $(this).addClass('disabled');
+//     $(this).siblings().addClass('hidden');
+//  }
+ // link one click
  function clickAndDisable(link) {
     // disable subsequent clicks
     link.onclick = function(event) {
        event.preventDefault();
     }
   }  
+// 
 /* Chat code */
-var msgCount = 0, gap = 1500;
+var msgCount = 0, gap = 1000;
 var delay = 0;
 function chatter() {
     console.log("chat loaded");
@@ -127,52 +138,603 @@ function chatter() {
     var loc = mainChat[0].sl-1;
     //set 1
      {
-        msgPrinter(loc);
-
-        while(msgCount<2) {
+        $('.mymsg#m1:hidden').removeClass('hidden');
         msgCount++;
         setTimeout(function() {
-        msgPrinter(++loc);        
-        }, gap*msgCount*2);            
-        }
+            $('.mymsg#m2:hidden').removeClass('hidden');        
+        }, gap*msgCount);            
+        msgCount++;
+        loc = mainChat[loc].nextMsg1-1;
         setTimeout(function() {
-            replyPrinter(loc);
-        }, gap*msgCount*3);
+            $('.mymsg#m3:hidden').removeClass('hidden');        
+        }, gap*msgCount);            
+        loc = mainChat[loc].nextMsg1-1;
+        // show buttons 1,2
+        setTimeout(function() {
+            $('.reply#r3:hidden').removeClass('hidden');
+        }, gap*msgCount*2);
+        //console.log(loc+'set1');
     }
-    //flow1
+   // flow1
     {
         setTimeout(function() {
-            $('#1').bind('click',function() {
+            $('.reply a#1').bind('click',function() {
                 console.log("#1 clicked");
-                scrollSmoothToBottom('chatmsg');
-                msgPrinter(mainChat[loc].nextMsg1-1);
+                loc = mainChat[loc].nextMsg1-1;
+                $('.mymsg#m'+(loc+1)+':hidden').removeClass('hidden');
                 $(this).unbind('click');
+                $(this).addClass('disabled');
+                $(this).siblings().addClass('hidden');
+                //console.log(loc+'flow11');
+                {// show buttons 3,4    
+                    setTimeout(function() {
+                        $('.reply#r'+(loc+1)+':hidden').removeClass('hidden');        
+                    }, 1000);
+                }
+            }); 
+        }, gap*msgCount*3);
+        setTimeout(function() {
+            $('#2').bind('click',function() {
+                console.log("#2 clicked");
+                loc = mainChat[loc].nextMsg2-1;
+                $('.mymsg#m'+(loc+1)+':hidden').removeClass('hidden');
+                $(this).unbind('click');
+                $(this).addClass('disabled');
+                $(this).siblings().addClass('hidden');
+                {// show buttons 7,8    
+                    setTimeout(function() {
+                        $('.reply#r'+(loc+1)+':hidden').removeClass('hidden');        
+                    }, 1000);
+                }
+            }); 
+        }, gap*msgCount*3);
+        msgCount++;
+    }   
+    // flow2
+    {
+        setTimeout(function() {
+            $('.reply a#3').bind('click',function() {
+                console.log("#3 clicked");
+                loc = mainChat[loc].nextMsg1-1;
+                $('.mymsg#m'+(loc+1)+':hidden').removeClass('hidden');
+                $(this).unbind('click');
+                $(this).addClass('disabled');
+                $(this).siblings().addClass('hidden');
+                //console.log(loc+'flow11');
+                // show next msg in line if hasRepy=0
+                if (mainChat[loc].hasReply===0) {
+                    setTimeout(function(){
+                        loc = mainChat[loc].nextMsg1-1;
+                        $('.mymsg#m'+(loc+1)+':hidden').removeClass('hidden');
+                    }, 1000);
+                    
+                    }
+                {// show buttons 3,4    
+                    setTimeout(function() {
+                        $('.reply#r'+(loc+1)+':hidden').removeClass('hidden');        
+                    }, 1500);
+                }
+            }); 
+        }, gap*msgCount*3);
+        
+        setTimeout(function() {
+            $('.reply a#4').bind('click',function() {
+                console.log("#4 clicked");
+                loc = mainChat[loc].nextMsg2-1;
+                $('.mymsg#m'+(loc+1)+':hidden').removeClass('hidden');
+                $(this).unbind('click');
+                $(this).addClass('disabled');
+                $(this).siblings().addClass('hidden');
+                // show next msg in line if hasReply=0
+                if (mainChat[loc].hasReply===0) {
+                    setTimeout(function(){
+                        loc = mainChat[loc].nextMsg2-1;
+                        $('.mymsg#m'+(loc+1)+':hidden').removeClass('hidden');
+                    }, 1000);
+                }
+                //console.log(loc+'flow11');
+                {// show buttons 5,6    
+                    setTimeout(function() {
+                        $('.reply#r'+(loc+1)+':hidden').removeClass('hidden');        
+                    }, 1500);
+                }
+            }); 
+        }, gap*msgCount*3);
+    } 
+    // Get in touch flow
+    {
+        setTimeout(function() {
+            $('.reply a#201').bind('click',function() {
+                console.log("#201 clicked");
+                $('.mymsg#m'+(300)+':hidden').removeClass('hidden');
+                $(this).unbind('click');
+                $(this).addClass('disabled');
+                $(this).siblings().addClass('hidden');   
+                {// show button    
+                    setTimeout(function() {
+                        $('.reply#r'+(300)+':hidden').removeClass('hidden');  
+                        $('.reply a#0').addClass('hidden');      
+                    }, 1500);
+                }             
+            }); 
+        }, gap*msgCount*3);
+
+        setTimeout(function() {
+            $('.reply a#202').bind('click',function() {
+                console.log("#202 clicked");
+                $('.mymsg#m'+(300)+':hidden').removeClass('hidden');
+                $(this).unbind('click');
+                $(this).addClass('disabled');
+                $(this).siblings().addClass('hidden');
+                {// show button    
+                    setTimeout(function() {
+                        $('.reply#r'+(300)+':hidden').removeClass('hidden');    
+                        $('.reply a#0').addClass('hidden');    
+                    }, 1500);
+                }                
+            }); 
+        }, gap*msgCount*3);
+        $('.reply a#301').bind('click',function() {
+            console.log("#301 clicked");
+            $(this).unbind('click');
+            $(this).addClass('disabled');
+        });
+    }   
+    // Check UI project flow
+    {
+        setTimeout(function() {
+            $('.reply a#5').bind('click',function() {
+                console.log("#5 clicked");
+                loc = mainChat[loc].nextMsg1-1;
+                $('.mymsg#m'+(loc+1)+':hidden').removeClass('hidden');
+                $(this).unbind('click');
+                $(this).addClass('disabled');
+                $(this).siblings().addClass('hidden');
+                //console.log(loc+'flow11');
+                // show next msg in line if hasRepy=0
+                if (mainChat[loc].hasReply===0) {
+                    setTimeout(function(){
+                        loc = mainChat[loc].nextMsg1-1;
+                        $('.mymsg#m'+(loc+1)+':hidden').removeClass('hidden');
+                    }, 1000);
+                    
+                }
+                if (mainChat[loc].hasReply===0) {
+                    setTimeout(function(){
+                        loc = mainChat[loc].nextMsg1-1;
+                        $('.mymsg#m'+(loc+1)+':hidden').removeClass('hidden');
+                    }, 2000);
+                }
+                {// show buttons 7,8   
+                    setTimeout(function() {
+                        // console.log("reply#r"+(loc+1))
+                        $('.reply#r'+(loc+1)+':hidden').removeClass('hidden');        
+                    }, 3000);
+                }
+            }); 
+        }, gap*msgCount*3);
+        setTimeout(function() {
+            $('.reply a#6').bind('click',function() {
+                console.log("#6 clicked");
+                loc = mainChat[loc].nextMsg2-1;
+                $('.mymsg#m'+(loc+1)+':hidden').removeClass('hidden');
+                $(this).unbind('click');
+                $(this).addClass('disabled');
+                $(this).siblings().addClass('hidden');
+                // show next msg in line if hasReply=0
+                if (mainChat[loc].hasReply===0) {
+                    setTimeout(function(){
+                        loc = mainChat[loc].nextMsg2-1;
+                        $('.mymsg#m'+(loc+1)+':hidden').removeClass('hidden');
+                    }, 1000);
+                }
+                
+                //console.log(loc+'flow11');
+                {// show buttons 7,8   
+                    setTimeout(function() {
+                        $('.reply#r'+(loc+1)+':hidden').removeClass('hidden');        
+                    }, 1500);
+                }
             }); 
         }, gap*msgCount*3);
     }
-    
-
+    // Check dataviz project flow
+    {
+        setTimeout(function() {
+            $('.reply a#7').bind('click',function() {
+                console.log("#7 clicked");
+                loc = mainChat[loc].nextMsg1-1;
+                $('.mymsg#m'+(loc+1)+':hidden').removeClass('hidden');
+                $(this).unbind('click');
+                $(this).addClass('disabled');
+                $(this).siblings().addClass('hidden');
+                //console.log(loc+'flow11');
+                // show next msg in line if hasRepy=0
+                if (mainChat[loc].hasReply===0) {
+                    setTimeout(function(){
+                        loc = mainChat[loc].nextMsg1-1;
+                        $('.mymsg#m'+(loc+1)+':hidden').removeClass('hidden');
+                    }, 1000);
+                    
+                    }
+                {// show buttons 7,8   
+                    setTimeout(function() {
+                        // console.log("reply#r"+(loc+1))
+                        $('.reply#r'+(loc+1)+':hidden').removeClass('hidden');        
+                    }, 1500);
+                }
+            }); 
+        }, gap*msgCount*3);
+        setTimeout(function() {
+            $('.reply a#8').bind('click',function() {
+                console.log("#8 clicked");
+                loc = mainChat[loc].nextMsg2-1;
+                $('.mymsg#m'+(loc+1)+':hidden').removeClass('hidden');
+                $(this).unbind('click');
+                $(this).addClass('disabled');
+                $(this).siblings().addClass('hidden');
+                //console.log(loc+'flow11');
+                // show next msg in line if hasRepy=0
+                if (mainChat[loc].hasReply===0) {
+                    setTimeout(function(){
+                        loc = mainChat[loc].nextMsg2-1;
+                        $('.mymsg#m'+(loc+1)+':hidden').removeClass('hidden');
+                    }, 1000);
+                    
+                    }
+                {// show buttons 7,8   
+                    setTimeout(function() {
+                        // console.log("reply#r"+(loc+1))
+                        $('.reply#r'+(loc+1)+':hidden').removeClass('hidden');        
+                    }, 1500);
+                }
+            }); 
+        }, gap*msgCount*3);
+    }
+    // Check dataviz-art project flow
+    {
+        setTimeout(function() {
+            $('.reply a#9').bind('click',function() {
+                console.log("#9 clicked");
+                loc = mainChat[loc].nextMsg1-1;
+                $('.mymsg#m'+(loc+1)+':hidden').removeClass('hidden');
+                $(this).unbind('click');
+                $(this).addClass('disabled');
+                $(this).siblings().addClass('hidden');
+                //console.log(loc+'flow11');
+                // show next msg in line if hasRepy=0
+                if (mainChat[loc].hasReply===0) {
+                    setTimeout(function(){
+                        loc = mainChat[loc].nextMsg1-1;
+                        $('.mymsg#m'+(loc+1)+':hidden').removeClass('hidden');
+                    }, 1000);
+                    
+                    }
+                {// show buttons 7,8   
+                    setTimeout(function() {
+                        // console.log("reply#r"+(loc+1))
+                        $('.reply#r'+(loc+1)+':hidden').removeClass('hidden');        
+                    }, 1500);
+                }
+            }); 
+        }, gap*msgCount*3);
+        setTimeout(function() {
+            $('.reply a#10').bind('click',function() {
+                console.log("#10 clicked");
+                loc = mainChat[loc].nextMsg2-1;
+                $('.mymsg#m'+(loc+1)+':hidden').removeClass('hidden');
+                $(this).unbind('click');
+                $(this).addClass('disabled');
+                $(this).siblings().addClass('hidden');
+                //console.log(loc+'flow11');
+                // show next msg in line if hasRepy=0
+                if (mainChat[loc].hasReply===0) {
+                    setTimeout(function(){
+                        loc = mainChat[loc].nextMsg2-1;
+                        $('.mymsg#m'+(loc+1)+':hidden').removeClass('hidden');
+                    }, 1000);
+                    
+                    }
+                {// show buttons 7,8   
+                    setTimeout(function() {
+                        // console.log("reply#r"+(loc+1))
+                        $('.reply#r'+(loc+1)+':hidden').removeClass('hidden');        
+                    }, 1500);
+                }
+            }); 
+        }, gap*msgCount*3);
+    }
+    // Check photography project flow
+    {
+        setTimeout(function() {
+            $('.reply a#11').bind('click',function() {
+                console.log("#11 clicked");
+                loc = mainChat[loc].nextMsg1-1;
+                $('.mymsg#m'+(loc+1)+':hidden').removeClass('hidden');
+                $(this).unbind('click');
+                $(this).addClass('disabled');
+                $(this).siblings().addClass('hidden');
+                //console.log(loc+'flow11');
+                // show next msg in line if hasRepy=0
+                if (mainChat[loc].hasReply===0) {
+                    setTimeout(function(){
+                        loc = mainChat[loc].nextMsg1-1;
+                        $('.mymsg#m'+(loc+1)+':hidden').removeClass('hidden');
+                    }, 1000);               
+                }
+                if (mainChat[loc].hasReply===0) {
+                    setTimeout(function(){
+                        loc = mainChat[loc].nextMsg1-1;
+                        $('.mymsg#m'+(loc+1)+':hidden').removeClass('hidden');
+                    }, 2500);
+                }
+                {// show buttons 7,8   
+                    setTimeout(function() {
+                        // console.log("reply#r"+(loc+1))
+                        $('.reply#r'+(loc+1)+':hidden').removeClass('hidden');        
+                    }, 3500);
+                }
+            }); 
+        }, gap*msgCount*3);
+        setTimeout(function() {
+            $('.reply a#12').bind('click',function() {
+                console.log("#12 clicked");
+                loc = mainChat[loc].nextMsg2-1;
+                $('.mymsg#m'+(loc+1)+':hidden').removeClass('hidden');
+                $(this).unbind('click');
+                $(this).addClass('disabled');
+                $(this).siblings().addClass('hidden');
+                //console.log(loc+'flow11');
+                // show next msg in line if hasRepy=0
+                if (mainChat[loc].hasReply===0) {
+                    setTimeout(function(){
+                        loc = mainChat[loc].nextMsg2-1;
+                        $('.mymsg#m'+(loc+1)+':hidden').removeClass('hidden');
+                    }, 1000);
+                    
+                    }
+                {// show buttons 7,8   
+                    setTimeout(function() {
+                        // console.log("reply#r"+(loc+1))
+                        $('.reply#r'+(loc+1)+':hidden').removeClass('hidden');        
+                    }, 1500);
+                }
+            }); 
+        }, gap*msgCount*3);
+    }
+    // Check videography project flow
+    {
+        setTimeout(function() {
+            $('.reply a#13').bind('click',function() {
+                console.log("#13 clicked");
+                loc = mainChat[loc].nextMsg1-1;
+                $('.mymsg#m'+(loc+1)+':hidden').removeClass('hidden');
+                $(this).unbind('click');
+                $(this).addClass('disabled');
+                $(this).siblings().addClass('hidden');
+                //console.log(loc+'flow11');
+                // show next msg in line if hasRepy=0
+                if (mainChat[loc].hasReply===0) {
+                    setTimeout(function(){
+                        loc = mainChat[loc].nextMsg1-1;
+                        $('.mymsg#m'+(loc+1)+':hidden').removeClass('hidden');
+                    }, 1000);               
+                }
+                {// show buttons 7,8   
+                    setTimeout(function() {
+                        // console.log("reply#r"+(loc+1))
+                        $('.reply#r'+(loc+1)+':hidden').removeClass('hidden');        
+                    }, 1500);
+                }
+            }); 
+        }, gap*msgCount*3);
+        setTimeout(function() {
+            $('.reply a#14').bind('click',function() {
+                console.log("#14 clicked");
+                loc = mainChat[loc].nextMsg2-1;
+                $('.mymsg#m'+(loc+1)+':hidden').removeClass('hidden');
+                $(this).unbind('click');
+                $(this).addClass('disabled');
+                $(this).siblings().addClass('hidden');
+                //console.log(loc+'flow11');
+                // show next msg in line if hasRepy=0
+                if (mainChat[loc].hasReply===0) {
+                    setTimeout(function(){
+                        loc = mainChat[loc].nextMsg2-1;
+                        $('.mymsg#m'+(loc+1)+':hidden').removeClass('hidden');
+                    }, 1000);
+                    
+                    }
+                {// show buttons 7,8   
+                    setTimeout(function() {
+                        // console.log("reply#r"+(loc+1))
+                        $('.reply#r'+(loc+1)+':hidden').removeClass('hidden');        
+                    }, 1500);
+                }
+            }); 
+        }, gap*msgCount*3);
+    }
+    // Check end coffee flow
+    {
+        setTimeout(function() {
+            $('.reply a#15').bind('click',function() {
+                console.log("#15 clicked");
+                loc = mainChat[loc].nextMsg1-1;
+                $('.mymsg#m'+(loc+1)+':hidden').removeClass('hidden');
+                $(this).unbind('click');
+                $(this).addClass('disabled');
+                $(this).siblings().addClass('hidden');
+                //console.log(loc+'flow11');
+                // show next msg in line if hasRepy=0
+                if (mainChat[loc].hasReply===0) {
+                    setTimeout(function(){
+                        loc = mainChat[loc].nextMsg1-1;
+                        $('.mymsg#m'+(loc+1)+':hidden').removeClass('hidden');
+                    }, 1000);               
+                }
+                {// show buttons 7,8   
+                    setTimeout(function() {
+                        // console.log("reply#r"+(loc+1))
+                        $('.reply#r'+(loc+1)+':hidden').removeClass('hidden');        
+                    }, 1500);
+                }
+            }); 
+        }, gap*msgCount*3);
+        setTimeout(function() {
+            $('.reply a#16').bind('click',function() {
+                console.log("#16 clicked");
+                loc = mainChat[loc].nextMsg2-1;
+                $('.mymsg#m'+(loc+1)+':hidden').removeClass('hidden');
+                $(this).unbind('click');
+                $(this).addClass('disabled');
+                $(this).siblings().addClass('hidden');
+                //console.log(loc+'flow11');
+                // show next msg in line if hasRepy=0
+                if (mainChat[loc].hasReply===0) {
+                    setTimeout(function(){
+                        loc = mainChat[loc].nextMsg2-1;
+                        $('.mymsg#m'+(loc+1)+':hidden').removeClass('hidden');
+                    }, 1000);
+                    
+                    }
+                {// show buttons 7,8   
+                    setTimeout(function() {
+                        // console.log("reply#r"+(loc+1))
+                        $('.reply#r'+(loc+1)+':hidden').removeClass('hidden');        
+                    }, 1500);
+                }
+            }); 
+        }, gap*msgCount*3);
+    }
+    // Check music flow
+    {
+        setTimeout(function() {
+            $('.reply a#17').bind('click',function() {
+                console.log("#17 clicked");
+                loc = mainChat[loc].nextMsg1-1;
+                $('.mymsg#m'+(loc+1)+':hidden').removeClass('hidden');
+                $(this).unbind('click');
+                $(this).addClass('disabled');
+                $(this).siblings().addClass('hidden');
+                //console.log(loc+'flow11');
+                // show next msg in line if hasRepy=0
+                if (mainChat[loc].hasReply===0) {
+                    setTimeout(function(){
+                        loc = mainChat[loc].nextMsg1-1;
+                        $('.mymsg#m'+(loc+1)+':hidden').removeClass('hidden');
+                    }, 1000);               
+                }
+                if (mainChat[loc].hasReply===0) {
+                    setTimeout(function(){
+                        loc = mainChat[loc].nextMsg1-1;
+                        $('.mymsg#m'+(loc+1)+':hidden').removeClass('hidden');
+                    }, 2000);               
+                }
+                {// show buttons 7,8   
+                    setTimeout(function() {
+                        // console.log("reply#r"+(loc+1))
+                        $('.reply#r'+(loc+1)+':hidden').removeClass('hidden');        
+                    }, 3500);
+                }
+            }); 
+        }, gap*msgCount*3);
+        setTimeout(function() {
+            $('.reply a#18').bind('click',function() {
+                console.log("#18 clicked");
+                loc = mainChat[loc].nextMsg2-1;
+                $('.mymsg#m'+(loc+1)+':hidden').removeClass('hidden');
+                $(this).unbind('click');
+                $(this).addClass('disabled');
+                $(this).siblings().addClass('hidden');
+                //console.log(loc+'flow11');
+                // show next msg in line if hasRepy=0
+                if (mainChat[loc].hasReply===0) {
+                    setTimeout(function(){
+                        loc = mainChat[loc].nextMsg2-1;
+                        $('.mymsg#m'+(loc+1)+':hidden').removeClass('hidden');
+                    }, 1000);                    
+                }
+                if (mainChat[loc].hasReply===0) {
+                    setTimeout(function(){
+                        loc = mainChat[loc].nextMsg2-1;
+                        $('.mymsg#m'+(loc+1)+':hidden').removeClass('hidden');
+                    }, 2000);                    
+                }
+                {// show buttons 7,8   
+                    setTimeout(function() {
+                        // console.log("reply#r"+(loc+1))
+                        $('.reply#r'+(loc+1)+':hidden').removeClass('hidden');        
+                    }, 3500);
+                }
+            }); 
+        }, gap*msgCount*3);
+    }
+    // Check diary flow
+    {
+        setTimeout(function() {
+            $('.reply a#19').bind('click',function() {
+                console.log("#19 clicked");
+                loc = mainChat[loc].nextMsg1-1;
+                $('.mymsg#m'+(loc+1)+':hidden').removeClass('hidden');
+                $(this).unbind('click');
+                $(this).addClass('disabled');
+                $(this).siblings().addClass('hidden');
+                //console.log(loc+'flow11');
+                // show next msg in line if hasRepy=0
+                {// show buttons 7,8   
+                    setTimeout(function() {
+                        $('.reply#r'+(300)+':hidden').removeClass('hidden');    
+                        $('.reply a#0').addClass('hidden');    
+                    }, 1500);
+                }
+            }); 
+        }, gap*msgCount*3);
+        setTimeout(function() {
+            $('.reply a#20').bind('click',function() {
+                console.log("#20 clicked");
+                loc = mainChat[loc].nextMsg2-1;
+                $('.mymsg#m'+(loc+1)+':hidden').removeClass('hidden');
+                $(this).unbind('click');
+                $(this).addClass('disabled');
+                $(this).siblings().addClass('hidden');
+                //console.log(loc+'flow11');
+                // show next msg in line if hasRepy=0
+                {// show buttons 7,8   
+                    setTimeout(function() {
+                        $('.reply#r'+(300)+':hidden').removeClass('hidden');    
+                        $('.reply a#0').addClass('hidden');    
+                    }, 1500);
+                }
+            }); 
+        }, gap*msgCount*3);
+    }
 }
 
 
     
 function msgPrinter(loc) {
         let msg = document.getElementById('mymsg-template').content;
-        console.log(loc);       
-        msg.querySelector('p').innerText = mainChat[loc].me;
+        console.log(loc); 
+        let cls = 'm'+(mainChat[loc].sl).toString();
+        msg.querySelector('.mymsg').id = (cls);      
+        msg.querySelector('.mymsg').classList.add('hidden');      
+        msg.querySelector('p').innerHTML = mainChat[loc].me;
         chatList.appendChild(document.importNode(msg, true));
     //msgCount++;
 }
 function replyPrinter(loc) {
     if(mainChat[loc].hasReply!=0) {
         let rep = document.getElementById('reply-link-template').content;
+        let cls = 'r'+(mainChat[loc].sl).toString();
+        rep.querySelector('.reply').id = (cls);
+        rep.querySelector('.reply').classList.add('hidden');
         console.log(loc);      
-        rep.querySelector('.rp1 p').innerText = mainChat[loc].msg1;
+        rep.querySelector('.rp1 p').innerHTML = mainChat[loc].msg1;
         rep.querySelector('.rp1').href = mainChat[loc].link1;
         rep.querySelector('.rp1').id = mainChat[loc].linkid1;
         rep.querySelector('.rp1').target = mainChat[loc].target1;
 
-        rep.querySelector('.rp2 p').innerText = mainChat[loc].msg2;
+        rep.querySelector('.rp2 p').innerHTML = mainChat[loc].msg2;
         rep.querySelector('.rp2').href = mainChat[loc].link2;
         rep.querySelector('.rp2').id = mainChat[loc].linkid2;
         rep.querySelector('.rp2').target = mainChat[loc].target2;

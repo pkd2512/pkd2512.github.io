@@ -150,11 +150,37 @@ svg {
     text-transform: none;
     padding: 0.75rem 1.25rem;
 }
+/* drawing the left arrowhead to chatmsg */
+#chatmsg .card:after {
+	right: 100%;
+	top: 50%;
+	border: solid transparent;
+	content: " ";
+	height: 0;
+	width: 0;
+	position: absolute;
+	pointer-events: none;
+	border-color: rgba(136, 183, 213, 0);
+	border-right-color: #41295a;
+	border-width: 0.5rem;
+	margin-top: -0.5rem;
+}
 #chatmsg .card-body {
     padding: 0.75rem 1.25rem;
 }
+.arrowhead {
+    margin-top: -3px;
+    content: "";
+    border-width: 5px 5px 5px 0;
+    border-right-color: #37474f !important;
+    /* border-right-color: #607d8b !important; */
+}
 .mymsg {
     max-width: 75%;
+}
+#chatmsg .audiolink {
+    font-weight: bold;
+    text-decoration: underline;
 }
 .mymsg .card, #chatmsg a {
     -webkit-animation-duration: 0.1s;
