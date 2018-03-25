@@ -34,7 +34,9 @@ var myCallback = function() {
             setTimeout(function() {
                 //$('#chatmsg').removeClass('invisible');
                 loadChat();
-            }, 2500);             
+                loadProjects();
+                // loadBlog();
+            }, 2000);             
         }
 var myVivus = new Vivus('coverart', {
             type: 'async',
@@ -709,9 +711,7 @@ function chatter() {
         }, gap*msgCount*3);
     }
 }
-
-
-    
+   
 function msgPrinter(loc) {
         let msg = document.getElementById('mymsg-template').content;
         console.log(loc); 
@@ -741,4 +741,43 @@ function replyPrinter(loc) {
         chatList.appendChild(document.importNode(rep, true));
     //msgCount++;
     }
+}
+
+function loadProjects() {
+    if ('content' in document.createElement('template')) {
+        console.log('Templates are supported');
+      // List of all projects and related data
+      $("#project-header").removeClass("hidden");
+      $("#footer").removeClass("hidden");
+      var projects = [
+        {'location': './projects/thumbs/dodata.jpg', 'title': 'DoData', 'body': 'Making knowledge available on the internet accessible to the underprivileged', 'url': '/projects/dodata/', 'target': '_blank', 'tags':['UI Design','Visual Identity']},
+        {'location': './projects/thumbs/ack.jpg', 'title': 'Amar Chitra Katha', 'body': 'Redesigning the experience of India\'s largest selling comic book series website', 'url': 'https://www.behance.net/gallery/46120627/Amar-Chitra-Katha-Website-UX-re-design', 'target': '_blank', 'tags':['UX Design']},
+        {'location': './projects/thumbs/warmingplanet.jpg', 'title': 'The Warming Planet', 'body': 'Visualising the global temperature changes to understand global warming - Work in Progress', 'url': 'http://prasantakrdutta.com/global-climate-dataviz/', 'target': '_blank', 'tags':['Data Visualisation','Infographic','Data Art']}
+      ];
+      //console.log(projects);
+      // Get a reference to the comments list in the main DOM.
+      var projectsList = document.getElementById('projects');
+      
+      // Loop through each of the projects and add them to the projects list.
+      for (var i = 0; i < projects.length; i++) {
+        var project = projects[i];
+        var tmpl = document.getElementById('card-template').content.cloneNode(true);
+        tmpl.querySelector('.img-fluid').src = project.location;
+        tmpl.querySelector('.card-title').innerText = project.title;
+        tmpl.querySelector('.card-text').innerText = project.body;
+        tmpl.querySelector('.url').href = project.url;
+        tmpl.querySelector('.url').target = project.target;
+        for (var t=0; t < project.tags.length; t++) 
+        {
+            var tag = document.createElement('span');
+            tag.innerText = project.tags[t];
+            tag.setAttribute('class','tags text-font');
+            tmpl.querySelector('.tags-row').appendChild(tag);
+        }
+        projectsList.appendChild(tmpl);
+      }
+      } 
+      else {
+        console.log('Templates are not supported');
+      }
 }

@@ -204,7 +204,12 @@ svg {
         max-width: 95% !important;
     } 
 }
-
+#blog-header {
+	background-color: #FAFAFA;
+    padding-top: 8rem;
+    margin-bottom: 0;
+    box-shadow: none;
+}
 /**/
 footer i {
     font-size: 1.6rem;
