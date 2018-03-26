@@ -2,6 +2,13 @@ document.addEventListener('DOMContentLoaded', function() {
     // alert("Ready!");
     $('.se-pre-con').fadeOut("slow");
 }, false);
+
+// DISABLE CONSOLE AND SUPPRESS ERRORS
+function silentErrorHandler() {return true;}
+window.onerror=silentErrorHandler;
+console.log = function() {};
+//---END---
+
 var myCallback = function() {
             //console.log("cover art trace complete");
             // $('#coverart').addClass('animated fadeOut');
@@ -132,6 +139,9 @@ function chatter() {
     // let t = delay+1500*msgCount;
     // let lag = Math.floor((Math.random() * 10) + 1);
     var loc = mainChat[0].sl-1;
+    // adding smooth scroll to blog btn
+    // $('.reply a#301').parent().addClass("smooth-scroll");
+    // $('.reply a#301').parent().wrap('<div class="smooth-scroll"></div>').wrap('<div></div>');
     //set 1
      {
         $('.mymsg#m1:hidden').removeClass('hidden');
