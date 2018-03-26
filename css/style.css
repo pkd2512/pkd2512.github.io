@@ -30,7 +30,9 @@ body {
     /* -webkit-transform: translate3d(0,0,0); */
     overflow-x: hidden;
 }
-
+.fullheight {
+    min-height: 100vh;
+}
 .bg {
     background: #fafafa !important;
     /* background: #fafafa url('../img/overlays/08-white.png') !important;	 */
@@ -209,6 +211,11 @@ svg {
     padding-top: 8rem;
     margin-bottom: 0;
     box-shadow: none;
+}
+#blog img {
+    height: 13rem;
+    width: 100%;
+    object-fit: cover;
 }
 /**/
 footer i {

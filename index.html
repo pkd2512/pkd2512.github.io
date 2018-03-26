@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-43582646-2"></script>
@@ -88,6 +87,7 @@
     <!--/.Navbar-->
 
     <!-- COVER -->
+    <div id="#" class="fullheight">
     <div class="container" id="home">
         <div class="row" id="image-row">
             <div class="mx-auto">
@@ -159,8 +159,10 @@
             </div>
         </div>
     </div>
+    </div
     <!-- Projects -->
-    <div class="jumbotron mt-5 hidden wow animated fadeIn" data-wow-delay="0.5s" id="project-header">
+    <div id="recentProjects" class="fullheight hidden">
+    <div class="jumbotron wow animated fadeIn" data-wow-delay="0.5s" data-wow-duration="1s" id="project-header">
         <div class="container">
             <div class="row px-3">
             <h1 class="h1-responsive display-font mb-0 d-inline-block">Recent Projects</h1>
@@ -175,7 +177,7 @@
         </div>
         <!-- This is the template for the project card -->
         <template id=card-template>
-        <div class="col-12 col-md-4 d-flex wow animated fadeIn" data-wow-delay="0.5s">
+        <div class="col-12 col-md-4 d-flex wow animated fadeIn" data-wow-delay="0.5s" data-wow-duration="1s">
             <!--Card-->                
             <div class="card mt-3 mb-3 hoverable hm-zoom">
             <a href="#" class="url" target="_blank">
@@ -206,17 +208,55 @@
         </template>
         <!-- End of Template -->
     </div>
+    </div
     <!-- Blog -->
-    <div class="jumbotron mt-3 wow animated fadeIn" data-wow-delay="0.5s" id="blog-header">
-            <div class="container">
-                <div class="row px-3">
-                <h1 class="h1-responsive display-font mb-0 d-inline-block">From my design diary</h1>
-                <a href="https://medium.com/diarium-da-pacific" target="_blank" class="btn btn-deep-purple hoverable waves-effect waves-light d-inline-block ml-auto justify-content-end">Go to blog&nbsp;&nbsp;<i class="fa fa-angle-right fa-lg" aria-hidden="true"></i></a>
-                </div>
-                <hr class="my-2">
-                <!-- <p class="text-font">Showcasing some of my projects that I have enjoyed working on</p> -->
+    <div id="blogFeed" class="fullheight hidden">
+    <div class="jumbotron wow animated fadeIn" data-wow-delay="0.5s" data-wow-duration="1s" id="blog-header">
+        <div class="container">
+            <div class="row px-3">
+            <h1 class="h1-responsive display-font mb-0 d-inline-block">From my design diary</h1>
+            <a href="https://medium.com/diarium-da-pacific" target="_blank" class="btn btn-deep-purple hoverable waves-effect waves-light d-inline-block ml-auto justify-content-end">Go to blog&nbsp;&nbsp;<i class="fa fa-angle-right fa-lg" aria-hidden="true"></i></a>
             </div>
+            <hr class="my-2">
+            <!-- <p class="text-font">Showcasing some of my projects that I have enjoyed working on</p> -->
         </div>
+    </div>
+    <div class="container mb-5">        
+        <div class="row d-flex" id="blog">
+        </div>
+        <!-- This is the template for the project card -->
+        <template id=article-template>
+        <div class="col-12 col-md-4 d-flex wow animated fadeIn" data-wow-delay="0.5s" data-wow-duration="1s">
+            <!--Card-->                
+            <div class="card mt-3 mb-3 hoverable hm-zoom">
+            <a href="#" class="url" target="_blank">
+                <!--Card image-->
+                <div class="view overlay hm-white-slight">
+                <img src="" class="img-fluid" alt="">
+                <div class="mask"></div>
+                </div>           
+
+                <!--Card content-->
+                <div class="card-body">
+                    <!--Title-->
+                    <h4 class="card-title title-font">Card title</h4>
+                    <!--Text-->
+                    <p class="card-text text-font">Some quick example content.</p>
+                    <!-- <a href="#" class="btn btn-primary">Button</a> -->
+                </div>
+                <!-- <div class="card-footer">
+                    <div class="row tags-row justify-content-end">
+                    </div>
+                </div> -->
+            </a>
+            </div>
+            
+            <!--/.Card-->
+        </div>
+        </template>
+        <!-- End of Template -->
+    </div>
+    </div>
 
 
     <!--Copyright-->

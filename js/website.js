@@ -35,8 +35,8 @@ var myCallback = function() {
                 //$('#chatmsg').removeClass('invisible');
                 loadChat();
                 loadProjects();
-                // loadBlog();
-            }, 2000);             
+                loadBlog();
+            }, 2500);             
         }
 var myVivus = new Vivus('coverart', {
             type: 'async',
@@ -116,12 +116,6 @@ function scrollSmoothToBottom () {
     $('html,#chatmsg').animate({
        scrollTop: document.body.scrollHeight-divHeight},"slow");
  }
- // disable reply after click
-//  function disableReply() {
-//     $(this).unbind('click');
-//     $(this).addClass('disabled');
-//     $(this).siblings().addClass('hidden');
-//  }
  // link one click
  function clickAndDisable(link) {
     // disable subsequent clicks
@@ -747,7 +741,7 @@ function loadProjects() {
     if ('content' in document.createElement('template')) {
         console.log('Templates are supported');
       // List of all projects and related data
-      $("#project-header").removeClass("hidden");
+      $("#recentProjects").removeClass("hidden");
       $("#footer").removeClass("hidden");
       var projects = [
         {'location': './projects/thumbs/dodata.jpg', 'title': 'DoData', 'body': 'Making knowledge available on the internet accessible to the underprivileged', 'url': '/projects/dodata/', 'target': '_blank', 'tags':['UI Design','Visual Identity']},
@@ -781,3 +775,90 @@ function loadProjects() {
         console.log('Templates are not supported');
       }
 }
+function loadArticles(title,url,img,body,tags) {
+    if ('content' in document.createElement('template')) {
+        console.log('Templates are supported');
+      // List of all projects and related data
+      $("#blogFeed").removeClass("hidden");
+      //console.log(projects);
+      // Get a reference to the comments list in the main DOM.
+      var blogList = document.getElementById('blog');
+      
+        var tmpl = document.getElementById('article-template').content.cloneNode(true);
+        tmpl.querySelector('.img-fluid').src = img;
+        tmpl.querySelector('.card-title').innerText = title;
+        tmpl.querySelector('.card-text').innerText = body;
+        tmpl.querySelector('.url').href = url;
+        tmpl.querySelector('.url').target = "_blank";
+        // for (var t=0; t < 3; t++) 
+        // {
+        //     var tag = document.createElement('span');
+        //     tag.innerText = tags[t];
+        //     tag.setAttribute('class','tags text-font');
+        //     tmpl.querySelector('.tags-row').appendChild(tag);
+        // }
+        blogList.appendChild(tmpl);
+      } 
+      else {
+        console.log('Templates are not supported');
+      }
+}
+/* Code courtesy Jason Matthew https://medium.jasonmdesign.com/display-medium-articles-on-your-site-d772b3b05779
+*/
+var articles=[];
+function loadBlog() {
+    var $content = $('#jsonContent');
+	var data = {
+		rss_url: 'https://medium.com/feed/diarium-da-pacific'
+	};
+    // console.log(data)
+	$.get('https://api.rss2json.com/v1/api.json', data, function (response) {
+		if (response.status == 'ok') {
+            articles = response.items;
+            console.log(articles);
+            let it = [0,4,3];            
+            for (let i=0; i<3; i++) {
+                let title=articles[it[i]].title;
+                let url=articles[it[i]].link;
+                let img=articles[it[i]].thumbnail;
+
+                let start = articles[it[i]].description.indexOf('<h4>')+4;
+                let end = articles[it[i]].description.indexOf('</h4>');
+                    end = end-start<120?end:start+120;
+                let body=articles[it[i]].description.slice(start,end)+("...");
+                let tags=articles[it[i]].categories;
+                loadArticles(title,url,img,body,tags);
+            }
+        }
+    });
+}
+
+// Scroll to section
+// $(function () {
+//     var currentHash = "#";
+//     var blocksArr = $('.fullheight');
+//     var lastScrollTop = 0;
+//     var currentBlock = 0;
+    
+    
+//     $(document).scroll(function () {
+//        // debugger;
+//       var st = $(this).scrollTop();
+//       var hash;
+//       console.log('ho');
+          
+//       if (st > lastScrollTop && currentBlock< blocksArr.length -1){
+//       // downscroll code
+//            hash = $(blocksArr[++currentBlock]).attr('id');
+//            window.location.hash = (hash);
+//       }
+//       else 
+//           if (st < lastScrollTop && currentBlock > 0){
+//       // scrollup code
+//           hash = $(blocksArr[--currentBlock]).attr('id');
+//           window.location.hash = (hash);
+//       }
+  
+//       lastScrollTop = $(this).scrollTop();
+//     });
+//   });
