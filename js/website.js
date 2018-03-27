@@ -121,13 +121,19 @@ function loadChat() {
 function scrollSmoothToBottom () {
     var divHeight = parseInt($('footer').css("height"));
     $('html,#chatmsg').animate({
-       scrollTop: document.body.scrollHeight-divHeight},"slow");
+       scrollTop: (document.body.scrollHeight-divHeight)},"slow");
+ }
+ function chatScroll() {
+     $('html,body').animate({
+       scrollTop: ($("#recentProjects").offset().top-$("#recentProjects").height()+(window.innerHeight)*0.15)},"slow");
  }
  // link one click
  function clickAndDisable(link) {
     // disable subsequent clicks
-    link.onclick = function(event) {
-       event.preventDefault();
+    chatScroll();
+    console.log("chatscroll");
+    link.onclick = function(event) {        
+        event.preventDefault();
     }
   }  
 // 
@@ -218,6 +224,8 @@ function chatter() {
                 //console.log(loc+'flow11');
                 // show next msg in line if hasRepy=0
                 if (mainChat[loc].hasReply===0) {
+                    chatScroll();
+                    console.log("chatscroll");
                     setTimeout(function(){
                         loc = mainChat[loc].nextMsg1-1;
                         $('.mymsg#m'+(loc+1)+':hidden').removeClass('hidden');
@@ -242,6 +250,8 @@ function chatter() {
                 $(this).siblings().addClass('hidden');
                 // show next msg in line if hasReply=0
                 if (mainChat[loc].hasReply===0) {
+                    chatScroll();
+                    console.log("chatscroll");
                     setTimeout(function(){
                         loc = mainChat[loc].nextMsg2-1;
                         $('.mymsg#m'+(loc+1)+':hidden').removeClass('hidden');
@@ -308,6 +318,8 @@ function chatter() {
                 //console.log(loc+'flow11');
                 // show next msg in line if hasRepy=0
                 if (mainChat[loc].hasReply===0) {
+                    chatScroll();
+                    console.log("chatscroll");
                     setTimeout(function(){
                         loc = mainChat[loc].nextMsg1-1;
                         $('.mymsg#m'+(loc+1)+':hidden').removeClass('hidden');
@@ -315,6 +327,8 @@ function chatter() {
                     
                 }
                 if (mainChat[loc].hasReply===0) {
+                    chatScroll();
+                    console.log("chatscroll");
                     setTimeout(function(){
                         loc = mainChat[loc].nextMsg1-1;
                         $('.mymsg#m'+(loc+1)+':hidden').removeClass('hidden');
@@ -338,6 +352,8 @@ function chatter() {
                 $(this).siblings().addClass('hidden');
                 // show next msg in line if hasReply=0
                 if (mainChat[loc].hasReply===0) {
+                    chatScroll();
+                    console.log("chatscroll");
                     setTimeout(function(){
                         loc = mainChat[loc].nextMsg2-1;
                         $('.mymsg#m'+(loc+1)+':hidden').removeClass('hidden');
@@ -366,6 +382,8 @@ function chatter() {
                 //console.log(loc+'flow11');
                 // show next msg in line if hasRepy=0
                 if (mainChat[loc].hasReply===0) {
+                    chatScroll();
+                    console.log("chatscroll");
                     setTimeout(function(){
                         loc = mainChat[loc].nextMsg1-1;
                         $('.mymsg#m'+(loc+1)+':hidden').removeClass('hidden');
@@ -391,6 +409,8 @@ function chatter() {
                 //console.log(loc+'flow11');
                 // show next msg in line if hasRepy=0
                 if (mainChat[loc].hasReply===0) {
+                    chatScroll();
+                    console.log("chatscroll");
                     setTimeout(function(){
                         loc = mainChat[loc].nextMsg2-1;
                         $('.mymsg#m'+(loc+1)+':hidden').removeClass('hidden');
@@ -419,6 +439,8 @@ function chatter() {
                 //console.log(loc+'flow11');
                 // show next msg in line if hasRepy=0
                 if (mainChat[loc].hasReply===0) {
+                    chatScroll();
+                    console.log("chatscroll");
                     setTimeout(function(){
                         loc = mainChat[loc].nextMsg1-1;
                         $('.mymsg#m'+(loc+1)+':hidden').removeClass('hidden');
@@ -444,6 +466,8 @@ function chatter() {
                 //console.log(loc+'flow11');
                 // show next msg in line if hasRepy=0
                 if (mainChat[loc].hasReply===0) {
+                    chatScroll();
+                    console.log("chatscroll");
                     setTimeout(function(){
                         loc = mainChat[loc].nextMsg2-1;
                         $('.mymsg#m'+(loc+1)+':hidden').removeClass('hidden');
@@ -472,12 +496,16 @@ function chatter() {
                 //console.log(loc+'flow11');
                 // show next msg in line if hasRepy=0
                 if (mainChat[loc].hasReply===0) {
+                    chatScroll();
+                    console.log("chatscroll");
                     setTimeout(function(){
                         loc = mainChat[loc].nextMsg1-1;
                         $('.mymsg#m'+(loc+1)+':hidden').removeClass('hidden');
                     }, 1000);               
                 }
                 if (mainChat[loc].hasReply===0) {
+                    chatScroll();
+                    console.log("chatscroll");
                     setTimeout(function(){
                         loc = mainChat[loc].nextMsg1-1;
                         $('.mymsg#m'+(loc+1)+':hidden').removeClass('hidden');
@@ -502,6 +530,8 @@ function chatter() {
                 //console.log(loc+'flow11');
                 // show next msg in line if hasRepy=0
                 if (mainChat[loc].hasReply===0) {
+                    chatScroll();
+                    console.log("chatscroll");
                     setTimeout(function(){
                         loc = mainChat[loc].nextMsg2-1;
                         $('.mymsg#m'+(loc+1)+':hidden').removeClass('hidden');
@@ -530,6 +560,8 @@ function chatter() {
                 //console.log(loc+'flow11');
                 // show next msg in line if hasRepy=0
                 if (mainChat[loc].hasReply===0) {
+                    chatScroll();
+                    console.log("chatscroll");
                     setTimeout(function(){
                         loc = mainChat[loc].nextMsg1-1;
                         $('.mymsg#m'+(loc+1)+':hidden').removeClass('hidden');
@@ -554,6 +586,8 @@ function chatter() {
                 //console.log(loc+'flow11');
                 // show next msg in line if hasRepy=0
                 if (mainChat[loc].hasReply===0) {
+                    chatScroll();
+                    console.log("chatscroll");
                     setTimeout(function(){
                         loc = mainChat[loc].nextMsg2-1;
                         $('.mymsg#m'+(loc+1)+':hidden').removeClass('hidden');
@@ -582,6 +616,8 @@ function chatter() {
                 //console.log(loc+'flow11');
                 // show next msg in line if hasRepy=0
                 if (mainChat[loc].hasReply===0) {
+                    chatScroll();
+                    console.log("chatscroll");
                     setTimeout(function(){
                         loc = mainChat[loc].nextMsg1-1;
                         $('.mymsg#m'+(loc+1)+':hidden').removeClass('hidden');
@@ -606,6 +642,8 @@ function chatter() {
                 //console.log(loc+'flow11');
                 // show next msg in line if hasRepy=0
                 if (mainChat[loc].hasReply===0) {
+                    chatScroll();
+                    console.log("chatscroll");
                     setTimeout(function(){
                         loc = mainChat[loc].nextMsg2-1;
                         $('.mymsg#m'+(loc+1)+':hidden').removeClass('hidden');
@@ -634,12 +672,16 @@ function chatter() {
                 //console.log(loc+'flow11');
                 // show next msg in line if hasRepy=0
                 if (mainChat[loc].hasReply===0) {
+                    chatScroll();
+                    console.log("chatscroll");
                     setTimeout(function(){
                         loc = mainChat[loc].nextMsg1-1;
                         $('.mymsg#m'+(loc+1)+':hidden').removeClass('hidden');
                     }, 1000);               
                 }
                 if (mainChat[loc].hasReply===0) {
+                    chatScroll();
+                    console.log("chatscroll");
                     setTimeout(function(){
                         loc = mainChat[loc].nextMsg1-1;
                         $('.mymsg#m'+(loc+1)+':hidden').removeClass('hidden');
@@ -664,12 +706,16 @@ function chatter() {
                 //console.log(loc+'flow11');
                 // show next msg in line if hasRepy=0
                 if (mainChat[loc].hasReply===0) {
+                    chatScroll();
+                    console.log("chatscroll");
                     setTimeout(function(){
                         loc = mainChat[loc].nextMsg2-1;
                         $('.mymsg#m'+(loc+1)+':hidden').removeClass('hidden');
                     }, 1000);                    
                 }
                 if (mainChat[loc].hasReply===0) {
+                    chatScroll();
+                    console.log("chatscroll");
                     setTimeout(function(){
                         loc = mainChat[loc].nextMsg2-1;
                         $('.mymsg#m'+(loc+1)+':hidden').removeClass('hidden');
@@ -697,6 +743,8 @@ function chatter() {
                 //console.log(loc+'flow11');
                 // show next msg in line if hasRepy=0
                 if (mainChat[loc].hasReply===0) {
+                    chatScroll();
+                    console.log("chatscroll");
                     setTimeout(function(){
                         loc = mainChat[loc].nextMsg1-1;
                         $('.mymsg#m'+(loc+1)+':hidden').removeClass('hidden');
@@ -721,6 +769,8 @@ function chatter() {
                 //console.log(loc+'flow11');
                 // show next msg in line if hasRepy=0
                 if (mainChat[loc].hasReply===0) {
+                    chatScroll();
+                    console.log("chatscroll");
                     setTimeout(function(){
                         loc = mainChat[loc].nextMsg2-1;
                         $('.mymsg#m'+(loc+1)+':hidden').removeClass('hidden');
