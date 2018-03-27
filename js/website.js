@@ -66,19 +66,35 @@ if (matchMedia) {
   // media query change
   function WidthChange(mq) {
     if (mq.matches) {
-      // window width is at least 768px
-      $('#name').removeClass('h1-responsive');
-      $('#name').addClass('display-4');
-      $('#credentials p').removeClass('d-block');
-      $('#credentials p').addClass('d-inline-block');
-      vsep.insertAfter('p.tag');
+        // window width is at least 768px
+        $('#name').removeClass('h1-responsive');
+        $('#name').addClass('display-4');
+        $('#credentials p').removeClass('d-block');
+        $('#credentials p').addClass('d-inline-block');
+        vsep.insertAfter('p.tag');
+
+        // code for projects and blog btn display
+        if(!$("#projects-btn").hasClass("hidden"))
+            {$("#projects-btn").addClass("hidden");}
+        if(!$("#blog-btn").hasClass("hidden"))
+            {$("#blog-btn").addClass("hidden");}
+        $("#project-header a").removeClass("hidden");
+        $("#blog-header a").removeClass("hidden");
     } else {
-      // window width is less than 768px
-      $('#name').removeClass('display-4');
-      $('#name').addClass('h1-responsive');
-      $('#credentials p').removeClass('d-inline-block');
-      $('#credentials p').addClass('d-block');
-      $('#chatbox').remove('.v-sep');
+        // window width is less than 768px
+        $('#name').removeClass('display-4');
+        $('#name').addClass('h1-responsive');
+        $('#credentials p').removeClass('d-inline-block');
+        $('#credentials p').addClass('d-block');
+        $('#chatbox').remove('.v-sep');
+
+        // code for projects and blog btn display
+        if(!$("#project-header a").hasClass("hidden"))
+            {$("#project-header a").addClass("hidden");}
+        if(!$("#blog-header a").hasClass("hidden"))
+            {$("#blog-header a").addClass("hidden");}
+        $("#projects-btn").removeClass("hidden");
+        $("#blog-btn").removeClass("hidden");
     }  
   }
 // Update copyright with current year
