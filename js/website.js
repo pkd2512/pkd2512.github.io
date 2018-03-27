@@ -142,6 +142,15 @@ function chatter() {
     // adding smooth scroll to blog btn
     // $('.reply a#301').parent().addClass("smooth-scroll");
     // $('.reply a#301').parent().wrap('<div class="smooth-scroll"></div>').wrap('<div></div>');
+    // making the btn point to blogFeed
+    // $('.reply a#301')[0].href="";
+    $('.reply a#301').bind('click',function() {
+        console.log("#301 clicked");
+        $('html,body').animate({
+            scrollTop: $("#blogFeed").offset().top},"slow");
+    });
+    
+
     //set 1
      {
         $('.mymsg#m1:hidden').removeClass('hidden');
@@ -687,6 +696,12 @@ function chatter() {
                 $(this).siblings().addClass('hidden');
                 //console.log(loc+'flow11');
                 // show next msg in line if hasRepy=0
+                if (mainChat[loc].hasReply===0) {
+                    setTimeout(function(){
+                        loc = mainChat[loc].nextMsg1-1;
+                        $('.mymsg#m'+(loc+1)+':hidden').removeClass('hidden');
+                    }, 1000);                    
+                }
                 {// show buttons 7,8   
                     setTimeout(function() {
                         $('.reply#r'+(300)+':hidden').removeClass('hidden');    
@@ -705,6 +720,12 @@ function chatter() {
                 $(this).siblings().addClass('hidden');
                 //console.log(loc+'flow11');
                 // show next msg in line if hasRepy=0
+                if (mainChat[loc].hasReply===0) {
+                    setTimeout(function(){
+                        loc = mainChat[loc].nextMsg2-1;
+                        $('.mymsg#m'+(loc+1)+':hidden').removeClass('hidden');
+                    }, 1000);                    
+                }
                 {// show buttons 7,8   
                     setTimeout(function() {
                         $('.reply#r'+(300)+':hidden').removeClass('hidden');    
