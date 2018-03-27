@@ -5,8 +5,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // DISABLE CONSOLE AND SUPPRESS ERRORS
 function silentErrorHandler() {return true;}
-window.onerror=silentErrorHandler;
-console.log = function() {};
+// window.onerror=silentErrorHandler;
+// console.log = function() {};
 //---END---
 
 var myCallback = function() {
@@ -125,7 +125,8 @@ function scrollSmoothToBottom () {
  }
  function chatScroll() {
      $('html,body').animate({
-       scrollTop: ($("#recentProjects").offset().top-$("#recentProjects").height()+(window.innerHeight)*0.15)},"slow");
+       scrollTop: ($("#recentProjects").offset().top-(window.innerHeight)*0.8)},"slow");
+    //    scrollTop: ($("#recentProjects").offset().top-$("#recentProjects").height()+(window.innerHeight)*0.15)},"slow");
  }
  // link one click
  function clickAndDisable(link) {
