@@ -205,6 +205,20 @@ svg {
     .mymsg {
         max-width: 95% !important;
     } 
+    #chatmsg .card:after {
+        right: 100%;
+        top: 50%;
+        border: solid transparent;
+        content: " ";
+        height: 0;
+        width: 0;
+        position: absolute;
+        pointer-events: none;
+        border-color: rgba(136, 183, 213, 0);
+        border-right-color: #41295a;
+        border-width: 0.3rem;
+        margin-top: -0.5rem;
+    }
 }
 #blog-header {
 	background-color: #FAFAFA;
