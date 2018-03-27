@@ -5,8 +5,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // DISABLE CONSOLE AND SUPPRESS ERRORS
 function silentErrorHandler() {return true;}
-// window.onerror=silentErrorHandler;
-// console.log = function() {};
+window.onerror=silentErrorHandler;
+console.log = function() {};
 //---END---
 
 var myCallback = function() {
@@ -840,34 +840,42 @@ function loadProjects() {
         console.log('Templates are supported');
       // List of all projects and related data
       $("#recentProjects").removeClass("hidden");
-      $("#footer").removeClass("hidden");
-      var projects = [
-        {'location': './projects/thumbs/dodata.jpg', 'title': 'DoData', 'body': 'Making knowledge available on the internet accessible to the underprivileged', 'url': '/projects/dodata/', 'target': '_blank', 'tags':['UI Design','Visual Identity']},
-        {'location': './projects/thumbs/ack.jpg', 'title': 'Amar Chitra Katha', 'body': 'Redesigning the experience of India\'s largest selling comic book series website', 'url': 'https://www.behance.net/gallery/46120627/Amar-Chitra-Katha-Website-UX-re-design', 'target': '_blank', 'tags':['UX Design']},
-        {'location': './projects/thumbs/warmingplanet.jpg', 'title': 'The Warming Planet', 'body': 'Visualising the global temperature changes to understand global warming - Work in Progress', 'url': 'http://prasantakrdutta.com/global-climate-dataviz/', 'target': '_blank', 'tags':['Data Visualisation','Infographic','Data Art']}
-      ];
-      //console.log(projects);
-      // Get a reference to the comments list in the main DOM.
-      var projectsList = document.getElementById('projects');
-      
-      // Loop through each of the projects and add them to the projects list.
-      for (var i = 0; i < projects.length; i++) {
-        var project = projects[i];
-        var tmpl = document.getElementById('card-template').content.cloneNode(true);
-        tmpl.querySelector('.img-fluid').src = project.location;
-        tmpl.querySelector('.card-title').innerText = project.title;
-        tmpl.querySelector('.card-text').innerText = project.body;
-        tmpl.querySelector('.url').href = project.url;
-        tmpl.querySelector('.url').target = project.target;
-        for (var t=0; t < project.tags.length; t++) 
-        {
-            var tag = document.createElement('span');
-            tag.innerText = project.tags[t];
-            tag.setAttribute('class','tags text-font');
-            tmpl.querySelector('.tags-row').appendChild(tag);
-        }
-        projectsList.appendChild(tmpl);
-      }
+      $("#footer").removeClass("hidden");      
+        var projects = [];
+        (function() {
+            $.getJSON('./projects/projectlist.json', function (data) {
+                projects = data;
+                console.log('projectlist JSON loaded'); 
+            })
+            // .error(function() {
+            //     console.log('error: projectlist JSON not loaded'); 
+            // })
+            .done(function() { 
+                console.log(projects);
+                // Get a reference to the comments list in the main DOM.
+                var projectsList = document.getElementById('projects');
+                
+                // Loop through each of the projects and add them to the projects list.
+                for (var i = 0; i < 3; i++) {
+                    var project = projects[i];
+                    var tmpl = document.getElementById('card-template').content.cloneNode(true);
+                    tmpl.querySelector('.img-fluid').src = "./projects/"+project.location;
+                    tmpl.querySelector('.card-title').innerText = project.title;
+                    tmpl.querySelector('.card-text').innerText = project.body;
+                    tmpl.querySelector('.url').href = project.url;
+                    tmpl.querySelector('.url').target = "_blank";
+                    for (var t=0; t < project.tags.length; t++) 
+                    {
+                        var tag = document.createElement('span');
+                        tag.innerText = project.tags[t];
+                        tag.setAttribute('class','tags text-font');
+                        tmpl.querySelector('.tags-row').appendChild(tag);
+                    }
+                    projectsList.appendChild(tmpl);
+                }
+            });
+        }());
+        
       } 
       else {
         console.log('Templates are not supported');
@@ -901,7 +909,7 @@ function loadArticles(title,url,img,body,tags) {
         console.log('Templates are not supported');
       }
 }
-/* Code courtesy Jason Matthew https://medium.jasonmdesign.com/display-medium-articles-on-your-site-d772b3b05779
+/* Courtesy Jason Matthew https://medium.jasonmdesign.com/display-medium-articles-on-your-site-d772b3b05779
 */
 var articles=[];
 function loadBlog() {
@@ -930,33 +938,3 @@ function loadBlog() {
         }
     });
 }
-
-// Scroll to section
-// $(function () {
-//     var currentHash = "#";
-//     var blocksArr = $('.fullheight');
-//     var lastScrollTop = 0;
-//     var currentBlock = 0;
-    
-    
-//     $(document).scroll(function () {
-//        // debugger;
-//       var st = $(this).scrollTop();
-//       var hash;
-//       console.log('ho');
-          
-//       if (st > lastScrollTop && currentBlock< blocksArr.length -1){
-//       // downscroll code
-//            hash = $(blocksArr[++currentBlock]).attr('id');
-//            window.location.hash = (hash);
-//       }
-//       else 
-//           if (st < lastScrollTop && currentBlock > 0){
-//       // scrollup code
-//           hash = $(blocksArr[--currentBlock]).attr('id');
-//           window.location.hash = (hash);
-//       }
-  
-//       lastScrollTop = $(this).scrollTop();
-//     });
-//   });
