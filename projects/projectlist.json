@@ -4,22 +4,11 @@
       "title": "What makes an Achiever",
       "body": "Visualising student performance based on the National Achievement Survey 2014",
       "url": "http://prasantakrdutta.com/nas-dataviz/",
-      "target": "_self",
+      "target": "_blank",
       "tags": [
          "Data Visualisation",
          "Infographic",
          "Data Art"
-      ]
-   },
-   {
-      "location": "thumbs/dodata.jpg",
-      "title": "DoData",
-      "body": "Making knowledge available on the internet accessible to the underprivileged",
-      "url": "/projects/dodata/",
-      "target": "_self",
-      "tags": [
-         "UI Design",
-         "Visual Identity"
       ]
    },
    {
@@ -35,16 +24,6 @@
       ]
    },
    {
-      "location": "thumbs/ack.jpg",
-      "title": "Amar Chitra Katha",
-      "body": "Redesigning the experience of India's largest selling comic book series website",
-      "url": "https://www.behance.net/gallery/46120627/Amar-Chitra-Katha-Website-UX-re-design",
-      "target": "_blank",
-      "tags": [
-         "UX Design"
-      ]
-   },
-   {
       "location": "thumbs/ink17.jpg",
       "title": "InkTober 2017",
       "body": "Experimentations with ProcessingJS for Inktober 2017",
@@ -55,6 +34,17 @@
       ]
    },
    {
+      "location": "thumbs/dodata.jpg",
+      "title": "DoData",
+      "body": "Making knowledge available on the internet accessible to the underprivileged",
+      "url": "/projects/dodata/",
+      "target": "_self",
+      "tags": [
+         "UI Design",
+         "Visual Identity"
+      ]
+   },
+   {
       "location": "thumbs/andretta.jpg",
       "title": "Andretta",
       "body": "Exploring Palampur through the lens with special focus on Andretta slipware pottery",
@@ -62,7 +52,19 @@
       "target": "_blank",
       "tags": [
          "Photojournalism",
-         "Social Semiotics"
+         "Social Semiotics",
+         "Graphic Design"
+      ]
+   },
+      {
+      "location": "thumbs/ack.jpg",
+      "title": "Amar Chitra Katha",
+      "body": "Redesigning the experience of India's largest selling comic book series website",
+      "url": "https://www.behance.net/gallery/46120627/Amar-Chitra-Katha-Website-UX-re-design",
+      "target": "_blank",
+      "tags": [
+         "UX Design",
+         "UI Design"
       ]
    },
    {
