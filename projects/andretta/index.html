@@ -5,16 +5,36 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>doData UI Design | Prasanta Kr Dutta</title>
-    <meta name="Description" content="Prasanta Kr Dutta is an Information Experience Designer from NID Bangalore, passionate about UI/UX design, Data Visualisation and Photography. He loves solving problems in an aesthetically pleasing way. When he is not designing, he likes to indulge in culinary pleasures.">
-    <meta name="Keywords" content="User interface, User Experience, Designer, Information visualization, Data Narratives, Graphic Design, User centered design, UX, UI, Data Art, Web design, Photography, Travel, Creative writer, Electronics and Communication Engineer, National Institute of Design, National Institute of Technology Durgapur, photography, photojournalism, palampur, valley of gods, andretta pottery, slipware, semiotic study, photostory">
+    <title>A journey through the valley of Gods-Palampur | Prasanta Kr Dutta</title>
+    <meta name="Description" content="Exploring Palampur through the lens with special focus on Andretta slipware pottery. Prasanta Kr Dutta is an Information Experience Designer from NID Bangalore, passionate about UI/UX design, Data Visualisation and Photography. He loves solving problems in an aesthetically pleasing way. When he is not designing, he likes to indulge in culinary pleasures.">
+    <meta name="Keywords" content="Photography, Photojournalism, Palampur, Valley of Gods,Andretta pottery, Slipware, Semiotic study, Photostory, User interface, User Experience, Designer, Information visualization, Data Narratives, Graphic Design, User centered design, UX, UI, Data Art, Web design, Photography, Travel, Creative writer, Electronics and Communication Engineer, National Institute of Design, National Institute of Technology Durgapur">
     <meta name="author" content="Prasanta Kr Dutta">
+    <!-- FB cards -->
+    <meta property="og:title" content="A journey through the valley of Gods-Palampur | Prasanta Kr Dutta" />
+    <meta property="og:type" content="website"/>
+    <meta property="og:url" content="http://prasantakrdutta.com/projects/andretta" />
+    <meta property="og:image" content="http://prasantakrdutta.com/projects/thumbs/andretta.jpg" />
+    <meta property="og:site_name" content="Prasanta Kr Dutta" />
+    <!-- <meta property="fb:app_id" content="1234567890987654321"/> -->
+    <meta property="og:description" content="Exploring Palampur through the lens with special focus on Andretta slipware pottery. Prasanta Kr Dutta is an Information Experience Designer from NID Bangalore, passionate about UI/UX design, Data Visualisation and Photography. He loves solving problems in an aesthetically pleasing way. When he is not designing, he likes to indulge in culinary pleasures."
+    />
+
+    <!-- Twitter cards -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="A journey through the valley of Gods-Palampur | Prasanta Kr Dutta" />
+    <meta name="twitter:description" content="Exploring Palampur through the lens with special focus on Andretta slipware pottery. Prasanta Kr Dutta is an Information Experience Designer from NID Bangalore, passionate about UI/UX design, Data Visualisation and Photography. He loves solving problems in an aesthetically pleasing way. When he is not designing, he likes to indulge in culinary pleasures."
+    />
+    <meta name="twitter:url" content="http://prasantakrdutta.com/projects/andretta" />
+    <meta name="twitter:image" content="http://prasantakrdutta.com/projects/thumbs/andretta.jpg" />
     <link rel="shortcut icon" href="../../favicon.png" type="image/x-icon">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="../../css/font-awesome.min.css">
     <!-- Bootstrap core CSS -->
     <link href="../../css/bootstrap.min.css" rel="stylesheet">
-    <!-- Material Design Bootstrap -->
+    <!-- Mapbox -->
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.44.1/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.44.1/mapbox-gl.css' rel='stylesheet' />
+    <!-- Material Design Bootstrap -->    
     <link href="../../css/mdb.min.css" rel="stylesheet">
     <!-- Your custom styles (optional) -->
     <link href="../../css/style.css" rel="stylesheet">
@@ -102,45 +122,13 @@
 
     <!-- Cover Page -->
     <div class="container-fluid text-center" id="cover">
-        
-        <!--Card-->
-        <!-- <div class="card card-cascade wider reverse mt-5"> -->
-
-        <!--Card image-->
-        <!-- <div class="view overlay hm-white-slight">
-                <img src="https://mdbootstrap.com/img/Photos/Slides/img%20(134).jpg" class="img-fluid">
-                <a href="#!">
-                    <div class="mask waves-effect waves-light"></div>
-                </a>
-            </div> -->
-        <!--/Card image-->
-
-        <!--Card content-->
-        <!-- <div class="card-body text-center"> -->
-        <!--Title-->
-        <!-- <h4 class="card-title"><strong>My adventure</strong></h4>
-                <h5 class="deep-purple-text"><strong>Photography</strong></h5>
-
-                <p class="card-text lead">Sed ut perspiciatis unde omnis iste natus sit voluptatem accusantium doloremque laudantium, totam rem aperiam.Sed ut perspiciatis unde omnis iste natus sit voluptatem accusantium doloremque laudantium, totam rem aperiam.
-                </p>
-
-                    <a class="btn btn-primary btn-lg waves-effect waves-light">Primary button</a>
-                    <a class="btn btn-secondary btn-lg waves-effect waves-light">Secondary button</a>
-                    <a class="btn btn-default btn-lg waves-effect waves-light">Default button</a>
-
-            </div> -->
-        <!--/.Card content-->
-        <!-- </div> -->
-        <!--/.Card-->
-
         <div class="row justify-content-end row-cover wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">
             <div class="col-10 col-md-6 mx-auto align-self-end">
-                <h1 class="display-font display-1 title">DoData</h1>
-                <p class="h3-responsive text-font">"As our world turns digital, donating data is the most efficient way of donating" &mdash; <em>dodata.org</em></p>
+                <h1 class="display-font display-1 title">Andretta</h1>
+                <p class="h3-responsive text-font">"Pottery is the measure of a country's civilisation" &mdash; <em>Sardar Gurcharan Singh, founder, Delhi Blue</em></p>
                 <hr class="my-4">
                 <br>
-                <p class="lead text-font">Even though excellent nuggets of knowledge are freely available on the internet, many individuals, especially
-                    the underprivileged, do not have access to it. To address the situation, DoData was envisaged &mdash; as a not for profit organization, whose main objective is to enable donation of data (internet) for the needy. <br><br> I worked on the User Interface Design of the mobile app for DoData during my internship at Rupeelog in the summer of 2017.
+                <p class="lead text-font">The true image of a society is depicted through its culture &mdash; people, values, lifestyle, art and architecture. Andretta, a small town nestled in the pristine Kangra Valley, is not just home to slipware pottery in India, but also a cultural ensemble in itself along with Palampur &mdash; the Tea Capital of North India.<br><br> I attempted to capture the cultural essence of the place through a photobiography as a part of my design project in the spring of 2017.
                 </p>
             </div>
         </div>
@@ -153,11 +141,11 @@
                 </div>
                 <div class="col-10 col-md-auto mx-auto align-self-end">
                     <span><i class="fa fa-briefcase fa-lg fa-fw" aria-hidden="true"></i></span>
-                    <span class="text-font small">Rupeelog Financial Services, Bangalore</span>
+                    <span class="text-font small">National Institute of Design, Bangalore</span>
                 </div>
                 <div class="col-10 col-md-auto mx-auto align-self-end">
                     <span><i class="fa fa-user fa-lg fa-fw" aria-hidden="true"></i></span>
-                    <span class="text-font small">Individual</span>
+                    <span class="text-font small">Team</span>
                 </div>
             </div>
         </div>
@@ -168,45 +156,31 @@
     </div>
 
     <!-- Design Brief -->    
-    <div class="container text-left">
+    <div class="container text-left">  
         <div class="row justify-content-start py-5">
-            <div class="col-10 col-md-8 mx-auto align-self-start  wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">
-                <h1 class="h1-responsive display-font py-3">The Problem</h1>
-                <p class="lead text-font">With the penetration of technology in our lives, people today have a plethora of services at their fingertips (literally!). For 2017, the number of smartphone users in India is estimated to cross 300 million. This can give access to a huge collection of knowledge available online via smartphones. However, it was found that despite the availability of the devices and the desire to learn, a large number of individuals were unable to utilise the resources for learning.                    
+            <div class="col-10 col-md-8 mx-auto align-self-start  wow  fadeIn animated" data-wow-duration="1s" data-wow-delay="0.5s" style="visibility: visible; animation-duration: 1s; animation-delay: 0.5s; animation-name: fadeIn;">
+                <h1 class="h1-responsive display-font py-3">About Palampur</h1>
+                <p class="lead text-font">Known as the "Tea capital of North lndia", Palampur is a town lying in the laps of the Kangra valley, surrounded by tea gardens and pine forests which gradually merge with the Dhauladhar ranges. Located at an elevation of 1,472 m above sea-level at the confuence of the Himalayas and plains, it enjoys the best of both but the horrors of neither, which makes it a huge attraction for tourists from lndia and abroad alike. The town has derived its name from the local word <em>'palum'</em>, meaning lots of water, which is attributed to the numerous steams flowing across the valley. Besides being a treasure trove of scenic beauty, it has also been a hotbed of art and culture for a very long time, which provides something for people of all tastes. lt also has a large number of iconic temples and buildings constructed during the colonial period.
                 </p>
             </div>
-            <div class="w-100"></div>
-            <div class="col-10 col-md-8 mx-auto align-self-start  wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">
-                <p class="lead text-font">What was needed was a channel that could bridge the following hurdles &mdash;                    
-                </p>
-                <div class="row">
-                    <div class="col-10 col-md-4 mx-auto">
-                        <figure class="figure">
-                            <img src="images/prob1.png" class="figure-img img-fluid mx-auto d-block" alt="">
-                            <figcaption class="text-font small text-center">Bandwidth connecting the two is costly and availability is very limited</figcaption>
-                        </figure>
-                    </div>
-                    <div class="col-10 col-md-4 mx-auto">
-                        <figure class="figure">
-                            <img src="images/prob2.png" class="figure-img img-fluid mx-auto d-block" alt="">
-                            <figcaption class="text-font small text-center">Bandwidth is available but misused to consume data only for “entertainment”</figcaption>
-                        </figure>
-                    </div>
-                </div>                
-            </div>
-        </div>   
-        <div class="row justify-content-start py-3">
+            <div class="w-100 py-3"></div>
             <div class="col-10 col-md-8 mx-auto align-self-start">
                 <span class="wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">
-                <h1 class="h1-responsive display-font py-3">The Solution</h1> 
+                <h1 class="h1-responsive display-font py-3">About Andretta slipware pottery</h1> 
                 <blockquote class="">
-                    <p class="mb-0 lead subtext-font">Data Donation &mdash; The act of donating data to an individual or a family to enable them to access the world of online knowledge using their smartphones.</p>
+                    <p class="mb-0 lead subtext-font">Being one of the oldest crafts, more than 10,000 years old, man has expressed his feelings and his aesthetics in clay, in toys, in primitive deities, and in various vessels for storage of water and grain. When he came to know the beauty of a pot thrown on a wheel and its decoration, pottery took on a new meaning for him. History came to be depicted on it.</p>
                 </blockquote>
                 </span>
-                <p class="lead text-font wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">Here, 'data' refers to the data-pack that will provide the internet connectivity to the user to bridge the digital divide. This, however solves only the first half of the challenge.<br></p>
-                <p class="lead text-font wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">To ensure the appropriate usage of this data for intended purposes, there needed to be a system that could act as the interface for the curated content and allowed monitoring of the data consumption to ensure judicious use of the donated data. It is a part of NGO effort aimed at making informative content consumption via mobile    affordable for the masses.<br> And that interface for the end user is what I got to work on!</p><br>
-                <p class="text-font small  wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s"><em>*Detailed working of the system has been omitted to adhere to confidentiality terms of the project. I shall now talk about only my design contributions to the project. </em>😊</p>
+                <p class="lead text-font wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">The concept of pottery as an art form was introduced to India in 1952 by Sardar Gurcharan Singh, fondly known as <em>'Daddyji'</em>' with the establishment of "Delhi Blue Pottery". Slipware is pottery identified by its primary decorating process where slip is placed onto the leather-hard clay body surface before firing by dipping, painting or splashing. Slip is an aqueous suspension of a clay body, which is a mixture of clays and other minerals such as quartz, feldspar and mica.<br></p>
+                <p class="lead text-font wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">As the wave of urbanisation swept over Delhi, with the repercussions of political unrest, the pottery was shifted to Andretta, a village 13 km from Palampur, in 1984. The responsibility had passed on to Daddyji's son, Mansimran <em>'Mini'</em> Singh, and his wife Mary Singh.<br>Today, the place not only is the hub of slipware pottery, but also serves as a training centre for people interested in learning the craft of studio pottery.</p><br>                
             </div>  
+            <div class="w-100 py-3"></div>
+            <div class="col-10 col-md-8 mx-auto align-self-start  wow  fadeIn animated" data-wow-duration="1s" data-wow-delay="0.5s" style="visibility: visible; animation-duration: 1s; animation-delay: 0.5s; animation-name: fadeIn;">
+                <h1 class="h1-responsive display-font py-3">The Idea</h1>
+                <p class="lead text-font">We, a team of four people &mdash;<a href="https://www.behance.net/jasleenrana" target="_blank"> Jasleen Rana</a>, <a href="https://www.behance.net/faaizasaeed" target="_blank"> Faaiza Saeed</a>, <a href="https://www.behance.net/niranjanmorkar" target="_blank"> Niranjan Morkar</a> and I, had decided to study the life and rich culture of Palampur and document the studio pottery in Andretta. The idea was to bring out the essence of the place to the rest of the world through an academic project, while identify problem areas that can be intervened in.<br>The research study, spanning a little over a week, turned into a fun trip that involved studying pottery, interviewing people, clicking pictures, making new friends and romancing with Nature.
+                </p><br>
+                <p class="small text-font wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s"><em>My output of the project is the photostory that attempts to paint a picture of the place as seen by me. All the photographs contained in the book have been taken with my Nikon D5200 using a 18-105mm lens, which were then compiled into the story using Adobe Illustrator.</em>😊</p>
+            </div>
         </div> 
          <!-- Decision buttons  -->
         <!-- <div class="row smooth-scroll justify-content-center py-3">
@@ -215,248 +189,67 @@
         </div>          -->
     </div>
     <section id="process">
-        <div class="container">
-            <div class="row justify-content-center py-5 mt-5 wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">
-                <div class="col-10 col-md-8 mx-auto align-self-start">
-                    <p class="h3-responsive display-font py-3 mt-5">Understanding the user and app usage</p> 
-                      
-                    <p class="lead text-font">The app is aimed at helping users consume informative content via mobile data in their native language. It would also capture and report data usage for DoData app and other indicated apps to ensure effective use of the donated data.</p> 
-                    <figure class="figure py-5">
-                        <img src="images/user.jpg" class="figure-img img-fluid z-depth-1" alt="">
-                        <figcaption class="text-font small text-center">Based on the concept document I translated the use cases to UI requirements</figcaption>
-                    </figure>
-                    <p class="lead text-font">The content to be served is curated by different NGOs for their users. The users can have content from multiple sources &mdash; NGOs and third-parties. They may be kids trying to learn science or grown-ups trying to pick up a new skill for work.</p>
-                </div>                
-            </div> 
+        <div class="container-fluid">
             <div class="row justify-content-center wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">
-                <div class="col-10 col-md-8 mx-auto align-self-start">
-                    <p class="lead text-font">Before proceeding with the app, I had to work on the branding&hellip; It is real fun sketching shapes and choosing colours, not to mention deciding on a typeface!</p>
-                </div>
-            </div>
+                <div class="col-10 col-md-8 mx-auto align-self-start p-0" id="map"></div>          
+                <div class="col-10 col-md-4 mx-auto align-self-start px-5 mx-5" id="features">
+                        <h1 class="h1-responsive display-font mt-5 pt-3">The Journey</h1>
+                    <section class="wow animated fadeIn active" data-wow-duration="1s" data-wow-delay="0.5s" id='baker'>
+                        <p class="h3-responsive display-font py-3 mt-5">221b Baker St.</p>
+                        <p class="lead text-font wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">November 1895. London is shrouded in fog and Sherlock Holmes and Watson pass time restlessly awaiting a new case. "The London criminal is certainly a dull fellow," Sherlock bemoans. "There have been numerous petty thefts," Watson offers in response. Just then a telegram arrives from Sherlock's brother Mycroft with a mysterious case.</p>
+                    </section>
+                    <section class="wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s" id='aldgate'>
+                        <p class="h3-responsive display-font py-3 mt-5">Aldgate Station</p>
+                        <p class="lead text-font wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">Arthur Cadogan West was found dead, head crushed in on train tracks at Aldgate Station at 6AM Tuesday morning. West worked at Woolwich Arsenal on the Bruce-Partington submarine, a secret military project. Plans for the submarine had been stolen and seven of the ten missing papers were found in West's possession. Mycroft implores Sherlock to take the case and recover the three missing papers.</p>
+                    </section>
+                    <section class="wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s" id='london-bridge'>
+                        <p class="h3-responsive display-font py-3 mt-5">London Bridge</p>
+                        <p class="lead text-font wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">Holmes and Watson's investigations take them across London. Sherlock deduces that West was murdered elsewhere, then moved to Aldgate Station to create the illusion that he was crushed on the tracks by a train. On their way to Woolwich Sherlock dispatches a telegram to Mycroft at London Bridge: "Send list of all foreign spies known to be in England, with full address."</p>
+                    </section>
+                    <section class="wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s" id='woolwich'>
+                        <p class="h3-responsive display-font py-3 mt-5">Woolwich Arsenal</p>
+                        <p class="lead text-font wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">While investigating at Woolwich Arsenal Sherlock learns that West did not have the three keys&mdash;door, office, and safe&mdash;necessary to steal the papers. The train station clerk mentions seeing an agitated West boarding the 8:15 train to London Bridge. Sherlock suspects West of following someone who had access to the Woolwich chief's keyring with all three keys.</p>
+                    </section>
+                    <section class="wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s" id='gloucester'>
+                        <p class="h3-responsive display-font py-3 mt-5">Gloucester Road</p>
+                        <p class="lead text-font wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">Mycroft responds to Sherlock's telegram and mentions several spies. Hugo Oberstein of 13 Caulfield Gardens catches Sherlock's eye. He heads to the nearby Gloucester Road station to investigate and learns that the windows of Caulfield Gardens open over rail tracks where trains stop frequently.</p>
+                    </section>
+                    <section class="wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s" id='caulfield-gardens'>
+                        <p class="h3-responsive display-font py-3 mt-5">13 Caulfield Gardens</p>
+                        <p class="lead text-font wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">Holmes deduces that the murderer placed West atop a stopped train at Caulfield Gardens. The train traveled to Aldgate Station before West's body finally toppled off. Backtracking to the criminal's apartment, Holmes finds a series of classified ads from <em>The Daily Telegraph</em> stashed away. All are under the name Pierrot: "Monday night after nine. Two taps. Only ourselves. Do not be so suspicious. Payment in hard cash when goods delivered."</p>
+                    </section>
+                    <section class="wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s" id='telegraph'>
+                        <p class="h3-responsive display-font py-3 mt-5">The Daily Telegraph</p>
+                        <p class="lead text-font wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">Holmes and Watson head to The Daily Telegraph and place an ad to draw out the criminal. It reads: "To-night. Same hour. Same place. Two taps. Most vitally important. Your own safety at stake. Pierrot." The trap works and Holmes catches the criminal: Colonel Valentine Walter, the brother of Woolwich Arsenal's chief. He confesses to working for Hugo Oberstein to obtain the submarine plans in order to pay off his debts.</p>
+                    </section>
+                    <section class="wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s" id='charing-cross'>
+                        <p class="h3-responsive display-font py-3 mt-5">Charing Cross Hotel</p>
+                        <p class="lead text-font wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">Walter writes to Oberstein and convinces him to meet in the smoking room of the Charing Cross Hotel where he promises additional plans for the submarine in exchange for money. The plan works and Holmes and Watson catch both criminals.</p>
+                        <!-- <small id="citation">
+                            Adapted from <a href='http://www.gutenberg.org/files/2346/2346-h/2346-h.htm'>Project Gutenberg</a>
+                        </small> -->
+                    </section> 
+                    <div class="w-100 py-5"></div> 
+                </div>                
+            </div>             
+        </div>
+    </section>
+    <!-- Prototype -->
+    <section id="prototype">
+        <div class="container-fluid">
             <div class="row justify-content-center py-3">
-                <div class="col-10 col-md-8 mx-auto align-self-start">
-                    <p class="h3-responsive display-font py-3 wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">Creating a logo</p>
-                    <!-- <p class="lead display-font">Making a logo</p> -->
-                    <figure class="figure pb-5 wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">
-                        <img src="images/logo1.jpg" class="figure-img img-fluid z-depth-1" alt="">
-                        <figcaption class="text-font small text-center">I associated keywords with the project and began sketching out ideas that involved WiFi, internet, people and of course the cursive 'D'</figcaption>
-                    </figure>
-                    <figure class="figure pb-5 wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">
-                        <img src="images/logo2.jpg" class="figure-img img-fluid z-depth-1" alt="">
-                        <figcaption class="text-font small text-center">I played around with text a bit</figcaption>
-                    </figure>
-                    <figure class="figure pb-5 wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">
-                        <img src="images/logo3.jpg" class="figure-img img-fluid z-depth-1" alt="">
-                        <figcaption class="text-font small text-center">&hellip;and some more sketches before I moved on to Illustrator</figcaption>
-                    </figure>
-                </div>
-                <div class="col-10 col-md-8 mx-auto align-self-start">
-                    <p class="lead text-font wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">The idea was to integrate the gesture of giving with care with the symbol for internet and the letter 'D'. I tried to use mostly geometric shapes to ensure pixel-perfection on screens.</p>
-                    <figure class="figure py-5 wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">
-                        <img src="images/logo.jpg" class="figure-img img-fluid" alt="">
-                        <figcaption class="text-font small text-center">Digital explorations for the logo</figcaption>
-                    </figure>
-                    
-                    <p class="lead text-font wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">The guys at Rupeelog decided to go with the bottom right shape. It is simple and conveys the message.</p>
-                    <figure class="figure py-3 wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">
-                        <img src="images/logofinal.jpg" class="figure-img img-fluid" alt="">
-                        <figcaption class="text-font small text-center">Construction of the final DoData logo</figcaption>
-                    </figure>
-                </div>
-            </div>  
-            <div class="row justify-content-center py-3">
-                <div class="col-10 col-md-8 mx-auto align-self-start">
-                    <p class="h3-responsive display-font py-3 wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">Choosing colours</p>
-                    <p class="lead text-font wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">I wanted colours that could express growth, prosperity and happiness along with the intellectual aspect of the app. So, I decided to experiment with green, yellow, and blue which could express the above attributes as explained by Timothy Samara in his book <em>Drawing for Graphic Design</em>. </p>
-                    <figure class="figure pb-5 wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">
-                        <img src="images/logocolour.jpg" class="figure-img img-fluid" alt="">
-                        <figcaption class="text-font small text-center">Initial colour explorations</figcaption>
-                    </figure>
-                    <p class="lead text-font wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">I finally settled with two hues of green &mdash; one with yellow and one with blue, using which I developed the colour palette for the app.</p>
-                </div>
-            </div>
-            <div class="row justify-content-center py-3 wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">                
-                <div class="col-6 col-md-3">
-                        <div class="card">
-                            <h1 class="card-header" style="background:#45ada8;">&nbsp;</h3>
-                            <div class="pt-3 pl-3">
-                                <p class="small text-font">green-primary #45ADA8</p>
-                            </div>
-                        </div>
-                    </div>
-                <div class="col-6 col-md-3">
-                    <div class="card">
-                        <h1 class="card-header" style="background:#59c9a5;">&nbsp;</h3>
-                        <div class="pt-3 pl-3">
-                            <p class="small text-font">green-secondary #59C9A5</p>
-                        </div>
-                    </div> 
-                </div>
-            </div>
-            <div class="row justify-content-center py-3 wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">
-                <div class="col-6 col-md-3">
-                    <div class="card">
-                        <h1 class="card-header" style="background:#2F9599;">&nbsp;</h3>
-                        <div class="pt-3 pl-3">
-                            <p class="small text-font">green-primary-dark #2F9599</p>
-                        </div>
-                    </div>
-                </div>
-                    
-                <div class="col-6 col-md-3">
-                    <div class="card">
-                        <h1 class="card-header" style="background:#3CB888;">&nbsp;</h3>
-                        <div class="pt-3 pl-3">
-                            <p class="small text-font">green-secondary-dark #3CB888</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row justify-content-center py-3 wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">
-                <div class="col-12 col-md-6">
-                    <div class="card">
-                        <h1 class="card-header greengrad">&nbsp;</h3>
-                        <div class="pt-3 pl-3">
-                            <p class="small text-font">green-gradient-primary</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row justify-content-center py-5">
-                <div class="col-10 col-md-8 mx-auto align-self-start">
-                    <p class="h3-responsive display-font py-3 wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">Choosing typefaces</p>
-                    <figure class="figure pb-5 wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">
-                        <img src="images/logotype.jpg" class="figure-img img-fluid" alt="">
-                        <figcaption class="text-font small text-center">Testing out fonts to go with the logo</figcaption>
-                    </figure>
-                    <p class="lead text-font wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">I finally settled with Bree-Serif for the logotype because of its cheerful and friendly appearance. For the app content, I chose Noto Sans because it can support a multilingual app with its wide coverage of over 30 scripts.</p>
-                    <figure class="figure py-5 wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">
-                        <img src="images/type.jpg" class="figure-img img-fluid" alt="">
-                        <!-- <figcaption class="text-font small text-center">Testing out fonts to go with the logo</figcaption> -->
-                    </figure>
-                    <!-- <p class="lead text-font wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">Now lets get back to designing the app.</p> -->
-                    <figure class="figure wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">
-                        <img src="images/splash.jpg" class="figure-img img-fluid" alt="">
-                        <figcaption class="text-font small text-center">The splash screen of the app</figcaption>
-                    </figure>                    
-                </div>
-            </div>
-            <div class="row justify-content-center py-3">
-                <div class="col-10 col-md-8 mx-auto align-self-start">
-                    <span class="wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">
-                    <p class="h3-responsive display-font py-3">Designing the UI for the consumer app</p> 
-                        
-                    <p class="lead text-font">The backend of the service was already under development when I began the project. So, the basic app flow had already been decided by the project manager which had been conveyed to me via rough sketches. After I had analysed the wireframes, I suggested a few modifications, which were then incorporated in the final UI. I used <em>Sketch</em> to make the screens and created a prototype using <em>Invision App</em> which helped in smooth handoff of UI specs and assets.</p>
-                    </span>
-                    <figure class="figure py-5 wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">
-                        <img src="images/conceptdoc.jpg" class="figure-img img-fluid z-depth-1" alt="">
-                        <figcaption class="text-font small text-center">I analysed the concept document to derive the functional specifications and content requirements</figcaption>
-                    </figure> 
-                    <figure class="figure pb-5 wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">
-                        <img src="images/ia.jpg" class="figure-img img-fluid z-depth-1" alt="">
-                        <figcaption class="text-font small text-center">I analysed the information architecture suggesting modifications to improve the UX</figcaption>
-                    </figure>                     
-                </div>
-            </div>
-            <!-- UI descriptions 1 -->
-            <div class="row justify-content-center py-3">
-                <div class="col-10 col-md-8 mx-auto align-self-start wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">
-                    <p class="lead text-font">I wanted to keep the UI as close to a standard Android app so that it is intuitive to users familiar with an Android phone. Also, to avoid leaving the users in a state of anguish, it was important to consider edge cases to handle error scenarios efficiently.</p>
-                </div>
-                <div class="w-100"></div>
-                <div class="col-10 col-md-3 offset-md-2 align-self-start  wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">
-                    <figure class="figure pt-5 wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">
-                        <img src="images/forgot-password-reset.jpg" class="figure-img img-fluid z-depth-1" alt="">
-                        <figcaption class="text-font small text-center">If the user doesn't receive the OTP on the number entered or wishes to change it, he can do so without using the back button</figcaption>
-                    </figure>
-                </div>
-                <div class="col-10 col-md-3 mx-auto align-self-start  wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">
-                    <figure class="figure pt-5 wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">
-                        <img src="images/password-error.jpg" class="figure-img img-fluid z-depth-1" alt="">
-                        <figcaption class="text-font small text-center">When wrong password is entered, the user is asked to either check the password and retry or reset the password</figcaption>
-                    </figure>
-                </div>
-                <div class="w-100"></div>
-                <div class="col-10 col-md-3 offset-md-2 align-self-start  wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">
-                    <figure class="figure pt-5 wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">
-                        <img src="images/invalid-mobile-error.jpg" class="figure-img img-fluid z-depth-1" alt="">
-                        <figcaption class="text-font small text-center">When the user enters an invalid mobile number, he is asked to check and enter the number again</figcaption>
-                    </figure>
-                </div>
-                <div class="col-10 col-md-3 mx-auto align-self-start  wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">
-                    <figure class="figure pt-5 wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">
-                        <img src="images/unregistered-mobile-error.jpg" class="figure-img img-fluid z-depth-1" alt="">
-                        <figcaption class="text-font small text-center">When the user enters a valid (10-digit) mobile number which has not been registered as a DoData user, he can either register it or retry with a different number</figcaption>
-                    </figure>
-                </div>
-            </div>
-            <!-- UI descriptions 2 -->
-            <div class="row justify-content-center py-3">
-                <div class="col-10 col-md-8 mx-auto align-self-start wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">
-                    <p class="lead text-font">The dashboard contains the content categorised by the sources, specific to the current user. If a single account is used by an entire family, the account admin can add family members and they can access their content by simply switching the user from the menu.</p>                    
-                </div>
-                <div class="w-100"></div>
-                <div class="col-10 col-md-3 mx-auto align-self-start  wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">
-                    <figure class="figure py-5 wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">
-                        <img src="images/switch-user.jpg" class="figure-img img-fluid z-depth-1" alt="">
-                        <figcaption class="text-font small text-center">Dialog to change active user</figcaption>
-                    </figure>
-                </div>
-                <div class="w-100"></div>
-                <div class="col-10 col-md-8 mx-auto align-self-start wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">
-                    <p class="lead text-font">The card-grid layout is preferred here as it gives an overview of content categories, without the user having to scroll much. This has an advantage over accordion lists when the number of items is large.</p>                
-                </div>
-                <div class="w-100"></div>
-                <div class="col-10 col-md-3 mx-auto align-self-start  wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">
-                    <figure class="figure py-5 wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">
-                        <img src="images/dashboard.jpg" class="figure-img img-fluid z-depth-1" alt="">
-                        <figcaption class="text-font small text-center">User dashboard with content group cards.</figcaption>
-                    </figure>
-                </div>
-                <div class="w-100"></div>
-                <div class="col-10 col-md-8 mx-auto align-self-start wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">
-                    <p class="lead text-font">The banner acts as placeholder for advertisements and promotional content from the Government or other sources. It can help instil preferred values (like Nationalism, Cleanliness) in the consumer.</p>
-                    <p class="lead text-font">The app can help form effective habits by incentives (in terms of data and other things) and by alerts and reminders, accessible from the notifications section.</p>
-                    <p class="lead text-font">Keeping track of data usage is just a swipe away. It can help users use their bandwidth efficiently &mdash; balancing between education and entertainment. </p>
-                </div>
-                <div class="w-100"></div>
-                <div class="col-10 col-md-3 mx-auto align-self-start  wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">
-                    <figure class="figure py-5 wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">
-                        <img src="images/data-usage.jpg" class="figure-img img-fluid z-depth-1" alt="">
-                        <figcaption class="text-font small text-center">Data usage statistics for the user.</figcaption>
-                    </figure>
-                </div>
-            </div>
-            <!-- Icon descriptions 1 -->
-            <div class="row justify-content-center pt-3 pb-5">
-                <div class="col-10 col-md-8 mx-auto align-self-start">
-                    <p class="h3-responsive display-font wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">Designing the icons</p>
-                    <figure class="figure wow animated fadeIn pb-5" data-wow-duration="1s" data-wow-delay="0.5s">
-                        <img src="images/icons.jpg" class="figure-img img-fluid" alt="">
-                        <figcaption class="text-font small text-center">Even though many of them are standard icons, I recreated them to fit the solid visual family</figcaption>
-                    </figure>
-                    <p class="lead text-font wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">&hellip;and then the developers developed.<br>The app is available for <a href="https://play.google.com/store/apps/details?id=com.dodata.org" target="_blank">download</a> on the Google Play Store.</a></p>
+                <div class="embed-responsive embed-responsive-16by9">
+                    <iframe class="embed-responsive-item" src="http://prasantakrdutta.com/palampur-studies/" frameborder="0" scrolling="yes" allowfullscreen></iframe>
                 </div>
             </div>
         </div>
     </section>
-    <!-- Prototype -->
-    <!-- <section id="prototype">
-        <div class="container">
-            <div class="row justify-content-center py-3">
-                <div class="embed-responsive embed-responsive-16by9">
-                    <iframe class="embed-responsive-item" src="images/dodata.mp4" frameborder="0" allowfullscreen></iframe>
-                </div>
-            </div>
-        </div>
-    </section> -->
     <!--Copyright-->
     <footer class="page-footer mt-0 purple center-on-small-only">
         <div class="container-fluid">
             <div class="row justify-content-center pb-3">
-                <!-- <div class="col"> -->
-                <a href="#" class="btn btn-deep-purple hoverable">next up: Lorem Ipsum&nbsp;&nbsp;<i class="fa fa-long-arrow-right fa-lg" aria-hidden="true"></i></a>   
-                <!-- </div>          -->
+                <a href="../" class="btn btn purple hoverable"><i class="fa fa-long-arrow-left fa-lg" aria-hidden="true"></i>&nbsp;&nbsp;Back to projects</a>   
+                <a target="_blank" href="https://www.behance.net/gallery/46120627/Amar-Chitra-Katha-Website-UX-re-design" class="btn btn-deep-purple hoverable">next up: Amar Chitra Katha Redesign&nbsp;&nbsp;<i class="fa fa-long-arrow-right fa-lg" aria-hidden="true"></i></a>   
             </div>
         </div>
         <div class="footer-copyright">                   
