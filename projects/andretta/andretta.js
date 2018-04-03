@@ -6,9 +6,9 @@ document.addEventListener('DOMContentLoaded', function() {
 new WOW().init();
     
 // When the user scrolls down 20px from the top of the document, show the button
-window.onscroll = function() {scrollFunction()};
-
-function scrollFunction() {
+// window.onscroll = function() {scrollFunction()};
+window.addEventListener('scroll', function()
+{
     if ($(window).innerWidth() < 768) 
     {
         $("#top").hide();
@@ -16,13 +16,14 @@ function scrollFunction() {
     else {
         if (document.body.scrollTop > 50 || document.documentElement.scrollTop > 50) {
         document.getElementById("top").style.display = "block";
+        console.log(document.body.scrollTop);
         } 
         else {
             document.getElementById("top").style.display = "none";
         }
     }
     
-}
+});
 // changing the title size on mobile
 $(window).resize(function() {
     if ($(window).innerWidth() < 768) 
@@ -104,8 +105,8 @@ var chapters = {
 };
 
 // On every scroll event, check which element is on screen
-document.getElementById("features").onscroll = function() {
-// window.onscroll = function() {
+// document.getElementById("features").onscroll = function() {
+window.addEventListener('scroll', function() {
     // console.log("feature scrolling");
     var chapterNames = Object.keys(chapters);
     for (var i = 0; i < chapterNames.length; i++) {
@@ -116,7 +117,7 @@ document.getElementById("features").onscroll = function() {
             break;
         }
     }
-};
+});
 
 var activeChapterName = 'baker';
 function setActiveChapter(chapterName) {
@@ -137,10 +138,10 @@ function isElementOnScreen(id) {
     var bounds = element.getBoundingClientRect();
     var container = document.getElementById("features").getBoundingClientRect();
     // console.log("top="+bounds.top+" bottom="+bounds.bottom);
-    return (bounds.top>=container.top && bounds.bottom<=window.innerHeight);
-    console.log((bounds.top>=0 && bounds.bottom<=window.innerHeight));
-    // console.log(bounds.top < bounds.height && bounds.bottom > 0);
-    // return bounds.top < bounds.height && bounds.bottom > 0;
+    // return (bounds.top>=container.top && bounds.bottom<=window.innerHeight);
+    // console.log((bounds.top>=0 && bounds.bottom<=window.innerHeight));
+    console.log(bounds.top < bounds.height && bounds.bottom > 0);
+    return bounds.top < bounds.height && bounds.bottom > 0;
 
 }
 

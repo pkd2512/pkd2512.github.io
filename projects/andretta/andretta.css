@@ -54,12 +54,14 @@ i {
 
 #map {
     height: 100vh;
-    position: static;
+    position: sticky;
     top: 0;
     bottom: 0;
+    margin: 0!important;
+    z-index: 1;
 }
 #features {
-    height: 100vh;
+    height: auto;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
 }
@@ -71,6 +73,16 @@ i {
 }
 .mapboxgl-ctrl {
     clear: none;
+}
+@media only screen and (max-width: 768px) {
+    #map {
+        height: 50vh;
+        position: sticky;
+        top: 0;
+        bottom: 0;
+        margin: 0!important;
+        z-index: 1;
+    }
 }
 
 /* .view {
