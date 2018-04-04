@@ -9,3 +9,4 @@ chat-controller/main-chat.xlsx
 *.db
 *.db
 *.db
+.vscode/spellright.dict

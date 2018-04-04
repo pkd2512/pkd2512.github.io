@@ -84,7 +84,12 @@ i {
         z-index: 1;
     }
 }
-
+kbd i {
+    color: #ffffff;
+}
+.kbdbg {
+    background-color: #607d8b;
+}
 /* .view {
     overflow: hidden;
     position: relative;

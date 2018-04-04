@@ -45,35 +45,20 @@ mapboxgl.accessToken = 'pk.eyJ1IjoicGtkZGFwYWNpZmljIiwiYSI6ImNqZmk5eWdiMTJjMnMye
 
 var map = new mapboxgl.Map({
     container: 'map',
-    style: 'mapbox://styles/mapbox/satellite-v9',
-    center: [-0.15591514, 51.51830379],
-    zoom: 15.5,
-    bearing: 27,
-    pitch: 45
+    style: 'mapbox://styles/mapbox/light-v9',
+    center: [77.7066, 13.1986],
+    zoom: 5,
+    bearing: 0,
+    pitch: 90
 });
-
 var chapters = {
-    'baker': {
-        bearing: 27,
-        center: [-0.15591514, 51.51830379],
-        zoom: 15.5,
-        pitch: 20
+    'opening': {
+        bearing: -35,
+        center: [75.92305318958245, 31.74288500970745],
+        zoom: 8.2,
+        pitch: 45
     },
-    'aldgate': {
-        duration: 6000,
-        center: [-0.07571203, 51.51424049],
-        bearing: 150,
-        zoom: 15,
-        pitch: 0
-    },
-    'london-bridge': {
-        bearing: 90,
-        center: [-0.08533793, 51.50438536],
-        zoom: 13,
-        speed: 0.6,
-        pitch: 40
-    },
-    'woolwich': {
+    'palampur': {
         bearing: 90,
         center: [0.05991101, 51.48752939],
         zoom: 12.3
@@ -103,6 +88,117 @@ var chapters = {
         pitch: 20
     }
 };
+// Preparing flight along route
+var origin = [77.7066, 13.1986];
+var destination1 = [77.1000, 28.5562];
+var destination = [74.7989, 31.7072];
+
+// A simple line from origin to destination.
+var route = {
+    "type": "FeatureCollection",
+    "features": [{
+    "type": "Feature",
+    "geometry": {
+    "type": "LineString",
+    "coordinates": [
+            origin, 
+            destination1,
+            destination
+            ]
+        }
+    }]
+};
+var point = {
+    "type": "FeatureCollection",
+    "features": [{
+        "type": "Feature",
+        "geometry": {
+        "type": "Point",
+        "coordinates": origin
+        }
+    }]
+};
+// Calculate the distance in kilometers between route start/end point.
+var lineDistance = turf.lineDistance(route.features[0], 'kilometers');
+
+var arc = [];
+
+// Draw an arc between the `origin` & `destination` of the two points
+for (var i = 0; i < lineDistance; i++) {
+  var segment = turf.along(route.features[0], i / 200 * lineDistance, 'kilometers');
+  arc.push(segment.geometry.coordinates);
+}
+
+// Update the route with calculated arc coordinates
+route.features[0].geometry.coordinates = arc;
+
+// Used to increment the value of the point measurement against the route.
+var counter = 0;
+var rot = 0;
+map.on('load', function() {
+  // Add a source and layer displaying a point which will be animated in a circle.
+  map.addSource('route', {
+    "type": "geojson",
+    "data": route
+  });
+
+  map.addSource('point', {
+    "type": "geojson",
+    "data": point
+  });
+
+  map.addLayer({
+    "id": "route",
+    "source": "route",
+    "type": "line",
+    "paint": {
+      "line-width": 2,
+      "line-color": "#007cbf"
+    }
+  });
+
+  map.addLayer({
+    "id": "point",
+    "source": "point",
+    "type": "symbol",
+    "layout": {
+      "icon-image": "airport-15",          
+      "icon-allow-overlap": true
+    }
+  });
+
+  function animate() {
+    // Update point geometry to a new position based on counter denoting
+    // the index to access the arc.
+    point.features[0].geometry.coordinates = route.features[0].geometry.coordinates[counter];
+
+    // Update the source with this new data.
+    map.getSource('point').setData(point);
+
+    // Request the next frame of animation so long as destination has not
+    // been reached.
+    if (point.features[0].geometry.coordinates[0] !== destination[0]) { 
+        if (point.features[0].geometry.coordinates[0]==77.10408471083429) 
+            {          
+            //console.log(map.bearing);
+            //map.setBearing(-35.0, {duration:3000});
+            map.setLayoutProperty('point', 'icon-rotate', -45);
+            }   
+        map.panTo(point.features[0].geometry.coordinates);
+        requestAnimationFrame(animate);
+    } 
+    else {    
+        // map.setCenter([75.4303987, 31.9476826]);
+        map.setLayoutProperty('point', 'icon-rotate', 25);
+        map.flyTo(chapters['opening']);
+        // map.setStyle('mapbox://styles/mapbox/satellite-v9');
+    } 
+
+    counter = counter + 1;          
+  }
+  // Start the animation.
+  animate(counter);
+});
 
 // On every scroll event, check which element is on screen
 // document.getElementById("features").onscroll = function() {
@@ -119,7 +215,7 @@ window.addEventListener('scroll', function() {
     }
 });
 
-var activeChapterName = 'baker';
+var activeChapterName = 'opening';
 function setActiveChapter(chapterName) {
     if (chapterName === activeChapterName) return;
 
@@ -144,4 +240,3 @@ function isElementOnScreen(id) {
     return bounds.top < bounds.height && bounds.bottom > 0;
 
 }
-
