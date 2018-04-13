@@ -15,7 +15,13 @@
     margin-top: 10rem;
 }
 #cover .title{
+    font-size: 6rem;
     color: #fafafa !important;
+}
+@media (max-width: 768px) {
+    #cover .title {
+        font-size: 2.5rem;
+    }
 }
 #cover hr {
     width: 5rem;
