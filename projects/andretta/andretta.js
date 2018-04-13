@@ -32,13 +32,21 @@ $("footer #date").text(d.getFullYear());
 // Map code
 mapboxgl.accessToken = 'pk.eyJ1IjoicGtkZGFwYWNpZmljIiwiYSI6ImNqZmk5eWdiMTJjMnMyeXBrbmJtMmx2cWgifQ.igtXLvbNt1qUSGJao6_qlw';
 
+var wd = window,
+d = document,
+e = d.documentElement,
+g = d.getElementsByTagName('body')[0],
+w = wd.innerWidth || e.clientWidth || g.clientWidth,
+h = wd.innerHeight|| e.clientHeight|| g.clientHeight;
+
 var map = new mapboxgl.Map({
     container: 'map',
     style: 'mapbox://styles/pkddapacific/cjftgscmo2pzt2rpgjky1aykh',
-    center: [78.326124, 16.097019],
+    center: [78.365309, 20.225282],
     zoom: 5,
     bearing: 0,
-    pitch: 45
+    pitch: 45,
+    minZoom: 5
 });
 var chapters = {
     'opening': {
@@ -53,29 +61,46 @@ var chapters = {
         zoom: 11,
         pitch: 45
     },
-    'gloucester': {
-        bearing: 45,
-        center: [-0.18335806, 51.49439521],
-        zoom: 15.3,
-        pitch: 20,
-        speed: 0.5
+    'andretta': {
+        bearing: 21,
+        center: [76.56615374230614, 32.03766792690715],
+        zoom: 16.3,
+        pitch: 60,
+        maxZoom: 16.5,
+        speed: 0.69
     },
-    'caulfield-gardens': {
-        bearing: 180,
-        center: [-0.19684993, 51.5033856],
-        zoom: 12.3
+    'wah': {
+        bearing: 28.8,
+        center: [76.55468340701486, 32.08059484693874],
+        zoom: 13.6,
+        pitch: 45,
+        maxZoom: 14,
+        speed: 0.69
+
     },
-    'telegraph': {
-        bearing: 90,
-        center: [-0.10669358, 51.51433123],
-        zoom: 17.3,
-        pitch: 40
+    'ashapuri': {
+        bearing: 9.6,
+        center: [76.6972066282583, 31.84099457082523],
+        zoom: 11.4,
+        pitch: 35,
+        maxZoom: 11.5,
+        speed: 0.69
     },
-    'charing-cross': {
-        bearing: 90,
-        center: [-0.12416858, 51.50779757],
-        zoom: 14.3,
-        pitch: 20
+    'baijnath': {
+        bearing: 0,
+        center: [76.63541299172641, 32.08095014508136],
+        zoom: 12.5,
+        pitch: 60,
+        maxZoom: 13.5,
+        speed: 0.69
+    },
+    'bir': {
+        bearing: 40,
+        center: [76.73028711948291, 32.05158797135131],
+        zoom: 12.3,
+        pitch: 40,
+        maxZoom: 13,
+        speed: 0.69
     }
 };
 // Preparing flight along route
@@ -193,7 +218,7 @@ map.on('load', function() {
 //   animate(counter);
 // console.log("active opening")
 });
-
+/*
 function getRoute() {
     var start = [74.8638046, 31.6532466];
     var end = [76.53622899999999, 32.110865];
@@ -220,7 +245,7 @@ function getRoute() {
       // this is where the code from the next step will go
     });
   }
-
+*/
 // On every scroll event, check which element is on screen
 // document.getElementById("features").onscroll = function() {
 window.addEventListener('scroll', function() {
@@ -230,9 +255,12 @@ window.addEventListener('scroll', function() {
         var chapterName = chapterNames[i];
         if (isElementOnScreen(chapterName)) {
             setActiveChapter(chapterName);
-            console.log(chapterName);
+            //console.log(chapterName);
             break;
         }
+        // else {
+        //    setActiveChapter('palampur');
+        // }
     }
 });
 
@@ -244,7 +272,7 @@ function setActiveChapter(chapterName) {
         //getRoute();
     }
     if (chapterName === activeChapterName) return;
-    
+    map.setMaxZoom((chapters[chapterName]).maxZoom);    
     map.flyTo(chapters[chapterName]);
 
     document.getElementById(chapterName).classList.add('active');
@@ -258,11 +286,12 @@ function setActiveChapter(chapterName) {
 function isElementOnScreen(id) {
     var element = document.getElementById(id);
     var bounds = element.getBoundingClientRect();
-    var container = document.getElementById("features").getBoundingClientRect();
+    // var container = document.getElementById("features").getBoundingClientRect();
     // console.log("top="+bounds.top+" bottom="+bounds.bottom);
+    return (bounds.top<h*0.5 && bounds.top>0);
     // return (bounds.top>=container.top && bounds.bottom<=window.innerHeight);
     // console.log((bounds.top>=0 && bounds.bottom<=window.innerHeight));
-    console.log(bounds.top < bounds.height && bounds.bottom > 0);
-    return bounds.top < bounds.height && bounds.bottom > 0;
+    // console.log(bounds.top < bounds.height && bounds.bottom > 0);
+    // return bounds.top < bounds.height && bounds.bottom > 0;
 
 }
