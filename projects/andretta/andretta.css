@@ -84,6 +84,9 @@ i {
         z-index: 1;
     }
 }
+figure img {
+    width: 100%;
+}
 kbd i {
     color: #ffffff;
 }

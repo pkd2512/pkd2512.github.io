@@ -45,11 +45,11 @@ mapboxgl.accessToken = 'pk.eyJ1IjoicGtkZGFwYWNpZmljIiwiYSI6ImNqZmk5eWdiMTJjMnMye
 
 var map = new mapboxgl.Map({
     container: 'map',
-    style: 'mapbox://styles/mapbox/light-v9',
-    center: [77.7066, 13.1986],
+    style: 'mapbox://styles/pkddapacific/cjftgscmo2pzt2rpgjky1aykh',
+    center: [78.326124, 16.097019],
     zoom: 5,
     bearing: 0,
-    pitch: 90
+    pitch: 45
 });
 var chapters = {
     'opening': {
@@ -59,9 +59,10 @@ var chapters = {
         pitch: 45
     },
     'palampur': {
-        bearing: 90,
-        center: [0.05991101, 51.48752939],
-        zoom: 12.3
+        bearing: -35,
+        center: [76.64597012574859, 32.07353259002102],
+        zoom: 11,
+        pitch: 45
     },
     'gloucester': {
         bearing: 45,
@@ -122,10 +123,10 @@ var point = {
 var lineDistance = turf.lineDistance(route.features[0], 'kilometers');
 
 var arc = [];
-
+var animate;
 // Draw an arc between the `origin` & `destination` of the two points
 for (var i = 0; i < lineDistance; i++) {
-  var segment = turf.along(route.features[0], i / 200 * lineDistance, 'kilometers');
+  var segment = turf.along(route.features[0], i / 800 * lineDistance, 'kilometers');
   arc.push(segment.geometry.coordinates);
 }
 
@@ -153,7 +154,9 @@ map.on('load', function() {
     "type": "line",
     "paint": {
       "line-width": 2,
-      "line-color": "#007cbf"
+      "line-color": "#5b32bc",
+      "line-opacity": 0.8,
+      "line-blur": 1
     }
   });
 
@@ -167,7 +170,7 @@ map.on('load', function() {
     }
   });
 
-  function animate() {
+  animate = function() {
     // Update point geometry to a new position based on counter denoting
     // the index to access the arc.
     point.features[0].geometry.coordinates = route.features[0].geometry.coordinates[counter];
@@ -189,16 +192,45 @@ map.on('load', function() {
     } 
     else {    
         // map.setCenter([75.4303987, 31.9476826]);
-        map.setLayoutProperty('point', 'icon-rotate', 25);
         map.flyTo(chapters['opening']);
+        map.setLayoutProperty('point', 'icon-rotate', 25);
+        
         // map.setStyle('mapbox://styles/mapbox/satellite-v9');
     } 
 
     counter = counter + 1;          
   }
   // Start the animation.
-  animate(counter);
+//   animate(counter);
+// console.log("active opening")
 });
+
+function getRoute() {
+    var start = [74.8638046, 31.6532466];
+    var end = [76.53622899999999, 32.110865];
+    var directionsRequest = 'https://api.mapbox.com/directions/v5/mapbox/driving/' + start[0] + ',' + start[1] + ';' + end[0] + ',' + end[1] + '?geometries=geojson&access_token=' + mapboxgl.accessToken;
+    $.ajax({
+      method: 'GET',
+      url: directionsRequest,
+    }).done(function(data) {
+      var route = data.routes[0].geometry;
+      map.addLayer({
+        id: 'palampurRoute',
+        type: 'line',
+        source: {
+          type: 'geojson',
+          data: {
+            type: 'Feature',
+            geometry: route
+          }
+        },
+        paint: {
+          'line-width': 2
+        }
+      });
+      // this is where the code from the next step will go
+    });
+  }
 
 // On every scroll event, check which element is on screen
 // document.getElementById("features").onscroll = function() {
@@ -217,8 +249,13 @@ window.addEventListener('scroll', function() {
 
 var activeChapterName = 'opening';
 function setActiveChapter(chapterName) {
+    if(activeChapterName==='opening') {
+        // console.log("active opening")
+        animate(counter);
+        //getRoute();
+    }
     if (chapterName === activeChapterName) return;
-
+    
     map.flyTo(chapters[chapterName]);
 
     document.getElementById(chapterName).classList.add('active');
