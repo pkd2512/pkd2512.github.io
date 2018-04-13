@@ -24,18 +24,7 @@ window.addEventListener('scroll', function()
     }
     
 });
-// changing the title size on mobile
-$(window).resize(function() {
-    if ($(window).innerWidth() < 768) 
-    {
-        $('.title').removeClass('display-1');
-        $('.title').addClass('h1');
-    }
-    else {
-        $('.title').addClass('display-1');
-        $('.title').removeClass('h1');
-    } 
-});
+
 // Update copyright with current year
 var d = new Date();
 $("footer #date").text(d.getFullYear()); 
@@ -154,7 +143,7 @@ map.on('load', function() {
     "type": "line",
     "paint": {
       "line-width": 2,
-      "line-color": "#5b32bc",
+      "line-color": "#ffc107",
       "line-opacity": 0.8,
       "line-blur": 1
     }
