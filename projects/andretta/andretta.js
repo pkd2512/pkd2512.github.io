@@ -16,7 +16,7 @@ window.addEventListener('scroll', function()
     else {
         if (document.body.scrollTop > 50 || document.documentElement.scrollTop > 50) {
         document.getElementById("top").style.display = "block";
-        console.log(document.body.scrollTop);
+        // console.log(document.body.scrollTop);
         } 
         else {
             document.getElementById("top").style.display = "none";
@@ -282,16 +282,24 @@ function setActiveChapter(chapterName) {
 
     activeChapterName = chapterName;
 }
-
 function isElementOnScreen(id) {
     var element = document.getElementById(id);
     var bounds = element.getBoundingClientRect();
-    // var container = document.getElementById("features").getBoundingClientRect();
-    // console.log("top="+bounds.top+" bottom="+bounds.bottom);
-    return (bounds.top<h*0.5 && bounds.top>0);
-    // return (bounds.top>=container.top && bounds.bottom<=window.innerHeight);
-    // console.log((bounds.top>=0 && bounds.bottom<=window.innerHeight));
-    // console.log(bounds.top < bounds.height && bounds.bottom > 0);
-    // return bounds.top < bounds.height && bounds.bottom > 0;
+    return (bounds.top < bounds.height) && bounds.bottom > h/2;
 
 }
+
+/* Resources used to build the map content
+
+// Google directions api
+https://maps.googleapis.com/maps/api/directions/json?origin="***"&destination="***"&alternatives=false&key=***
+
+// Google polyline to coordinates
+https://jsfiddle.net/ivansams/tw7qLvh4/2/
+
+http://zevross.com/blog/2014/09/23/convert-google-directions-to-geojson-points-or-polylines/
+
+http://geojson.io/#map=18/32.05935/76.74115
+
+https://www.gps-coordinates.net/
+*/
