@@ -38,74 +38,150 @@ e = d.documentElement,
 g = d.getElementsByTagName('body')[0],
 w = wd.innerWidth || e.clientWidth || g.clientWidth,
 h = wd.innerHeight|| e.clientHeight|| g.clientHeight;
-
-var map = new mapboxgl.Map({
-    container: 'map',
-    style: 'mapbox://styles/pkddapacific/cjftgscmo2pzt2rpgjky1aykh',
-    center: [78.365309, 20.225282],
-    zoom: 5,
-    bearing: 0,
-    pitch: 45,
-    minZoom: 5
-});
-var chapters = {
-    'opening': {
-        bearing: -35,
-        center: [75.92305318958245, 31.74288500970745],
-        zoom: 8.2,
-        pitch: 45,
-        maxZoom: 12.1
-    },
-    'palampur': {
-        bearing: -35,
-        center: [76.64597012574859, 32.07353259002102],
-        zoom: 11,
-        pitch: 45,
-        maxZoom: 12,
-        speed: 0.69
-    },
-    'andretta': {
-        bearing: 21,
-        center: [76.56615374230614, 32.03766792690715],
-        zoom: 16.3,
-        pitch: 60,
-        maxZoom: 16.5,
-        speed: 0.69
-    },
-    'wah': {
-        bearing: 28.8,
-        center: [76.55468340701486, 32.08059484693874],
-        zoom: 13.6,
-        pitch: 45,
-        maxZoom: 14,
-        speed: 0.69
-
-    },
-    'ashapuri': {
-        bearing: 9.6,
-        center: [76.6972066282583, 31.84099457082523],
-        zoom: 11.4,
-        pitch: 35,
-        maxZoom: 11.5,
-        speed: 0.69
-    },
-    'baijnath': {
+var map;
+if ($(window).innerWidth() < 768) {
+    map = new mapboxgl.Map({
+        container: 'map',
+        style: 'mapbox://styles/pkddapacific/cjftgscmo2pzt2rpgjky1aykh',
+        center: [77.67555805096436, 23.16551504383851],
+        zoom: 3.2,
         bearing: 0,
-        center: [76.63541299172641, 32.08095014508136],
-        zoom: 12.5,
-        pitch: 60,
-        maxZoom: 13.5,
-        speed: 0.69
-    },
-    'bir': {
-        bearing: 40,
-        center: [76.73028711948291, 32.05158797135131],
-        zoom: 12.3,
-        pitch: 40,
-        maxZoom: 13,
-        speed: 0.69
-    }
-};
+        pitch: 45,
+        minZoom: 3
+    });
+}
+else {
+    map = new mapboxgl.Map({
+        container: 'map',
+        style: 'mapbox://styles/pkddapacific/cjftgscmo2pzt2rpgjky1aykh',
+        center: [78.365309, 20.225282],
+        zoom: 5,
+        bearing: 0,
+        pitch: 45,
+        minZoom: 5
+    });
+}
+var chapters;
+if ($(window).innerWidth() < 768) {
+    chapters = {
+        'opening': {
+            bearing: -35,
+            center: [75.68727914869692, 31.9584518165087],
+            zoom: 6.5,
+            pitch: 45,
+            maxZoom: 12.1
+        },
+        'palampur': {
+            bearing: -35,
+            center: [76.61724697513705, 32.07697236483118],
+            zoom: 10,
+            pitch: 45,
+            maxZoom: 12,
+            speed: 0.69
+        },
+        'andretta': {
+            bearing: 21,
+            center: [76.56561167753148, 32.03723247076803],
+            zoom: 15.4,
+            pitch: 60,
+            maxZoom: 16.5,
+            speed: 0.69
+        },
+        'wah': {
+            bearing: 28.8,
+            center: [76.55348119511552, 32.091809775256934],
+            zoom: 12,
+            pitch: 45,
+            maxZoom: 14,
+            speed: 0.69
+
+        },
+        'ashapuri': {
+            bearing: 9.6,
+            center: [76.7056679896466, 31.85956834559414],
+            zoom: 10,
+            pitch: 35,
+            maxZoom: 11.5,
+            speed: 0.69
+        },
+        'baijnath': {
+            bearing: 0,
+            center: [76.63416322088835, 32.069179195570115],
+            zoom: 12.2,
+            pitch: 60,
+            maxZoom: 13.5,
+            speed: 0.69
+        },
+        'bir': {
+            bearing: 40,
+            center: [76.7301326957695, 32.05757235949123],
+            zoom: 11.5,
+            pitch: 40,
+            maxZoom: 13,
+            speed: 0.69
+        }
+    };
+}
+else {
+    chapters = {
+        'opening': {
+            bearing: -35,
+            center: [75.92305318958245, 31.74288500970745],
+            zoom: 8.2,
+            pitch: 45,
+            maxZoom: 12.1
+        },
+        'palampur': {
+            bearing: -35,
+            center: [76.64597012574859, 32.07353259002102],
+            zoom: 11,
+            pitch: 45,
+            maxZoom: 12,
+            speed: 0.69
+        },
+        'andretta': {
+            bearing: 21,
+            center: [76.56615374230614, 32.03766792690715],
+            zoom: 16.3,
+            pitch: 60,
+            maxZoom: 16.5,
+            speed: 0.69
+        },
+        'wah': {
+            bearing: 28.8,
+            center: [76.55468340701486, 32.08059484693874],
+            zoom: 13.6,
+            pitch: 45,
+            maxZoom: 14,
+            speed: 0.69
+
+        },
+        'ashapuri': {
+            bearing: 9.6,
+            center: [76.6972066282583, 31.84099457082523],
+            zoom: 11.4,
+            pitch: 35,
+            maxZoom: 11.5,
+            speed: 0.69
+        },
+        'baijnath': {
+            bearing: 0,
+            center: [76.63541299172641, 32.08095014508136],
+            zoom: 12.5,
+            pitch: 60,
+            maxZoom: 13.5,
+            speed: 0.69
+        },
+        'bir': {
+            bearing: 40,
+            center: [76.73028711948291, 32.05158797135131],
+            zoom: 12.3,
+            pitch: 40,
+            maxZoom: 13,
+            speed: 0.69
+        }
+    };
+}
 // Preparing flight along route
 var origin = [77.7066, 13.1986];
 var destination1 = [77.1000, 28.5562];
