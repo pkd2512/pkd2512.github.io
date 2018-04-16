@@ -53,13 +53,16 @@ var chapters = {
         bearing: -35,
         center: [75.92305318958245, 31.74288500970745],
         zoom: 8.2,
-        pitch: 45
+        pitch: 45,
+        maxZoom: 12.1
     },
     'palampur': {
         bearing: -35,
         center: [76.64597012574859, 32.07353259002102],
         zoom: 11,
-        pitch: 45
+        pitch: 45,
+        maxZoom: 12,
+        speed: 0.69
     },
     'andretta': {
         bearing: 21,
@@ -246,6 +249,8 @@ function getRoute() {
     });
   }
 */
+var activeChapterName = 'opening';
+var openingDone = false;
 // On every scroll event, check which element is on screen
 // document.getElementById("features").onscroll = function() {
 window.addEventListener('scroll', function() {
@@ -253,31 +258,27 @@ window.addEventListener('scroll', function() {
     var chapterNames = Object.keys(chapters);
     for (var i = 0; i < chapterNames.length; i++) {
         var chapterName = chapterNames[i];
-        if (isElementOnScreen(chapterName)) {
+        if (isElementOnScreen('opening')) {
+            $.when(animate(counter)).then(setActiveChapter('opening'));   
+            openingDone = true;
+            // console.log(openingDone);
+        }
+        if (isElementOnScreen(chapterName) && openingDone) {
             setActiveChapter(chapterName);
-            //console.log(chapterName);
+            // console.log(chapterName);
             break;
         }
-        // else {
-        //    setActiveChapter('palampur');
-        // }
     }
 });
 
-var activeChapterName = 'opening';
 function setActiveChapter(chapterName) {
-    if(activeChapterName==='opening') {
-        // console.log("active opening")
-        animate(counter);
-        //getRoute();
-    }
-    if (chapterName === activeChapterName) return;
+    if (chapterName === activeChapterName) return;  
     map.setMaxZoom((chapters[chapterName]).maxZoom);    
     map.flyTo(chapters[chapterName]);
 
     document.getElementById(chapterName).classList.add('active');
-    document.getElementById(chapterName).style.visibility="visible";
-    document.getElementById(chapterName).lastElementChild.style.visibility="visible";
+    //document.getElementById(chapterName).style.visibility="visible";
+    // document.getElementById(chapterName).lastElementChild.style.visibility="visible";
     document.getElementById(activeChapterName).classList.remove('active');
 
     activeChapterName = chapterName;
