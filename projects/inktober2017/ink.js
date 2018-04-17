@@ -27,8 +27,8 @@ for (var i = 0; i < projects.length; i++) {
   var project = projects[i];
   var tmpl = document.getElementById('card-template').content.cloneNode(true);
   tmpl.querySelector('.img-fluid').src = project.location;
-  tmpl.querySelector('.card-title').innerText = project.title;
-  tmpl.querySelector('.card-text').innerText = project.body;
+  tmpl.querySelector('.card-title').innerHTML = project.title;
+  tmpl.querySelector('.card-text').innerHTML = project.body;
   imagesList.appendChild(tmpl);
 }
 //CONTENT END
@@ -53,33 +53,10 @@ function scrollFunction() {
         $('#title').removeClass('h1');
     }    
 }
-//changing the title size on mobile
-// function titleSize() {
-//     if ($(window).innerWidth() < 768) 
-//     {
-//         $('.title').removeClass('display-1');
-//         $('.title').addClass('h1');
-//     }
-//     else {
-//         $('.title').addClass('display-1');
-//         $('.title').removeClass('h1');
-//     } 
-// }
-// $(document).ready(function() {
-//     titleSize();
-// });
-// $(document).resize(function() {
-//     titleSize();
-// });
+
 // Update copyright with current year
 var d = new Date();
 $("footer #date").text(d.getFullYear()); 
-
-// When the user clicks on the button, scroll to the top of the document
-// function topFunction() {
-//     document.body.scrollTop = 0; // For Chrome, Safari and Opera 
-//     document.documentElement.scrollTop = 0; // For IE and Firefox
-// }
 
 
 
