@@ -7,3 +7,6 @@
 [submodule "projects/global-climate-dataviz"]
 	path = projects/global-climate-dataviz
 	url = https://github.com/pkd2512/global-climate-dataviz.git
+[submodule "projects/race-to-the-south-pole-dataviz"]
+	path = projects/race-to-the-south-pole-dataviz
+	url = https://github.com/pkd2512/race-to-the-south-pole-dataviz.git
