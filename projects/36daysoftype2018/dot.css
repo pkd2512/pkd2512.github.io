@@ -1,0 +1,106 @@
+#cover {
+    min-height: 100vh;    
+    overflow-y: auto;
+    background: #41295a; /* For browsers that do not support gradients */
+    background: -webkit-linear-gradient(-90deg,#2F0743, #41295a); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(-90deg, #2F0743 #41295a); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(-90deg, #2F0743 #41295a); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(-90deg, #2F0743 #41295a); /* Standard syntax */
+    /* background: linear-gradient(0deg, rgba(47,7,67,0.8), rgba(65,41,90,0.8)), url("https://www.transparenttextures.com/patterns/fabric-of-squares.png"), center no-repeat; */ /* Standard syntax */
+    /* background-blend-mode: overlay; */
+}
+#cover .title {
+    font-size: 6rem;
+}
+@media (max-width: 768px) {
+    #cover .title {
+        font-size: 2.5rem;
+    }
+}
+#cover .row-cover {
+    min-height: 80%;
+    margin-top: 10rem;
+}
+#cover .title{
+    color: #fafafa !important;
+}
+#cover hr {
+    width: 5rem;
+    border-color: #fafafa;
+}
+.lead {
+    line-height: 1.618;
+}
+i {
+    color: #6f42c1;
+    /* color: #512da8; */
+}
+.parallax {
+    background-image: url('images/hero.jpg');
+    position: relative;
+    height: 100vh;
+    background-attachment: fixed;
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+#top {
+    bottom: 4rem;
+    right: 4rem;
+    display: none;
+}
+#process {
+    background: #ffffff;
+}
+.greengrad {
+    background: -webkit-linear-gradient(0deg,#45ada8, #59C9A5); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(0deg, #45ada8 #59C9A5); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(0deg, #45ada8 #59C9A5); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(0deg, #45ada8 #59C9A5); /* Standard syntax */
+}
+
+
+/* 
+.card.card-cascade.wider {
+    background-color: transparent;
+}
+.card.card-cascade.wider .view {
+    z-index: 2;
+}
+.card.card-cascade .view {
+    border-radius: 4px;
+    -webkit-box-shadow: 0 8px 17px 0 rgba(0,0,0,.2), 0 6px 20px 0 rgba(0,0,0,.19);
+    box-shadow: 0 8px 17px 0 rgba(0,0,0,.2), 0 6px 20px 0 rgba(0,0,0,.19);
+}
+.card.card-cascade.wider, .modal-dialog.cascading-modal.modal-avatar .modal-header, .z-depth-0 {
+    -webkit-box-shadow: none!important;
+    box-shadow: none!important;
+}
+.card.card-cascade {
+    display: inline-block;
+}
+.card.card-cascade.wider.reverse .card-body {
+    z-index: 3;
+    margin-top: -1rem;
+    border-radius: 4px;
+    -webkit-box-shadow: 0 5px 11px 0 rgba(0,0,0,.18), 0 4px 15px 0 rgba(0,0,0,.15);
+    box-shadow: 0 5px 11px 0 rgba(0,0,0,.18), 0 4px 15px 0 rgba(0,0,0,.15);
+}
+.card.card-cascade.wider .card-body {
+    margin-left: 4%;
+    margin-right: 4%;
+    background: #fff;
+    z-index: 1;
+    border-radius: 0 0 .3rem .3rem;
+}
+.card.card-cascade .card-body {
+    padding-top: 1.8rem;
+}
+.card .card-body {
+    position: relative;
+}
+.view {
+    overflow: hidden;
+    position: relative;
+    cursor: default;
+} */
