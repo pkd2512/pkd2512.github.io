@@ -48,3 +48,6 @@ else {
   console.log('Templates are not supported');
 }
 
+// Update copyright with current year
+var d = new Date();
+$("footer #date").text(d.getFullYear());
