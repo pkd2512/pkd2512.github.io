@@ -3,7 +3,7 @@
       "location": "thumbs/nasdataviz.jpg",
       "title": "What makes an Achiever",
       "body": "Visualising student performance based on the National Achievement Survey 2014",
-      "url": "http://prasantakrdutta.com/projects/nas-dataviz/",
+      "url": "/projects/nas-dataviz/",
       "target": "_blank",
       "tags": [
          "Data Visualisation",
@@ -12,11 +12,23 @@
       ]
    },
    {
+      "location": "thumbs/soulace.jpg",
+      "title": "Soulace",
+      "body": "Making death care service experiences more humane and less unpleasant",
+      "url": "/projects/soulace/",
+      "target": "_self",
+      "tags": [
+        "Service Design",
+        "UX Design",
+        "UI Design"
+      ]
+   },
+   {
       "location": "thumbs/warmingplanet.jpg",
       "title": "The Warming Planet",
       "body": "Visualising the global temperature changes to understand global warming - Work in Progress",
-      "url": "http://prasantakrdutta.com/projects/global-climate-dataviz/",
-      "target": "_self",
+      "url": "/projects/global-climate-dataviz/",
+      "target": "_blank",
       "tags": [
          "Data Visualisation",
          "Infographic",
@@ -48,7 +60,7 @@
       "location": "thumbs/andretta.jpg",
       "title": "Andretta",
       "body": "Exploring Palampur through the lens with special focus on Andretta slipware pottery",
-      "url": "http://prasantakrdutta.com/projects/andretta/",
+      "url": "/projects/andretta/",
       "target": "_self",
       "tags": [
          "Photojournalism",
