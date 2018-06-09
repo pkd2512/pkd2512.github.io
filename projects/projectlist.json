@@ -1,5 +1,16 @@
 [
    {
+      "location": "thumbs/idem.jpg",
+      "title": "Idem",
+      "body": "Imagining a people-centric identity model for sustainable governance in India",
+      "url": "/projects/identity-system-design/",
+      "target": "_self",
+      "tags": [
+         "System Design",
+         "UX Design"
+      ]
+   },
+   {
       "location": "thumbs/nasdataviz.jpg",
       "title": "What makes an Achiever",
       "body": "Visualising student performance based on the National Achievement Survey 2014",
@@ -7,7 +18,6 @@
       "target": "_blank",
       "tags": [
          "Data Visualisation",
-         "Infographic",
          "Data Art"
       ]
    },
@@ -31,7 +41,6 @@
       "target": "_blank",
       "tags": [
          "Data Visualisation",
-         "Infographic",
          "Data Art"
       ]
    },
@@ -99,7 +108,7 @@
       "tags": [
          "Instructional Design",
          "Illustrations",
-         "Infographic"
+         "Graphic Design"
       ]
    },
    {
