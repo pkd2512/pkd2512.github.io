@@ -97,6 +97,14 @@ if (matchMedia) {
         $("#blog-btn").removeClass("hidden");
     }  
   }
+
+/* Image protection code */
+
+// Disable dragging of images
+$("img").mousedown(function(){
+    return false;
+});
+/* End of image protection code */
 // Update copyright with current year
 var d = new Date();
 $("footer #date").text(d.getFullYear());
