@@ -79,6 +79,15 @@ body {
 	background-color: #41295a!important;
 	/* background-color: #42275a!important; */
 }
+/* Modal custom backdrop */
+.modal-backdrop{
+    opacity:0; 
+    transition: opacity .2s ease;
+    background-color: #000;
+}
+.modal-backdrop.show {
+opacity: 0.9;
+}
 
 /**** Pre-Loader *****/
 .no-js #loader { display: none;  }
