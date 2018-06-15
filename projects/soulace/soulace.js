@@ -30,6 +30,16 @@ function scrollFunction() {
 //     document.getElementById('web-video').innerHTML = '<iframe width="960" height="540" src="images/soulace-web.mp4" frameborder="0"></iframe>';
 // }
 
+// Magnifier
+var evt = new Event(),
+    m = new Magnifier(evt);
+m.attach({
+    thumb: '#laptopexp',
+    large: 'images/laptopexp@2x.png',
+    mode: 'inside',
+    zoom: 2
+});
+
 /* Image protection code */
 
 // Disable dragging of images

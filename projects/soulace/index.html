@@ -5,19 +5,40 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-43582646-2"></script>
     <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
+        window.dataLayer = window.dataLayer || [];
 
-    gtag('config', 'UA-43582646-2');
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+
+        gtag('config', 'UA-43582646-2');
     </script>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>soulace UI Design | Prasanta Kr Dutta</title>
     <meta name="Description" content="Prasanta Kr Dutta is an Information Experience Designer from NID Bangalore, passionate about UI/UX design, Data Visualisation and Photography. He loves solving problems in an aesthetically pleasing way. When he is not designing, he likes to indulge in culinary pleasures.">
-    <meta name="Keywords" content="User interface, User Experience, Designer, Information visualization, Data Narratives, Graphic Design, User centered design, UX, UI, Data Art, Web design, Photography, Travel, Creative writer, Electronics and Communication Engineer, National Institute of Design, National Institute of Technology Durgapur, soulace, data donation, soulace Platform For Donation Of Data, ngo, education, online learning">
+    <meta name="Keywords" content="User interface, User Experience, Designer, Information visualization, Data Narratives, Graphic Design, User centered design, UX, UI, Data Art, Web design, Photography, Travel, Creative writer, Electronics and Communication Engineer, National Institute of Design, National Institute of Technology Durgapur">
     <meta name="author" content="Prasanta Kr Dutta">
+    <!-- FB cards -->
+    <meta property="og:title" content="Identity System Design | Prasanta Kr Dutta" />
+    <meta property="og:type" content="website"/>
+    <meta property="og:url" content="http://prasantakrdutta.com/projects/soulace/" />
+    <meta property="og:image" content="http://prasantakrdutta.com/projects/thumbs/soulace.jpg" />
+    <meta property="og:site_name" content="Prasanta Kr Dutta" />
+    <!-- <meta property="fb:app_id" content="1234567890987654321"/> -->
+    <meta property="og:description" content="An attempt to understand the concept of identity, analyse the Aadhar system to identify key problems and propose a modified people-centric identity model that can help India achieve its goals of sustainable governance. Prasanta Kr Dutta is an Information Experience Designer from NID Bangalore, passionate about UI/UX design, Data Visualisation and Photography. He loves solving problems in an aesthetically pleasing way. When he is not designing, he likes to indulge in culinary pleasures."
+    />
+
+    <!-- Twitter cards -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Identity System Design | Prasanta Kr Dutta" />
+    <meta name="twitter:description" content="An attempt to understand the concept of identity, analyse the Aadhar system to identify key problems and propose a modified people-centric identity model that can help India achieve its goals of sustainable governance. I have tried to create visuals that would otherwise have been difficult to be done manually. Prasanta Kr Dutta is an Information Experience Designer from NID Bangalore, passionate about UI/UX design, Data Visualisation and Photography. He loves solving problems in an aesthetically pleasing way. When he is not designing, he likes to indulge in culinary pleasures."
+    />
+    <meta name="twitter:url" content="http://prasantakrdutta.com/projects/soulace/" />
+    <meta name="twitter:image" content="http://prasantakrdutta.com/projects/thumbs/soulace.jpg" />
+
     <link rel="shortcut icon" href="../../favicon.png" type="image/x-icon">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="../../css/font-awesome.min.css">
@@ -25,6 +46,8 @@
     <link href="../../css/bootstrap.min.css" rel="stylesheet">
     <!-- Material Design Bootstrap -->
     <link href="../../css/mdb.min.css" rel="stylesheet">
+    <!-- Magnifier -->
+    <link href="../../css/magnifier.css" rel="stylesheet">
     <!-- Your custom styles (optional) -->
     <link href="../../css/style.css" rel="stylesheet">
     <link href="soulace.css" rel="stylesheet">
@@ -36,7 +59,9 @@
     <nav class="navbar navbar-expand-lg navbar-dark purple fixed-top scrolling-navbar animated fadeInDown">
         <div class="container">
             <!-- Navbar brand -->
-            <a class="navbar-brand" href="../../"><img src="../../img/logo.png" height="36"></a>
+            <a class="navbar-brand" href="../../">
+                <img src="../../img/logo.png" height="36">
+            </a>
 
             <!-- Collapse button -->
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
@@ -59,27 +84,38 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link email-ic" href="mailto:pkd@prasantakrdutta.com?subject=Hello%20Prasanta!%20Visited%20your%20website%20today" target="_blank">
-                            <i class="fa fa-envelope" aria-hidden="true"></i> 
+                        <a class="nav-link email-ic" href="mailto:pkd@prasantakrdutta.com?subject=Hello%20Prasanta!%20Visited%20your%20website%20today"
+                            target="_blank">
+                            <i class="fa fa-envelope" aria-hidden="true"></i>
                             Get in touch&emsp;|</a>
                     </li>
                     <!-- <li class="nav-item">
                         <a class="nav-link icons-sm fb-ic" href="#"><i class="fa fa-facebook"> </i></a>
-                    </li> -->                    
+                    </li> -->
                     <li class="nav-item">
-                        <a class="nav-link icons-sm tw-ic" href="https://twitter.com/Da_Pacific" target="_blank"><i class="fa fa-twitter"> </i></a>
+                        <a class="nav-link icons-sm tw-ic" href="https://twitter.com/Da_Pacific" target="_blank">
+                            <i class="fa fa-twitter"> </i>
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link icons-sm li-ic" href="https://www.linkedin.com/in/pkddapacific/" target="_blank"><i class="fa fa-linkedin"> </i></a>
+                        <a class="nav-link icons-sm li-ic" href="https://www.linkedin.com/in/pkddapacific/" target="_blank">
+                            <i class="fa fa-linkedin"> </i>
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link icons-sm ins-ic" href="https://www.instagram.com/pkd_da_pacific/" target="_blank"><i class="fa fa-instagram"> </i></a>
+                        <a class="nav-link icons-sm ins-ic" href="https://www.instagram.com/pkd_da_pacific/" target="_blank">
+                            <i class="fa fa-instagram"> </i>
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link icons-sm" href="https://www.behance.net/pkddapacific" target="_blank"><i class="fa fa-behance"> </i></a>
+                        <a class="nav-link icons-sm" href="https://www.behance.net/pkddapacific" target="_blank">
+                            <i class="fa fa-behance"> </i>
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link icons-sm" href="https://medium.com/diarium-da-pacific" target="_blank"><i class="fa fa-medium"> </i></a>
+                        <a class="nav-link icons-sm" href="https://medium.com/diarium-da-pacific" target="_blank">
+                            <i class="fa fa-medium"> </i>
+                        </a>
                     </li>
                     <!-- <li class="nav-item">
                         <a class="nav-link icons-sm" href="https://github.com/pkd2512" target="_blank"><i class="fa fa-github"> </i></a>
@@ -116,54 +152,88 @@
         <div class="row justify-content-end row-cover wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">
             <div class="col-10 col-md-6 mx-auto align-self-end">
                 <h1 class="display-font display-1 title">soulace</h1>
-                <p class="h3-responsive text-font">"While we put so much efforts and resources into making smooth userflows to order cabs and coffee and better manicure services, why are the most gut wrenching experiences treated with such shoddiness?!"
-                     <!-- &mdash; <em>Madhura</em> -->
-                    </p>
+                <p class="h3-responsive text-font">"While we put so much efforts and resources into making smooth userflows to order cabs and coffee and better
+                    manicure services, why are the most gut wrenching experiences treated with such shoddiness?!"
+                    <!-- &mdash; <em>Madhura</em> -->
+                </p>
                 <hr class="my-4">
                 <br>
                 <!-- <p class="lead text-font">Death is an unavoidable part of life and dealing with that of a loved one is perhaps the most difficult task that one faces on life. Besides coping with the emotional trauma, one also has to deal with hospitals, funeral homes, offices and their convoluted formalities as a part of the situation &mdash; which, however is not a pleasant one.<br><br> I worked on the User Interface Design of the mobile app for soulace during my internship at Rupeelog in the summer of 2017.
                 </p> -->
-                <p class="lead text-font">Coping with the death of a loved one is not an easy task. There is a need for a service for such situations that can make the experience of dealing with hospitals, funeral homes, offices and their convoluted formalities a less unpleasant one. <br> <br> I worked on designing this service for Design Project II during my 3rd semester. 
+                <p class="lead text-font">Coping with the death of a loved one is not an easy task. There is a need for a service for such situations
+                    that can make the experience of dealing with hospitals, funeral homes, offices and their convoluted formalities
+                    a less unpleasant one.
+                    <br>
+                    <br> I worked on designing this service for Design Project II during my 3rd semester.
                 </p>
             </div>
         </div>
         <div class="container wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">
             <div class="row justify-content-center py-3">
                 <div class="col-10 col-md-auto mx-auto align-self-end">
-                    <span><i class="fa fa-calendar fa-lg fa-fw" aria-hidden="true"></i></span>
+                    <span>
+                        <i class="fa fa-calendar fa-lg fa-fw" aria-hidden="true"></i>
+                    </span>
                     <span class="text-font small">4 Weeks</span>
                 </div>
                 <div class="col-10 col-md-auto mx-auto align-self-end">
-                    <span><i class="fa fa-briefcase fa-lg fa-fw" aria-hidden="true"></i></span>
+                    <span>
+                        <i class="fa fa-briefcase fa-lg fa-fw" aria-hidden="true"></i>
+                    </span>
                     <span class="text-font small">National Institute of Design, Bangalore</span>
                 </div>
                 <div class="col-10 col-md-auto mx-auto align-self-end">
-                    <span><i class="fa fa-user fa-lg fa-fw" aria-hidden="true"></i></span>
+                    <span>
+                        <i class="fa fa-user fa-lg fa-fw" aria-hidden="true"></i>
+                    </span>
                     <span class="text-font small">Individual</span>
                 </div>
             </div>
         </div>
-    </div>   
+    </div>
 
     <!-- Parallax image -->
     <div class="parallax">
     </div>
 
-    <!-- Design Brief -->    
+    <!-- Design Brief -->
     <div class="container text-left">
         <div class="row justify-content-start py-5">
             <div class="col-10 col-md-8 mx-auto align-self-start  wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">
                 <h1 class="h1-responsive display-font py-3">Background</h1>
-                <p class="lead text-font">Death is an unavoidable part of life and dealing with that of a loved one is perhaps the most difficult task that one faces in life. Besides coping with the emotional trauma, one also has to take care of everything associated with the deceased &mdash; starting from performing the last rites to settling the official matters to provide for his family. A lot happens over a very short span of time, which involves interacting with various stakeholders, understanding their processes and working accordingly to fulfil one's goals. Not surprisingly though, an entire industry has evolved around this. While there is no official estimate, the death-care industry is worth about $2.5 billion in India (as of 2015), where about 8.5 million die every year. The US death-care industry is worth nearly $20 billion. 
+                <p class="lead text-font">Death is an unavoidable part of life and dealing with that of a loved one is perhaps the most difficult task
+                    that one faces in life. Besides coping with the emotional trauma, one also has to take care of everything
+                    associated with the deceased &mdash; starting from performing the last rites to settling the official
+                    matters to provide for his family. A lot happens over a very short span of time, which involves interacting
+                    with various stakeholders, understanding their processes and working accordingly to fulfil one's goals.
+                    Not surprisingly though, an entire industry has evolved around this. While there is no official estimate,
+                    the death-care industry is worth about $2.5 billion in India (as of 2015), where about 8.5 million die
+                    every year. The US death-care industry is worth nearly $20 billion.
                 </p>
                 <blockquote class="">
-                    <p class="mb-0 lead subtext-font">Death-care industry &mdash; companies and organizations that provide services related to death: funerals, cremation or burial, and memorials, including funeral homes, coffins, crematoria, cemeteries, and headstones.</p>
+                    <p class="mb-0 lead subtext-font">Death-care industry &mdash; companies and organizations that provide services related to death: funerals,
+                        cremation or burial, and memorials, including funeral homes, coffins, crematoria, cemeteries, and
+                        headstones.</p>
                 </blockquote>
             </div>
             <div class="w-100 py-3"></div>
             <div class="col-10 col-md-8 mx-auto align-self-start  wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">
                 <h1 class="h1-responsive display-font py-3">The Problem</h1>
-                <p class="lead text-font">So how did people manage death before all these? <br><br> Generally, it worked on the basis of information that was passed on through families or friends. And even today, it works that way for people who have lived at the same place for the most part of their lifetime. But as families get nuclear and spread across for education and jobs, access to such means of information diminishes.<br>The current death-care companies are mostly service providers of some form &mdash; cremation, burial, repatriation and so on and they operate locally. Even though one can find them on the internet, actually availing their services is still daunting because the different service providers need to be understood and dealt with separately. Also, with the increasing population, the demand for the services has also increased. Availing them requires aquiring the right information and taking the right actions &mdash; something that can be eased with the use of technology today, without increasing the cognitive load on the person.<br> Also, these service providers do not deal with how the person handles official work like insurances and banking, nor do they have proper information systems in place.                        
+                <p class="lead text-font">So how did people manage death before all these?
+                    <br>
+                    <br> Generally, it worked on the basis of information that was passed on through families or friends. And
+                    even today, it works that way for people who have lived at the same place for the most part of their
+                    lifetime. But as families get nuclear and spread across for education and jobs, access to such means
+                    of information diminishes.
+                    <br>The current death-care companies are mostly service providers of some form &mdash; cremation, burial,
+                    repatriation and so on and they operate locally. Even though one can find them on the internet, actually
+                    availing their services is still daunting because the different service providers need to be understood
+                    and dealt with separately. Also, with the increasing population, the demand for the services has also
+                    increased. Availing them requires aquiring the right information and taking the right actions &mdash;
+                    something that can be eased with the use of technology today, without increasing the cognitive load on
+                    the person.
+                    <br> Also, these service providers do not deal with how the person handles official work like insurances
+                    and banking, nor do they have proper information systems in place.
                 </p>
                 <div class="row pt-3">
                     <div class="col-10 col-md-4 mx-auto pb-3 wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">
@@ -175,28 +245,33 @@
                     <div class="col-10 col-md-4 mx-auto pb-3 wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.8s">
                         <figure class="figure">
                             <img src="images/prob2.png" class="figure-img prob-img img-fluid mx-auto d-block" alt="">
-                            <figcaption class="text-font small text-center">Booking crematoriums, and graves can be a daunting task and may not be easily available for immediate requirements</figcaption>
+                            <figcaption class="text-font small text-center">Booking crematoriums, and graves can be a daunting task and may not be easily available for immediate
+                                requirements</figcaption>
                         </figure>
                     </div>
                     <div class="col-10 col-md-4 mx-auto pb-3 wow animated fadeIn" data-wow-duration="1s" data-wow-delay="1.1s">
                         <figure class="figure">
                             <img src="images/prob3.png" class="figure-img prob-img img-fluid mx-auto d-block" alt="">
-                            <figcaption class="text-font small text-center">Funeral rites vary with religion and region, and encompasses various ceremonies that require accessing a range of added services like getting priests, materials, halls, etc.
-                                </figcaption>
+                            <figcaption class="text-font small text-center">Funeral rites vary with religion and region, and encompasses various ceremonies that require
+                                accessing a range of added services like getting priests, materials, halls, etc.
+                            </figcaption>
                         </figure>
                     </div>
                     <!-- <div class="w-100 py-3"></div> -->
                     <div class="col-10 col-md-4 mx-auto wow animated fadeIn" data-wow-duration="1s" data-wow-delay="1.4s">
                         <figure class="figure">
                             <img src="images/prob4.png" class="figure-img prob-img img-fluid mx-auto d-block" alt="">
-                            <figcaption class="text-font small text-center">Post death, handling office related work for financial and legal matters become a heavy task due to lack of proper feedback from the system, delays and related paperwork and footwork</figcaption>
+                            <figcaption class="text-font small text-center">Post death, handling office related work for financial and legal matters become a heavy task
+                                due to lack of proper feedback from the system, delays and related paperwork and footwork</figcaption>
                         </figure>
                     </div>
                     <div class="col-10 col-md-4 mx-auto wow animated fadeIn" data-wow-duration="1s" data-wow-delay="1.7s">
                         <figure class="figure">
                             <img src="images/prob5.png" class="figure-img prob-img img-fluid mx-auto d-block" alt="">
-                            <figcaption class="text-font small text-center">Lack of a proper information system that can not only tell the person what to do for various stages, but also assist him in doing so – like matters of succession, keeping track of pension applications etc.
-                                </figcaption>
+                            <figcaption class="text-font small text-center">Lack of a proper information system that can not only tell the person what to do for various
+                                stages, but also assist him in doing so – like matters of succession, keeping track of pension
+                                applications etc.
+                            </figcaption>
                         </figure>
                     </div>
                     <div class="col-10 col-md-4 mx-auto wow animated fadeIn" data-wow-duration="1s" data-wow-delay="2s">
@@ -205,36 +280,65 @@
                             <figcaption class="text-font small text-center">Lack of sharing of information and experience openly in the community</figcaption>
                         </figure>
                     </div>
-                </div>                
+                </div>
             </div>
-        </div>   
+        </div>
         <div class="row justify-content-start py-3">
             <div class="col-10 col-md-8 mx-auto align-self-start">
                 <span class="wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">
-                <h1 class="h1-responsive display-font py-3">The Solution</h1> 
-                <blockquote class="">
-                    <p class="mb-0 lead subtext-font">Assistive-Agentive service &mdash; Agentive technology, based on Artificial Narrow Intelligence, does things on your behalf, while allowing you to turn your attention elsewhere. This is an emerging category of technology, which will need new approaches to user experience design. This intelligence can learn and infer but cannot generalise.</p>
-                    <footer class="blockquote-footer">Chris Noessel  , <cite title="Source Title">Designing Agentive Technology: AI That Works for People</cite></footer>
-                </blockquote>
+                    <h1 class="h1-responsive display-font py-3">The Solution</h1>
+                    <blockquote class="">
+                        <p class="mb-0 lead subtext-font">Assistive-Agentive service &mdash; Agentive technology, based on Artificial Narrow Intelligence,
+                            does things on your behalf, while allowing you to turn your attention elsewhere. This is an emerging
+                            category of technology, which will need new approaches to user experience design. This intelligence
+                            can learn and infer but cannot generalise.</p>
+                        <footer class="blockquote-footer">Chris Noessel ,
+                            <cite title="Source Title">Designing Agentive Technology: AI That Works for People</cite>
+                        </footer>
+                    </blockquote>
                 </span>
                 <br>
-                <p class="lead text-font wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">The service is envisioned to simplify the complete scenario related to handling the death of a loved one.<br></p>
+                <p class="lead text-font wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">The service is envisioned to simplify the complete scenario related to handling the death of a loved one.
+                    <br>
+                </p>
                 <p>
                     <ul>
-                        <li><p class="lead text-font wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">Informing people, arranging for immediate family care (if needed), doctor related formalities.</p></li>
-                        <li><p class="lead text-font wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">Arranging for funeral and related matters.</p></li>
-                        <li><p class="lead text-font wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">Handle accidental, police, legal or medical issues.</p></li>
-                        <li><p class="lead text-font wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">Financial consulting, easy managing of insurance claims, pension, and handling of bank accounts etc.
-                        </p></li>
-                        <li><p class="lead text-font wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">Keep track of documents online and easy application process for every stakeholder interaction and an efficient feedback system to keep the user informed at every stage of the process.</p></li>
-                        <li><p class="lead text-font wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">Users can later opt to answer queries from other people, to help them out when they are in a similar situation.</p></li>
+                        <li>
+                            <p class="lead text-font wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">Informing people, arranging for immediate family care (if needed), doctor related formalities.</p>
+                        </li>
+                        <li>
+                            <p class="lead text-font wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">Arranging for funeral and related matters.</p>
+                        </li>
+                        <li>
+                            <p class="lead text-font wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">Handle accidental, police, legal or medical issues.</p>
+                        </li>
+                        <li>
+                            <p class="lead text-font wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">Financial consulting, easy managing of insurance claims, pension, and handling of bank accounts
+                                etc.
+                            </p>
+                        </li>
+                        <li>
+                            <p class="lead text-font wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">Keep track of documents online and easy application process for every stakeholder interaction
+                                and an efficient feedback system to keep the user informed at every stage of the process.</p>
+                        </li>
+                        <li>
+                            <p class="lead text-font wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">Users can later opt to answer queries from other people, to help them out when they are in a
+                                similar situation.</p>
+                        </li>
                     </ul>
-                </p><br>
-                <p class="lead text-font wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">The system involves a large number of stakeholders, including government agencies, that will need to come together to provide the various services required. In this project I have focussed on the end-user to lay out a general framework for the system and designed the interface that the user will need to avail the services.</p>
-                
-                <p class="text-font small  wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s"><em>*Due to constraints of time and resources, I have designed the prototype for a single segment of the service, which establishes the working of the interface and the system.</em></p>                
-            </div>  
-        </div> 
+                </p>
+                <br>
+                <p class="lead text-font wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">The system involves a large number of stakeholders, including government agencies, that will need to come
+                    together to provide the various services required. In this project I have focussed on the end-user to
+                    lay out a general framework for the system and designed the interface that the user will need to avail
+                    the services.</p>
+
+                <p class="text-font small  wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">
+                    <em>*Due to constraints of time and resources, I have designed the prototype for a single segment of the
+                        service, which establishes the working of the interface and the system.</em>
+                </p>
+            </div>
+        </div>
         <div class="row">
             <!-- <figure class="figure">
                 <img src="images/solution-mockup.png" class="figure-img img-fluid mx-auto d-block" alt="">
@@ -243,10 +347,10 @@
 
             <!-- YouTube custom embedder https://www.classynemesis.com/projects/ytembed/ -->
             <!-- <div class="col mx-auto" id="web-video" onclick="webPlay();"> -->
-                <!-- <iframe id="ytplayer" type="text/html" width="960" height="540" frameborder="0"
+            <!-- <iframe id="ytplayer" type="text/html" width="960" height="540" frameborder="0"
                 src="https://www.youtube.com/embed/eKWGqI9bkX8?autoplay=1&mute=1&vq=hd720&controls=1&enablejsapi=1&loop=1&playlist=eKWGqI9bkX8&modestbranding=1&playsinline=1&rel=0&showinfo=0&color=white&iv_load_policy=3"
                 frameborder="0" allowfullscreen></iframe> -->
-                <!-- <div class="youtube-player" data-id="eKWGqI9bkX8" data-related="0" data-control="1" data-info="0" data-fullscreen="0" style="width:100%;display: block; position: relative;cursor: pointer;max-height:540px;height:100%; overflow:hidden;padding-bottom:56.25%;margin:0 auto"> <img src="images/solution-mockup.png" style="bottom: -100%; display: block; left: 0; margin: auto; max-width: 100%; width: 100%;height:auto; position: absolute; right: 0; top: -100%;"> <div style="height: 72px; width: 72px; left: 50%; top: 50%; margin-left: -36px; margin-top: -36px; position: absolute; background: url('http://i.imgur.com/TxzC70f.png') no-repeat;"></div> </div>  -->
+            <!-- <div class="youtube-player" data-id="eKWGqI9bkX8" data-related="0" data-control="1" data-info="0" data-fullscreen="0" style="width:100%;display: block; position: relative;cursor: pointer;max-height:540px;height:100%; overflow:hidden;padding-bottom:56.25%;margin:0 auto"> <img src="images/solution-mockup.png" style="bottom: -100%; display: block; left: 0; margin: auto; max-width: 100%; width: 100%;height:auto; position: absolute; right: 0; top: -100%;"> <div style="height: 72px; width: 72px; left: 50%; top: 50%; margin-left: -36px; margin-top: -36px; position: absolute; background: url('http://i.imgur.com/TxzC70f.png') no-repeat;"></div> </div>  -->
             <!-- </div> -->
             <video controls controlsList="nodownload noremoteplayback" autoplay loop poster="images/solution-mockup.png">
                 <source src="images/soulace-web.mp4" type="video/mp4">
@@ -257,7 +361,7 @@
                 <figcaption class="text-font small text-center">The consumer-side interface for soulace</figcaption>
             </figure>
         </div>
-         <!-- Decision buttons  -->
+        <!-- Decision buttons  -->
         <!-- <div class="row smooth-scroll justify-content-center py-3">
             <a href="#process" class="btn btn-deep-purple hoverable">Read my process</a>
             <a href="#prototype" class="btn purple hoverable">View Prototype</a>
@@ -267,39 +371,48 @@
         <div class="container">
             <div class="row justify-content-center py-5 mt-5 wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">
                 <div class="col-10 col-md-8 mx-auto align-self-start">
-                    <p class="h3-responsive display-font py-3 mt-5">Understanding the ecosystem</p> 
-                    <p class="lead text-font">The different aspects related to the death of an individual were noted and categorized based on the kind of activities involved based on my personal experiences and secondary research. This gave a rough idea about the various areas that need to be addressed.</p>
+                    <p class="h3-responsive display-font py-3 mt-5">Understanding the ecosystem</p>
+                    <p class="lead text-font">The different aspects related to the death of an individual were noted and categorized based on the kind
+                        of activities involved based on my personal experiences and secondary research. This gave a rough
+                        idea about the various areas that need to be addressed.</p>
                 </div>
             </div>
         </div>
         <div class="container-fluid">
             <div class="row justify-content-center">
-                <figure class="figure pb-5 wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">
-                    <img src="images/Death_Care_Service.png" class="figure-img img-fluid" alt="">
+                <figure class="figure figure-wide pb-5 wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">
+                    <img src="images/Death_Care_Service.png" class="figure-img img-wide" alt="">
                     <!-- <figcaption class="text-font small text-center">The different aspects related to the death of an individual were noted and categorized</figcaption> -->
-                </figure> 
+                </figure>
             </div>
-        </div>              
+        </div>
         <div class="container">
             <div class="row justify-content-center wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">
                 <div class="col-10 col-md-8 mx-auto align-self-start">
-                    <p class="lead text-font">Before proceeding further, I wanted to know what people, who have dealt with death in the family or otherwise, had to say about their experiences in terms of dealing with different stakeholders and the idea of a death-care service. I circulated a survey in my circles and had received quite a response. </p>
+                    <p class="lead text-font">Before proceeding further, I wanted to know what people, who have dealt with death in the family or otherwise,
+                        had to say about their experiences in terms of dealing with different stakeholders and the idea of
+                        a death-care service. I circulated a survey in my circles and had received quite a response. </p>
                     <div class="row justify-content-center pb-5">
                         <a class="btn deep-purple hoverable" data-toggle="modal" data-target="#surveyModal">Check out the survey questionnaire</a>
                     </div>
-                    <p class="lead text-font">Even though the answers varied based on the individual scenario, some common areas of thought were summarised as follows.
+                    <p class="lead text-font">Even though the answers varied based on the individual scenario, some common areas of thought were summarised
+                        as follows.
                     </p>
                     <figure class="figure py-5  wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">
                         <img src="images/survey-result.jpg" class="figure-img img-fluid" alt="">
                         <figcaption class="text-font small text-center">Views and feedback on death-care service from the survey</figcaption>
                     </figure>
-                    <p class="lead text-font  wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">From this it was evident that the problem needed to be addressed in two segments &mdash; things that need immediate attention and those that span over a period of time after the death of an individual. I began to break down the activities based on temporal priorities so that I could address them at the granular level in my design.
+                    <p class="lead text-font  wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">From this it was evident that the problem needed to be addressed in two segments &mdash; things that
+                        need immediate attention and those that span over a period of time after the death of an individual.
+                        I began to break down the activities based on temporal priorities so that I could address them at
+                        the granular level in my design.
                     </p>
                     <figure class="figure py-5  wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">
                         <img src="images/death1.jpg" class="figure-img img-fluid z-depth-1" alt="">
                         <figcaption class="text-font small text-center">Things that need immediate attention post-death</figcaption>
                     </figure>
-                    <p class="lead text-font  wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">In most cases, the death of family member is handled by the spouse or the children. So, I analysed a second segment (relating to financial / official matters) where the deceased is a parent.
+                    <p class="lead text-font  wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">In most cases, the death of family member is handled by the spouse or the children. So, I analysed a
+                        second segment (relating to financial / official matters) where the deceased is a parent.
                     </p>
                     <figure class="figure py-5  wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">
                         <img src="images/death2.jpg" class="figure-img img-fluid z-depth-1" alt="">
@@ -312,7 +425,9 @@
                 <div class="modal-dialog modal-lg" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <p class="text-font small px-3 py-3" id="exampleModalLabel">The questionnaire had two parts &mdash; Experience of dealing with death and Views on Death-care service. If the answer to the first question is 'NO', then the respondent skips to Section 3 of the survey.</p>
+                            <p class="text-font small px-3 py-3" id="exampleModalLabel">The questionnaire had two parts &mdash; Experience of dealing with death and Views on Death-care
+                                service. If the answer to the first question is 'NO', then the respondent skips to Section
+                                3 of the survey.</p>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -329,17 +444,41 @@
             </div>
             <div class="row justify-content-center wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">
                 <div class="col-10 col-md-8 mx-auto align-self-start">
-                    <p class="lead text-font">Now that I had a fair understanding of the problem, it was necessary to look into the current state of the death-care services in India. For this purpose, I did a competitive analysis of some of the prominent service providers in India.</p>
+                    <p class="lead text-font">Now that I had a fair understanding of the problem, it was necessary to look into the current state of
+                        the death-care services in India. For this purpose, I did a competitive analysis of some of the prominent
+                        service providers in India.</p>
                     <ul>
-                        <li><p class="lead text-font wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s"><em>Kashi Moksha Incorporation</em>, a funeral service, managed by a priest operating out of Varanasi.</p></li>
-                        <li><p class="lead text-font wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s"><em>Moksha-Sibil</em>, an online portal for Hindu final rites from Ahmedabad.</p></li>
-                        <li><p class="lead text-font wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s"><em>Anthyesti</em>, providing funeral services in Kolkata.</p></li>
-                        <li><p class="lead text-font wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s"><em>Swargadwara</em>, an Odisha based start-up that supports families in post-death rituals.
-                        </p></li>
-                        <li><p class="lead text-font wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s"><em>Indian Funeral</em>, run by a coffin-maker family from Mumbai that provides last-rites services.</p></li>
-                        <li><p class="lead text-font wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">Repatriation service providers like <em>VMEDO and Sanjeevini.</em></p></li>
+                        <li>
+                            <p class="lead text-font wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">
+                                <em>Kashi Moksha Incorporation</em>, a funeral service, managed by a priest operating out of
+                                Varanasi.</p>
+                        </li>
+                        <li>
+                            <p class="lead text-font wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">
+                                <em>Moksha-Sibil</em>, an online portal for Hindu final rites from Ahmedabad.</p>
+                        </li>
+                        <li>
+                            <p class="lead text-font wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">
+                                <em>Anthyesti</em>, providing funeral services in Kolkata.</p>
+                        </li>
+                        <li>
+                            <p class="lead text-font wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">
+                                <em>Swargadwara</em>, an Odisha based start-up that supports families in post-death rituals.
+                            </p>
+                        </li>
+                        <li>
+                            <p class="lead text-font wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">
+                                <em>Indian Funeral</em>, run by a coffin-maker family from Mumbai that provides last-rites services.</p>
+                        </li>
+                        <li>
+                            <p class="lead text-font wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">Repatriation service providers like
+                                <em>VMEDO and Sanjeevini.</em>
+                            </p>
+                        </li>
                     </ul>
-                    <div class="w-100"></div>
+                </div>
+                <div class="w-100"></div>
+                <div class="col-10 col-md-6 mx-auto">
                     <figure class="figure py-5  wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">
                         <img src="images/compe.jpg" class="figure-img img-fluid" alt="">
                         <figcaption class="text-font small text-center">Current state of death-care service providers in India</figcaption>
@@ -348,50 +487,543 @@
             </div>
             <div class="row justify-content-center mt-3 wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">
                 <div class="col-10 col-md-8 mx-auto align-self-start">
-                    <p class="h3-responsive display-font py-3">Understanding the bereaved</p> 
-                    <p class="lead text-font">Based on the research, I mapped the journey of the bereaved, divided into three time-segments &mdash; <em>within 24 hours, between 24-48 hours, and within a month and beyond.</em> I mapped out the different activities involved and the experience of the bereaved while handling them. For some activities the boundaries are dilute, meaning that they might require immediate addressing, but take a while before they get resolved.</p>
+                    <p class="h3-responsive display-font py-3">Understanding the bereaved</p>
+                    <p class="lead text-font">Based on the research, I mapped the journey of the bereaved, divided into three time-segments &mdash;
+                        <em>within 24 hours, between 24-48 hours, and a month and beyond.</em> I mapped out the different activities
+                        involved and the experience of the bereaved while handling them. For some activities the boundaries
+                        are dilute, meaning that they might require immediate addressing, but take a while before they get
+                        resolved.</p>
                 </div>
-                <figure class="figure py-5  wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">
-                    <img src="images/expmap.jpg" class="figure-img img-fluid" alt="">
-                    <figcaption class="text-font small text-center">A generalised experience-map for the user-journey of the bereaved</figcaption>
-                </figure>
+                <div class="col-12 figure-wide mx-auto">
+                    <figure class="figure  py-5  wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">
+                        <img src="images/expmap.jpg" class="figure-img img-wide" alt="">
+                        <figcaption class="text-font small text-center">A generalised experience-map for the user-journey of the bereaved</figcaption>
+                    </figure>
+                </div>
                 <div class="col-10 col-md-8 mx-auto align-self-start wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">
-                    <p class="lead text-font">The experience-map presented a number of opportunities for the pain points at every stage. Each of them is a service in itself, which should make up the comprehensive solution for the death-care service.</p>
+                    <p class="lead text-font">The experience-map presented a number of opportunities for the pain points at every stage. Each of them
+                        is a service in itself, which should make up the comprehensive solution for the death-care service.</p>
                 </div>
             </div>
+            <div class="row justify-content-center mt-5 wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">
+                <div class="col-10 col-md-8 mx-auto align-self-start">
+                    <p class="h3-responsive display-font py-3">Designing the service</p>
+                    <p class="lead text-font">Given the vast scope of the service, I identified key requirements for the service as a whole and associated
+                        attributes/features. This established a basic framework that should encompass all the constituting
+                        offerings in the death-care solution.</p>
+                </div>
+                <div class="w-100 pt-5"></div>
+                <div class="col-10 col-md-4 mx-auto">
+                    <figure class="figure wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">
+                        <img src="images/sol1.png" class="figure-img img-fluid" alt="">
+                        <!-- <figcaption class="text-font small text-center">A generalised experience-map for the user-journey of the bereaved</figcaption> -->
+                    </figure>
+                </div>
+                <div class="col-10 col-md-4 mx-auto">
+                    <figure class="figure wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">
+                        <img src="images/sol2.png" class="figure-img img-fluid" alt="">
+                        <!-- <figcaption class="text-font small text-center">A generalised experience-map for the user-journey of the bereaved</figcaption> -->
+                    </figure>
+                </div>
+                <div class="col-10 col-md-4 mx-auto">
+                    <figure class="figure wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">
+                        <img src="images/sol3.png" class="figure-img img-fluid" alt="">
+                        <!-- <figcaption class="text-font small text-center">A generalised experience-map for the user-journey of the bereaved</figcaption> -->
+                    </figure>
+                </div>
+                <div class="w-100"></div>
+                <div class="col-10 col-md-8 mx-auto">
+                    <figcaption class="text-font small text-center">User needs and corresponding desired attributes of the service</figcaption>
+                </div>
+                <div class="w-100 pt-5"></div>
+                <div class="col-10 col-md-8 mx-auto wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">
+                    <p class="lead text-font">The user will use the interface to fulfil the requirements. The AI agents will strive to act as the connector
+                        between the users and the service providers. However, based on the physical nature of the processes,
+                        it will also involve some amount of interaction with the physical agents associated with the stakeholders.
+                        The service will integrate the different service providers and stakeholders for easy management and
+                        information exchange.</p>
+                </div>
+                <div class="col-12 col-md-8 mx-auto figure-wide">
+                    <figure class="figure py-5">
+                        <img src="images/model.jpg" class="figure-img img-wide" alt="">
+                        <figcaption class="text-font small text-center">Basic block diagram of operation of the death-care service</figcaption>
+                    </figure>
+                </div>
+                <div class="col-10 col-md-8 mx-auto wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">
+                    <p class="lead text-font">I focussed on designing the user-interface that will be used by the bereaved as a part of the death-care
+                        solution.</p>
+                </div>
+            </div>
+            <div class="row mt-5 justify-content-center">
+                <div class="col-10 col-md-8 mx-auto align-self-start">
+                    <p class="h3-responsive display-font py-3 wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">Creating an identity for the service</p>
+                    <p class="lead text-font">It was time that I gave a name to this service and delved a bit into graphic design. I decided to call
+                        the service
+                        <em>'soulace' &mdash; your companion in the face of distress helping you deal with the loss of your loved
+                            one.</em>
+                    </p>
+                </div>
+                <div class="col-12 col-md-8 mx-auto">
+                    <figure class="figure py-5 wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">
+                        <img src="images/soulace.png" class="figure-img img-fluid" alt="">
+                        <!-- <figcaption class="text-font small text-center">I associated keywords with the project and began sketching out ideas that involved WiFi, internet, people and of course the cursive 'D'</figcaption> -->
+                    </figure>
+                </div>
+                <div class="w-100"></div>
+                <div class="col-10 col-md-8 mx-auto wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">
+                    <p class="lead text-font">The next task was choosing a colour palette. Even though, black and red are usually associated with danger
+                        and death, such bold colours would alarm and distress the bereaved. I wanted to use hues that could
+                        create a sense of consolation and emotional strength in the difficult times and complement the mourning.
+                        I chose flowers used in funerals for colour reference as they are a visual expression of love, sympathy,
+                        and respect, as well as a means of lending support and sharing the burden of grief.
+                        <br>The lily is the flower most commonly associated with funeral services as they symbolize the innocence
+                        that has been restored to the soul of the departed. The marigold is a commonly used flower in Hindu
+                        funerals. It is also known as
+                        <em>flor de muerto</em> (flower of death) and is used extensively in Mexico during the
+                        <em>El Día de los Muertos</em>, a festival to remember and honour the departed.</p>
+                    <figure class="figure py-5">
+                        <img src="images/flower.jpg" class="figure-img img-fluid" alt="">
+                        <figcaption class="text-font small text-center">A purple Lily (left) and Marigold (right). Purple is associated with spirituality and mourning</figcaption>
+                    </figure>
+                </div>
+            </div>
+            <div class="row justify-content-center py-3 wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">
+                <div class="col-5 col-md-3">
+                    <div class="card">
+                        <h1 class="card-header" style="background:#39284b;">&nbsp;</h3>
+                            <div class="pt-3 pl-3">
+                                <p class="small text-font">purple-primary #39284B</p>
+                            </div>
+                    </div>
+                </div>
+                <div class="col-5 col-md-3">
+                    <div class="card">
+                        <h1 class="card-header" style="background:#F8FFC2;">&nbsp;</h3>
+                            <div class="pt-3 pl-3">
+                                <p class="small text-font">yellow-primary #F8FFC2</p>
+                            </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row justify-content-center py-3 wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">
+                <div class="col-5 col-md-3">
+                    <div class="card">
+                        <h1 class="card-header" style="background:#251335;">&nbsp;</h3>
+                            <div class="pt-3 pl-3">
+                                <p class="small text-font">purple-dark #251335</p>
+                            </div>
+                    </div>
+                </div>
 
+                <div class="col-5 col-md-3">
+                    <div class="card">
+                        <h1 class="card-header" style="background:#90A4AE;">&nbsp;</h3>
+                            <div class="pt-3 pl-3">
+                                <p class="small text-font">grey-primary #90A4AE</p>
+                            </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row justify-content-center py-3 wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">
+                <div class="col-10 col-md-6">
+                    <div class="card">
+                        <h1 class="card-header greengrad">&nbsp;</h3>
+                            <div class="pt-3 pl-3">
+                                <p class="small text-font">purple-gradient-primary</p>
+                            </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row justify-content-center py-5">
+                <div class="col-10 col-md-8 mx-auto align-self-start">
+                    <!-- <p class="h3-responsive display-font py-3 wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">Choosing typefaces</p> -->
+                    <!-- <figure class="figure pb-5 wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">
+                        <img src="images/logotype.jpg" class="figure-img img-fluid" alt="">
+                        <figcaption class="text-font small text-center">Testing out fonts to go with the logo</figcaption>
+                    </figure> -->
+                    <p class="lead text-font wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">Next up was choosing a typeface. It was an important decision because I had decided to use a wordmark
+                        for the logo.
+                        <br>I decided to go with Proxima Nova, a geometric sans-serif font by Mark Simonson, simply because of
+                        its brilliance and elegance. It combines the strength of Helvetica with the feeling of Futura. It
+                        is well adapted for both print and web.</p>
+                    <blockquote class="wow animated fadeIn">
+                        <p class="mb-0 lead subtext-font">Proxima Nova a font people can easily connect with, probably because of the qualities I put into
+                            the font &mdash; the proportions, the spacing, the overall look and feel. I tried to make the
+                            shapes of the letters simple and clear. It doesn’t have a lot of fussy details or mannerisms.
+                            Maybe it has to do with the open, circular forms, which perhaps give it a “friendly” appearance,
+                            especially in the lowercase.</p>
+                        <footer class="blockquote-footer">Mark Simonson
+                            <cite title="Source Title"></cite>
+                        </footer>
+                    </blockquote>
+                    <figure class="figure py-5 wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">
+                        <img src="images/type.png" class="figure-img img-fluid" alt="">
+                        <!-- <figcaption class="text-font small text-center">Testing out fonts to go with the logo</figcaption> -->
+                    </figure>
+                    <figure class="figure py-5 wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">
+                        <img src="images/logoexp.png" class="figure-img img-fluid" alt="">
+                        <figcaption class="text-font small text-center">Some of the early wordmark explorations</figcaption>
+                    </figure>
+                </div>
+                <div class="w-100"></div>
+                <div class="col-12 mx-auto">
+                    <!-- <p class="lead text-font wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">Now lets get back to designing the app.</p> -->
+                    <div class="row justify-content-center">
+                        <div class="col-12 col-md-6 mx-auto">
+                            <figure class="figure wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">
+                                <img src="images/logo-outline.png" class="figure-img img-fluid" alt="">
+                                <!-- <figcaption class="text-font small text-center">After playing around with kerning and tracking, the soulace logo that finally felt good</figcaption> -->
+                            </figure>
+                        </div>
+                        <div class="col-12 col-md-6 mx-auto">
+                            <figure class="figure wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">
+                                <img src="images/logo-full.png" class="figure-img img-fluid" alt="">
+                                <!-- <figcaption class="text-font small text-center">After playing around with kerning and tracking, the soulace logo that finally felt good</figcaption> -->
+                            </figure>
+                        </div>
+                        <figcaption class="text-font small text-center">After playing around with kerning and tracking, the soulace logo that finally felt good</figcaption>
+                    </div>
+                </div>
+            </div>
+            <div class="row justify-content-center py-3">
+                <div class="col-10 col-md-8 mx-auto align-self-start">
+                    <span class="wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">
+                        <p class="h3-responsive display-font py-3">The soulace app</p>
+
+                        <p class="lead text-font">The service will be presented to the user through an assistive-agentive Progressive Web App (PWA)
+                            providing an end-to-end service related to death care. The app will be powered by a narrow AI,
+                            trained with relevant cases. All the fragmented service providers will be integrated in the back-end
+                            with the platform for a seamless user experience.</p>
+                        <blockquote class="wow animated fadeIn">
+                            <p class="mb-0 lead subtext-font">Progressive Web Apps are user experiences that have the reach of the web, and are Reliable -
+                                <em>Load instantly and never show the downasaur, even in uncertain network conditions,</em>
+                                Fast -
+                                <em>Respond quickly to user interactions with silky smooth animations and no janky scrolling</em>,
+                                and Engaging -
+                                <em>Feel like a natural app on the device, with an immersive user experience.</em>
+                            </p>
+                            <footer class="blockquote-footer">
+                                <cite title="Source Title">https://developers.google.com/web/progressive-web-apps/</cite>
+                            </footer>
+                        </blockquote>
+                    </span>
+                    <p class="lead text-font pt-3 wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">So, why a Progressive Web App (PWA) for soulace?</p>
+                    <p>
+                        <ul>
+                            <li>
+                                <p class="lead text-font wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">Unlike other apps, the requirement of soulace will probably be a few times during one's lifetime.
+                                    When it happens, it is best to not make the user go through the hassle of searching,
+                                    downloading and installing the app before the services can be availed.</p>
+                            </li>
+                            <li>
+                                <p class="lead text-font wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">PWAs can be used for both web use as well as mobile use, thus removing the need for creating
+                                    and maintaining multiple website and apps.</p>
+                            </li>
+                            <li>
+                                <p class="lead text-font wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">PWAs can access native mobile features including GPS, push notifications and camera. On a
+                                    mobile device, it provides an experience similar to a native app (can be 'installed',
+                                    added to Home-screen and used in full-screen mode without a browser shell).</p>
+                            </li>
+                            <li>
+                                <p class="lead text-font wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">It has a low friction in terms of distribution and discoverability. The user doesn’t need
+                                    to download updates every time some new bug is fixed and rolled out by the developers.
+                                </p>
+                            </li>
+                            <li>
+                                <p class="lead text-font wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">PWAs by nature are very fast thanks to caching information in the browser and app. It performs
+                                    well even with poor internet connection. Even if a user has no internet connection, the
+                                    PWA can still send background updates and push notifications to the user.</p>
+                            </li>
+                        </ul>
+                    </p>
+                    <p class="lead text-font pt-3 wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">One of the preliminary ideas was to have a voice-UI that assists the user. However, given the emotional
+                        condition of the user, is was not prudent to expect them to talk to a device or learn how to use
+                        the app. What was required was an interface that would give the user the perception of control and
+                        support, while handling the assistive tasks in the background.</p>
+                </div>
+                <div class="col-12 col-md-8 mx-auto wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">
+                    <div id="carouselPaperSketches" class="carousel slide py-5" data-ride="carousel" data-pause="hover" data-keyboard="true"
+                        data-interval="5000">
+                        <ol class="carousel-indicators">
+                            <li data-target="#carouselPaperSketches" data-slide-to="0" class="active"></li>
+                            <li data-target="#carouselPaperSketches" data-slide-to="1"></li>
+                            <li data-target="#carouselPaperSketches" data-slide-to="2"></li>
+                            <li data-target="#carouselPaperSketches" data-slide-to="3"></li>
+                            <li data-target="#carouselPaperSketches" data-slide-to="4"></li>
+                        </ol>
+                        <div class="carousel-inner" role="listbox">
+                            <div class="carousel-item active">
+                                <img class="d-block w-100" src="images/ui1.gif" alt="">
+                                <div class="carousel-caption d-none d-md-block">
+                                    <figcaption class="text-font small text-center">Home-screen with onboarding
+                                        <em>(discarded)</em>
+                                    </figcaption>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <img class="d-block w-100" src="images/ui2.gif" alt="">
+                                <div class="carousel-caption d-none d-md-block">
+                                    <figcaption class="text-font small text-center">About screen with service listing
+                                        <em>(they were separated in later designs)</em>
+                                    </figcaption>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <img class="d-block w-100" src="images/ui3.gif" alt="">
+                                <div class="carousel-caption d-none d-md-block">
+                                    <figcaption class="text-font small text-center">Voice assistant screen
+                                        <em>(discarded)</em>
+                                    </figcaption>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <img class="d-block w-100" src="images/ui4.gif" alt="">
+                                <div class="carousel-caption d-none d-md-block">
+                                    <figcaption class="text-font small text-center">User dashboard with chat assistant
+                                        <em>(modified in later designs)</em>
+                                    </figcaption>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <img class="d-block w-100" src="images/ui5.gif" alt="">
+                                <div class="carousel-caption d-none d-md-block">
+                                    <figcaption class="text-font small text-center">Homepage with service listing
+                                        <em>(used in final design)</em>
+                                    </figcaption>
+                                </div>
+                            </div>
+                        </div>
+                        <a class="carousel-control-prev" href="#carouselPaperSketches" role="button" data-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="carousel-control-next" href="#carouselPaperSketches" role="button" data-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-10 col-md-8 mx-auto">
+                    <p class="lead text-font pt-3 wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">The final design focussed on two major items &mdash; search and service listing. Information related
+                        to the service in general is pushed down to the bottom of the page.
+                        <br>I created the design in Adobe XD using a standard 12-column responsive grid. It was later adapted
+                        to a mobile-screen size and a prototype was made.</p>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="row justify-content-center">
+                <div class="col-12 col-md-10 figure-wide">
+                    <figure class="figure py-5 magnifier-thumb-wrapper wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">
+                        <img src="images/laptopexp.png" id="laptopexp" class="figure-img img-wide" alt="">
+                        <figcaption class="text-font small text-center">Homepage of the soulace app</figcaption>
+                    </figure>
+                </div>
+            </div>
         </div>
     </section>
     <!-- Prototype -->
     <section id="prototype">
-        <!-- <div class="container">
-            <div class="row justify-content-center py-3">
-                <div class="embed-responsive embed-responsive-16by9">
-                    <iframe class="embed-responsive-item" src="images/soulace.mp4" frameborder="0" allowfullscreen></iframe>
+        <!-- <iframe width="360" height="640" src="https://xd.adobe.com/embed/8fa87231-719e-4cfc-5e13-2840c9cd511f-f999/" frameborder="0" allowfullscreen></iframe> -->
+        <div class="container">
+            <div class="row justify-content-center pt-5 mt-5 wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">
+                <div class="col-10 col-md-8 mx-auto align-self-start">
+                    <h1 class="h1-responsive display-font py-3">Using soulace (service demo)</h1>
+                    <!-- <p class="h3-responsive display-font py-3">Using soulace (a sample scenario)</p>  -->
+                    <p class="lead text-font alert-light px-5 py-5">
+                        <em>Madhavi Choudhary</em> is a 32-year old housewife who lives in Pune with her husband Prafulla and Pramit, their 13-year-old son. The family originally hails from Kolkata but shifted to Pune, a couple of months back, when Prafulla had got a promotion at Infosys, where he worked as a Software-engineer.
+                    </p>
+                </div>
+                <div class="col-10 col-md-8 mx-auto align-self-start wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">
+                    <blockquote class="">
+                        <p class="mb-0 lead subtext-font">Prafulla was admitted to Columbia Asia Hospital, Pune because of a cardiac arrest, which, sadly he couldn't survive. Now, Madhavi has to take him back to Kolkata to their hometown for the funeral. In the wake of the sudden distress, she was clueless as to how to work things out single-handedly. Even though some of the local friends and colleagues came to help, Madhavi could see herself drown in a pool of suggestions and misdirections. A single young female in a vulnerable condition, she was as much worried about the safety and well-being of Pramit and herself as taking Prafulla back home.</p>
+                        <footer class="blockquote-footer">
+                            <cite title="Source Title">An imaginary scenario based on true experiences</cite>
+                        </footer>
+                    </blockquote>
+                    <p class="lead text-font py-3">
+                        As Madhavi googled about how to take a deceased back home to Kolkata, she came across <em>soulace</em>. The following is a demonstration of how the service came to her aid.
+                    </p>
                 </div>
             </div>
-        </div> -->
-        <iframe width="360" height="640" src="https://xd.adobe.com/embed/8fa87231-719e-4cfc-5e13-2840c9cd511f-f999/" frameborder="0" allowfullscreen></iframe>
+            <div class="row justify-content-center pb-5">
+                <a class="btn deep-purple hoverable" data-toggle="modal" data-target="#screenModal">View as screenshots</a>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="row justify-content-center pb-5 mb-5 wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">
+                <video controls controlsList="nodownload noremoteplayback" autoplay loop poster="images/solution-mockup.png">
+                    <source src="images/soulace-web.mp4" type="video/mp4">
+                </video>
+            </div>
+        </div>
+        <!-- Survey Modal -->
+        <div class="modal fade" id="screenModal" tabindex="-1" role="dialog" aria-labelledby="screenModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <!-- <p class="text-font small px-3 py-3" id="screenModalLabel">The questionnaire had two parts &mdash; Experience of dealing with death and Views on Death-care
+                            service. If the answer to the first question is 'NO', then the respondent skips to Section
+                            3 of the survey.</p> -->
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        
+                        <!-- <img src="images/survey.png" class="figure-img img-fluid"> -->
+                        <div id="carouselscreenshots" class="carousel slide carousel-fade py-3" data-ride="carousel" data-pause="hover" data-keyboard="true"
+                        data-interval="5000">
+                        <!-- <ol class="carousel-indicators">
+                            <li data-target="#carouselscreenshots" data-slide-to="0" class="active"></li>
+                            <li data-target="#carouselscreenshots" data-slide-to="1"></li>
+                            <li data-target="#carouselscreenshots" data-slide-to="2"></li>
+                            <li data-target="#carouselscreenshots" data-slide-to="3"></li>
+                            <li data-target="#carouselscreenshots" data-slide-to="4"></li>
+                        </ol> -->
+                        <div class="carousel-inner" role="listbox">
+                            <div class="carousel-item active">
+                                <img class="d-block img-fluid mx-auto" src="images/screens/1.jpg" alt="">
+                            </div>
+                            <div class="carousel-item">
+                                <img class="d-block img-fluid mx-auto" src="images/screens/2.png" alt="">
+                            </div>
+                            <div class="carousel-item">
+                                <img class="d-block img-fluid mx-auto" src="images/screens/3.png" alt="">
+                            </div>
+                            <div class="carousel-item">
+                                <img class="d-block img-fluid mx-auto" src="images/screens/4.png" alt="">
+                            </div>
+                            <div class="carousel-item">
+                                <img class="d-block img-fluid mx-auto" src="images/screens/5.png" alt="">
+                            </div>
+                            <div class="carousel-item">
+                                <img class="d-block img-fluid mx-auto" src="images/screens/5.png" alt="">
+                            </div>
+                            <div class="carousel-item">
+                                <img class="d-block img-fluid mx-auto" src="images/screens/7.png" alt="">
+                            </div>
+                            <div class="carousel-item">
+                                <img class="d-block img-fluid mx-auto" src="images/screens/8.png" alt="">
+                            </div>
+                            <div class="carousel-item">
+                                <img class="d-block img-fluid mx-auto" src="images/screens/9.png" alt="">
+                            </div>
+                            <div class="carousel-item">
+                                <img class="d-block img-fluid mx-auto" src="images/screens/10.png" alt="">
+                            </div>
+                            <div class="carousel-item">
+                                <img class="d-block img-fluid mx-auto" src="images/screens/11.png" alt="">
+                            </div>
+                            <div class="carousel-item">
+                                <img class="d-block img-fluid mx-auto" src="images/screens/12.png" alt="">
+                            </div>
+                            <div class="carousel-item">
+                                <img class="d-block img-fluid mx-auto" src="images/screens/13.png" alt="">
+                            </div>
+                            <div class="carousel-item">
+                                <img class="d-block img-fluid mx-auto" src="images/screens/14.png" alt="">
+                            </div>
+                            <div class="carousel-item">
+                                <img class="d-block img-fluid mx-auto" src="images/screens/15.png" alt="">
+                            </div>
+                            <div class="carousel-item">
+                                <img class="d-block img-fluid mx-auto" src="images/screens/16.png" alt="">
+                            </div>
+                            <div class="carousel-item">
+                                <img class="d-block img-fluid mx-auto" src="images/screens/17.png" alt="">
+                            </div>
+                            <div class="carousel-item">
+                                <img class="d-block img-fluid mx-auto" src="images/screens/18.png" alt="">
+                            </div>
+                            <div class="carousel-item">
+                                <img class="d-block img-fluid mx-auto" src="images/screens/19.png" alt="">
+                            </div>
+                            <div class="carousel-item">
+                                <img class="d-block img-fluid mx-auto" src="images/screens/20.png" alt="">
+                            </div>
+                            <div class="carousel-item">
+                                <img class="d-block img-fluid mx-auto" src="images/screens/21.png" alt="">
+                            </div>
+                            <div class="carousel-item">
+                                <img class="d-block img-fluid mx-auto" src="images/screens/22.png" alt="">
+                            </div>
+                            <div class="carousel-item">
+                                <img class="d-block img-fluid mx-auto" src="images/screens/23.png" alt="">
+                            </div>
+                            <div class="carousel-item">
+                                <img class="d-block img-fluid mx-auto" src="images/screens/24.png" alt="">
+                            </div>
+                            <div class="carousel-item">
+                                <img class="d-block img-fluid mx-auto" src="images/screens/25.png" alt="">
+                            </div>
+                            <div class="carousel-item">
+                                <img class="d-block img-fluid mx-auto" src="images/screens/26.png" alt="">
+                            </div>
+                            <div class="carousel-item">
+                                <img class="d-block img-fluid mx-auto" src="images/screens/27.png" alt="">
+                            </div>
+                            <div class="carousel-item">
+                                <img class="d-block img-fluid mx-auto" src="images/screens/28.png" alt="">
+                            </div>
+                            <div class="carousel-item">
+                                <img class="d-block img-fluid mx-auto" src="images/screens/29.png" alt="">
+                            </div>
+                            <div class="carousel-item">
+                                <img class="d-block img-fluid mx-auto" src="images/screens/30.png" alt="">
+                            </div>
+                            <div class="carousel-item">
+                                <img class="d-block img-fluid mx-auto" src="images/screens/31.png" alt="">
+                            </div>
+                            <div class="carousel-item">
+                                <img class="d-block img-fluid mx-auto" src="images/screens/32.png" alt="">
+                            </div>
+                            <div class="carousel-item">
+                                <img class="d-block img-fluid mx-auto" src="images/screens/33.png" alt="">
+                            </div>
+                        </div>
+                        <a class="carousel-control-prev" href="#carouselscreenshots" role="button" data-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="carousel-control-next" href="#carouselscreenshots" role="button" data-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                        </div>
+                    </div>
+                    <!-- <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                    </div> -->
+                </div>
+            </div>
+        </div>
     </section>
     <!--Copyright-->
     <footer class="page-footer mt-0 purple center-on-small-only">
         <div class="container-fluid">
             <div class="row justify-content-center pb-3">
-                <a href="../" class="btn btn purple hoverable"><i class="fa fa-long-arrow-left fa-lg" aria-hidden="true"></i>&nbsp;&nbsp;back to portfolio</a>   
-                <a target="_self" href="http://prasantakrdutta.com/projects/global-climate-dataviz/" class="btn btn-deep-purple hoverable">next up: The Warming Planet&nbsp;&nbsp;<i class="fa fa-long-arrow-right fa-lg" aria-hidden="true"></i></a>   
+                <a href="../" class="btn btn purple hoverable">
+                    <i class="fa fa-long-arrow-left fa-lg" aria-hidden="true"></i>&nbsp;&nbsp;back to portfolio</a>
+                <a target="_self" href="http://prasantakrdutta.com/projects/global-climate-dataviz/" class="btn btn-deep-purple hoverable">next up: The Warming Planet&nbsp;&nbsp;
+                    <i class="fa fa-long-arrow-right fa-lg" aria-hidden="true"></i>
+                </a>
             </div>
         </div>
-        <div class="footer-copyright">                   
+        <div class="footer-copyright">
             <div class="container-fluid">
                 <div class="row justify-content-center">
-                    &copy; <span id="date"></span>&nbsp;Copyright: <a href="http://prasantakrdutta.com">&nbsp;Prasanta Kr Dutta</a>
+                    &copy;
+                    <span id="date"></span>&nbsp;Copyright:
+                    <a href="http://prasantakrdutta.com">&nbsp;Prasanta Kr Dutta</a>
                 </div>
             </div>
         </div>
-        
+
     </footer>
     <!--/.Copyright-->
-    
+
 
     <!-- SCRIPTS -->
     <!-- JQuery -->
@@ -404,9 +1036,12 @@
     <script type="text/javascript" src="../../js/mdb.min.js"></script>
     <!-- WOW scroll animator JavaScript -->
     <script src="../../js/wow.min.js"></script>
+    <!-- Magnifier JavaScript -->
+    <script src="../../js/event.js"></script>
+    <script src="../../js/magnifier.js"></script>
 
     <!-- Template DOM script -->
-    <script src="soulace.js"></script>    
+    <script src="soulace.js"></script>
 </body>
 
 </html>
