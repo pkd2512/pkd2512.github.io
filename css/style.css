@@ -88,6 +88,10 @@ body {
 .modal-backdrop.show {
 opacity: 0.9;
 }
+/* To prevent fixed navbar from showing up in Video fullscreen */
+:-webkit-full-screen-ancestor .navbar.fixed-top {
+    position: unset!important;
+}
 
 /**** Pre-Loader *****/
 .no-js #loader { display: none;  }

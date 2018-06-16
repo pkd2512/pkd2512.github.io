@@ -339,7 +339,7 @@
                 </p>
             </div>
         </div>
-        <div class="row">
+        <div class="row wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">
             <!-- <figure class="figure">
                 <img src="images/solution-mockup.png" class="figure-img img-fluid mx-auto d-block" alt="">
                 <figcaption class="text-font small text-center">The consumer-side interface for soulace</figcaption>
@@ -352,7 +352,7 @@
                 frameborder="0" allowfullscreen></iframe> -->
             <!-- <div class="youtube-player" data-id="eKWGqI9bkX8" data-related="0" data-control="1" data-info="0" data-fullscreen="0" style="width:100%;display: block; position: relative;cursor: pointer;max-height:540px;height:100%; overflow:hidden;padding-bottom:56.25%;margin:0 auto"> <img src="images/solution-mockup.png" style="bottom: -100%; display: block; left: 0; margin: auto; max-width: 100%; width: 100%;height:auto; position: absolute; right: 0; top: -100%;"> <div style="height: 72px; width: 72px; left: 50%; top: 50%; margin-left: -36px; margin-top: -36px; position: absolute; background: url('http://i.imgur.com/TxzC70f.png') no-repeat;"></div> </div>  -->
             <!-- </div> -->
-            <video controls controlsList="nodownload noremoteplayback" autoplay loop poster="images/solution-mockup.png">
+            <video controls controlsList="nodownload noremoteplayback" playsinline autoplay muted loop poster="images/solution-mockup.png">
                 <source src="images/soulace-web.mp4" type="video/mp4">
             </video>
             <div class="w-100"></div>
@@ -555,8 +555,8 @@
                 </div>
             </div>
             <div class="row mt-5 justify-content-center">
-                <div class="col-10 col-md-8 mx-auto align-self-start">
-                    <p class="h3-responsive display-font py-3 wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">Creating an identity for the service</p>
+                <div class="col-10 col-md-8 mx-auto align-self-start  wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">
+                    <p class="h3-responsive display-font py-3">Creating an identity for the service</p>
                     <p class="lead text-font">It was time that I gave a name to this service and delved a bit into graphic design. I decided to call
                         the service
                         <em>'soulace' &mdash; your companion in the face of distress helping you deal with the loss of your loved
@@ -646,8 +646,8 @@
                         <br>I decided to go with Proxima Nova, a geometric sans-serif font by Mark Simonson, simply because of
                         its brilliance and elegance. It combines the strength of Helvetica with the feeling of Futura. It
                         is well adapted for both print and web.</p>
-                    <blockquote class="wow animated fadeIn">
-                        <p class="mb-0 lead subtext-font">Proxima Nova a font people can easily connect with, probably because of the qualities I put into
+                    <blockquote class="wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">
+                        <p class="mb-0 lead subtext-font">Proxima Nova is a font people can easily connect with, probably because of the qualities I put into
                             the font &mdash; the proportions, the spacing, the overall look and feel. I tried to make the
                             shapes of the letters simple and clear. It doesn’t have a lot of fussy details or mannerisms.
                             Maybe it has to do with the open, circular forms, which perhaps give it a “friendly” appearance,
@@ -849,15 +849,20 @@
             <div class="row justify-content-center pb-5">
                 <a class="btn deep-purple hoverable" data-toggle="modal" data-target="#screenModal">View as screenshots</a>
             </div>
-        </div>
-        <div class="container-fluid">
-            <div class="row justify-content-center pb-5 mb-5 wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">
-                <video controls controlsList="nodownload noremoteplayback" poster="images/banner.jpg">
+            <div class="row pb-5 mb-5 wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">
+                <video playsinline controls controlsList="nodownload noremoteplayback" poster="images/banner.jpg">
                     <source src="images/soulace-madhavi.mp4" type="video/mp4">
                 </video>
             </div>
         </div>
-        <!-- Survey Modal -->
+        <!-- <div class="container-fluid">
+            <div class="row justify-content-center pb-5 mb-5 wow animated fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">
+                <video playsinline controls controlsList="nodownload noremoteplayback" poster="images/banner.jpg">
+                    <source src="images/soulace-madhavi.mp4" type="video/mp4">
+                </video>
+            </div>
+        </div> -->
+        <!-- Screenshots Modal -->
         <div class="modal fade" id="screenModal" tabindex="-1" role="dialog" aria-labelledby="screenModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
