@@ -1,0 +1,10 @@
+#news {
+	/* width: 100%; */
+	min-height: 100vh;
+	/* overflow: hidden; */
+}
+iframe {
+	width: 100%;
+	/* min-height: 200vh; */
+	/* overflow: hidden; */
+}
