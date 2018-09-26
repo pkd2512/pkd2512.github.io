@@ -1,25 +1,25 @@
 sl,hasReply,me,msg1,linkid1,link1,target1,msg2,linkid2,link2,target2,nextMsg1,nextMsg2
 1,0,"Hi there! <i class=""em em-smiley""></i> Glad to see you drop by.",,,,,,,,,2,2
-2,0,"I am an information experience designer, currently living in Bangalore, India",,,,,,,,,3,3
-3,1,"I am pursuing my Masters in Information Design at National Institute of Design, Bangalore.",Tell me more,1,javascript:void(0);,_self,Get in touch,2,javascript:void(0);,_self,4,200
+2,0,"I am an information experience designer, currently interning at Thomson Reuters Singapore.",,,,,,,,,3,3
+3,1,"I did my Masters in Information Design at National Institute of Design, Bangalore.",Tell me more,1,javascript:void(0);,_self,Get in touch,2,javascript:void(0);,_self,4,200
 4,1,"I like to solve problems in an aesthetically pleasing way and make information delightful on the digital platforms of today. <i class=""em em-i_love_you_hand_sign""></i>","So, UI/UX Design?",3,javascript:void(0);,_self,Can you show me?,4,javascript:void(0);,_self,5,6
 5,0,"I do design interfaces that form a part of the entire digital experience. So yes, UI and UX design!",,,,,,,,,6,6
 6,1,"So, I designed this mobile app to make knowledge easily accessible through data donation, during my summer internship in 2017.",Okay! Show me,5,/projects/dodata,_blank,Later,6,javascript:void(0);,_self,7,8
 7,0,"Hope you liked it! <i class=""em em-relieved""></i>",,,,,,,,,8,8
 8,0,"Besides interfaces, I love building visual narratives with data, often with a touch of artistry. ",,,,,,,,,9,9
-9,1,"I believe, Data Visualisation is about helping people assimilate data and the information contained in them in an aesthetically pleasing way. <i class=""em em-sunglasses""></i>",Wow! Show me a story,7,http://prasantakrdutta.com/nas-dataviz/,_blank,Will check later,8,javascript:void(0);,_self,10,17
+9,1,"I believe, Data Visualisation is about helping people assimilate data and the information contained in them in an aesthetically pleasing way. <i class=""em em-sunglasses""></i>",Wow! Show me a story,7,http://prasantakrdutta.com/projects/nas-dataviz/,_blank,Will check later,8,javascript:void(0);,_self,10,17
 10,1,"Hope you liked it! If you have some feedback, I would love to hear from you.","Yes, I do",9,mailto:pkd@prasantakrdutta.com?subject=Hello%20Prasanta!%20About%20your%20data%20narrative%20on%20NAS,_blank,"Nothing much <i class=""em em---1""></i>",10,javascript:void(0);,_self,11,11
-11,1,"That&apos;s not all! At times, I also experiment with randomness and math to generate art ",Oh! Would love to see some,11,/projects/inktober2017,_blank,What else?,12,javascript:void(0);,_self,12,13
-12,0,"Well, I am still learning. If you have any related project in mind, I would be happy to contribute <i class=""em em-blush""></i>",,,,,,,,,13,13
+11,1,"That&apos;s not all! At times, I also experiment with randomness and math to generate art. ",Oh! Would love to see some,11,/projects/inktober2017,_blank,What else?,12,javascript:void(0);,_self,12,13
+12,0,"Well, I am still learning. If you have any related project in mind, I would be happy to contribute! <i class=""em em-blush""></i>",,,,,,,,,13,13
 13,0,"Other than these, I do love to travel and capture the world using my Nikon D5200 <i class=""em em-camera_with_flash""></i>",,,,,,,,,14,14
 14,1,Did you see the photostory I did on Andretta pottery for my design project?,"No, show me the album",13,http://prasantakrdutta.com/projects/andretta/,_blank,"Yeah, it was nice!",14,javascript:void(0);,_self,16,15
 15,0,"I also keep posting shots on my Instagram from time to time. Do keep an eye out <i class=""em em-stuck_out_tongue_winking_eye""></i>",,,,,,,,,16,16
 16,1,"Also, I had made a couple of videos during my UG (just to try out VFX)  <i class=""em em-stuck_out_tongue_winking_eye""></i><br> and I happened to act in a short film too!",Show me the VFX stuff,15,https://youtu.be/Q3lVIzgGlEc,_blank,I want to see your acting,16,https://youtu.be/gyeOS22e7Bc,_blank,17,17
-17,1,"Nice talking to you! If you are in Bangalore, I am sure we can discuss a lot more about design over coffee <i class=""em em-coffee""></i>",Sure thing,17,mailto:pkd@prasantakrdutta.com?subject=Hello%20Prasanta!%20Let's%20grab%20some%20coffee!,_blank,Will let you know,18,javascript:void(0);,_self,18,18
-18,0,"And while you check out my portfolio, I would like to share with you some music that helps me focus during work, especially while coding",,,,,,,,,19,19
+17,1,"Nice talking to you! If you are in Singapore, I am sure we can discuss a lot more about design over coffee <i class=""em em-coffee""></i>",Sure thing,17,mailto:pkd@prasantakrdutta.com?subject=Hello%20Prasanta!%20Let's%20grab%20some%20coffee!,_blank,Will let you know,18,javascript:void(0);,_self,18,18
+18,0,"And while you check out my portfolio, I would like to share with you some music that helps me focus during work, especially while coding.",,,,,,,,,19,19
 19,0,"Open these two links in two tabs, adjust the volume as you prefer and enjoy! <i class=""em em-musical_note""></i>",,,,,,,,,20,20
 20,1,"<a class=""audiolink"" href=""https://youtu.be/_8EvYWTLeZ0"" target=""_blank""><i class=""em em-violin""></i> Main audio</a> and <a class=""audiolink"" href=""http://www.rainymood.com/"" target=""_blank""><i class=""em em-thunder_cloud_and_rain""></i> Background score</a>","Oh! I Love this <i class=""em em-yellow_heart""></i>",19,javascript:void(0);,_self,I prefer different music,20,javascript:void(0);,_self,21,22
 21,0,"Thanks! We do seem to have similar tastes <i class=""em em-raised_hand_with_fingers_splayed""></i>",,,,,,,,,300,300
-22,0,Cool! I would love to know more about it,,,,,,,,,300,300
+22,0,Cool! I would love to know more about it.,,,,,,,,,300,300
 200,1,"Great! Drop me a line at <i class=""em em-email""></i> pkd@prasantakrdutta.com and I will get back to you.",Shoot now,201,mailto:pkd@prasantakrdutta.com?subject=Hello%20Prasanta!%20I%20wanted%20to%20get%20in%20touch,_blank,Noted,202,javascript:void(0);,_self,300,300
 300,1,"I also voice my design related thoughts and blog about my work processes and learnings from time to time. <i class=""em em-spiral_note_pad""></i> Subscribe to my publication to stay updated!",Sure! Let me look at some articles,301,javascript:void(0);,_self,,,,,0,0

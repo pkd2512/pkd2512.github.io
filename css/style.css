@@ -244,6 +244,10 @@ svg {
     width: 100%;
     object-fit: cover;
 }
+
+/* #buglelogo {
+    max-width: 50% !important;
+} */
 /**/
 footer i {
     font-size: 1.6rem;
