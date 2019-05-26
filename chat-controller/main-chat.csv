@@ -1,6 +1,6 @@
 sl,hasReply,me,msg1,linkid1,link1,target1,msg2,linkid2,link2,target2,nextMsg1,nextMsg2
 1,0,"Hi there! <i class=""em em-smiley""></i> Glad to see you drop by.",,,,,,,,,2,2
-2,0,"I am an information experience designer, currently interning at Thomson Reuters Singapore.",,,,,,,,,3,3
+2,0,"I am an information experience designer, currently working as a DataViz Journalist at Thomson Reuters. Check out some awesome datastories at<a class=""font-weight-bold"" href=""https://graphics.reuters.com/"" target=""_blank""> ReutersGraphics<a>",,,,,,,,,3,3
 3,1,"I did my Masters in Information Design at National Institute of Design, Bangalore.",Tell me more,1,javascript:void(0);,_self,Get in touch,2,javascript:void(0);,_self,4,200
 4,1,"I like to solve problems in an aesthetically pleasing way and make information delightful on the digital platforms of today. <i class=""em em-i_love_you_hand_sign""></i>","So, UI/UX Design?",3,javascript:void(0);,_self,Can you show me?,4,javascript:void(0);,_self,5,6
 5,0,"I do design interfaces that form a part of the entire digital experience. So yes, UI and UX design!",,,,,,,,,6,6
@@ -15,7 +15,7 @@ sl,hasReply,me,msg1,linkid1,link1,target1,msg2,linkid2,link2,target2,nextMsg1,ne
 14,1,Did you see the photostory I did on Andretta pottery for my design project?,"No, show me the album",13,http://prasantakrdutta.com/projects/andretta/,_blank,"Yeah, it was nice!",14,javascript:void(0);,_self,16,15
 15,0,"I also keep posting shots on my Instagram from time to time. Do keep an eye out <i class=""em em-stuck_out_tongue_winking_eye""></i>",,,,,,,,,16,16
 16,1,"Also, I had made a couple of videos during my UG (just to try out VFX)  <i class=""em em-stuck_out_tongue_winking_eye""></i><br> and I happened to act in a short film too!",Show me the VFX stuff,15,https://youtu.be/Q3lVIzgGlEc,_blank,I want to see your acting,16,https://youtu.be/gyeOS22e7Bc,_blank,17,17
-17,1,"Nice talking to you! If you are in Singapore, I am sure we can discuss a lot more about design over coffee <i class=""em em-coffee""></i>",Sure thing,17,mailto:pkd@prasantakrdutta.com?subject=Hello%20Prasanta!%20Let's%20grab%20some%20coffee!,_blank,Will let you know,18,javascript:void(0);,_self,18,18
+17,1,"Nice talking to you! If you are in Bangalore, I am sure we can discuss a lot more about design over coffee <i class=""em em-coffee""></i>",Sure thing,17,mailto:pkd@prasantakrdutta.com?subject=Hello%20Prasanta!%20Let's%20grab%20some%20coffee!,_blank,Will let you know,18,javascript:void(0);,_self,18,18
 18,0,"And while you check out my portfolio, I would like to share with you some music that helps me focus during work, especially while coding.",,,,,,,,,19,19
 19,0,"Open these two links in two tabs, adjust the volume as you prefer and enjoy! <i class=""em em-musical_note""></i>",,,,,,,,,20,20
 20,1,"<a class=""audiolink"" href=""https://youtu.be/_8EvYWTLeZ0"" target=""_blank""><i class=""em em-violin""></i> Main audio</a> and <a class=""audiolink"" href=""http://www.rainymood.com/"" target=""_blank""><i class=""em em-thunder_cloud_and_rain""></i> Background score</a>","Oh! I Love this <i class=""em em-yellow_heart""></i>",19,javascript:void(0);,_self,I prefer different music,20,javascript:void(0);,_self,21,22
