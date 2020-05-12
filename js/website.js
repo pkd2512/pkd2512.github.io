@@ -901,7 +901,7 @@ function loadArticles(title,url,img,body,tags) {
         var tmpl = document.getElementById('article-template').content.cloneNode(true);
         tmpl.querySelector('.img-fluid').src = img;
         tmpl.querySelector('.card-title').innerText = title;
-        tmpl.querySelector('.card-text').innerText = body;
+//         tmpl.querySelector('.card-text').innerText = body;
         tmpl.querySelector('.url').href = url;
         tmpl.querySelector('.url').target = "_blank";
         // for (var t=0; t < 3; t++) 
