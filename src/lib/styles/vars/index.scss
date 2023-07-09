@@ -1,0 +1,38 @@
+/* 
+  -------------------------------
+  CSS vars from openprops
+  https://open-props.style/
+  -------------------------------
+*/
+
+/* MEDIA TYPE AND BREAKPOINT */
+@import '/node_modules/open-props/src/props.media.css';
+
+/* ASPECT RATIOS */
+@import '/node_modules/open-props/src/props.aspects.css';
+
+/* ANIMATION */
+@import '/node_modules/open-props/src/props.easing.css';
+@import '/node_modules/open-props/src/props.animations.css';
+
+/* Z-INDEX */
+@import '/node_modules/open-props/src/props.zindex.css';
+
+/* SHADOWS */
+@import '/node_modules/open-props/src/props.shadows.css';
+
+/* 
+  -------------------------------
+  Locally defined props
+  -------------------------------
+*/
+
+/* UTILITY VARS */
+@import './sizes.scss';
+@import './utils.scss';
+
+/* COLOURS */
+@import './colours.scss';
+
+/* TEXT */
+@import './typography.scss';

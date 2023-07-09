@@ -1,0 +1,18 @@
+/* 
+  --------------------------------------------------
+  Sets default styles for native HTML elements
+  Colour, Sizing and Fonts
+  --------------------------------------------------
+*/
+
+p {
+  font-family: var(--font-sans);
+  font-weight: var(--font-weight-regular);
+  color: var(--black-soft);
+}
+
+h1 {
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-bold);
+  color: var(--black);
+}
