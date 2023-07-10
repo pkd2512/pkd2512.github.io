@@ -38,6 +38,7 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"lodash-es": "^4.17.21",
 		"normalize.css": "^8.0.1"
 	}
 }

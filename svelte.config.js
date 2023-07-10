@@ -21,11 +21,10 @@ const config = {
     }),
     alias: {
       $pkg: path.resolve('package.json'),
-      $utils: path.resolve("src/utils"),
+      $utils: path.resolve('src/utils'),
       $assets: path.resolve('src/assets'),
     },
   },
-
   appDir: '_app',
   files: {
     assets: 'static',

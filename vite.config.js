@@ -14,13 +14,14 @@ export default defineConfig({
       allow: ['.'],
     },
   },
-  resolve: {
-    alias: {
-      $utils: '/src/utils',
-      $pkg: '/package.json',
-      $assets: '/src/assets',
-    },
-  },
+  // resolve: {
+  //   alias: {
+  //     $lib: '/src/lib',
+  //     $utils: '/src/utils',
+  //     $pkg: '/package.json',
+  //     $assets: '/src/assets',
+  //   },
+  // },
   css: {
     preprocessorOptions: {
       scss: { includePaths: ['src', 'node_modules'], quietDeps: true },
