@@ -1,9 +1,26 @@
 <script>
-  import Header from '$lib/components/ui/Header/index.svelte';
+  import Navbar from '$lib/components/ui/Navbar/index.svelte';
+  import Footer from '$lib/components/ui/Footer/index.svelte';
+  import Intro from '$lib/components/projects/HomeIntro/index.svelte';
+
+  import { page } from '$app/stores';
+  $: pageId = $page.route.id;
+
   import '$lib/styles/main.scss';
 </script>
 
 <svelte:head />
 
-<Header />
-<slot />
+{#if pageId === '/'}
+  <Intro />
+{/if}
+
+<Navbar />
+
+<main>
+  <article>
+    <slot />
+  </article>
+</main>
+
+<Footer />

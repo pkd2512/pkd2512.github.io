@@ -25,7 +25,7 @@
     },
     {
       name: 'About',
-      url: '/about',
+      url: '/#about',
       class: '',
     },
     {
@@ -42,8 +42,6 @@
 
   $: pageId = $page.route.id;
   $: pageHash = $page.url.hash;
-
-  $: console.log($page, links);
 
   // Change blog and contact to external links for other pages
   $: if (pageId !== '/') {
@@ -105,8 +103,15 @@
   </div>
 </nav>
 
-<style>
+<style lang="scss">
+  ul {
+    display: flex;
+    justify-content: space-evenly;
+    padding: 0;
+  }
   li {
     list-style: none;
+    text-transform: uppercase;
+    letter-spacing: var(--letter-spaced);
   }
 </style>

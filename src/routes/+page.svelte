@@ -1,5 +1,6 @@
 <script>
   import img from '$assets/tree.jpg';
+  import Container from '$lib/components/ui/Container/index.svelte';
 </script>
 
 <h1>Welcome to SvelteKit</h1>
@@ -7,4 +8,6 @@
   Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation
 </p>
 
-<img src="{img}" alt="" />
+<Container>
+  <img src="{img}" alt="" />
+</Container>

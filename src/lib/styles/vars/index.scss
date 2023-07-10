@@ -7,6 +7,7 @@
 
 /* MEDIA TYPE AND BREAKPOINT */
 @import '/node_modules/open-props/src/props.media.css';
+@import './media-sizes.scss';
 
 /* ASPECT RATIOS */
 @import '/node_modules/open-props/src/props.aspects.css';
@@ -29,7 +30,7 @@
 
 /* UTILITY VARS */
 @import './sizes.scss';
-@import './utils.scss';
+@import './spacing.scss';
 
 /* COLOURS */
 @import './colours.scss';
