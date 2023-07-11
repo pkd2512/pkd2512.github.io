@@ -1,45 +1,11 @@
 <script>
+  import Container from '$lib/components/ui/Container/index.svelte';
   import NavLink from './NavLink.svelte';
+  import navlinks from '$assets/data/navlinks.json';
   import { page } from '$app/stores';
+  import resolveLinkTarget from '$utils/resolveLinkTarget';
 
-  let links = [
-    {
-      name: 'Projects',
-      url: '/projects',
-      class: '',
-    },
-    {
-      name: 'Blog',
-      url: '/#blog',
-      class: '',
-    },
-    {
-      name: 'Resources',
-      url: '/resources',
-      class: '',
-    },
-    {
-      name: 'Home',
-      url: '/',
-      class: 'home',
-    },
-    {
-      name: 'About',
-      url: '/#about',
-      class: '',
-    },
-    {
-      name: 'Talks',
-      url: '/talks',
-      class: '',
-    },
-    {
-      name: 'Contact',
-      url: '/#contact',
-      class: '',
-    },
-  ];
-
+  let links = navlinks;
   $: pageId = $page.route.id;
   $: pageHash = $page.url.hash;
 
@@ -47,10 +13,10 @@
   $: if (pageId !== '/') {
     links = links.map(({ url, name, ...rest }) => {
       let newUrl = url;
-
       switch (name) {
         case 'Blog':
           newUrl = 'https://medium.com/diarium-da-pacific';
+
           break;
 
         default:
@@ -62,10 +28,10 @@
   } else {
     links = links.map(({ url, name, ...rest }) => {
       let newUrl = url;
-
       switch (name) {
         case 'Blog':
           newUrl = '/#blog';
+
           break;
 
         default:
@@ -75,22 +41,29 @@
       return { url: newUrl, name, ...rest };
     });
   }
+
+  // $: console.log($page);
 </script>
 
 <nav>
-  <div class="navbar">
+  <Container id="sitenav">
     <ul>
       {#each links as link}
         {#if link.url === '/'}
           <li class="nav-item">
-            <NavLink href="/" active="{pageId === '/' && pageHash === ''}">
+            <NavLink
+              target="{resolveLinkTarget(link.url, $page.url.hostname)}"
+              url="/"
+              active="{pageId === '/' && pageHash === ''}"
+            >
               <span>this is home</span>
             </NavLink>
           </li>
         {:else}
           <li class="nav-item">
             <NavLink
-              href="{link.url}"
+              target="{resolveLinkTarget(link.url, $page.url.hostname)}"
+              url="{link.url}"
               active="{pageId?.includes(link.url) ||
                 pageHash?.includes(link.name.toLowerCase())}"
             >
@@ -100,7 +73,7 @@
         {/if}
       {/each}
     </ul>
-  </div>
+  </Container>
 </nav>
 
 <style lang="scss">

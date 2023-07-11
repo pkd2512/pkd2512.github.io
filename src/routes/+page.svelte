@@ -1,5 +1,5 @@
 <script>
-  import img from '$assets/tree.jpg';
+  import img from '$assets/media/tree.jpg';
   import Container from '$lib/components/ui/Container/index.svelte';
 </script>
 

@@ -1,7 +1,18 @@
 <script>
+  /**
+   * @param {Boolean} disabled
+   */
   export let disabled = false;
+
+  /**
+   * @param {Boolean} active - Show active link on navbar
+   */
   export let active = false;
-  export let href = '#';
+
+  /**
+   * @param {String} url
+   */
+  export let url = '#';
 
   /**
    * @param {{ preventDefault: () => void; stopImmediatePropagation: () => void; }} e
@@ -17,7 +28,7 @@
 
 <a
   {...$$restProps}
-  href="{href}"
+  href="{url}"
   on:click="{handleClick}"
   class="nav-link"
   class:disabled="{disabled}"
