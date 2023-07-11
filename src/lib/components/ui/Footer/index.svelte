@@ -42,4 +42,17 @@
   .contact {
     text-align: center;
   }
+
+  :global {
+    #site-footer {
+      .contact a {
+        font-family: var(--font-display);
+      }
+    }
+  }
+
+  .links {
+    font-size: 2rem;
+    margin: 1rem;
+  }
 </style>

@@ -1,13 +1,14 @@
 <script>
-  import img from '$assets/media/tree.jpg';
   import Container from '$lib/components/ui/Container/index.svelte';
+  import MetaTags from '$lib/components/ui/MetaTags/index.svelte';
 </script>
 
-<h1>Welcome to SvelteKit</h1>
-<p>
-  Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation
-</p>
+<MetaTags />
 
 <Container>
-  <img src="{img}" alt="" />
+  <img src="/src/assets/media/tree.jpg" alt="" />
 </Container>
+
+<div id="blog"></div>
+<div id="about"></div>
+<div id="contact"></div>

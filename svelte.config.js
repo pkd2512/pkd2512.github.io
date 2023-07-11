@@ -1,5 +1,6 @@
 import adapter from '@sveltejs/adapter-static';
 import autoprefixer from 'autoprefixer';
+import { importAssets } from 'svelte-preprocess-import-assets';
 import path from 'path';
 import postcssCustomMedia from 'postcss-custom-media';
 import sveltePreprocess from 'svelte-preprocess';
@@ -25,6 +26,7 @@ const config = {
       $assets: path.resolve('src/assets'),
     },
   },
+
   appDir: '_app',
   files: {
     assets: 'static',
@@ -32,15 +34,19 @@ const config = {
     routes: 'src/routes',
     appTemplate: 'src/app.html',
   },
-  preprocess: sveltePreprocess({
-    preserve: ['ld+json'],
-    scss: {
-      includePaths: ['src', 'node_modules'],
-    },
-    postcss: {
-      plugins: [autoprefixer, postcssCustomMedia],
-    },
-  }),
+
+  preprocess: [
+    importAssets(),
+    sveltePreprocess({
+      preserve: ['ld+json'],
+      scss: {
+        includePaths: ['src', 'node_modules'],
+      },
+      postcss: {
+        plugins: [autoprefixer, postcssCustomMedia],
+      },
+    }),
+  ],
 };
 
 export default config;

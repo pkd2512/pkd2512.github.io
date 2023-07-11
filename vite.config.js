@@ -1,4 +1,5 @@
 import { defineConfig } from 'vitest/config';
+import { importAssets } from 'svelte-preprocess-import-assets';
 import { sveltekit } from '@sveltejs/kit/vite';
 
 export default defineConfig({
@@ -14,14 +15,6 @@ export default defineConfig({
       allow: ['.'],
     },
   },
-  // resolve: {
-  //   alias: {
-  //     $lib: '/src/lib',
-  //     $utils: '/src/utils',
-  //     $pkg: '/package.json',
-  //     $assets: '/src/assets',
-  //   },
-  // },
   css: {
     preprocessorOptions: {
       scss: { includePaths: ['src', 'node_modules'], quietDeps: true },
