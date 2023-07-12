@@ -1,9 +1,15 @@
 import adapter from '@sveltejs/adapter-static';
 import autoprefixer from 'autoprefixer';
 import { importAssets } from 'svelte-preprocess-import-assets';
+import { mdsvex } from 'mdsvex';
 import path from 'path';
 import postcssCustomMedia from 'postcss-custom-media';
 import sveltePreprocess from 'svelte-preprocess';
+
+/** @type {import('mdsvex').MdsvexOptions} */
+const mdsvexOptions = {
+  extensions: ['.md'],
+};
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
@@ -24,6 +30,7 @@ const config = {
       $pkg: path.resolve('package.json'),
       $utils: path.resolve('src/utils'),
       $assets: path.resolve('src/assets'),
+      $contents: path.resolve('src/contents'),
     },
   },
 
@@ -34,7 +41,7 @@ const config = {
     routes: 'src/routes',
     appTemplate: 'src/app.html',
   },
-
+  extensions: ['.svelte', '.md'],
   preprocess: [
     importAssets(),
     sveltePreprocess({
@@ -46,6 +53,7 @@ const config = {
         plugins: [autoprefixer, postcssCustomMedia],
       },
     }),
+    mdsvex(mdsvexOptions),
   ],
 };
 

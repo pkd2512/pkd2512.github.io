@@ -16,6 +16,9 @@ const attachScript = () => {
   head.prepend(e);
 };
 
+/**
+ * Attach gtag code to webpage
+ */
 export default () => {
   try {
     window.dataLayer = window.dataLayer || [];

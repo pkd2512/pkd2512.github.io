@@ -17,7 +17,7 @@
    * @param {String} keywords - Keywords to be shown in search results
    */
   export let keywords =
-    'Data visualisation, Data visualization, Narrative cartography, User interface, User Experience, Designer, Communication Design, Narrative Visualization, Information visualization, Data Narratives, Graphic Design, User centered design, UX, UI, Data Art, Web design, Photography, Travel, Creative writer, Electronics and Communication Engineer, National Institute of Design, National Institute of Technology Durgapur, Prasanta, PrasantaKrDutta, Prasanta Kumar Dutta, Prasanta KrDutta, pkddapacific, pkd.dapacific, pkd_da_pacific, daPacific,';
+    'Data journalist, Graphics journalist, Data visualisation, Data visualization, Narrative cartography, User interface, User Experience, Designer, Communication Design, Narrative Visualization, Information visualization, Data Narratives, Graphic Design, User centered design, UX, UI, Data Art, Web designer, Web developer, Front-end web developer, Photography, Travel, Creative writer, Electronics and Communication Engineer, National Institute of Design, National Institute of Technology Durgapur, Prasanta, PrasantaKrDutta, Prasanta Kumar Dutta, Prasanta KrDutta, pkddapacific, pkd.dapacific, pkd_da_pacific, daPacific,';
 
   /**
    * @param {String} image - Thubnail to be shown in share card.
@@ -41,12 +41,19 @@
     url: 'http://prasantakrdutta.com/',
     image: `${imageUrl}`,
     sameAs: [
+      'https://www.reuters.com/authors/prasanta-kumar-dutta/',
+      'https://adplist.org/mentors/prasanta-kr-dutta',
+      'https://muckrack.com/pkddapacific',
       'https://facebook.com/pkd.dapacific',
+      'https://vis.social/@pkddapacific',
       'https://twitter.com/Da_Pacific',
       'https://www.linkedin.com/in/pkddapacific/',
       'https://medium.com/@Da_Pacific',
       'https://www.instagram.com/pkd_da_pacific/',
+      'https://www.instagram.com/thebongartista/',
+      'https://www.instagram.com/thebongbawarchi/',
       'https://www.pexels.com/@pkddapacific/',
+      'https://unsplash.com/@pkddapacific/',
       'https://500px.com/pkddapacific',
       'https://thenounproject.com/prasanta/',
       'https://www.behance.net/pkddapacific',
@@ -54,6 +61,7 @@
       'https://www.youtube.com/user/pkddapacific',
       'https://unacademy.com/user/pkd.dapacific',
       'https://www.zomato.com/daPacific',
+      'https://www.redbubble.com/people/daPacificArt/shop',
     ],
     jobTitle: 'Information Experience Designer',
     worksFor: {
