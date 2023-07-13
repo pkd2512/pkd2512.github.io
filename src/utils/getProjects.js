@@ -9,7 +9,9 @@ import { json } from '@sveltejs/kit';
 export default async () => {
   var _a;
   let posts = [];
-  const paths = import.meta.glob('/src/contents/*.md', { eager: true });
+  const paths = import.meta.glob('/src/contents/projects/*.md', {
+    eager: true,
+  });
   for (const path in paths) {
     const file = paths[path];
     const slug =
