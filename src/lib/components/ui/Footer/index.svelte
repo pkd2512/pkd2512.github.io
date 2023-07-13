@@ -2,7 +2,7 @@
   import Container from '$lib/components/ui/Container/index.svelte';
   import NavLink from '$lib/components/ui/Navbar/NavLink.svelte';
   import Icon from '@iconify/svelte';
-  import socialUrls from '$assets/data/socialurls.json';
+  import socialUrls from '$utils/socialurls';
 
   const email = socialUrls.filter((d) => d.name === 'Email')[0];
 

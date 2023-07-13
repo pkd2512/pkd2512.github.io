@@ -14,10 +14,8 @@ published: true
 
 <script>
   import Container from '$lib/components/ui/Container/index.svelte';
-  import tree from '$assets/media/tree.jpg'
-import { importAssets } from 'svelte-preprocess-import-assets';
-  console.log(tree)
-  import Image from '$lib/components/ui/Image/index.svelte';
+
+
 </script>
 
 
@@ -26,7 +24,14 @@ import { importAssets } from 'svelte-preprocess-import-assets';
 Hey friends! 
 
 
-<Image src={tree}/>
+![image](/media/tree.jpg)
 
 
 </Container>
+
+
+<figure>
+
+![image](/media/page.png)
+
+</figure>

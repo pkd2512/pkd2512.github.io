@@ -1,7 +1,7 @@
 <script>
   import Container from '$lib/components/ui/Container/index.svelte';
   import NavLink from './NavLink.svelte';
-  import navlinks from '$assets/data/navlinks.json';
+  import navlinks from '$utils/navlinks';
   import { page } from '$app/stores';
   import resolveLinkTarget from '$utils/resolveLinkTarget';
 

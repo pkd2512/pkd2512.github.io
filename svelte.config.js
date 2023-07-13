@@ -4,11 +4,19 @@ import { importAssets } from 'svelte-preprocess-import-assets';
 import { mdsvex } from 'mdsvex';
 import path from 'path';
 import postcssCustomMedia from 'postcss-custom-media';
+import rehypeSlug from 'rehype-slug';
+import remarkToc from 'remark-toc';
+import remarkUnwrapImages from 'remark-unwrap-images';
 import sveltePreprocess from 'svelte-preprocess';
 
 /** @type {import('mdsvex').MdsvexOptions} */
 const mdsvexOptions = {
   extensions: ['.md'],
+  remarkPlugins: [remarkUnwrapImages, [remarkToc, { tight: true }]],
+  rehypePlugins: [rehypeSlug],
+  layout: {
+    _: './src/lib/components/mdsvex/layout.svelte',
+  },
 };
 
 /** @type {import('@sveltejs/kit').Config} */
@@ -29,7 +37,7 @@ const config = {
     alias: {
       $pkg: path.resolve('package.json'),
       $utils: path.resolve('src/utils'),
-      $assets: path.resolve('src/assets'),
+      $media: path.resolve('static/media'),
       $contents: path.resolve('src/contents'),
     },
   },
