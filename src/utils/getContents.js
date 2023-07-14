@@ -6,27 +6,28 @@ import { json } from '@sveltejs/kit';
  * @param {String} path - Path of the files `/src/contents/*.md`
  * @returns {JSON} List and Contents of parsed files
  */
-export default async () => {
-  var _a;
-  let posts = [];
-  const paths = import.meta.glob('/src/contents/projects/*.md', {
-    eager: true,
-  });
+export default async (paths) => {
+  let _a;
+  let pages = [];
+
+  console.log(paths);
   for (const path in paths) {
     const file = paths[path];
+
+    // Generate slug from filepath for filename and url
     const slug =
       (_a = path.split('/').at(-1)) === null || _a === void 0
         ? void 0
         : _a.replace('.md', '');
     if (file && typeof file === 'object' && 'metadata' in file && slug) {
       const metadata = file.metadata;
-      const post = Object.assign(Object.assign({}, metadata), { slug });
-      post.published && posts.push(post);
+      const page = Object.assign(Object.assign({}, metadata), { slug });
+      page.published && pages.push(page);
     }
   }
-  posts = posts.sort(
+  pages = pages.sort(
     (first, second) =>
       new Date(second.date).getTime() - new Date(first.date).getTime()
   );
-  return posts;
+  return pages;
 };

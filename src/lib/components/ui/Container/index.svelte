@@ -27,7 +27,8 @@
   @each $key, $value in $media-sizes {
     .container-#{$key} {
       max-width: #{$value};
-      width: 100%;
+      width: auto;
+      display: block;
       margin-inline: auto;
       padding-inline: var(--gutter-container);
     }
@@ -35,12 +36,14 @@
 
   .container {
     max-width: none;
+    display: block;
     margin-inline: auto;
     padding-inline: var(--gutter-container);
   }
 
   .container-fluid {
     max-width: none;
+    display: block;
     margin-inline: auto;
     padding-inline: 0;
   }

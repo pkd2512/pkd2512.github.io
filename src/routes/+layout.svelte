@@ -8,11 +8,6 @@
   $: pageId = $page.route.id;
 
   import '$lib/styles/main.scss';
-
-  /**
-   * @param {JSON} data - List of projects
-   */
-  export let data;
 </script>
 
 <Analytics />

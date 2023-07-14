@@ -4,6 +4,7 @@
   import navlinks from '$utils/navlinks';
   import { page } from '$app/stores';
   import resolveLinkTarget from '$utils/resolveLinkTarget';
+  import Emblem from './Emblem.svelte';
 
   let links = navlinks;
   $: pageId = $page.route.id;
@@ -50,13 +51,13 @@
     <ul>
       {#each links as link}
         {#if link.url === '/'}
-          <li class="nav-item">
+          <li class="nav-item emblem">
             <NavLink
               target="{resolveLinkTarget(link.url, $page.url.hostname)}"
               url="/"
               active="{pageId === '/' && pageHash === ''}"
             >
-              <span>this is home</span>
+              <Emblem />
             </NavLink>
           </li>
         {:else}
@@ -86,5 +87,11 @@
     list-style: none;
     text-transform: uppercase;
     letter-spacing: var(--letter-spaced);
+    text-align: center;
+
+    &.emblem {
+      margin-top: -5%;
+      position: relative;
+    }
   }
 </style>

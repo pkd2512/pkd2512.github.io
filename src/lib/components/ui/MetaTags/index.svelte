@@ -3,7 +3,7 @@
   import getPageOrigin from '$utils/getPageOrigin';
 
   /**
-   * @param {String} title - Title to be shown in browser tab
+   * @param {String} title - Title to be shown in browser tab and share card
    */
   export let title = 'Prasanta Kumar Dutta';
 
@@ -16,8 +16,7 @@
   /**
    * @param {String} keywords - Keywords to be shown in search results
    */
-  export let keywords =
-    'Data journalist, Graphics journalist, Data visualisation, Data visualization, Narrative cartography, User interface, User Experience, Designer, Communication Design, Narrative Visualization, Information visualization, Data Narratives, Graphic Design, User centered design, UX, UI, Data Art, Web designer, Web developer, Front-end web developer, Photography, Travel, Creative writer, Electronics and Communication Engineer, National Institute of Design, National Institute of Technology Durgapur, Prasanta, PrasantaKrDutta, Prasanta Kumar Dutta, Prasanta KrDutta, pkddapacific, pkd.dapacific, pkd_da_pacific, daPacific,';
+  export let keywords = '';
 
   /**
    * @param {String} image - Thubnail to be shown in share card.

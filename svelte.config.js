@@ -4,16 +4,24 @@ import { importAssets } from 'svelte-preprocess-import-assets';
 import { mdsvex } from 'mdsvex';
 import path from 'path';
 import postcssCustomMedia from 'postcss-custom-media';
+import { rehypeAccessibleEmojis } from 'rehype-accessible-emojis';
 import rehypeSlug from 'rehype-slug';
+import rehypeStringify from 'rehype-stringify';
+import remarkRehype from 'remark-rehype';
 import remarkToc from 'remark-toc';
 import remarkUnwrapImages from 'remark-unwrap-images';
 import sveltePreprocess from 'svelte-preprocess';
+import widont from 'rehype-widont';
 
 /** @type {import('mdsvex').MdsvexOptions} */
 const mdsvexOptions = {
   extensions: ['.md'],
   remarkPlugins: [remarkUnwrapImages, [remarkToc, { tight: true }]],
-  rehypePlugins: [rehypeSlug],
+  rehypePlugins: [
+    rehypeSlug,
+    rehypeAccessibleEmojis,
+    [widont, { fragment: true }],
+  ],
   layout: {
     _: './src/lib/components/mdsvex/layout.svelte',
   },

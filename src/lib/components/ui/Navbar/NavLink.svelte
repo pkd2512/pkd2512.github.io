@@ -40,6 +40,7 @@
 <style>
   a {
     text-decoration: none;
+    text-align: center;
 
     &.active {
       font-weight: bolder;

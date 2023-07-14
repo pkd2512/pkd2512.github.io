@@ -1,15 +1,21 @@
 <script>
-  import Container from '$lib/components/ui/Container/index.svelte';
   import MetaTags from '$lib/components/ui/MetaTags/index.svelte';
-  import { assets } from '$app/paths';
+
+  /**
+   * Contents of the page from the md file.
+   */
+  export let data;
+
+  let { title, description, keywords, image } = data.meta;
+
+  // $: console.log('home', data);
 </script>
 
-<MetaTags />
+<MetaTags
+  title="{title}"
+  description="{description}"
+  keywords="{keywords}"
+  image="{image}"
+/>
 
-<Container>
-  <img src="{assets}/media/tree.jpg" alt="" />
-</Container>
-
-<div id="blog"></div>
-<div id="about"></div>
-<div id="contact"></div>
+<svelte:component this="{data.content}" />
