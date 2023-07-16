@@ -41,9 +41,13 @@
   a {
     text-decoration: none;
     text-align: center;
+    color: var(--white);
+    font-family: var(--font-display);
+    font-weight: var(--font-weight-light);
+    letter-spacing: var(--letter-spaced-more);
 
     &.active {
-      font-weight: bolder;
+      font-weight: var(--font-weight-bold);
     }
   }
 </style>

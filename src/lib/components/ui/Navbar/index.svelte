@@ -4,7 +4,7 @@
   import navlinks from '$utils/navlinks';
   import { page } from '$app/stores';
   import resolveLinkTarget from '$utils/resolveLinkTarget';
-  import Emblem from './Emblem.svelte';
+  import Badge from './Badge.svelte';
 
   let links = navlinks;
   $: pageId = $page.route.id;
@@ -42,22 +42,21 @@
       return { url: newUrl, name, ...rest };
     });
   }
-
-  // $: console.log($page);
 </script>
 
 <nav>
-  <Container id="sitenav">
+  <Container width="lg" id="sitenav">
     <ul>
       {#each links as link}
         {#if link.url === '/'}
-          <li class="nav-item emblem">
+          <li class="nav-item badge">
             <NavLink
               target="{resolveLinkTarget(link.url, $page.url.hostname)}"
               url="/"
               active="{pageId === '/' && pageHash === ''}"
             >
-              <Emblem />
+              <span class="sr-only">Home</span>
+              <Badge />
             </NavLink>
           </li>
         {:else}
@@ -78,9 +77,26 @@
 </nav>
 
 <style lang="scss">
+  @import 'src/lib/styles/mixins/_shadows';
+  @import 'src/lib/styles/mixins/_screenReaderOnly';
+
+  .sr-only {
+    @include sr-only;
+  }
+
+  nav {
+    margin-top: -1px;
+    margin-bottom: 5rem;
+    position: sticky;
+    top: 0;
+    background-color: var(--purple-soft);
+    background-image: url('https://www.transparenttextures.com/patterns/subtle-dots.png');
+    background-blend-mode: difference;
+  }
   ul {
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-between;
+    align-items: center;
     padding: 0;
   }
   li {
@@ -89,8 +105,12 @@
     letter-spacing: var(--letter-spaced);
     text-align: center;
 
-    &.emblem {
-      margin-top: -5%;
+    span {
+      @include text-shadow(var(--purple));
+    }
+
+    &.badge {
+      margin-bottom: -5.5%;
       position: relative;
     }
   }

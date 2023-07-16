@@ -41,14 +41,17 @@
   .copyright,
   .contact {
     text-align: center;
+    font-family: var(--font-display);
   }
 
-  :global {
-    #site-footer {
-      .contact a {
-        font-family: var(--font-display);
-      }
-    }
+  footer {
+    background-color: var(--purple-soft);
+    background-image: url('https://www.transparenttextures.com/patterns/subtle-dots.png');
+    background-blend-mode: difference;
+
+    padding: 3rem 0;
+
+    color: var(--white);
   }
 
   .links {

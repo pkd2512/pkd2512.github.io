@@ -3,7 +3,9 @@ import autoprefixer from 'autoprefixer';
 import { importAssets } from 'svelte-preprocess-import-assets';
 import { mdsvex } from 'mdsvex';
 import path from 'path';
+import postcss from 'postcss';
 import postcssCustomMedia from 'postcss-custom-media';
+import postcssGlobalData from '@csstools/postcss-global-data';
 import { rehypeAccessibleEmojis } from 'rehype-accessible-emojis';
 import rehypeSlug from 'rehype-slug';
 import rehypeStringify from 'rehype-stringify';
@@ -66,7 +68,13 @@ const config = {
         includePaths: ['src', 'node_modules'],
       },
       postcss: {
-        plugins: [autoprefixer, postcssCustomMedia],
+        plugins: [
+          autoprefixer(),
+          postcssGlobalData({
+            files: ['src/lib/styles/vars/_custom-media.css'],
+          }),
+          postcssCustomMedia({ preserve: true }),
+        ],
       },
     }),
     mdsvex(mdsvexOptions),

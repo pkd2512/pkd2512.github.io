@@ -31,6 +31,18 @@
       display: block;
       margin-inline: auto;
       padding-inline: var(--gutter-container);
+
+      &.snap {
+        @each $key1, $value1 in $media-sizes {
+          @if $key1 != 'xxs' and $key1 != 'xs' {
+            @media (--#{$key1}-n-above) {
+              &:not(.skip-#{$key1}) {
+                width: #{$value1};
+              }
+            }
+          }
+        }
+      }
     }
   }
 
