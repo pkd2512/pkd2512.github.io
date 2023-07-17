@@ -5,6 +5,9 @@
   import { page } from '$app/stores';
   import resolveLinkTarget from '$utils/resolveLinkTarget';
   import Badge from './Badge.svelte';
+  import { onMount } from 'svelte';
+  import scrollDirection from '$utils/scrollDirection';
+  import { inview } from 'svelte-inview';
 
   let links = navlinks;
   $: pageId = $page.route.id;
@@ -44,7 +47,13 @@
   }
 </script>
 
-<nav>
+<nav
+  use:scrollDirection
+  use:inview="{{ root: null, rootMargin: '0px', threshold: 1 }}"
+  on:inview_change="{(e) => {
+    e.detail.node.classList.toggle('pin', !e.detail.inView);
+  }}"
+>
   <Container width="lg" id="sitenav">
     <ul>
       {#each links as link}
@@ -62,6 +71,7 @@
         {:else}
           <li class="nav-item">
             <NavLink
+              style=" padding: 2rem 0"
               target="{resolveLinkTarget(link.url, $page.url.hostname)}"
               url="{link.url}"
               active="{pageId?.includes(link.url) ||
@@ -87,12 +97,27 @@
   nav {
     margin-top: -1px;
     margin-bottom: 5rem;
-    position: sticky;
-    top: 0;
+    transition: transform 0.3s ease-out;
+
     background-color: var(--purple-soft);
-    background-image: url('https://www.transparenttextures.com/patterns/subtle-dots.png');
-    background-blend-mode: difference;
+    // background-image: url('https://www.transparenttextures.com/patterns/subtle-dots.png');
+    // background-blend-mode: difference;
   }
+
+  :global {
+    nav.pin {
+      position: sticky;
+      top: -1px;
+
+      &.down {
+        transform: translateY(-200%);
+      }
+      &.up {
+        transform: translateY(0%);
+      }
+    }
+  }
+
   ul {
     display: flex;
     justify-content: space-between;
@@ -112,6 +137,13 @@
     &.badge {
       margin-bottom: -5.5%;
       position: relative;
+
+      :global {
+        a.active {
+          border-bottom: none;
+          padding-bottom: 0 !important;
+        }
+      }
     }
   }
 </style>

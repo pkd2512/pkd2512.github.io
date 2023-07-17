@@ -22,7 +22,7 @@
 
   #header {
     background-color: var(--purple-soft);
-    background-image: url('https://www.transparenttextures.com/patterns/subtle-dots.png');
+    // background-image: url('https://www.transparenttextures.com/patterns/groovepaper.png');
     background-blend-mode: difference;
   }
 

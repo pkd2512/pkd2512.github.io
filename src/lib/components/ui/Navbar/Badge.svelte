@@ -23,8 +23,6 @@
    */
   let badgeEl;
 
-  $: console.log(scrollY);
-
   onMount(() => {
     // generate circular text
     circleText = new CircleType(circleTextEl)
@@ -68,6 +66,10 @@
     display: flex;
     align-items: center;
     justify-content: center;
+
+    // background-image: url('https://www.transparenttextures.com/patterns/small-crackle-bright.png');
+
+    // background-blend-mode: multiply;
 
     .logo {
       position: absolute;

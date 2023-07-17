@@ -46,8 +46,12 @@
     font-weight: var(--font-weight-light);
     letter-spacing: var(--letter-spaced-more);
 
+    display: inline-block;
+
     &.active {
       font-weight: var(--font-weight-bold);
+      border-bottom: 0.25rem solid var(--purple);
+      padding-bottom: calc(2rem - 0.25rem) !important;
     }
   }
 </style>
