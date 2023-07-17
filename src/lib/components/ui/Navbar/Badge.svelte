@@ -32,7 +32,7 @@
 
     // generate circle rotation scale
     getRotation = scaleLinear()
-      .domain([0, windowHeight * 0.82])
+      .domain([0, windowHeight * 0.8])
       .range([0, 360])
       .clamp(true);
   });

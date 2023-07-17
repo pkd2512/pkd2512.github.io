@@ -10,7 +10,7 @@ export default async (paths) => {
   let _a;
   let pages = [];
 
-  console.log(paths);
+  // console.log(paths);
   for (const path in paths) {
     const file = paths[path];
 

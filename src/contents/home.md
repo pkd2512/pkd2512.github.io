@@ -8,6 +8,13 @@ keywords: Data Journalist, Graphics Journalist, Reuters Graphics Journalist, Dat
 
 image: share.jpg
 
+intro:
+  hed: Award-winning information experience designer...
+
+  dek: Prasanta crafts visual stories with data and solves problems in an aesthetically pleasing way.
+  
+  media: tree/jpg
+
 published: true
 ---
 

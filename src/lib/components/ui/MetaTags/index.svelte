@@ -31,7 +31,7 @@
   );
   $: imageUrl = `${getPageOrigin(pageUrl)}/share-images/${image}`;
 
-  $: console.log(getPageOrigin(pageUrl));
+  // $: console.log(getPageOrigin(pageUrl));
 
   $: personSchema = {
     '@context': 'https://schema.org/',

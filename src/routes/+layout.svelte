@@ -8,12 +8,14 @@
   $: pageId = $page.route.id;
 
   import '$lib/styles/main.scss';
+
+  export let data;
 </script>
 
 <Analytics />
 
 {#if pageId === '/'}
-  <Intro />
+  <Intro data="{data.contents.filter((d) => d.slug === 'home')[0]}" />
 {/if}
 
 <Navbar />

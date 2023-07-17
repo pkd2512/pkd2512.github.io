@@ -1,15 +1,18 @@
 <script>
   import Container from '$lib/components/ui/Container/index.svelte';
+
+  export let data;
+
+  const { hed, dek, media } = data.intro;
 </script>
 
 <section id="header">
   <Container width="xl snap skip-sm">
     <header>
       <div class="text">
-        <h1>Award-winning information experience designer</h1>
+        <h1>{hed}</h1>
         <p>
-          Prasanta crafts visual stories with data and solves problems in an
-          aesthetically pleasing way.
+          {dek}
         </p>
       </div>
     </header>

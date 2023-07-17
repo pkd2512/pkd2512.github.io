@@ -8,7 +8,7 @@
 
   $: contents = data?.contents;
 
-  $: console.log(contents);
+  // $: console.log(contents);
 </script>
 
 <MetaTags title="Prasanta Kumar Dutta | Projects" />

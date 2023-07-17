@@ -3,17 +3,20 @@ export default (node) => {
   let prevY = window.scrollY;
   let dy = y - prevY;
 
-  window.addEventListener('scroll', () => {
+  const getDirection = () => {
     y = window.scrollY;
     dy = y - prevY;
     prevY = y;
-    node.classList.toggle('up', dy < 0);
-    node.classList.toggle('down', dy >= 0);
-  });
+
+    Math.abs(dy) > 5 && node.classList.toggle('up', dy < 0);
+    Math.abs(dy) > 5 && node.classList.toggle('down', dy >= 0);
+  };
+
+  window.addEventListener('scroll', getDirection);
 
   return {
     destroy() {
-      window.removeEventListener('scroll');
+      window.removeEventListener('scroll', getDirection);
     },
   };
 };
