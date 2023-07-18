@@ -30,7 +30,7 @@
       width: auto;
       display: block;
       margin-inline: auto;
-      padding-inline: var(--gutter-container);
+      padding-inline: var(--grid-gutter);
 
       &.snap {
         @each $key1, $value1 in $media-sizes {
@@ -50,7 +50,7 @@
     max-width: none;
     display: block;
     margin-inline: auto;
-    padding-inline: var(--gutter-container);
+    padding-inline: var(--grid-gutter);
   }
 
   .container-fluid {

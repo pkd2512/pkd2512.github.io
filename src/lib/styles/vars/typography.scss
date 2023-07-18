@@ -17,4 +17,26 @@
   --letter-spaced-more: 1px;
 
   /* sizes */
+  /* @link https://utopia.fyi/type/calculator?c=360,16,1.25,768,20,1.414,4,2,&s=0.75|0.5|0.25,1.5|2|3|4|6,s-l&g=s,l,xl,12 */
+
+  /* Step -2: 10.24px → 10.00px */
+  --font-size--2: clamp(0.63rem, calc(0.65rem + -0.06vw), 0.64rem);
+
+  /* Step -1: 12.80px → 14.14px */
+  --font-size--1: clamp(0.8rem, calc(0.73rem + 0.33vw), 0.88rem);
+
+  /* Step 0: 16.00px → 20.00px */
+  --font-size-0: clamp(1rem, calc(0.78rem + 0.98vw), 1.25rem);
+
+  /* Step 1: 20.00px → 28.28px */
+  --font-size-1: clamp(1.25rem, calc(0.79rem + 2.03vw), 1.77rem);
+
+  /* Step 2: 25.00px → 39.99px */
+  --font-size-2: clamp(1.56rem, calc(0.74rem + 3.67vw), 2.5rem);
+
+  /* Step 3: 31.25px → 56.54px */
+  --font-size-3: clamp(1.95rem, calc(0.56rem + 6.2vw), 3.53rem);
+
+  /* Step 4: 39.06px → 79.95px */
+  --font-size-4: clamp(2.44rem, calc(0.19rem + 10.02vw), 5rem);
 }

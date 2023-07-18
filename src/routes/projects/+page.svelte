@@ -6,9 +6,7 @@
 
   export let data;
 
-  $: contents = data?.contents;
-
-  // $: console.log(contents);
+  $: contents = data?.contents.filter((d) => d.type === 'project');
 </script>
 
 <MetaTags title="Prasanta Kumar Dutta | Projects" />

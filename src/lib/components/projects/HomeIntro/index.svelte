@@ -3,7 +3,7 @@
 
   export let data;
 
-  const { hed, dek, media } = data.intro;
+  const { hed, dek, img } = data.intro;
 </script>
 
 <section id="header">
@@ -14,6 +14,9 @@
         <p>
           {dek}
         </p>
+      </div>
+      <div class="img">
+        <img src="media/{img}" />
       </div>
     </header>
   </Container>
@@ -27,6 +30,7 @@
     background-color: var(--purple-soft);
     // background-image: url('https://www.transparenttextures.com/patterns/groovepaper.png');
     background-blend-mode: difference;
+    position: relative;
   }
 
   header {
@@ -34,16 +38,36 @@
 
     display: flex;
     align-items: center;
+    justify-content: center;
 
     color: var(--white);
   }
 
+  .img {
+    max-width: 600px;
+    margin-bottom: -5rem;
+
+    @media (--xl-n-below) {
+      position: absolute;
+      bottom: -2rem;
+      right: 0;
+      margin-bottom: 0;
+    }
+  }
+
   .text {
-    max-width: 60%;
+    max-width: 38%;
+    position: relative;
+    z-index: var(--layer-1);
+
+    @media (--xl-n-below) {
+      max-width: 80%;
+    }
   }
 
   p {
     color: var(--white-soft);
+    font-size: var(--font-size-1);
     @include text-shadow(var(--purple));
   }
 

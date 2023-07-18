@@ -96,7 +96,7 @@
 
   nav {
     margin-top: -1px;
-    margin-bottom: 5rem;
+    margin-bottom: var(--space-3xl);
     transition: transform 0.3s ease-out;
 
     background-color: var(--purple-soft);
@@ -129,6 +129,8 @@
     text-transform: uppercase;
     letter-spacing: var(--letter-spaced);
     text-align: center;
+
+    width: 100%;
 
     span {
       @include text-shadow(var(--purple));

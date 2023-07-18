@@ -1,3 +1,62 @@
 :where(html) {
-  --gutter-container: 15px;
+  /* Spacing */
+  /* @link https://utopia.fyi/space/calculator?c=360,16,1.25,768,20,1.414,4,2,&s=0.75|0.5|0.25,1.5|2|3|4|6,s-l&g=2xs,xs,xl,12 */
+
+  /* Space 3xs: 4px → 5px */
+  --space-3xs: clamp(0.25rem, calc(0.19rem + 0.25vw), 0.31rem);
+
+  /* Space 2xs: 8px → 10px */
+  --space-2xs: clamp(0.5rem, calc(0.39rem + 0.49vw), 0.63rem);
+
+  /* Space xs: 12px → 15px */
+  --space-xs: clamp(0.75rem, calc(0.58rem + 0.74vw), 0.94rem);
+
+  /* Space s: 16px → 20px */
+  --space-s: clamp(1rem, calc(0.78rem + 0.98vw), 1.25rem);
+
+  /* Space m: 24px → 30px */
+  --space-m: clamp(1.5rem, calc(1.17rem + 1.47vw), 1.88rem);
+
+  /* Space l: 32px → 40px */
+  --space-l: clamp(2rem, calc(1.56rem + 1.96vw), 2.5rem);
+
+  /* Space xl: 48px → 60px */
+  --space-xl: clamp(3rem, calc(2.34rem + 2.94vw), 3.75rem);
+
+  /* Space 2xl: 64px → 80px */
+  --space-2xl: clamp(4rem, calc(3.12rem + 3.92vw), 5rem);
+
+  /* Space 3xl: 96px → 120px */
+  --space-3xl: clamp(6rem, calc(4.68rem + 5.88vw), 7.5rem);
+
+  /* One-up pairs */
+  /* Space 3xs-2xs: 4px → 10px */
+  --space-3xs-2xs: clamp(0.25rem, calc(-0.08rem + 1.47vw), 0.63rem);
+
+  /* Space 2xs-xs: 8px → 15px */
+  --space-2xs-xs: clamp(0.5rem, calc(0.11rem + 1.72vw), 0.94rem);
+
+  /* Space xs-s: 12px → 20px */
+  --space-xs-s: clamp(0.75rem, calc(0.31rem + 1.96vw), 1.25rem);
+
+  /* Space s-m: 16px → 30px */
+  --space-s-m: clamp(1rem, calc(0.23rem + 3.43vw), 1.88rem);
+
+  /* Space m-l: 24px → 40px */
+  --space-m-l: clamp(1.5rem, calc(0.62rem + 3.92vw), 2.5rem);
+
+  /* Space l-xl: 32px → 60px */
+  --space-l-xl: clamp(2rem, calc(0.46rem + 6.86vw), 3.75rem);
+
+  /* Space xl-2xl: 48px → 80px */
+  --space-xl-2xl: clamp(3rem, calc(1.24rem + 7.84vw), 5rem);
+
+  /* Space 2xl-3xl: 64px → 120px */
+  --space-2xl-3xl: clamp(4rem, calc(0.91rem + 13.73vw), 7.5rem);
+
+  /* @link https://utopia.fyi/grid/calculator?c=360,16,1.25,768,20,1.414,4,2,&s=0.75|0.5|0.25,1.5|2|3|4|6,s-l&g=2xs,xs,xl,12 */
+  --grid-gutter: var(
+    --space-xs-xs,
+    clamp(0.5rem, calc(0.22rem + 1.26vw), 0.94rem)
+  );
 }

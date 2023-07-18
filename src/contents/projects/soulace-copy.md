@@ -5,6 +5,9 @@ date: '2023-4-14'
 categories:
   - sveltekit
   - svelte
+
+type: project
+
 published: true
 ---
 

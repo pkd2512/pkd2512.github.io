@@ -8,12 +8,14 @@ keywords: Data Journalist, Graphics Journalist, Reuters Graphics Journalist, Dat
 
 image: share.jpg
 
-intro:
-  hed: Award-winning information experience designer...
+type: page
 
-  dek: Prasanta crafts visual stories with data and solves problems in an aesthetically pleasing way.
-  
-  media: tree/jpg
+intro:
+  hed: Information Experience Designer
+
+  dek: Prasanta crafts award-winning visual stories with data at Reuters and solves problems in an aesthetically pleasing way.
+
+  img: hero.png
 
 published: true
 ---
@@ -25,16 +27,13 @@ published: true
 
 </script>
 
-"They said it was free...😃"
 
-<Container width=sm>
 
-Proxima bellare te tractata Atrides exercet
+<Container width=md>
 
-Lorem markdownum, aequent vocem dixit tamen quidem crimine in maris protinus
-moror *telluris* magno, marinae Latonae. Opaca tamquam ligari!
+> I work at the intersection of design, development and journalism
 
-![image](/media/page.png)
+
 
 </Container>
 
@@ -55,6 +54,8 @@ Proxima bellare te tractata Atrides exercet
 Lorem markdownum, aequent vocem dixit tamen quidem crimine in maris protinus
 moror *telluris* magno, marinae Latonae. Opaca tamquam ligari!
 Proxima bellare te tractata Atrides exercet
+
+![image](/media/page.png)
 
 Lorem markdownum, aequent vocem dixit tamen quidem crimine in maris protinus
 moror *telluris* magno, marinae Latonae. Opaca tamquam ligari!

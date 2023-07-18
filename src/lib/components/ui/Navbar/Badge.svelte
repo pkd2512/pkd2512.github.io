@@ -79,7 +79,8 @@
     .text {
       user-select: none;
       color: var(--white);
-      font-size: 0.625rem;
+      font-size: var(--font-size--2);
+
       font-weight: var(--font-weight-regular);
       font-family: var(--font-display);
       @include text-shadow(var(--purple));

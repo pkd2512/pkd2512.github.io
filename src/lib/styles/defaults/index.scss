@@ -18,12 +18,16 @@ p {
   font-family: var(--font-sans);
   font-weight: var(--font-weight-regular);
   color: var(--black-soft);
+  font-size: var(--font-size-0);
+  line-height: 1.414;
 }
 
 h1 {
   font-family: var(--font-display);
   font-weight: var(--font-weight-bold);
   color: var(--black);
+  font-size: var(--font-size-4);
+  line-height: 1.125;
 }
 
 a {
