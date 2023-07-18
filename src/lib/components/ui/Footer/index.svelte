@@ -46,8 +46,8 @@
 
   footer {
     background-color: var(--purple-soft);
-    background-image: url('https://www.transparenttextures.com/patterns/subtle-dots.png');
-    background-blend-mode: difference;
+    background-image: url('media/textures/small-crackle-bright.png');
+    background-blend-mode: overlay;
 
     padding: 3rem 0;
 

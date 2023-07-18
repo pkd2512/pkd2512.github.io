@@ -7,8 +7,7 @@
 
 html {
   background-color: var(--white-soft);
-  // background-image: url('https://www.transparenttextures.com/patterns/subtle-dots.png');
-  // background-image: url('https://www.transparenttextures.com/patterns/worn-dots.png');
+  -webkit-font-smoothing: antialiased;
 
   scroll-behavior: smooth;
 }
@@ -17,17 +16,25 @@ body,
 p {
   font-family: var(--font-sans);
   font-weight: var(--font-weight-regular);
-  color: var(--black-soft);
+  color: var(--black);
   font-size: var(--font-size-0);
   line-height: 1.414;
 }
 
 h1 {
   font-family: var(--font-display);
-  font-weight: var(--font-weight-bold);
-  color: var(--black);
   font-size: var(--font-size-4);
   line-height: 1.125;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--black-soft);
+  font-weight: var(--font-weight-bold);
 }
 
 a {

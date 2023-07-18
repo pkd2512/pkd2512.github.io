@@ -1,7 +1,7 @@
 <script>
   import Navbar from '$lib/components/ui/Navbar/index.svelte';
   import Footer from '$lib/components/ui/Footer/index.svelte';
-  import Intro from '$lib/components/projects/HomeIntro/index.svelte';
+  import Intro from '$lib/components/custom/home/HomeIntro/index.svelte';
   import Analytics from '$lib/components/ui/Analytics/index.svelte';
 
   import { page } from '$app/stores';
@@ -15,7 +15,7 @@
 <Analytics />
 
 {#if pageId === '/'}
-  <Intro data="{data.contents.filter((d) => d.slug === 'home')[0]}" />
+  <Intro />
 {/if}
 
 <Navbar />

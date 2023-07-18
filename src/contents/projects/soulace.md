@@ -6,8 +6,14 @@ categories:
   - sveltekit
   - svelte
 
-
 type: project
+
+intro:
+  hed: project title 1
+
+  dek: Lorem markdownum, aequent vocem dixit tamen quidem crimine in maris protinus moror telluris magno, marinae Latonae. Opaca tamquam ligari! Proxima bellare te tractata Atrides exercet.
+
+  img: tree.jpg
 
 published: true
 ---

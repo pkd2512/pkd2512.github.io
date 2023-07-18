@@ -67,13 +67,20 @@
     align-items: center;
     justify-content: center;
 
-    // background-image: url('https://www.transparenttextures.com/patterns/small-crackle-bright.png');
+    background-image: url('/media/textures/small-crackle-bright.png');
+    background-blend-mode: overlay;
 
-    // background-blend-mode: multiply;
+    transform-origin: center;
+    transition: transform 0.3s step-start;
+    transform: rotate3d(0, 0, 1, var(--angle));
 
     .logo {
       position: absolute;
       @include filter-shadow(var(--purple));
+
+      transform-origin: center;
+      transition: transform 0.3s step-start;
+      transform: rotate3d(0, 0, 1, calc(-1 * var(--angle)));
     }
 
     .text {
@@ -84,10 +91,6 @@
       font-weight: var(--font-weight-regular);
       font-family: var(--font-display);
       @include text-shadow(var(--purple));
-
-      transform-origin: center;
-      transition: transform 0.3s step-start;
-      transform: rotate3d(0, 0, 1, var(--angle));
     }
   }
 </style>

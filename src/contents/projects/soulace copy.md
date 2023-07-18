@@ -1,19 +1,20 @@
 ---
-title: Suolace   
+title: First post
 description: First post.
 date: '2023-4-14'
 categories:
   - sveltekit
   - svelte
 
+
 type: project
 
 intro:
-  hed: project title 3
+  hed: project title 2
 
   dek: Lorem markdownum, aequent vocem dixit tamen quidem crimine in maris protinus moror telluris magno, marinae Latonae. Opaca tamquam ligari! Proxima bellare te tractata Atrides exercet.
 
-  img: page.png
+  img: tree.jpg
 
 published: true
 ---

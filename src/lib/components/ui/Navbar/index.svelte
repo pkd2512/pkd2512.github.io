@@ -50,7 +50,9 @@
 <nav
   use:scrollDirection
   use:inview="{{ root: null, rootMargin: '0px', threshold: 1 }}"
-  on:inview_change="{(e) => {
+  on:inview_change="{(
+    /** @type {{ detail: { node: { classList: { toggle: (arg0: string, arg1: boolean) => void; }; }; inView: any; }; }} */ e
+  ) => {
     e.detail.node.classList.toggle('pin', !e.detail.inView);
   }}"
 >
@@ -98,10 +100,9 @@
     margin-top: -1px;
     margin-bottom: var(--space-3xl);
     transition: transform 0.3s ease-out;
-
+    z-index: var(--layer-important);
     background-color: var(--purple-soft);
-    // background-image: url('https://www.transparenttextures.com/patterns/subtle-dots.png');
-    // background-blend-mode: difference;
+    position: relative;
   }
 
   :global {

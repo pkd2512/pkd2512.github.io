@@ -13,70 +13,68 @@ type: page
 intro:
   hed: Information Experience Designer
 
-  dek: Prasanta crafts award-winning visual stories with data at Reuters and solves problems in an aesthetically pleasing way.
+  dek: Prasanta crafts award-winning visual stories with data at Reuters and solves problems in an aesthetically pleasing&nbsp;way.
 
   img: hero.png
 
 published: true
 ---
 
-
 <!-- Components -->
 <script>
   import Container from '$lib/components/ui/Container/index.svelte';
-
+  import RecentProjects from '$lib/components/custom/home/RecentProjects/index.svelte';
 </script>
 
-
+<RecentProjects />
 
 <Container width=md>
 
 > I work at the intersection of design, development and journalism
 
-
-
 </Container>
+
+
+
+<Container id=contact width=md>
 
 ## Blog
 
 ## About
 
-<Container id=contact width=sm>
+Proxima bellare te tractata Atrides exercet
+
+Lorem markdownum, aequent vocem dixit tamen quidem crimine in maris protinus
+moror _telluris_ magno, marinae Latonae. Opaca tamquam ligari!
 
 Proxima bellare te tractata Atrides exercet
 
 Lorem markdownum, aequent vocem dixit tamen quidem crimine in maris protinus
-moror *telluris* magno, marinae Latonae. Opaca tamquam ligari!
-
-
-Proxima bellare te tractata Atrides exercet
-
-Lorem markdownum, aequent vocem dixit tamen quidem crimine in maris protinus
-moror *telluris* magno, marinae Latonae. Opaca tamquam ligari!
+moror _telluris_ magno, marinae Latonae. Opaca tamquam ligari!
 Proxima bellare te tractata Atrides exercet
 
 ![image](/media/page.png)
 
 Lorem markdownum, aequent vocem dixit tamen quidem crimine in maris protinus
-moror *telluris* magno, marinae Latonae. Opaca tamquam ligari!
+moror _telluris_ magno, marinae Latonae. Opaca tamquam ligari!
 Proxima bellare te tractata Atrides exercet
 
 Lorem markdownum, aequent vocem dixit tamen quidem crimine in maris protinus
-moror *telluris* magno, marinae Latonae. Opaca tamquam ligari!
+moror _telluris_ magno, marinae Latonae. Opaca tamquam ligari!
 Proxima bellare te tractata Atrides exercet
 
 Lorem markdownum, aequent vocem dixit tamen quidem crimine in maris protinus
-moror *telluris* magno, marinae Latonae. Opaca tamquam ligari!
+moror _telluris_ magno, marinae Latonae. Opaca tamquam ligari!
 Proxima bellare te tractata Atrides exercet
 
 Lorem markdownum, aequent vocem dixit tamen quidem crimine in maris protinus
-moror *telluris* magno, marinae Latonae. Opaca tamquam ligari!
+moror _telluris_ magno, marinae Latonae. Opaca tamquam ligari!
 Proxima bellare te tractata Atrides exercet
 
 Lorem markdownum, aequent vocem dixit tamen quidem crimine in maris protinus
-moror *telluris* magno, marinae Latonae. Opaca tamquam ligari!
+moror _telluris_ magno, marinae Latonae. Opaca tamquam ligari!
 Proxima bellare te tractata Atrides exercet
 
 Lorem markdownum, aequent vocem dixit tamen quidem crimine in maris protinus
-moror *telluris* magno, marinae Latonae. Opaca tamquam ligari!
+moror _telluris_ magno, marinae Latonae. Opaca tamquam ligari!
 </Container>
