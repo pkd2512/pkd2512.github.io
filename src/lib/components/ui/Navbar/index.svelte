@@ -107,7 +107,7 @@
 
   :global {
     nav.pin {
-      position: sticky;
+      position: sticky !important;
       top: -1px;
 
       &.down {
