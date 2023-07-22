@@ -2,6 +2,7 @@
   import Container from '$lib/components/ui/Container/index.svelte';
   import Scroller from '@sveltejs/svelte-scroller';
   import { fade } from 'svelte/transition';
+  import LinkButton from '$lib/components/ui/LinkButton/index.svelte';
 
   import { page } from '$app/stores';
 
@@ -12,6 +13,8 @@
   let index = 0,
     offset = 0,
     progress = 0;
+
+  $: console.log(data);
 </script>
 
 <section id="recent-projects">
@@ -38,8 +41,22 @@
       {#each data as project}
         <Container width="sm">
           <div class="anno">
-            <p>{project.intro.hed}</p>
-            <p>{project.intro.dek}</p>
+            <p class="hed">{project.intro.hed}</p>
+            <p class="dek">{project.intro.dek}</p>
+
+            {#if project.links}
+              <div class="links">
+                {#each project.links as link}
+                  <div class="link">
+                    <LinkButton
+                      url="{link.url}"
+                      label="{link.label}"
+                      target="{link.target || ''}"
+                    />
+                  </div>
+                {/each}
+              </div>
+            {/if}
           </div>
         </Container>
       {/each}
@@ -85,6 +102,30 @@
     }
 
     .anno {
+      background-color: var(--white);
+      padding: var(--space-s-m) var(--space-m-l);
+      border-radius: 0.25rem;
+      box-shadow: var(--shadow-2);
+    }
+
+    .hed {
+      font-size: var(--font-size-1);
+      color: var(--black-soft);
+      font-weight: var(--font-weight-regular);
+      font-family: var(--font-display);
+      line-height: var(--line-height-medium);
+    }
+
+    .links {
+      margin-top: var(--space-s-m);
+      display: flex;
+      justify-content: end;
+      width: 100%;
+
+      .link {
+        width: 9.75rem;
+        text-align: end;
+      }
     }
   }
 </style>

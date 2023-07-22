@@ -10,11 +10,17 @@
   /* weights */
   --font-weight-light: 300;
   --font-weight-regular: 400;
+  --font-weight-medium: 500;
   --font-weight-bold: 700;
 
   /* spacing */
   --letter-spaced: 0.5px;
   --letter-spaced-more: 1px;
+
+  /* line heights */
+  --line-height-regular: 1.414;
+  --line-height-medium: 1.25;
+  --line-height-tight: 1.125;
 
   /* sizes */
   /* @link https://utopia.fyi/type/calculator?c=360,16,1.25,768,20,1.414,4,2,&s=0.75|0.5|0.25,1.5|2|3|4|6,s-l&g=s,l,xl,12 */
