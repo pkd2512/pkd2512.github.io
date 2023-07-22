@@ -39,6 +39,8 @@ h5,
 h6 {
   color: var(--black-soft);
   font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-medium);
+  margin-block: var(--space-xs-s);
 }
 
 a {
@@ -48,4 +50,17 @@ a {
 
 img {
   max-width: 100%;
+}
+
+figcaption,
+figcaption p {
+  color: var(--black-soft);
+  font-weight: var(--font-weight-medium);
+  font-size: var(--font-size--1);
+  font-family: var(--font-display);
+  margin-block: 0;
+}
+
+em {
+  font-weight: var(--font-weight-medium);
 }

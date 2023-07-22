@@ -54,11 +54,18 @@
     margin: var(--space-l-xl);
   }
 
+  a {
+    filter: grayscale(0.9);
+
+    &:hover {
+      filter: none;
+    }
+  }
+
   :global {
     #awards {
-      // background-color: white;
       mix-blend-mode: multiply;
-      // box-shadow: var(--shadow-1);
+      margin-bottom: var(--space-xl-2xl);
     }
   }
 </style>

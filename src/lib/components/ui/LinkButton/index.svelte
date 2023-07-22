@@ -30,16 +30,16 @@
     padding: var(--space-3xs);
     padding-top: var(--space-2xs);
 
-    &:not(:last-child) {
-      margin-right: var(--space-xs);
-    }
+    // &:not(:last-child) {
+    //   margin-right: var(--space-xs);
+    // }
     text-decoration: none;
 
     text-transform: uppercase;
     font-size: var(--font-size--1);
     font-family: var(--font-display);
     font-weight: var(--font-weight-medium);
-    letter-spacing: var(--letter-spaced-more);
+    letter-spacing: var(--letter-spaced);
 
     transition: all 0.15s linear;
 
