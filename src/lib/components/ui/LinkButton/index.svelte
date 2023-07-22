@@ -14,9 +14,14 @@
    * @param {String} target
    */
   export let target = '';
+
+  /**
+   * @param {Boolean} solid
+   */
+  export let solid = false;
 </script>
 
-<a {...$$restProps} href="{url}" target="{target}">
+<a {...$$restProps} class:solid="{solid}" href="{url}" target="{target}">
   {@html label}
 </a>
 
@@ -37,10 +42,19 @@
     letter-spacing: var(--letter-spaced-more);
 
     transition: all 0.15s linear;
-    // border-radius: 0.25rem;
+
+    &.solid {
+      background-color: var(--purple-soft);
+      padding-block: var(--space-xs);
+      padding-inline: var(--space-s);
+      color: var(--white);
+      border-radius: 0.125rem;
+    }
 
     &:hover,
     &:active {
+      border-radius: 0;
+      color: var(--purple);
       background-color: var(--white-soft);
       font-weight: var(--font-weight-bold);
       border-bottom: 0.25rem solid var(--purple);

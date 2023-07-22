@@ -53,10 +53,7 @@
 
     transition: all 0.15s linear;
 
-    &:hover {
-      font-weight: var(--font-weight-regular);
-    }
-
+    &:hover,
     &.active {
       font-weight: var(--font-weight-bold);
       border-bottom: 0.25rem solid var(--white-soft);

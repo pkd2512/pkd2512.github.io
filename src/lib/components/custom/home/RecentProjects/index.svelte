@@ -3,7 +3,7 @@
   import Scroller from '@sveltejs/svelte-scroller';
   import { fade } from 'svelte/transition';
   import LinkButton from '$lib/components/ui/LinkButton/index.svelte';
-
+  import Icon from '@iconify/svelte';
   import { page } from '$app/stores';
 
   let data = $page.data.contents
@@ -62,6 +62,14 @@
       {/each}
     </div>
   </Scroller>
+
+  <div id="all-projects">
+    <div class="icon">
+      <Icon icon="icon-park-solid:more-app" />
+    </div>
+
+    <LinkButton solid="{true}" url="projects/" label="Show more work" />
+  </div>
 </section>
 
 <style lang="scss">
@@ -70,6 +78,22 @@
   #recent-projects {
     margin-bottom: var(--space-2xl-3xl);
     margin-top: calc(-2 * var(--space-3xl));
+  }
+
+  #all-projects {
+    width: 100%;
+    text-align: center;
+    margin-block: var(--space-s);
+
+    .icon {
+      margin-block: var(--space-2xs);
+      font-size: var(--font-size-1);
+      :global {
+        path {
+          fill: var(--purple);
+        }
+      }
+    }
   }
 
   :global {

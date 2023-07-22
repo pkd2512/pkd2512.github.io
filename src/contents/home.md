@@ -24,9 +24,12 @@ published: true
 <script>
   import Container from '$lib/components/ui/Container/index.svelte';
   import RecentProjects from '$lib/components/custom/home/RecentProjects/index.svelte';
+  import Awards from '$lib/components/custom/home/Awards/index.svelte';
 </script>
 
 <RecentProjects />
+
+<Awards />
 
 <Container width=md>
 

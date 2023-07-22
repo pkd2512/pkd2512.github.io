@@ -2287,6 +2287,11 @@ svelte-eslint-parser@^0.32.0:
     postcss "^8.4.23"
     postcss-scss "^4.0.6"
 
+svelte-fast-marquee@^0.4.1:
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/svelte-fast-marquee/-/svelte-fast-marquee-0.4.1.tgz#f564710e70fe4f878e07a3d8145cc2f0946ce9fd"
+  integrity sha512-M5fqQlFZZugoUQo6mOrer0QSe+XTmJnX4x+06x6S07Wlvy0dA8P9xjajPv8QymJgTCMVGHiv2KN16MgIp6JU/g==
+
 svelte-hmr@^0.15.2:
   version "0.15.2"
   resolved "https://registry.yarnpkg.com/svelte-hmr/-/svelte-hmr-0.15.2.tgz#d2f6fc82e040f2734abd54cea5cbef46828f2538"
