@@ -37,7 +37,7 @@ published: true
 
 ## At the intersection of information design, web development and data journalism
 
-I design data-driven visual narratives that help transform information to knowledge using charts, maps and interactive data visualisations. Several of my work over the years have been recognised with various awards including the SND awards. <LinkButton label='Read more' url='about/' />
+I design data-driven visual narratives that help transform information to knowledge using charts, maps and interactive data visualisations. Several of my work over the years have been recognised with various awards including the SND awards. <LinkButton label='Read&nbsp;more' url='about/' />
 
 </Container>
 
@@ -62,25 +62,33 @@ Over the years, I have instructed design students on data representation, geovis
 
 I dabble in creative coding and generative art, mainly as a means to explore the beauty of mathematics, some of which are documented on my <LinkButton label='blog' url='https://medium.com/diarium-da-pacific' target=_blank /> and <LinkButton label='Instagram' url='https://www.instagram.com/thebongartista/' target=_blank />.
 
-Over the years, I have also created a collection of stock photographs that have been viewed more than 11M times. Available for download on <LinkButton label='Unsplash' url='https://unsplash.com/@pkddapacific' target=_blank /> and  <LinkButton label='Pexels' url='https://www.pexels.com/@pkddapacific/' target=_blank />.
-
 <figure style="margin:0">
 
-![A close up view of a mask of Goddess Durga being hand-painted](https://images.pexels.com/photos/190589/pexels-photo-190589.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2)
+<iframe src="https://openprocessing.org/sketch/1051968/embed/" width="100%" style="aspect-ratio: var(--ratio-golden);"></iframe>
 
 <figcaption>
 
-<em>A close up view of a mask of Goddess Durga being hand-painted.</em> This photo, taken in 2016, has been downloaded nearly 20k times and have been featured on <LinkButton label='CNN' target=_blank url='https://sponsorcontent.cnn.com/edition/2018/more-to-incredible-india/' /> and <LinkButton label='Times Travel' target=_blank url='https://timesofindia.indiatimes.com/travel/destinations/what-makes-bengals-durga-puja-special/photostory/86833303.cms' />.
-
-
-
+<em>Ideas | Thoughts | Actions.</em>  This interactive sketch was created using p5.js as a part of Inktober 2021 explorations on <LinkButton label='Openprocessing' target=_blank url='https://openprocessing.org/user/66773' />. Move around the canvas to find spots of turbulence or calm.
 
 </figcaption>
 
 </figure>
 
+<br />
 
+Over the years, I have also created a collection of stock photographs that have been viewed more than 11M times. Available for download on <LinkButton label='Unsplash' url='https://unsplash.com/@pkddapacific' target=_blank /> and  <LinkButton label='Pexels' url='https://www.pexels.com/@pkddapacific/' target=_blank />.
 
+<figure style="margin:0">
+
+![A close up view of a mask of Goddess Durga being hand-painted](https://images.pexels.com/photos/190589/pexels-photo-190589.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1)
+
+<figcaption>
+
+<em>A close up view of a mask of Goddess Durga being hand-painted.</em> This photo, taken in 2016, has been downloaded nearly 20k times and have been featured on <LinkButton label='CNN' target=_blank url='https://sponsorcontent.cnn.com/edition/2018/more-to-incredible-india/' /> and <LinkButton label='Times Travel' target=_blank url='https://timesofindia.indiatimes.com/travel/destinations/what-makes-bengals-durga-puja-special/photostory/86833303.cms' />.
+
+</figcaption>
+
+</figure>
 
 </Container>
 
