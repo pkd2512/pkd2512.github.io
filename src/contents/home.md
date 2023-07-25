@@ -27,6 +27,7 @@ published: true
   import LinkButton from '$lib/components/ui/LinkButton/index.svelte';
   import Awards from '$lib/components/custom/home/Awards/index.svelte';
   import Testimonials from '$lib/components/custom/home/Testimonials/index.svelte';
+  import BlogFeed from '$lib/components/custom/home/BlogFeed/index.svelte';
 </script>
 
 <RecentProjects />
@@ -50,7 +51,7 @@ I design data-driven visual narratives that help transform information to knowle
 I love to talk about design and data visualisation.
 Over the years, I have instructed design students on data representation, geovisualisation and data storytelling at eminent institutes across India like the National Institute of Design and JK Lakshmipat University. <LinkButton label='See all talks and workshops' url='talks/' /> 
 
-<iframe width="100%" style="aspect-ratio: var(--ratio-widescreen);" src="https://www.youtube-nocookie.com/embed/LAro9nJhCvM?controls=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+<iframe width="100%" style="aspect-ratio: var(--ratio-widescreen);" src="https://www.youtube-nocookie.com/embed/LAro9nJhCvM?controls=1" title="YouTube video of ProApp workshop on Data and Design by Prasanta" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
 </Container>
 
@@ -64,11 +65,11 @@ I dabble in creative coding and generative art, mainly as a means to explore the
 
 <figure style="margin:0">
 
-<iframe src="https://openprocessing.org/sketch/1051968/embed/" width="100%" style="aspect-ratio: var(--ratio-golden);"></iframe>
+<iframe title="Interactive p5 sketch" frameborder="0" src="https://openprocessing.org/sketch/1051968/embed/" width="100%" style="aspect-ratio: var(--ratio-golden);"></iframe>
 
 <figcaption>
 
-<em>Ideas | Thoughts | Actions.</em>  This interactive sketch was created using p5.js as a part of Inktober 2021 explorations on <LinkButton label='Openprocessing' target=_blank url='https://openprocessing.org/user/66773' />. Move around the canvas to find spots of turbulence or calm.
+<em>Ideas | Thoughts | Actions.</em>  This interactive sketch was created using p5.js as a part of Inktober 2021 explorations on <LinkButton label='Openprocessing' target=_blank url='https://openprocessing.org/user/66773' />. Move around the canvas to find spots of turbulence or&nbsp;calm.
 
 </figcaption>
 
@@ -93,7 +94,9 @@ Over the years, I have also created a collection of stock photographs that have 
 </Container>
 
 
-blog stuff
+<BlogFeed/>
+
+
 
 
 contact

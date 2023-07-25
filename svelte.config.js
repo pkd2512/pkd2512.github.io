@@ -18,9 +18,11 @@ import widont from 'rehype-widont';
 /** @type {import('mdsvex').MdsvexOptions} */
 const mdsvexOptions = {
   extensions: ['.md'],
+  smartypants: { quotes: true },
   remarkPlugins: [remarkUnwrapImages, [remarkToc, { tight: true }]],
   rehypePlugins: [
     rehypeSlug,
+
     rehypeAccessibleEmojis,
     [widont, { fragment: true }],
   ],

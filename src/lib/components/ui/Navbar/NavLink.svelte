@@ -49,15 +49,15 @@
 
     display: inline-block;
     position: relative;
-    z-index: var(--layer-important);
+    // z-index: var(--layer-important);
 
     transition: all 0.15s linear;
 
     &:hover,
     &.active {
       font-weight: var(--font-weight-bold);
-      border-bottom: 0.25rem solid var(--white-soft);
-      padding-bottom: calc(2rem - 0.25rem) !important;
+      // border-bottom: 0.25rem solid var(--white-soft);
+      // padding-bottom: calc(2rem - 0.25rem) !important;
     }
   }
 </style>
