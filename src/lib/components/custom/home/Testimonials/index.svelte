@@ -8,7 +8,7 @@
   import LinkButton from '$lib/components/ui/LinkButton/index.svelte';
 </script>
 
-<Container id="testimonials" width="lg">
+<Container id="mentoring" width="lg">
   <Splide
     options="{{
       rewind: true,
@@ -29,22 +29,22 @@
     {/each}
   </Splide>
 
-  <div id="mentoring">
+  <div class="mentoring">
     <div class="icon">
       <Icon icon="icon-park-solid:appointment" />
     </div>
 
     <LinkButton
-      label="Book a mentoring session"
+      label="Book a session"
       target="_blank"
-      url="https://adplist.org/mentors/prasanta-kr-dutta?session=1449-general-mentorship"
+      url="https://topmate.io/prasanta_kumar_dutta"
       solid="{true}"
     />
   </div>
 </Container>
 
 <style lang="scss">
-  #mentoring {
+  .mentoring {
     margin-bottom: var(--space-2xl-3xl);
     text-align: center;
     .icon {
@@ -58,7 +58,7 @@
     }
   }
   :global {
-    #testimonials {
+    #mentoring {
       li {
         display: flex;
         justify-content: center;

@@ -44,7 +44,7 @@ I design data-driven visual narratives that help transform information to knowle
 
 <Awards />
 
-<Container id=contact width=md>
+<Container width=md>
 
 ## Towards dataviz literacy 
 
@@ -57,7 +57,7 @@ Over the years, I have instructed design students on data representation, geovis
 
 <Testimonials />
 
-<Container style="margin-top: var(--space-2xl-3xl);" id=contact width=md>
+<Container style="margin-top: var(--space-2xl-3xl);" width=md>
 
 ## Art and Photography
 
@@ -93,10 +93,4 @@ Over the years, I have also created a collection of stock photographs that have 
 
 </Container>
 
-
 <BlogFeed/>
-
-
-
-
-contact

@@ -1,7 +1,7 @@
 <script>
   import Icon from '@iconify/svelte';
   import truncateText from '$utils/truncateText';
-  import NavLink from '../Navbar/NavLink.svelte';
+  import NavLink from '$lib/components/ui/Navlink/index.svelte';
   /**
    * @type {String}
    * Path to thumbnail image

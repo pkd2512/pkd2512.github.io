@@ -41,7 +41,7 @@
   a {
     text-decoration: none;
     text-align: center;
-    color: var(--white);
+
     font-size: var(--font-size--1);
     font-family: var(--font-display);
     font-weight: var(--font-weight-light);
@@ -49,15 +49,12 @@
 
     display: inline-block;
     position: relative;
-    // z-index: var(--layer-important);
 
-    transition: all 0.15s linear;
+    transition: all 0.15s ease;
 
     &:hover,
     &.active {
       font-weight: var(--font-weight-bold);
-      // border-bottom: 0.25rem solid var(--white-soft);
-      // padding-bottom: calc(2rem - 0.25rem) !important;
     }
   }
 </style>

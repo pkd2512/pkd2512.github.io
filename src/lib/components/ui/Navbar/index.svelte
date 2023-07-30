@@ -1,6 +1,6 @@
 <script>
   import Container from '$lib/components/ui/Container/index.svelte';
-  import NavLink from './NavLink.svelte';
+  import NavLink from '$lib/components/ui/Navlink/index.svelte';
   import navlinks from '$utils/navlinks';
   import { page } from '$app/stores';
   import resolveLinkTarget from '$utils/resolveLinkTarget';
@@ -62,6 +62,7 @@
         {#if link.url === '/'}
           <li class="nav-item badge">
             <NavLink
+              style="color: var(--white);"
               target="{resolveLinkTarget(link.url, $page.url.hostname)}"
               url="/"
               active="{pageId === '/' && pageHash === ''}"
@@ -73,7 +74,7 @@
         {:else}
           <li class="nav-item">
             <NavLink
-              style=" padding: 2rem 0"
+              style="color: var(--white);"
               target="{resolveLinkTarget(link.url, $page.url.hostname)}"
               url="{link.url}"
               active="{pageId?.includes(link.url) ||
@@ -99,7 +100,7 @@
   nav {
     margin-top: -1px;
     margin-bottom: var(--space-3xl);
-    transition: transform 0.3s ease-out;
+    transition: transform 0.3s ease;
     z-index: var(--layer-important);
     background-color: var(--purple-soft);
     position: relative;

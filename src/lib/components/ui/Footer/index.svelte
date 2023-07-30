@@ -1,61 +1,41 @@
 <script>
   import Container from '$lib/components/ui/Container/index.svelte';
-  import NavLink from '$lib/components/ui/Navbar/NavLink.svelte';
-  import Icon from '@iconify/svelte';
+  import NavLink from '$lib/components/ui/Navlink/index.svelte';
   import socialUrls from '$utils/socialurls';
+
+  import Contact from '$lib/components/custom/home/Contact/index.svelte';
 
   const email = socialUrls.filter((d) => d.name === 'Email')[0];
 
   const year = new Date().getFullYear();
 </script>
 
+<Contact />
+
 <footer>
   <Container id="site-footer">
-    <div class="contact">
-      <div>Say hello!</div>
-      <NavLink url="{email.url}" target="{email.target}"
-        >pkd@prasantakrdutta.com
-      </NavLink>
-      <div class="links">
-        {#each socialUrls as sosh}
-          {#if sosh.name !== 'Email'}
-            <NavLink
-              url="{sosh.url}"
-              title="{sosh.name}"
-              target="{sosh.target}"
-            >
-              <Icon icon="{sosh.icon}" />
-            </NavLink>
-          {/if}
-        {/each}
-      </div>
-    </div>
     <div class="copyright">
       &copy; <span id="date">2017-{year}</span>&nbsp;Copyright
-      <NavLink url="/">&nbsp;Prasanta Kumar Dutta</NavLink> &#8212; All Rights Reserved
+      <NavLink
+        style="font-size: var(--font-size--2); color:var(--white);"
+        url="/">&nbsp;Prasanta Kumar Dutta</NavLink
+      > &#8212; All Rights Reserved
     </div>
   </Container>
 </footer>
 
 <style lang="scss">
-  .copyright,
-  .contact {
+  .copyright {
     text-align: center;
     font-family: var(--font-display);
   }
 
   footer {
     background-color: var(--purple-soft);
-    background-image: url('media/textures/small-crackle-bright.png');
-    background-blend-mode: overlay;
 
-    padding: 3rem 0;
-
+    font-size: var(--font-size--2);
+    letter-spacing: var(--letter-spaced);
+    padding: var(--space-s) 0;
     color: var(--white);
-  }
-
-  .links {
-    font-size: 2rem;
-    margin: 1rem;
   }
 </style>

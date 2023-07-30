@@ -43,7 +43,7 @@ export default [
   },
   {
     name: 'Email',
-    url: 'mailto:pkd@prasantakrdutta.com?subject=Hello%20Prasanta!%20Visited%20your%20website%20today',
+    url: 'pkd@prasantakrdutta.com',
     icon: '',
     target: '_blank',
   },

@@ -7,9 +7,21 @@ export default [
   },
   {
     content:
+      "Prasanta has been a guiding force for me in choosing Information Design as a Master's at the National Institute of Design. Prasanta's expertise and fluency in the subject matter have helped me get a clear view of what lay ahead in terms of a fulfilling career.",
+    name: 'Abhilash Kumar',
+    credentials: 'User Experience and Information Designer',
+  },
+  {
+    content:
       'It was great talking to Prasanta. He was very helpful throughout and gave me a direction to start Information design. The notes were really helpful too to navigate all the information online.',
     name: 'Karan Kapoor',
     credentials: 'Independent Designer',
+  },
+  {
+    content:
+      "Prasanta was my mentor before and during the preparation for NID DAT/CEED preparations in 2018. I had no proper design background and clearly nothing on Interaction Design in terms of knowledge or professional experience. He was always ready to listen and provide me with personalized recommendations. He was my source to all the knowledge and grooming that was needed to dive into the world of Design. I couldn't be happier or grateful with the kind of mentorship cum friendship I recieved from Prasanta.",
+    name: 'Prashant Manda',
+    credentials: 'Design Evangelist',
   },
   {
     content:

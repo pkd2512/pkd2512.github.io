@@ -37,7 +37,7 @@ export default [
   },
   {
     name: 'Contact',
-    url: '/#contact',
+    url: '#contact',
     class: '',
   },
 ];
