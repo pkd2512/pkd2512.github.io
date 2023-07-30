@@ -10,19 +10,18 @@
 
   const year = new Date().getFullYear();
 
-  $: icon = 'lucide:clipboard-copy';
+  $: icon = 'mdi:email-edit-outline';
   $: copymessage = 'Click to copy';
   $: copied = false;
 
   const copyEmailClick = (/** @type {any} */ e) => {
     copied = true;
     copymessage = 'Email copied!';
-    icon =
-      'streamline:interface-file-clipboard-check-checkmark-edit-task-edition-checklist-check-success-clipboard-form';
+    icon = 'solar:clipboard-check-bold';
   };
 
   setInterval(() => {
-    icon = 'lucide:clipboard-copy';
+    icon = 'mdi:email-edit-outline';
     copymessage = 'Click to copy';
   }, 3000);
 </script>
@@ -53,11 +52,11 @@
         on:click="{copyEmailClick}"
         use:copy="{email.url}"
       >
-        {email.url}
         <span class="copy" class:copied="{copied}">
-          <Icon icon="{icon}" />
           <span>{copymessage}</span>
+          <Icon icon="{icon}" />
         </span>
+        {email.url}
       </div>
 
       <div class="icons">
@@ -84,6 +83,7 @@
     margin-inline: auto;
     padding-top: var(--space-m-l);
     padding-bottom: var(--space-s-m);
+    padding-inline: var(--space-s-m);
     align-items: flex-end;
     justify-content: space-between;
     color: var(--white-soft);
@@ -116,7 +116,7 @@
     pointer-events: none;
     position: absolute;
     margin-top: 3px;
-    margin-left: var(--space-3xs);
+    margin-left: -1.5rem;
 
     &:not(.copied) {
       animation: bounce 1s ease infinite;
@@ -126,16 +126,17 @@
       width: max-content;
       display: inline-block;
       position: absolute;
+      margin-left: -12ch;
       margin-top: 25%;
       font-size: var(--font-size--2);
     }
 
     @keyframes bounce {
       25% {
-        transform: translateX(-10%);
+        transform: translateX(-20%);
       }
       40% {
-        transform: translateX(-1%);
+        transform: translateX(-3%);
       }
       0%,
       60%,
