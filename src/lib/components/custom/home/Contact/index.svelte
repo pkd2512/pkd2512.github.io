@@ -12,9 +12,10 @@
 
   $: icon = 'lucide:clipboard-copy';
   $: copymessage = 'Click to copy';
+  $: copied = false;
 
   const copyEmailClick = (/** @type {any} */ e) => {
-    e.target.classList.add('copied');
+    copied = true;
     copymessage = 'Email copied!';
     icon =
       'streamline:interface-file-clipboard-check-checkmark-edit-task-edition-checklist-check-success-clipboard-form';
@@ -34,19 +35,31 @@
 >
   <div class="wrapper">
     <div class="contact">
-      Get in touch!
-      <div role="button" on:click="{copyEmailClick}" use:copy="{email.url}">
+      Get in touch
+      <span style="max-width:var(--xs)">
+        To know more about my work, 1:1 mentorship, dataviz workshops or invite
+        me to speak at your event!
+      </span>
+    </div>
+
+    <div class="logo">
+      <Logo colour="var(--white-soft)" />
+    </div>
+
+    <div class="links">
+      <div
+        class="email"
+        role="button"
+        on:click="{copyEmailClick}"
+        use:copy="{email.url}"
+      >
         {email.url}
-        <span>
+        <span class="copy" class:copied="{copied}">
           <Icon icon="{icon}" />
           <span>{copymessage}</span>
         </span>
       </div>
-    </div>
-    <div class="logo">
-      <Logo colour="var(--white-soft)" />
-    </div>
-    <div class="links">
+
       <div class="icons">
         {#each socialUrls as sosh}
           {#if sosh.name !== 'Email'}
@@ -76,38 +89,45 @@
     color: var(--white-soft);
     font-family: var(--font-display);
     letter-spacing: var(--letter-spaced);
-    font-size: var(--font-size--1);
   }
 
   .contact {
     width: 45%;
 
-    div[role='button'] {
-      cursor: copy;
-      letter-spacing: var(--letter-spaced);
-      font-family: var(--font-sans);
-      font-size: var(--font-size-0);
+    span {
+      font-size: var(--font-size--1);
+      display: block;
       font-weight: var(--font-weight-light);
+      font-family: var(--font-sans);
+    }
+  }
 
-      &.copied {
-        span {
-          animation: none;
-        }
-      }
+  .email {
+    cursor: copy;
+    letter-spacing: var(--letter-spaced);
+    font-family: var(--font-sans);
+    font-size: var(--font-size-0);
+    font-weight: var(--font-weight-light);
+    margin-bottom: var(--space-xs);
+    margin-right: var(--space-2xs);
+  }
 
-      span {
-        pointer-events: none;
-        position: absolute;
-        margin-top: 3px;
-        margin-left: var(--space-3xs);
-        animation: bounce 1s ease infinite;
+  .copy {
+    pointer-events: none;
+    position: absolute;
+    margin-top: 3px;
+    margin-left: var(--space-3xs);
 
-        span {
-          width: max-content;
-          margin-top: 25%;
-          font-size: var(--font-size--2);
-        }
-      }
+    &:not(.copied) {
+      animation: bounce 1s ease infinite;
+    }
+
+    span {
+      width: max-content;
+      display: inline-block;
+      position: absolute;
+      margin-top: 25%;
+      font-size: var(--font-size--2);
     }
 
     @keyframes bounce {
@@ -121,13 +141,6 @@
       60%,
       100% {
         transform: translateX(0);
-      }
-    }
-
-    :global {
-      a {
-        color: var(--white-soft);
-        font-family: var(--font-sans);
       }
     }
   }
