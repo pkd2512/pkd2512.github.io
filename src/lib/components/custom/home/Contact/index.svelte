@@ -10,7 +10,7 @@
 
   const year = new Date().getFullYear();
 
-  $: icon = 'mdi:email-edit-outline';
+  $: icon = 'lucide:clipboard-copy';
   $: copymessage = 'Click to copy';
   $: copied = false;
 
@@ -21,7 +21,7 @@
   };
 
   setInterval(() => {
-    icon = 'mdi:email-edit-outline';
+    icon = 'lucide:clipboard-copy';
     copymessage = 'Click to copy';
   }, 3000);
 </script>
@@ -39,6 +39,18 @@
         To know more about my work, 1:1 mentorship, dataviz workshops or invite
         me to speak at your event!
       </span>
+      <div
+        class="email"
+        role="button"
+        on:click="{copyEmailClick}"
+        use:copy="{email.url}"
+      >
+        {email.url}
+        <span class="copy" class:copied="{copied}">
+          <Icon icon="{icon}" />
+          <span>{copymessage}</span>
+        </span>
+      </div>
     </div>
 
     <div class="logo">
@@ -46,19 +58,7 @@
     </div>
 
     <div class="links">
-      <div
-        class="email"
-        role="button"
-        on:click="{copyEmailClick}"
-        use:copy="{email.url}"
-      >
-        <span class="copy" class:copied="{copied}">
-          <span>{copymessage}</span>
-          <Icon icon="{icon}" />
-        </span>
-        {email.url}
-      </div>
-
+      Follow me!
       <div class="icons">
         {#each socialUrls as sosh}
           {#if sosh.name !== 'Email'}
@@ -84,16 +84,20 @@
     padding-top: var(--space-m-l);
     padding-bottom: var(--space-s-m);
     padding-inline: var(--space-s-m);
-    align-items: flex-end;
+    align-items: flex-start;
     justify-content: space-between;
     color: var(--white-soft);
     font-family: var(--font-display);
     letter-spacing: var(--letter-spaced);
   }
 
+  .logo {
+    margin: auto;
+    visibility: hidden;
+  }
+
   .contact {
     width: 45%;
-
     span {
       font-size: var(--font-size--1);
       display: block;
@@ -104,10 +108,11 @@
 
   .email {
     cursor: copy;
+    position: relative;
     letter-spacing: var(--letter-spaced);
     font-family: var(--font-sans);
     font-size: var(--font-size-0);
-    font-weight: var(--font-weight-light);
+    font-weight: var(--font-weight-bold);
     margin-bottom: var(--space-xs);
     margin-right: var(--space-2xs);
   }
@@ -115,8 +120,9 @@
   .copy {
     pointer-events: none;
     position: absolute;
+    top: 0.35rem;
+    left: 16.5rem;
     margin-top: 3px;
-    margin-left: -1.5rem;
 
     &:not(.copied) {
       animation: bounce 1s ease infinite;
@@ -126,8 +132,9 @@
       width: max-content;
       display: inline-block;
       position: absolute;
-      margin-left: -12ch;
-      margin-top: 25%;
+      margin-left: 3px;
+      margin-top: 1px;
+
       font-size: var(--font-size--2);
     }
 
@@ -148,13 +155,17 @@
 
   .links {
     width: 45%;
-    text-align: right;
+    text-align: center;
     :global {
       a {
-        font-size: var(--font-size-0);
+        font-size: var(--font-size-1);
         color: var(--white-soft);
         margin-inline: var(--space-2xs);
       }
     }
+  }
+
+  .icons {
+    margin-top: var(--space-3xs);
   }
 </style>

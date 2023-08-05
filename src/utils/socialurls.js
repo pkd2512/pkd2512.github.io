@@ -23,12 +23,12 @@ export default [
     icon: 'fa6-brands:mastodon',
     target: '_blank',
   },
-  {
-    name: 'Discord',
-    url: 'https://discord.com/users/717993112257036288',
-    icon: 'fa6-brands:discord',
-    target: '_blank',
-  },
+  // {
+  //   name: 'Discord',
+  //   url: 'https://discord.com/users/717993112257036288',
+  //   icon: 'fa6-brands:discord',
+  //   target: '_blank',
+  // },
   {
     name: 'Behance',
     url: 'https://www.behance.net/pkddapacific',
