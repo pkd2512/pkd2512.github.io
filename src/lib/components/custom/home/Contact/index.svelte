@@ -28,7 +28,7 @@
 
 <Container
   width="fluid"
-  style="background-color: var(--purple-soft); background-image: url('media/textures/small-crackle-bright.png');
+  style="background-color: var(--purple-soft); background-image: url('/media/textures/small-crackle-bright.png');
     background-blend-mode: overlay;"
   id="contact"
 >
@@ -58,7 +58,7 @@
     </div>
 
     <div class="links">
-      Follow me!
+      Stay in touch
       <div class="icons">
         {#each socialUrls as sosh}
           {#if sosh.name !== 'Email'}
@@ -81,6 +81,7 @@
     display: flex;
     max-width: var(--lg);
     margin-inline: auto;
+    margin-top: var(--space-3xl);
     padding-top: var(--space-m-l);
     padding-bottom: var(--space-s-m);
     padding-inline: var(--space-s-m);
@@ -115,6 +116,15 @@
     font-weight: var(--font-weight-bold);
     margin-bottom: var(--space-xs);
     margin-right: var(--space-2xs);
+
+    &:hover {
+      text-decoration: dotted;
+      text-decoration: underline;
+      text-decoration-thickness: 0.25rem;
+      text-underline-position: under;
+      text-underline-offset: var(--space-3xs);
+      text-decoration-color: var(--purple);
+    }
   }
 
   .copy {
@@ -161,6 +171,10 @@
         font-size: var(--font-size-1);
         color: var(--white-soft);
         margin-inline: var(--space-2xs);
+        border-bottom: 0rem solid var(--purple);
+        &:hover {
+          border-bottom: 0.25rem solid var(--purple);
+        }
       }
     }
   }

@@ -51,7 +51,7 @@ I design data-driven visual narratives that help transform information to knowle
 I love to talk about design and data visualisation.
 Over the years, I have instructed design students on data representation, geovisualisation and data storytelling at eminent institutes across India like the National Institute of Design and JK Lakshmipat University. <LinkButton label='See all talks and workshops' url='talks/' /> 
 
-<iframe width="100%" style="aspect-ratio: var(--ratio-widescreen);" src="https://www.youtube-nocookie.com/embed/LAro9nJhCvM?controls=1" title="YouTube video of ProApp workshop on Data and Design by Prasanta" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+<iframe loading="lazy" width="100%" style="aspect-ratio: var(--ratio-widescreen);" src="https://www.youtube-nocookie.com/embed/LAro9nJhCvM?controls=1" title="YouTube video of ProApp workshop on Data and Design by Prasanta" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
 </Container>
 
@@ -65,7 +65,7 @@ I dabble in creative coding and generative art, mainly as a means to explore the
 
 <figure style="margin:0">
 
-<iframe title="Interactive p5 sketch" frameborder="0" src="https://openprocessing.org/sketch/1051968/embed/" width="100%" style="aspect-ratio: var(--ratio-golden);"></iframe>
+<iframe loading="lazy" title="Interactive p5 sketch" frameborder="0" src="https://openprocessing.org/sketch/1051968/embed/" width="100%" style="aspect-ratio: var(--ratio-golden);"></iframe>
 
 <figcaption>
 

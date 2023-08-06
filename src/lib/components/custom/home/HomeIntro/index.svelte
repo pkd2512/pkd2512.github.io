@@ -14,7 +14,7 @@
           {@html dek}
         </p>
       </div>
-      <div class="img" style="background-image:url(media/{img})"></div>
+      <div class="img" style="background-image:url(/media/{img})"></div>
     </header>
   </Container>
 </section>

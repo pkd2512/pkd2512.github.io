@@ -13,7 +13,7 @@
 
   onMount(async () => {
     articles = await getBlogFeed();
-    console.log(articles);
+    // console.log(articles);
   });
 </script>
 

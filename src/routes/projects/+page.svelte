@@ -1,11 +1,10 @@
 <script>
-  // @ts-nocheck
-
   import Container from '$lib/components/ui/Container/index.svelte';
   import MetaTags from '$lib/components/ui/MetaTags/index.svelte';
 
   export let data;
 
+  // @ts-ignore
   $: contents = data?.contents.filter((d) => d.type === 'project');
 </script>
 

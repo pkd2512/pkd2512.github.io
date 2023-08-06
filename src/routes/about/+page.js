@@ -5,7 +5,7 @@ import { error } from '@sveltejs/kit';
  */
 export async function load({ params }) {
   try {
-    const page = await import(`../contents/home.md`);
+    const page = await import('../../contents/about.md');
 
     return {
       content: page.default,

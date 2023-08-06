@@ -25,7 +25,7 @@ export default [
   },
   {
     name: 'About',
-    url: '/#about',
+    url: '/about',
     class: '',
     target: '',
   },

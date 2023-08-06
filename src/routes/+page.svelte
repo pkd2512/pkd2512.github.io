@@ -7,8 +7,6 @@
   export let data;
 
   let { title, description, keywords, image } = data.meta;
-
-  // $: console.log('home', data);
 </script>
 
 <MetaTags

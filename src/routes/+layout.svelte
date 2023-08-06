@@ -14,7 +14,7 @@
 
 <Analytics />
 
-{#if pageId === '/'}
+{#if pageId && pageId === '/'}
   <Intro />
 {/if}
 

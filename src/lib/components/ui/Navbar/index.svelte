@@ -94,7 +94,7 @@
   @import 'src/lib/styles/mixins/_screenReaderOnly';
 
   .sr-only {
-    @include sr-only;
+    @include screenReaderOnly;
   }
 
   nav {

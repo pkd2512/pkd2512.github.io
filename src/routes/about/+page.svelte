@@ -1,8 +1,20 @@
 <script>
   import Container from '$lib/components/ui/Container/index.svelte';
   import MetaTags from '$lib/components/ui/MetaTags/index.svelte';
+
+  /**
+   * Contents of the page from the md file.
+   */
+  export let data;
+
+  let { title, description, keywords, image } = data.meta;
 </script>
 
-<MetaTags title="Prasanta Kumar Dutta | About" />
+<MetaTags
+  title="{title}"
+  description="{description}"
+  keywords="{keywords}"
+  image="{image}"
+/>
 
-<h1>About</h1>
+<svelte:component this="{data.content}" />
