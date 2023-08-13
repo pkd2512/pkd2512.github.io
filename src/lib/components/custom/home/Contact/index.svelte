@@ -35,9 +35,9 @@
   <div class="wrapper">
     <div class="contact">
       Get in touch
-      <span style="max-width:var(--xs)">
+      <span style="max-width:calc(1.2 * var(--xs))">
         To know more about my work, 1:1 mentorship, dataviz workshops or invite
-        me to speak at your event!
+        me to speak at your&nbsp;event!
       </span>
       <div
         class="email"
@@ -130,8 +130,8 @@
   .copy {
     pointer-events: none;
     position: absolute;
-    top: 0.35rem;
-    left: 16.5rem;
+    top: var(--space-3xs);
+    left: calc(2.2 * var(--space-3xl));
     margin-top: 3px;
 
     &:not(.copied) {

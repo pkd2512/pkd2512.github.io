@@ -27,8 +27,8 @@
 
 <style lang="scss">
   a {
-    padding: var(--space-3xs);
-    padding-top: var(--space-2xs);
+    padding-bottom: calc(0.25 * var(--space-3xs));
+    // padding-top: var(--space-2xs);
 
     // &:not(:last-child) {
     //   margin-right: var(--space-xs);

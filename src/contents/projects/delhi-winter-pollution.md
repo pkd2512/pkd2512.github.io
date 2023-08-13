@@ -12,12 +12,12 @@ type: project
 links: 
   - type: project
     url: https://www.reuters.com/graphics/INDIA-POLLUTION/010080SY1KE/
-    label: 🔗View Project
+    label: 🔗 View Project
     target: _blank
 
   - type: doc
     url: projects/delhi-winter-pollution/
-    label: 🗒️Read more
+    label: 🗒️ Read more
 
 
 intro:
