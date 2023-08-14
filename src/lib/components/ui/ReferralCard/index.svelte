@@ -31,6 +31,7 @@
   data-card-type="referral-card"
   target="_blank"
   url="{url}"
+  rel="noreferrer"
   disabled="{url === '' ? true : false}"
 >
   <div class="preview-card">
@@ -38,7 +39,7 @@
     <div class="label">
       <div class="title">{@html title}</div>
       <p>
-        {@html truncateText(description, 10)}
+        {@html truncateText(description, 15)}
       </p>
     </div>
   </div>
@@ -100,7 +101,7 @@
       font-size: var(--font-size--1);
       color: var(--black-soft);
       font-weight: var(--font-weight-bold);
-      font-family: var(--font-display);
+      font-family: var(--font-sans);
       line-height: var(--line-height-medium);
     }
 
@@ -108,6 +109,7 @@
       margin-block: var(--space-3xs);
       font-style: italic;
       font-family: var(--font-serif);
+      font-size: var(--font-size-0);
       line-height: var(--line-height-tight);
     }
   }

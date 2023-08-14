@@ -55,7 +55,7 @@ Over the years, I have instructed design students on data representation, geovis
 
 </Container>
 
-<Testimonials />
+<Testimonials/>
 
 <Container style="margin-top: var(--space-2xl-3xl);" width=md>
 

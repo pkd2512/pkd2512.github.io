@@ -21,7 +21,13 @@
   export let solid = false;
 </script>
 
-<a {...$$restProps} class:solid="{solid}" href="{url}" target="{target}">
+<a
+  {...$$restProps}
+  rel="noreferrer"
+  class:solid="{solid}"
+  href="{url}"
+  target="{target}"
+>
   {@html label}
 </a>
 

@@ -8,7 +8,7 @@
 <section>
   <div class="hero"></div>
 
-  <Container width="md" style="margin-top: calc(-2.3 * var(--space-3xl));">
+  <Container width="lg" style="margin-top: calc(-2.3 * var(--space-3xl));">
     <div class="card">
       <div class="img">
         <img src="{assets}/media/Prasanta_KrDutta.jpg" alt="" />
@@ -42,7 +42,7 @@
     position: relative;
     background-color: var(--white);
     border-radius: 0.25rem;
-    max-width: calc(0.8 * var(--lg));
+    max-width: calc(0.9 * var(--lg));
     margin-inline: auto;
     margin-block: var(--space-xl);
     box-shadow: var(--shadow-3);
@@ -69,7 +69,7 @@
 
   .body {
     width: 55%;
-    padding: var(--space-xs) var(--space-m);
+    padding: var(--space-xs) var(--space-l);
 
     h1 {
       @include screenReaderOnly;
