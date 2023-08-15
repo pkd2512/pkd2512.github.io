@@ -34,10 +34,10 @@
 >
   <div class="wrapper">
     <div class="contact">
-      Get in touch
+      <!-- Get in touch -->
       <span style="max-width:calc(1.2 * var(--xs))">
-        To know more about my work, 1:1 mentorship, dataviz workshops or invite
-        me to speak at your&nbsp;event!
+        Get in touch to know more about my work, 1:1 mentorship, dataviz
+        workshops or invite me to speak at your&nbsp;event!
       </span>
       <div
         class="email"
@@ -58,7 +58,7 @@
     </div>
 
     <div class="links">
-      Stay in touch
+      <!-- Stay in touch -->
       <div class="icons">
         {#each socialUrls as sosh}
           {#if sosh.name !== 'Email'}
@@ -85,7 +85,7 @@
     padding-top: var(--space-m-l);
     padding-bottom: var(--space-s-m);
     padding-inline: var(--space-s-m);
-    align-items: flex-start;
+    align-items: center;
     justify-content: space-between;
     color: var(--white-soft);
     font-family: var(--font-display);
@@ -100,6 +100,7 @@
   .contact {
     width: 45%;
     span {
+      text-transform: none;
       font-size: var(--font-size--1);
       display: block;
       font-weight: var(--font-weight-light);
@@ -110,6 +111,7 @@
   .email {
     cursor: copy;
     position: relative;
+    text-transform: none;
     letter-spacing: var(--letter-spaced);
     font-family: var(--font-sans);
     font-size: var(--font-size-0);
@@ -181,5 +183,6 @@
 
   .icons {
     margin-top: var(--space-3xs);
+    min-height: 3rem;
   }
 </style>

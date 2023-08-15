@@ -55,6 +55,8 @@
       padding-inline: var(--space-s);
       color: var(--white);
       border-radius: 0.125rem;
+      max-width: fit-content;
+      margin-inline: auto;
     }
 
     &:hover,

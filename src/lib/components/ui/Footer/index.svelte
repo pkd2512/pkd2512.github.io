@@ -40,7 +40,7 @@
   footer {
     background-color: var(--purple-soft);
 
-    font-size: var(--font-size--1);
+    font-size: var(--font-size--2);
     letter-spacing: var(--letter-spaced);
     padding: var(--space-s) 0;
     color: var(--white);

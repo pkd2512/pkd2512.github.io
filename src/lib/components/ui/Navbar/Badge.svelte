@@ -70,6 +70,8 @@
     background-image: url('/media/textures/small-crackle-bright.png');
     background-blend-mode: overlay;
 
+    box-shadow: var(--shadow-3);
+
     transform-origin: center;
     transition: transform 0.3s step-start;
     transform: rotate3d(0, 0, 1, var(--angle));

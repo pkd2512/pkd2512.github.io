@@ -100,7 +100,7 @@
   nav {
     margin-top: -1px;
     margin-bottom: var(--space-3xl);
-    transition: transform 0.3s ease;
+    transition: transform 0.15s ease-out;
     z-index: var(--layer-important);
     background-color: var(--purple-soft);
     position: relative;
@@ -112,10 +112,34 @@
       top: -1px;
 
       &.down {
-        transform: translateY(-200%);
+        transform: translateY(-250%);
       }
       &.up {
         transform: translateY(0%);
+      }
+    }
+
+    .nav-item:not(.badge) a {
+      padding: var(--space-s) var(--space-xs);
+
+      &:after {
+        content: '';
+        width: 0%;
+        height: 0rem;
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        display: block;
+        margin-top: var(--space-xs);
+        background-color: var(--purple);
+        transition: all 0.15s ease;
+      }
+
+      &.active {
+        &:after {
+          width: 100%;
+          height: 0.35rem;
+        }
       }
     }
   }
@@ -139,7 +163,7 @@
     }
 
     &.badge {
-      margin-bottom: -5.5%;
+      margin-bottom: -8.5%;
       position: relative;
 
       :global {

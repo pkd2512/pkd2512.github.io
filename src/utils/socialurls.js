@@ -42,6 +42,12 @@ export default [
     target: '_blank',
   },
   {
+    name: 'Medium',
+    url: 'https://medium.com/@Da_Pacific',
+    icon: 'fa6-brands:medium',
+    target: '_blank',
+  },
+  {
     name: 'Email',
     url: 'pkd@prasantakrdutta.com',
     icon: '',

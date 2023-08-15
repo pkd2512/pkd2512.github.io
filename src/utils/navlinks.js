@@ -6,17 +6,17 @@ export default [
     target: '',
   },
   {
-    name: 'Blog',
-    url: '/#blog',
+    name: 'Community',
+    url: '/community',
     class: '',
     target: '',
   },
-  {
-    name: 'Resources',
-    url: '/resources',
-    class: '',
-    target: '',
-  },
+  // {
+  //   name: 'Resources',
+  //   url: '/resources',
+  //   class: '',
+  //   target: '',
+  // },
   {
     name: 'Home',
     url: '/',
@@ -30,14 +30,14 @@ export default [
     target: '',
   },
   {
-    name: 'Talks',
-    url: '/talks',
+    name: 'Blog',
+    url: '/blog',
     class: '',
     target: '',
   },
-  {
-    name: 'Contact',
-    url: '#contact',
-    class: '',
-  },
+  // {
+  //   name: 'Contact',
+  //   url: '#contact',
+  //   class: '',
+  // },
 ];

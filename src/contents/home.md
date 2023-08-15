@@ -32,8 +32,6 @@ published: true
 
 <RecentProjects />
 
-
-
 <Container width=md>
 
 ## At the intersection of information design, web development and data journalism
@@ -46,10 +44,10 @@ I design data-driven visual narratives that help transform information to knowle
 
 <Container width=md>
 
-## Towards dataviz literacy 
+## Towards dataviz literacy
 
 I love to talk about design and data visualisation.
-Over the years, I have instructed design students on data representation, geovisualisation and data storytelling at eminent institutes across India like the National Institute of Design and JK Lakshmipat University. <LinkButton label='See all talks and workshops' url='talks/' /> 
+Over the years, I have instructed design students on data representation, geovisualisation and data storytelling at eminent institutes across India like the National Institute of Design and JK Lakshmipat University. <LinkButton label='See all talks and workshops' url='community/' />
 
 <iframe loading="lazy" width="100%" style="aspect-ratio: var(--ratio-widescreen);" src="https://www.youtube-nocookie.com/embed/LAro9nJhCvM?controls=1" title="YouTube video of ProApp workshop on Data and Design by Prasanta" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 

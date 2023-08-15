@@ -1,12 +1,23 @@
 <script>
   import Container from '$lib/components/ui/Container/index.svelte';
+  import ParallaxHero from '$lib/components/ui/ParallaxHero/index.svelte';
   import { assets } from '$app/paths';
+
+  /**
+   * @param {String} hed
+   * Title of the card
+   */
   export let hed = '';
+
+  /**
+   * @param {String} dek
+   * Card description
+   */
   export let dek = '';
 </script>
 
 <section>
-  <div class="hero"></div>
+  <ParallaxHero img="/media/pexels-prasanta-kr-dutta-104361.jpg" />
 
   <Container width="lg" style="margin-top: calc(-2.3 * var(--space-3xl));">
     <div class="card">
@@ -27,14 +38,6 @@
 
   section {
     margin-top: calc(-2 * var(--space-3xl));
-  }
-  .hero {
-    width: auto;
-    @include fullheight(0.85);
-    background-position: center;
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-image: url('/media/pexels-prasanta-kr-dutta-104361.jpg');
   }
 
   .card {

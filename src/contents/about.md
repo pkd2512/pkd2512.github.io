@@ -78,8 +78,6 @@ My logo, imagined as islands in the Pacific generated using ControlNet v1.1.
 
 </figure>
 
-<br />
-
 My experiments don't stop in the digital realm. When I am not working, you can find me exploring places and indulging in the <LinkButton target=_blank label='culinary arts' url='https://www.instagram.com/thebongbawarchi/' />.
 
 <div style=text-align:center;><ReferralCard url="https://medium.com/diarium-da-pacific/cooking-is-therapy-424efbdc4570" image="/media/cooking.jpg" title="Cooking is therapy" description="How a designer finds solace in the culinary arts to exercise his creative senses"
