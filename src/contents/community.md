@@ -22,8 +22,13 @@ published: true
 <script>
   import Container from '$lib/components/ui/Container/index.svelte';
   import LinkButton from '$lib/components/ui/LinkButton/index.svelte';
+  import List from '$lib/components/custom/community/List/index.svelte';
   import ParallaxHero from '$lib/components/ui/ParallaxHero/index.svelte';
   import ReferralCard from '$lib/components/ui/ReferralCard/index.svelte';
+
+  import talks from '/src/contents/data/talks.csv';
+  import teachings from '/src/contents/data/teachings.csv';
+  import resources from '/src/contents/data/resources.csv';
 </script>
 
 <section style="margin-top: calc(-2 * var(--space-3xl));">
@@ -34,6 +39,20 @@ published: true
 
 <Container width=md>
 
-**I love to talk about design and data visualisation. Over the years, I have instructed design students and professionals on data representation, geo-visualisation and data storytelling.**
+**I love to talk about design and data visualisation. Over the years, I have instructed students and professionals on data representation, geographic visualisation and visual storytelling.**
 
 </Container>
+
+<Container width=md style="text-align: center; margin-top: var(--space-m); margin-bottom: var(--space-xl);">
+
+ <LinkButton solid="{true}"  url="#contact" label="Get in touch" />
+
+ </Container>
+
+<List title='Talks and Workshops' content={talks}/>
+
+<List title='In the classroom' content={teachings}/>
+
+<div style=text-align:center;><ReferralCard  url="https://medium.com/diarium-da-pacific/showcasing-brilliance-2fe5fa976b5b" image="/media/teachings.jpg" title="Showcasing Brilliance" description="A curation of data visualisation projects from my students"/></div>
+
+<List title='Resources and Tools' content={resources}/>

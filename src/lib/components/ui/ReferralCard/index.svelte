@@ -41,6 +41,13 @@
       <p>
         {@html truncateText(description, 15)}
       </p>
+      <span class="icon">
+        <Icon
+          width="22"
+          height="22"
+          icon="iconamoon:link-external-duotone"
+        /></span
+      >
     </div>
   </div>
 </NavLink>
@@ -56,6 +63,10 @@
           .image {
             filter: saturate(1);
             background-blend-mode: normal;
+          }
+
+          .icon {
+            visibility: visible;
           }
         }
       }
@@ -87,6 +98,13 @@
     filter: saturate(0.75);
   }
 
+  .icon {
+    position: absolute;
+    right: 0;
+    top: var(--space-s);
+    visibility: hidden;
+  }
+
   .label {
     width: calc(100% - 2 * var(--space-3xl));
     display: flex;
@@ -96,6 +114,7 @@
     text-align: left;
     color: var(--black-soft);
     letter-spacing: 0;
+    position: relative;
 
     .title {
       font-size: var(--font-size--1);

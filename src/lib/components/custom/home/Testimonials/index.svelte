@@ -2,10 +2,12 @@
   import { Splide, SplideSlide } from '@splidejs/svelte-splide';
   import '@splidejs/svelte-splide/css';
   import Icon from '@iconify/svelte';
-  import testimonials from '$utils/testimonials';
   import Container from '$lib/components/ui/Container/index.svelte';
   import truncateText from '$utils/truncateText';
   import LinkButton from '$lib/components/ui/LinkButton/index.svelte';
+
+  // @ts-ignore
+  import testimonials from '/src/contents/data/testimonials.csv';
 </script>
 
 <Container id="mentoring" width="lg">

@@ -49,6 +49,7 @@
 </Container>
 
 <style lang="scss">
+  @import 'src/lib/styles/mixins/sectionTitle';
   :global {
     #blog {
       margin-block: var(--space-2xl-3xl);
@@ -57,22 +58,7 @@
   }
 
   .title {
-    color: var(--black-soft);
-    text-align: center;
-    text-transform: uppercase;
-    font-weight: var(--font-weight-medium);
-    font-size: var(--font-size--1);
-    font-family: var(--font-display);
-    letter-spacing: var(--letter-spaced-more);
-
-    &:after {
-      content: '';
-      display: block;
-      margin-inline: auto;
-      margin-top: var(--space-xs);
-      width: var(--space-3xl);
-      border: 1px solid var(--gray-soft);
-    }
+    @include sectionTitle;
   }
 
   .cards {

@@ -107,13 +107,18 @@
     transition: transform 0.15s ease-out;
     z-index: var(--layer-important);
     background-color: var(--purple-soft);
+    box-shadow: var(--shadow-3), var(--shadow-5);
     position: relative;
+    margin-inline: auto;
   }
 
   :global {
     nav.pin {
       position: sticky !important;
       top: -1px;
+
+      max-width: var(--lg);
+      border-radius: 15rem;
 
       &.down {
         transform: translateY(-250%);
@@ -134,6 +139,7 @@
         left: 50%;
         transform: translateX(-50%);
         display: block;
+        border-radius: 1rem;
         margin-top: var(--space-xs);
         background-color: var(--purple);
         transition: all 0.15s ease;
@@ -157,7 +163,7 @@
   li {
     list-style: none;
     text-transform: uppercase;
-    letter-spacing: var(--letter-spaced);
+    letter-spacing: var(--letter-spaced-more);
     text-align: center;
 
     width: 100%;

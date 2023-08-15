@@ -17,7 +17,8 @@
     background-repeat: no-repeat;
     background-position-x: center;
     background-attachment: fixed;
-    background-color: var(--purple-soft);
+    // background-color: var(--purple-soft);
+    background-color: hsl(269, 33%, 22%);
     background-blend-mode: luminosity;
     filter: saturate(0.75);
   }
