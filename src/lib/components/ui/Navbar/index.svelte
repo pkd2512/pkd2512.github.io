@@ -1,7 +1,6 @@
 <script>
   import Container from '$lib/components/ui/Container/index.svelte';
   import NavLink from '$lib/components/ui/Navlink/index.svelte';
-  import navlinks from '$utils/navlinks';
   import { page } from '$app/stores';
   import resolveLinkTarget from '$utils/resolveLinkTarget';
   import Badge from './Badge.svelte';
@@ -9,12 +8,16 @@
   import scrollDirection from '$utils/scrollDirection';
   import { inview } from 'svelte-inview';
 
+  // @ts-ignore
+  import navlinks from '/src/contents/data/navlinks.csv';
+
   let links = navlinks;
   $: pageId = $page.route.id;
   $: pageHash = $page.url.hash;
 
   // Change blog and contact to external links for other pages
   $: if (pageId !== '/') {
+    // @ts-ignore
     links = links.map(({ url, name, ...rest }) => {
       let newUrl = url;
       switch (name) {
@@ -30,6 +33,7 @@
       return { url: newUrl, name, ...rest };
     });
   } else {
+    // @ts-ignore
     links = links.map(({ url, name, ...rest }) => {
       let newUrl = url;
       switch (name) {

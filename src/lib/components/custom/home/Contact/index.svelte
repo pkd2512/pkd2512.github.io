@@ -2,11 +2,16 @@
   import Container from '$lib/components/ui/Container/index.svelte';
   import NavLink from '$lib/components/ui/Navlink/index.svelte';
   import Icon from '@iconify/svelte';
-  import socialUrls from '$utils/socialurls';
+
   import Logo from '$lib/components/ui/Logo/index.svelte';
   import { copy } from 'svelte-copy';
 
-  const email = socialUrls.filter((d) => d.name === 'Email')[0];
+  // @ts-ignore
+  import socialUrls from '/src/contents/data/socialurls.csv';
+
+  const email = socialUrls.filter(
+    (/** @type {{ name: string; }} */ d) => d.name === 'Email'
+  )[0];
 
   const year = new Date().getFullYear();
 
