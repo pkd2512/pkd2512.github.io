@@ -66,7 +66,7 @@
           }
 
           .icon {
-            visibility: visible;
+            transform: translate(0.15rem, -0.15rem);
           }
         }
       }
@@ -78,6 +78,7 @@
     margin-block: var(--space-xs);
     margin-inline: auto;
     max-width: calc(0.8 * var(--md));
+    width: calc(0.8 * var(--md));
     background-color: var(--white);
     border-radius: 0.25rem;
     box-shadow: var(--shadow-1);
@@ -102,7 +103,7 @@
     position: absolute;
     right: 0;
     top: var(--space-s);
-    visibility: hidden;
+    transition: all 0.35s ease;
   }
 
   .label {

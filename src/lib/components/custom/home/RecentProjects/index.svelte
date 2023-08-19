@@ -77,7 +77,6 @@
 
   #recent-projects {
     margin-bottom: var(--space-2xl-3xl);
-    margin-top: calc(-2 * var(--space-3xl));
   }
 
   #all-projects {
@@ -147,7 +146,7 @@
       width: 100%;
 
       .link {
-        width: 9.75rem;
+        width: 10rem;
         text-align: end;
       }
     }

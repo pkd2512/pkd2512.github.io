@@ -36,10 +36,6 @@
   @import 'src/lib/styles/mixins/screenReaderOnly';
   @import 'src/lib/styles/mixins/fullHeight';
 
-  section {
-    margin-top: calc(-2 * var(--space-3xl));
-  }
-
   .card {
     display: flex;
     position: relative;

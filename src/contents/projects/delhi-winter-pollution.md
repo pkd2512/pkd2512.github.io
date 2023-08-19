@@ -12,7 +12,7 @@ type: project
 links: 
   - type: project
     url: https://www.reuters.com/graphics/INDIA-POLLUTION/010080SY1KE/
-    label: 🔗 View Project
+    label: 📔 View Project
     target: _blank
 
   - type: doc
@@ -38,20 +38,15 @@ published: true
 <script>
   import Container from '$lib/components/ui/Container/index.svelte';
 
-
 </script>
-
 
 <Container width="sm">
 
-Hey friends! 
-
+Hey friends!
 
 ![image](/media/tree.jpg)
 
-
 </Container>
-
 
 <figure>
 

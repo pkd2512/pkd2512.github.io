@@ -31,9 +31,7 @@ published: true
   import resources from '/src/contents/data/resources.csv';
 </script>
 
-<section style="margin-top: calc(-2 * var(--space-3xl));">
-  <ParallaxHero img='/media/nidblr2023.jpg'/>
-</section>
+<ParallaxHero img='/media/nidblr2023.jpg'/>
 
 <br />
 

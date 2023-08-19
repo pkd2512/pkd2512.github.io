@@ -92,8 +92,17 @@
         font-weight: var(--font-weight-medium) !important;
       }
 
-      svg {
-        transform: translateY(0.35rem);
+      a {
+        svg {
+          transform: translateY(0.35rem);
+          transition: all 0.35s ease;
+        }
+
+        &:hover {
+          svg {
+            transform: translate(0.15rem, 0.2rem);
+          }
+        }
       }
 
       * {
