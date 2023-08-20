@@ -1,6 +1,6 @@
 <script>
   import Container from '$lib/components/ui/Container/index.svelte';
-
+  import ProjectCard from '$lib/components/custom/projects/ProjectCard/index.svelte';
   /**
    * @param posts - list of projects and metadata
    * @type {any[]}
@@ -19,14 +19,50 @@
   <h2>{title}</h2>
 </Container>
 
-<Container width="lg">
-  <ul class="posts">
-    {#each posts as post}
-      <li class="post">
-        <a href="{post.slug}" class="title">{post.title}</a>
-        <p class="date">{post.date}</p>
-        <p class="description">{post.description}</p>
-      </li>
-    {/each}
-  </ul>
+<Container>
+  <div class="wrapper" style="">
+    <ul class="posts">
+      {#each posts as post}
+        <li class="post">
+          <a href="{post.slug}">
+            <ProjectCard info="{post}" />
+          </a>
+        </li>
+      {/each}
+    </ul>
+  </div>
 </Container>
+
+<style lang="scss">
+  .wrapper {
+    // define grid cols
+    --cols: 5;
+    --gap: var(--space-s);
+    @media (--xl-only) {
+      --cols: 4;
+    }
+    @media (--lg-n-below) {
+      --cols: 3;
+    }
+    @media (--sm-only) {
+      --cols: 2;
+    }
+  }
+  .wrapper {
+    margin-inline: auto;
+    margin-bottom: var(--space-xl);
+    max-width: calc(var(--cols) * var(--xxs) + (var(--cols) - 1) * var(--gap));
+  }
+  ul {
+    padding: 0;
+    display: grid;
+    grid-gap: var(--gap);
+    grid-template-columns: repeat(var(--cols), minmax(0, 1fr));
+  }
+  li {
+    list-style: none;
+  }
+  a {
+    text-decoration: none;
+  }
+</style>

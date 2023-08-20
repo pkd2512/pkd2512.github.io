@@ -41,20 +41,20 @@
 </ParallaxHero>
 
 <section id="news-graphics">
-  <ProjectList title="Reuters Graphics" posts="{contents}" />
+  <ProjectList title="News Graphics" posts="{contents}" />
 </section>
 
 <div style="text-align:center;">
   <ReferralCard
     url="https://muckrack.com/pkddapacific"
     image="/media/muckrack.jpg"
-    title="Journalism portfolio"
-    description="Visual and data graphics projects from the newsroom"
+    title="Muckrack portfolio"
+    description="Visual journalism and data graphics projects"
   />
 </div>
 
 <section id="ux-ui-design">
-  <ProjectList title="Reuters Graphics" posts="{contents}" />
+  <ProjectList title="UX-UI Design" posts="{contents}" />
 </section>
 
 <div style="text-align:center;">
