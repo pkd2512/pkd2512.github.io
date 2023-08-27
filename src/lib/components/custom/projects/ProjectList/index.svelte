@@ -15,7 +15,7 @@
   $: console.log(posts);
 </script>
 
-<Container width="md">
+<Container width="lg">
   <h2>{title}</h2>
 </Container>
 
@@ -36,7 +36,7 @@
 <style lang="scss">
   .wrapper {
     // define grid cols
-    --cols: 5;
+    --cols: 3;
     --gap: var(--space-s);
     @media (--xl-only) {
       --cols: 4;
@@ -51,7 +51,9 @@
   .wrapper {
     margin-inline: auto;
     margin-bottom: var(--space-xl);
-    max-width: calc(var(--cols) * var(--xxs) + (var(--cols) - 1) * var(--gap));
+    max-width: calc(
+      var(--cols) * var(--card-width) + (var(--cols) - 1) * var(--gap)
+    );
   }
   ul {
     padding: 0;

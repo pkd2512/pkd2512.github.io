@@ -20,7 +20,7 @@
 <ParallaxHero img="{assets}/media/{featured.intro.img}">
   <Container width="sm">
     <div class="anno">
-      <!-- <p class="hed">{featured.intro.hed}</p> -->
+      <p class="hed">{featured.intro.hed}</p>
       <p class="dek">{featured.intro.dek}</p>
 
       {#if featured.links}
@@ -40,9 +40,7 @@
   </Container>
 </ParallaxHero>
 
-<section id="news-graphics">
-  <ProjectList title="News Graphics" posts="{contents}" />
-</section>
+<ProjectList title="" posts="{contents.slice(0, 5)}" />
 
 <div style="text-align:center;">
   <ReferralCard
@@ -53,9 +51,7 @@
   />
 </div>
 
-<section id="ux-ui-design">
-  <ProjectList title="UX-UI Design" posts="{contents}" />
-</section>
+<ProjectList title="" posts="{contents.slice(5)}" />
 
 <div style="text-align:center;">
   <ReferralCard
