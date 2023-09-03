@@ -83,12 +83,25 @@
     border-radius: 0.25rem;
     box-shadow: var(--shadow-1);
 
+    @media (--md-n-below) {
+      width: 100%;
+    }
+
     transition: all 0.3s ease;
   }
 
   .image {
     width: calc(2 * var(--space-3xl));
     aspect-ratio: var(--ratio-golden);
+
+    @media (--md-n-below) {
+      width: calc(2 * var(--space-2xl));
+      aspect-ratio: var(--ratio-landscape);
+    }
+
+    @media (--sm-n-below) {
+      width: calc(2.5 * var(--space-2xl));
+    }
 
     background-size: cover;
     background-position: center;
@@ -101,13 +114,21 @@
 
   .icon {
     position: absolute;
-    right: 0;
-    top: var(--space-s);
+    top: var(--space-2xs);
+    right: calc(-1 * var(--space-2xs));
     transition: all 0.35s ease;
   }
 
   .label {
     width: calc(100% - 2 * var(--space-3xl));
+    @media (--md-n-below) {
+      width: calc(100% - 2 * var(--space-2xl));
+    }
+    @media (--sm-n-below) {
+      width: calc(100% - 2.5 * var(--space-2xl));
+    }
+
+    padding-block: var(--space-m);
     display: flex;
     flex-flow: column;
     justify-content: center;

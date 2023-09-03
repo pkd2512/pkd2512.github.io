@@ -8,8 +8,8 @@ export default (node) => {
     dy = y - prevY;
     prevY = y;
 
-    Math.abs(dy) > 5 && node.classList.toggle('up', dy < 0);
-    Math.abs(dy) > 5 && node.classList.toggle('down', dy >= 0);
+    Math.abs(dy) > 3 && node.classList.toggle('up', dy < 0);
+    Math.abs(dy) > 3 && node.classList.toggle('down', dy >= 0);
   };
 
   window.addEventListener('scroll', getDirection);
