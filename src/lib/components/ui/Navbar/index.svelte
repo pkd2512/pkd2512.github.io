@@ -4,7 +4,7 @@
   import { page } from '$app/stores';
   import resolveLinkTarget from '$utils/resolveLinkTarget';
   import Badge from './Badge.svelte';
-  import { onMount } from 'svelte';
+
   import scrollDirection from '$utils/scrollDirection';
   import { inview } from 'svelte-inview';
 
@@ -51,47 +51,51 @@
   }
 </script>
 
-<nav
-  use:scrollDirection
-  use:inview="{{ root: null, rootMargin: '0px', threshold: 1 }}"
-  on:inview_change="{(
-    /** @type {{ detail: { node: { classList: { toggle: (arg0: string, arg1: boolean) => void; }; }; inView: any; }; }} */ e
-  ) => {
-    e.detail.node.classList.toggle('pin', !e.detail.inView);
-  }}"
->
-  <Container width="lg" id="sitenav">
-    <ul>
-      {#each links as link}
-        {#if link.url === '/'}
-          <li class="nav-item badge">
-            <NavLink
-              style="color: var(--white);"
-              target="{resolveLinkTarget(link.url, $page.url.hostname)}"
-              url="/"
-              active="{pageId === '/' && pageHash === ''}"
-            >
-              <span class="sr-only">Home</span>
-              <Badge />
-            </NavLink>
-          </li>
-        {:else}
-          <li class="nav-item">
-            <NavLink
-              style="color: var(--white);"
-              target="{resolveLinkTarget(link.url, $page.url.hostname)}"
-              url="{link.url}"
-              active="{pageId?.includes(link.url) ||
-                pageHash?.includes(link.name.toLowerCase())}"
-            >
-              <span>{link.name}</span>
-            </NavLink>
-          </li>
-        {/if}
-      {/each}
-    </ul>
-  </Container>
-</nav>
+<header>
+  <nav
+    class="up"
+    use:scrollDirection
+    use:inview="{{ root: null, threshold: 1 }}"
+    on:inview_change="{(
+      /** @type {{ detail: { node: { classList: { toggle: (arg0: string, arg1: boolean) => void; }; }; inView: any; }; }} */ e
+    ) => {
+      window.scrollY > -1 &&
+        e.detail.node.classList.toggle('pin', !e.detail.inView);
+    }}"
+  >
+    <Container width="lg" id="sitenav">
+      <ul>
+        {#each links as link}
+          {#if link.url === '/'}
+            <li class="nav-item badge">
+              <NavLink
+                style="color: var(--white);"
+                target="{resolveLinkTarget(link.url, $page.url.hostname)}"
+                url="/"
+                active="{pageId === '/' && pageHash === ''}"
+              >
+                <span class="sr-only">Home</span>
+                <Badge />
+              </NavLink>
+            </li>
+          {:else}
+            <li class="nav-item">
+              <NavLink
+                style="color: var(--white);"
+                target="{resolveLinkTarget(link.url, $page.url.hostname)}"
+                url="{link.url}"
+                active="{pageId?.includes(link.url) ||
+                  pageHash?.includes(link.name.toLowerCase())}"
+              >
+                <span>{link.name}</span>
+              </NavLink>
+            </li>
+          {/if}
+        {/each}
+      </ul>
+    </Container>
+  </nav>
+</header>
 
 <style lang="scss">
   @import 'src/lib/styles/mixins/_shadows';
