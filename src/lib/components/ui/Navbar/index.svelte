@@ -101,6 +101,10 @@
   @import 'src/lib/styles/mixins/_shadows';
   @import 'src/lib/styles/mixins/_screenReaderOnly';
 
+  header {
+    display: contents;
+  }
+
   .sr-only {
     @include screenReaderOnly;
   }

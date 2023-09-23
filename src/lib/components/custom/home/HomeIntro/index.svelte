@@ -5,7 +5,7 @@
   const { hed, dek, img } = $page.data.meta.intro;
 </script>
 
-<section id="header">
+<section id="hero">
   <Container width="xl snap skip-sm">
     <header>
       <div class="text">
@@ -23,7 +23,7 @@
   @import 'src/lib/styles/mixins/fullHeight';
   @import 'src/lib/styles/mixins/shadows';
 
-  #header {
+  #hero {
     background-color: var(--purple-soft);
     position: relative;
     z-index: var(--layer-5);
