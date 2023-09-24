@@ -70,6 +70,7 @@
   }
 
   p {
+    font-family: var(--font-sans);
     color: var(--white-soft);
     font-size: var(--font-size-1);
     font-weight: var(--font-weight-light);
@@ -78,7 +79,8 @@
 
   h1 {
     color: var(--white-soft);
-    margin: 0;
+    margin-inline: auto;
+    margin-block: var(--space-l);
     @include filter-shadow(var(--purple));
   }
 </style>

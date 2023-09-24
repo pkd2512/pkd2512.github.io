@@ -68,7 +68,7 @@ In the meanwhile, I briefly worked as --
 
 I love to dabble in generative and digital art when I can. You can find some of my explorations on <LinkButton target=_blank label='Instagram' url='https://www.instagram.com/thebongartista/' /> or on my <LinkButton target=_blank label='blog' url='https://medium.com/diarium-da-pacific/tagged/projects' />. As I come across new technology, I love to try it out for fun and see how it might be useful for my area of work. <LinkButton label='Reach out' url='#contact' /> if you would like to buy or exhibit my artwork!
 
-<figure style="margin:0">
+<figure>
 
 ![My logo, reading PKD, imagined as islands in the Pacific generated using ControlNet v1.1.](/media/pkd-islands.png)
 

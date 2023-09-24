@@ -37,7 +37,7 @@
   .wrapper {
     // define grid cols
     --cols: 3;
-    --gap: var(--space-s);
+    --gap: 1px;
     @media (--xl-only) {
       --cols: 4;
     }

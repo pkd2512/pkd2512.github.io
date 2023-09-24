@@ -17,7 +17,7 @@
 </script>
 
 <section>
-  <ParallaxHero img="/media/pexels-prasanta-kr-dutta-104361.jpg" />
+  <ParallaxHero img="/media/hero-about.jpg" />
 
   <Container width="lg" style="margin-top: calc(-2.3 * var(--space-3xl));">
     <div class="card">
@@ -68,7 +68,9 @@
 
   .body {
     width: 55%;
-    padding: var(--space-xs) var(--space-l);
+    padding: var(--space-s) var(--space-l);
+    display: flex;
+    align-items: center;
 
     h1 {
       @include screenReaderOnly;
@@ -76,6 +78,7 @@
 
     p {
       font-family: var(--font-serif);
+      margin-block: 0;
     }
   }
 </style>

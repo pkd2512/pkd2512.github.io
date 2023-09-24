@@ -30,7 +30,7 @@
 <style lang="scss">
   :global {
     :where(html) {
-      --card-width: calc(0.8 * var(--sm));
+      --card-width: calc(1.1 * var(--sm));
       @media (--md-n-below) {
         --card-width: calc(0.5 * var(--sm));
       }
@@ -68,7 +68,7 @@
   }
 
   .body {
-    padding: var(--space-xs);
+    padding: var(--space-s);
 
     p {
       color: var(--black);
@@ -82,7 +82,7 @@
         margin-bottom: var(--space-2xs);
         font-size: var(--font-size-0);
         font-family: var(--font-display);
-        font-weight: var(--font-weight-medium);
+        font-weight: var(--font-weight-bold);
         line-height: var(--line-height-medium);
       }
     }

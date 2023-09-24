@@ -15,15 +15,11 @@
   .hero {
     width: 100%;
     @include fullheight(0.9);
-
     background-image: var(--img);
     background-size: cover;
     background-attachment: fixed;
     background-repeat: no-repeat;
-    background-position-x: center;
-    background-color: hsl(269, 33%, 22%);
-    background-blend-mode: luminosity;
-    filter: saturate(0.75);
+    background-position: center;
 
     @media (--md-n-below) {
       background-attachment: unset;

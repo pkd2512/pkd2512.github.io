@@ -31,13 +31,13 @@ published: true
   import resources from '/src/contents/data/resources.csv';
 </script>
 
-<ParallaxHero img='/media/nidblr2023.jpg'/>
-
-<br />
+<ParallaxHero img='/media/hero-community.jpg'/>
 
 <Container width=md>
 
-**I love to talk about design and data visualisation. Over the years, I have instructed students and professionals on data representation, geographic visualisation and visual storytelling.**
+<p style="margin-block-start: var(--space-xl)">
+  I love to talk about design and data visualisation. Over the years, I have instructed students and professionals on data representation, geographic visualisation and visual storytelling.
+</p>
 
 </Container>
 

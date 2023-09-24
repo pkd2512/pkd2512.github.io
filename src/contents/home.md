@@ -61,7 +61,7 @@ Over the years, I have instructed design students on data representation, geovis
 
 I dabble in creative coding and generative art, mainly as a means to explore the beauty of mathematics, some of which are documented on my <LinkButton label='blog' url='https://medium.com/diarium-da-pacific' target=_blank /> and <LinkButton label='Instagram' url='https://www.instagram.com/thebongartista/' target=_blank />.
 
-<figure style="margin:0">
+<figure>
 
 <iframe loading="lazy" title="Interactive p5 sketch" frameborder="0" src="https://openprocessing.org/sketch/1051968/embed/" width="100%" style="aspect-ratio: var(--ratio-golden);"></iframe>
 
@@ -77,7 +77,7 @@ I dabble in creative coding and generative art, mainly as a means to explore the
 
 Over the years, I have also created a collection of stock photographs that have been viewed more than 11M times. Available for download on <LinkButton label='Unsplash' url='https://unsplash.com/@pkddapacific' target=_blank /> and  <LinkButton label='Pexels' url='https://www.pexels.com/@pkddapacific/' target=_blank />.
 
-<figure style="margin:0">
+<figure>
 
 ![A close up view of a mask of Goddess Durga being hand-painted](https://images.pexels.com/photos/190589/pexels-photo-190589.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1)
 
