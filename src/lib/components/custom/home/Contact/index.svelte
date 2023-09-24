@@ -125,7 +125,6 @@
     margin-right: var(--space-2xs);
 
     &:hover {
-      text-decoration: dotted;
       text-decoration: underline;
       text-decoration-thickness: 0.25rem;
       text-underline-position: under;
