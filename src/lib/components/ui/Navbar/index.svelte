@@ -5,6 +5,8 @@
   import resolveLinkTarget from '$utils/resolveLinkTarget';
   import Badge from './Badge.svelte';
 
+  import NavMobile from './NavMobile.svelte';
+
   import scrollDirection from '$utils/scrollDirection';
   import { inview } from 'svelte-inview';
 
@@ -52,7 +54,12 @@
 </script>
 
 <header>
+  <!-- Mobile nav -->
+  <NavMobile links="{links}" />
+
+  <!-- Desktop nav -->
   <nav
+    id="sitenav"
     class="up"
     use:scrollDirection
     use:inview="{{ root: null, threshold: 1 }}"
@@ -63,9 +70,9 @@
         e.detail.node.classList.toggle('pin', !e.detail.inView);
     }}"
   >
-    <Container width="lg" id="sitenav">
+    <Container width="lg">
       <ul>
-        {#each links as link}
+        {#each links as link (link.name)}
           {#if link.url === '/'}
             <li class="nav-item badge">
               <NavLink
@@ -103,6 +110,23 @@
 
   header {
     display: contents;
+
+    @media (max-width: 600px) {
+      :global(#sitenav) {
+        display: none;
+      }
+      :global(#sitenav-mobile) {
+        display: flex;
+      }
+    }
+    @media (min-width: 600px) {
+      :global(#sitenav) {
+        display: block;
+      }
+      :global(#sitenav-mobile) {
+        display: none;
+      }
+    }
   }
 
   .sr-only {
@@ -112,53 +136,59 @@
   nav {
     margin-top: -1px;
     margin-bottom: var(--space-3xl);
-    transition: transform 0.35s ease-out;
+    transition: transform 0.35s ease, max-width 0.15s ease-out;
     z-index: var(--layer-important);
     background-color: var(--purple-soft);
     box-shadow: var(--shadow-3), var(--shadow-5);
     position: relative;
     margin-inline: auto;
+    max-width: 100%;
   }
 
-  :global {
-    nav.pin {
+  header {
+    :global(nav.pin) {
       position: sticky !important;
       top: -1px;
+      left: -50%;
 
-      max-width: var(--lg);
-      border-radius: 15rem;
+      max-width: var(--md);
 
-      &.down {
-        transform: translateY(-250%);
-      }
-      &.up {
-        transform: translateY(0%);
+      @media (min-width: 600px) {
+        border-radius: 15rem;
       }
     }
 
-    .nav-item:not(.badge) a {
+    :global(nav.pin.down:not(.open)) {
+      transform: translate3d(0, -250%, 0);
+    }
+
+    :global(nav.pin.up) {
+      transform: translate3d(0, 0, 0);
+    }
+  }
+
+  .nav-item:not(.badge) {
+    :global(a) {
       padding: var(--space-s) var(--space-xs);
+    }
 
-      &:after {
-        content: '';
-        width: 0%;
-        height: 0rem;
-        position: absolute;
-        left: 50%;
-        transform: translateX(-50%);
-        display: block;
-        border-radius: 1rem;
-        margin-top: var(--space-xs);
-        background-color: var(--purple);
-        transition: all 0.15s ease;
-      }
+    :global(a::after) {
+      content: '';
+      width: 0%;
+      height: 0rem;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      display: block;
+      border-radius: 1rem;
+      margin-top: var(--space-xs);
+      background-color: var(--purple);
+      transition: all 0.35s ease;
+    }
 
-      &.active {
-        &:after {
-          width: 100%;
-          height: 0.35rem;
-        }
-      }
+    :global(a.active::after) {
+      width: 100%;
+      height: 0.3rem;
     }
   }
 
@@ -181,14 +211,12 @@
     }
 
     &.badge {
-      margin-bottom: -8.5%;
+      margin-bottom: -6rem;
       position: relative;
 
-      :global {
-        a.active {
-          border-bottom: none;
-          padding-bottom: 0 !important;
-        }
+      :global(a.active) {
+        border-bottom: none;
+        padding-bottom: 0 !important;
       }
     }
   }

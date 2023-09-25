@@ -68,21 +68,20 @@
   }
 
   .body {
-    padding: var(--space-s);
+    padding: calc(0.8 * var(--space-l)) var(--space-l);
 
     p {
-      color: var(--black);
-      font-weight: var(--font-weight-regular);
-      margin: 0;
+      color: var(--black-soft);
+      font-family: var(--font-sans);
       font-size: var(--font-size--1);
+      margin: 0;
 
       &.title {
         color: var(--black-soft);
-
         margin-bottom: var(--space-2xs);
-        font-size: var(--font-size-0);
-        font-family: var(--font-display);
-        font-weight: var(--font-weight-bold);
+        font-size: var(--font-size-1);
+        font-family: var(--font-sans);
+        font-weight: var(--font-weight-light);
         line-height: var(--line-height-medium);
       }
     }

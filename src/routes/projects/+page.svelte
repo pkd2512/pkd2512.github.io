@@ -69,13 +69,22 @@
     margin-bottom: var(--space-l);
     border-radius: 0.25rem;
     box-shadow: var(--shadow-2);
+    display: flex;
+    flex-flow: column;
 
     .hed {
       font-size: var(--font-size-1);
       color: var(--black-soft);
-      font-weight: var(--font-weight-regular);
-      font-family: var(--font-display);
+      font-weight: var(--font-weight-light);
+      font-family: var(--font-sans);
       line-height: var(--line-height-medium);
+    }
+
+    .dek {
+      color: var(--black-soft);
+      font-family: var(--font-sans);
+      font-weight: var(--font-weight-light);
+      margin: 0;
     }
 
     .links {

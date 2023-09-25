@@ -77,6 +77,10 @@
 
   #recent-projects {
     margin-bottom: var(--space-2xl-3xl);
+
+    :global(svelte-scroller-outer) {
+      overflow: hidden;
+    }
   }
 
   #all-projects {
@@ -87,17 +91,9 @@
     .icon {
       margin-block: var(--space-2xs);
       font-size: var(--font-size-1);
-      :global {
-        path {
-          fill: var(--purple);
-        }
+      :global(path) {
+        fill: var(--purple);
       }
-    }
-  }
-
-  :global {
-    svelte-scroller-outer {
-      overflow: hidden;
     }
   }
 
@@ -114,14 +110,12 @@
   }
 
   [slot='foreground'] {
-    :global {
-      .container-sm {
-        @include fullheight(1.3);
+    :global(.container-sm) {
+      @include fullheight(1.3);
 
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
 
     .anno {
@@ -129,14 +123,23 @@
       padding: var(--space-s-m) var(--space-m-l);
       border-radius: 0.25rem;
       box-shadow: var(--shadow-2);
+      display: flex;
+      flex-flow: column;
     }
 
     .hed {
       font-size: var(--font-size-1);
       color: var(--black-soft);
-      font-weight: var(--font-weight-regular);
-      font-family: var(--font-display);
+      font-weight: var(--font-weight-light);
+      font-family: var(--font-sans);
       line-height: var(--line-height-medium);
+    }
+
+    .dek {
+      color: var(--black-soft);
+      font-family: var(--font-sans);
+      font-weight: var(--font-weight-light);
+      margin: 0;
     }
 
     .links {

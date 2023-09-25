@@ -9,8 +9,6 @@ export default (node) => {
       dy = y - prevY;
       prevY = y;
 
-      console.log(dy);
-
       Math.abs(dy) > 3 && node.classList.toggle('up', dy < 0);
       Math.abs(dy) > 3 && node.classList.toggle('down', dy >= 0);
     }
