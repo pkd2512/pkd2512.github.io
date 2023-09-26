@@ -15,18 +15,18 @@
 
   const year = new Date().getFullYear();
 
-  $: icon = 'lucide:clipboard-copy';
+  $: icon = 'fluent:copy-arrow-right-24-regular';
   $: copymessage = 'Click to copy';
   $: copied = false;
 
   const copyEmailClick = (/** @type {any} */ e) => {
     copied = true;
     copymessage = 'Email copied!';
-    icon = 'solar:clipboard-check-bold';
+    icon = 'fluent:copy-24-filled';
   };
 
   setInterval(() => {
-    icon = 'lucide:clipboard-copy';
+    icon = 'fluent:copy-arrow-right-24-regular';
     copymessage = 'Click to copy';
   }, 3000);
 </script>
@@ -139,6 +139,10 @@
     top: var(--space-3xs);
     left: calc(2.2 * var(--space-3xl));
     margin-top: 3px;
+
+    :global(svg) {
+      transform: scaleX(-1);
+    }
 
     &:not(.copied) {
       animation: bounce 1s ease infinite;

@@ -1,6 +1,8 @@
 <script>
   import Container from '$lib/components/ui/Container/index.svelte';
   import ParallaxHero from '$lib/components/ui/ParallaxHero/index.svelte';
+  import Icon from '@iconify/svelte';
+  import { copy } from 'svelte-copy';
   import { assets } from '$app/paths';
 
   /**
@@ -14,12 +16,24 @@
    * Card description
    */
   export let dek = '';
+
+  $: icon = 'fluent:copy-arrow-right-24-regular';
+  $: copied = false;
+
+  const copyClick = (/** @type {any} */ e) => {
+    copied = true;
+    icon = 'fluent:copy-24-filled';
+  };
+
+  setInterval(() => {
+    icon = 'fluent:copy-arrow-right-24-regular';
+  }, 3000);
 </script>
 
 <section>
   <ParallaxHero img="/media/hero-about.jpg" />
 
-  <Container width="lg" style="margin-top: calc(-2.3 * var(--space-3xl));">
+  <Container width="md">
     <div class="card">
       <div class="img">
         <img src="{assets}/media/Prasanta_KrDutta.jpg" alt="" />
@@ -27,6 +41,19 @@
       <div class="body">
         <h1>{hed}</h1>
         <p>{@html dek}</p>
+        <span
+          class="icon"
+          role="button"
+          on:click="{copyClick}"
+          use:copy="{dek}"
+        >
+          <Icon
+            width="22"
+            height="22"
+            icon="{icon}"
+            color="var(--purple-soft)"
+          />
+        </span>
       </div>
     </div>
   </Container>
@@ -36,26 +63,44 @@
   @import 'src/lib/styles/mixins/screenReaderOnly';
   @import 'src/lib/styles/mixins/fullHeight';
 
+  section {
+    :global(.container-md) {
+      margin-top: -65lvh;
+    }
+  }
+
   .card {
     display: flex;
+    align-items: center;
+    justify-content: center;
     position: relative;
-    background-color: var(--white);
     border-radius: 0.25rem;
-    max-width: calc(0.9 * var(--lg));
+    max-width: calc(var(--md) + 2 * var(--space-l));
     margin-inline: auto;
     margin-block: var(--space-xl);
-    box-shadow: var(--shadow-3);
+    flex-wrap: wrap;
+  }
+
+  .icon {
+    cursor: pointer;
+    position: absolute;
+    bottom: var(--space-2xs);
+    right: calc(1 * var(--space-2xs));
+    transition: all 0.35s ease;
+    transform: scaleX(-1);
   }
 
   .img {
-    width: 45%;
+    width: 55%;
+    height: 55%;
     display: flex;
     justify-content: center;
     align-items: center;
     overflow: hidden;
     background-color: var(--purple);
-    border-top-left-radius: 0.25rem;
-    border-bottom-left-radius: 0.25rem;
+    border-radius: 50%;
+    z-index: var(--layer-1);
+    box-shadow: var(--shadow-3);
 
     img {
       object-fit: cover;
@@ -67,17 +112,28 @@
   }
 
   .body {
-    width: 55%;
-    padding: var(--space-s) var(--space-l);
+    width: 100%;
+    border-radius: 0.25rem;
+    padding: var(--space-l) var(--space-s) var(--space-l) var(--space-m-l);
+    background-color: var(--white);
     display: flex;
     align-items: center;
+    box-shadow: var(--shadow-1);
+
+    margin-top: -13%;
+    padding-top: 15%;
+
+    @media (--md-n-below) {
+      width: 100%;
+    }
 
     h1 {
       @include screenReaderOnly;
     }
 
     p {
-      font-family: var(--font-serif);
+      font-family: var(--font-sans);
+      font-weight: var(--font-weight-light);
       margin-block: 0;
     }
   }

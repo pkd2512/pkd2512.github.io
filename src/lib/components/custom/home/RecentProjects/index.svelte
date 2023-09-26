@@ -139,7 +139,6 @@
       color: var(--black-soft);
       font-family: var(--font-sans);
       font-weight: var(--font-weight-light);
-      margin: 0;
     }
 
     .links {
