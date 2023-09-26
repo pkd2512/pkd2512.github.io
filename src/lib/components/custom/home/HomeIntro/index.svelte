@@ -32,6 +32,10 @@
   header {
     @include fullheight(0.8);
 
+    @media (max-width: 600px) {
+      @include fullheight(0.65);
+    }
+
     display: flex;
     align-items: center;
     justify-content: center;

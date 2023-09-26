@@ -21,6 +21,10 @@
     background-repeat: no-repeat;
     background-position: center;
 
+    @media (max-width: 600px) {
+      @include fullheight(0.65);
+    }
+
     @media (--md-n-below) {
       background-attachment: unset;
     }

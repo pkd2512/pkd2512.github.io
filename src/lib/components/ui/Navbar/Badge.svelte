@@ -23,7 +23,7 @@
 
   let windowHeight = 0;
 
-  let size = mobile ? '7.5rem' : '9rem';
+  let size = mobile ? '7.5rem' : '8.75rem';
 
   let getRotation = (/** @type {any} */ d) => {};
 
@@ -65,15 +65,13 @@
     if (window)
       window.addEventListener('resize', () => {
         // @ts-ignore
-        circleText.destroy();
-        makeCircleText();
+        circleText.refresh();
       });
 
     return () => {
       window.removeEventListener('resize', () => {
         // @ts-ignore
-        circleText.destroy();
-        makeCircleText();
+        circleText.refresh();
       });
     };
   });

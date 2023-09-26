@@ -4,10 +4,10 @@
   import Hamburger from './Hamburger.svelte';
   import scrollDirection from '$utils/scrollDirection';
   import { inview } from 'svelte-inview';
-  import { page, navigating } from '$app/stores';
+  import { page } from '$app/stores';
+  import { afterNavigate } from '$app/navigation';
   import resolveLinkTarget from '$utils/resolveLinkTarget';
-  import { fade } from 'svelte/transition';
-  import { cubicInOut } from 'svelte/easing';
+
   /**
    * Nav items
    * @type {any[]}
@@ -15,6 +15,10 @@
   export let links;
 
   $: isOpen = false;
+
+  afterNavigate(() => {
+    isOpen = false;
+  });
 
   $: pageId = $page.route.id;
   $: pageHash = $page.url.hash;
@@ -24,7 +28,7 @@
 <nav
   id="sitenav-mobile"
   class="up"
-  class:open="{isOpen && !$navigating}"
+  class:open="{isOpen}"
   use:scrollDirection
   use:inview="{{ root: null, threshold: 1 }}"
   on:inview_change="{(
@@ -34,15 +38,17 @@
       e.detail.node.classList.toggle('pin', !e.detail.inView);
   }}"
 >
-  <NavLink
-    style="color: var(--white);"
-    target="{resolveLinkTarget(home.url, $page.url.hostname)}"
-    url="/"
-    active="{pageId === '/' && pageHash === ''}"
-  >
-    <span class="sr-only">Home</span>
-    <Badge mobile />
-  </NavLink>
+  <div class="home">
+    <NavLink
+      style="color: var(--white);"
+      target="{resolveLinkTarget(home.url, $page.url.hostname)}"
+      url="/"
+      active="{pageId === '/' && pageHash === ''}"
+    >
+      <span class="sr-only">Home</span>
+      <Badge mobile />
+    </NavLink>
+  </div>
 
   <div role="button" class="hamburger" on:click="{() => (isOpen = !isOpen)}">
     <Hamburger open="{isOpen}" />
@@ -87,9 +93,9 @@
     margin-inline: auto;
     padding-inline: var(--space-s);
     max-width: 100%;
-    height: 5rem;
+    height: 4rem;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
     flex-wrap: wrap;
   }
 
@@ -99,10 +105,11 @@
     align-items: center;
   }
 
-  nav {
-    :global(.badge) {
-      margin-bottom: -4rem;
-      position: relative;
+  .home {
+    :global(a) {
+      height: 7.5rem;
+      position: absolute;
+      top: 0.95rem;
     }
   }
 
