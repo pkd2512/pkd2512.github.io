@@ -63,7 +63,7 @@ I dabble in creative coding and generative art, mainly as a means to explore the
 
 <figure>
 
-<iframe loading="lazy" title="Interactive p5 sketch" frameborder="0" src="https://openprocessing.org/sketch/1051968/embed/" width="100%" style="aspect-ratio: var(--ratio-golden);"></iframe>
+<iframe loading="lazy" title="Interactive p5 sketch" frameborder="0" src="https://openprocessing.org/sketch/1051968/embed/" width="100%" style="aspect-ratio: var(--ratio-square);"></iframe>
 
 <figcaption>
 

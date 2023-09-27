@@ -169,7 +169,7 @@
 
   .nav-item:not(.badge) {
     :global(a) {
-      padding: var(--space-s) var(--space-xs);
+      padding: var(--space-s) var(--space-3xs);
     }
 
     :global(a::after) {

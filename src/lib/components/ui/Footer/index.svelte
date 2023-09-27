@@ -20,16 +20,13 @@
 <footer>
   <Container id="site-footer">
     <div class="copyright">
-      &copy; <span id="date">2017-{year}</span>&nbsp;Copyright
+      &copy; <span id="date">{year}</span>&nbsp;Copyright
 
-      <span class="logo">
+      <div class="logo">
         <Logo size="1.25rem" colour="var(--white-soft)" />
-      </span>
+      </div>
 
-      <NavLink
-        style="font-size: var(--font-size--1); color:var(--white);"
-        url="/">Prasanta Kumar Dutta</NavLink
-      > &#8212; All Rights Reserved
+      <NavLink url="/">Prasanta Kumar Dutta</NavLink> &#8212; All Rights Reserved
     </div>
   </Container>
 </footer>
@@ -41,6 +38,7 @@
   }
   .logo {
     vertical-align: middle;
+    display: inline-flex;
   }
   footer {
     background-color: var(--purple-soft);
@@ -49,5 +47,11 @@
     letter-spacing: var(--letter-spaced);
     padding: var(--space-s) 0;
     color: var(--white);
+
+    :global(a) {
+      color: var(--white);
+      font-size: var(--font-size--2);
+      font-weight: var(--font-weight-regular);
+    }
   }
 </style>

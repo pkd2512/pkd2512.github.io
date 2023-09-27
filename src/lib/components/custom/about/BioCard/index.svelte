@@ -17,7 +17,7 @@
    */
   export let dek = '';
 
-  $: icon = 'fluent:copy-arrow-right-24-regular';
+  $: icon = 'fluent:copy-24-regular';
   $: copied = false;
 
   const copyClick = (/** @type {any} */ e) => {
@@ -26,7 +26,7 @@
   };
 
   setInterval(() => {
-    icon = 'fluent:copy-arrow-right-24-regular';
+    icon = 'fluent:copy-24-regular';
   }, 3000);
 </script>
 
@@ -65,7 +65,7 @@
 
   section {
     :global(.container-md) {
-      margin-top: -65lvh;
+      margin-top: -60lvh;
     }
   }
 
@@ -82,12 +82,11 @@
   }
 
   .icon {
-    cursor: pointer;
+    cursor: copy;
     position: absolute;
     bottom: var(--space-2xs);
     right: calc(1 * var(--space-2xs));
     transition: all 0.35s ease;
-    transform: scaleX(-1);
   }
 
   .img {
@@ -135,6 +134,7 @@
       font-family: var(--font-sans);
       font-weight: var(--font-weight-light);
       margin-block: 0;
+      text-wrap: balance;
     }
   }
 </style>

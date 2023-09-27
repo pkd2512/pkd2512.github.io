@@ -14,7 +14,7 @@
   @import 'src/lib/styles/mixins/fullHeight';
   .hero {
     width: 100%;
-    @include fullheight(0.95);
+    @include fullheight(0.9);
     background-image: var(--img);
     background-size: cover;
     background-attachment: fixed;
@@ -22,7 +22,7 @@
     background-position: center;
 
     @media (max-width: 600px) {
-      @include fullheight(0.85);
+      @include fullheight(0.8);
     }
 
     @media (--md-n-below) {
