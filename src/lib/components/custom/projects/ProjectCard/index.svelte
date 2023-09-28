@@ -1,4 +1,7 @@
 <script>
+  import Container from '$lib/components/ui/Container/index.svelte';
+  import truncateText from '$utils/truncateText';
+
   /**
    * @param info - contents for the card
    * @type {{ intro: { img: any; }; title: any; categories: any; }}
@@ -9,27 +12,39 @@
    * @type {number}
    */
   let infoHeight;
+
+  /**
+   * @type {number}
+   */
+  let cardHeight;
 </script>
 
-<div class="card" style="--h:{infoHeight}px">
+<div
+  class="card"
+  bind:clientHeight="{cardHeight}"
+  style="--ch:{cardHeight}px; --ih:{infoHeight}px"
+>
   <div
     class="img"
     style="background-image: url('/media/{info.intro.img}');"
   ></div>
-  <div class="body" bind:clientHeight="{infoHeight}">
-    <p class="title">{info.title}</p>
-    <p class="description">{info.description}</p>
-    <div class="tags">
-      {#each info.categories as tag}
-        <span class="tag">{tag}</span>
-      {/each}
+  <Container width="sm" style="position:relative;">
+    <div class="body" bind:clientHeight="{infoHeight}">
+      <p class="hed">{@html info.title}</p>
+      <p class="dek">{@html info.description}</p>
+      <div class="tags">
+        {#each info.categories as tag}
+          <span class="tag">{tag}</span>
+        {/each}
+      </div>
     </div>
-  </div>
+  </Container>
 </div>
 
 <style lang="scss">
   .card {
     box-sizing: border-box;
+    position: relative;
     aspect-ratio: var(--ratio-square);
     background-color: var(--white);
     outline: 1px solid var(--white-soft);
@@ -49,48 +64,62 @@
     &:hover {
       box-shadow: var(--shadow-1), var(--shadow-3);
 
-      .img {
-        height: calc(100% - var(--h));
+      .body {
+        opacity: 1;
       }
+
+      .img {
+        filter: blur(3px);
+        transform: scale3d(1.05, 1.05, 1.05);
+      }
+    }
+  }
+
+  .card {
+    :global(.container-sm) {
+      height: 100%;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
     }
   }
 
   .img {
+    width: 100%;
     height: 100%;
+    position: absolute;
     background-size: cover;
     background-position: center;
-    transition: height 0.5s ease;
+    transition: all 0.5s ease;
   }
 
   .body {
-    padding: var(--space-l);
+    opacity: 0;
+    width: 100%;
+    max-height: calc(var(--ch) - 3 * var(--space-l));
+    transition: opacity 0.35s ease;
+    background-color: var(--white);
+    padding: var(--space-s-m) var(--space-m-l);
+    margin-bottom: var(--space-l);
+    border-radius: 0.25rem;
+    box-shadow: var(--shadow-3);
+    display: flex;
+    flex-flow: column;
+    overflow-y: scroll;
 
-    @media (--xl-n-below) {
-      padding: var(--space-m);
-    }
-
-    p {
+    .hed {
+      font-size: var(--font-size-1);
       color: var(--black-soft);
-      font-family: var(--font-serif);
-      font-size: var(--font-size--1);
-      @media (--sm-n-below) {
-        font-size: var(--font-size-0);
-      }
-      margin: 0;
-
-      &.title {
-        color: var(--black-soft);
-        margin-bottom: var(--space-2xs);
-        font-size: var(--font-size-1);
-        font-family: var(--font-sans);
-        font-weight: var(--font-weight-light);
-        line-height: var(--line-height-medium);
-
-        @media (--sm-n-below) {
-          font-weight: var(--font-weight-regular);
-        }
-      }
+      font-weight: var(--font-weight-light);
+      font-family: var(--font-sans);
+      line-height: var(--line-height-medium);
+      margin-bottom: var(--space-2xs);
     }
+
+    .dek {
+      margin: 0;
+    }
+
     .tags {
       display: flex;
       flex-wrap: wrap;

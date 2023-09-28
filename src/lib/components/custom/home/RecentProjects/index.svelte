@@ -133,12 +133,10 @@
       font-weight: var(--font-weight-light);
       font-family: var(--font-sans);
       line-height: var(--line-height-medium);
+      margin-bottom: var(--space-2xs);
     }
 
     .dek {
-      color: var(--black-soft);
-      font-family: var(--font-sans);
-      font-weight: var(--font-weight-light);
     }
 
     .links {
