@@ -51,6 +51,8 @@ published: true
 
 <List title='In the classroom' content={teachings}/>
 
-<div style=text-align:center;><ReferralCard  url="https://medium.com/diarium-da-pacific/showcasing-brilliance-2fe5fa976b5b" image="/media/teachings.jpg" title="Showcasing Brilliance" description="A curation of data visualisation projects from my students"/></div>
+<Container width=md style="text-align: center;">
+<ReferralCard  url="https://medium.com/diarium-da-pacific/showcasing-brilliance-2fe5fa976b5b" image="/media/teachings.jpg" title="Showcasing Brilliance" description="A curation of data visualisation projects from my students"/>
+</Container>
 
 <List title='Resources and Tools' content={resources}/>

@@ -15,21 +15,23 @@
   const year = new Date().getFullYear();
 </script>
 
-<Contact />
+<div style="margin-top: var(--space-xl)">
+  <Contact />
 
-<footer>
-  <Container id="site-footer">
-    <div class="copyright">
-      &copy; <span id="date">{year}</span>&nbsp;Copyright
+  <footer>
+    <Container id="site-footer">
+      <div class="copyright">
+        &copy; <span id="date">{year}</span>&nbsp;Copyright
 
-      <div class="logo">
-        <Logo size="1.25rem" colour="var(--white-soft)" />
+        <div class="logo">
+          <Logo size="1.25rem" colour="var(--white-soft)" />
+        </div>
+
+        <NavLink url="/">Prasanta Kumar Dutta</NavLink> &#8212; All Rights Reserved
       </div>
-
-      <NavLink url="/">Prasanta Kumar Dutta</NavLink> &#8212; All Rights Reserved
-    </div>
-  </Container>
-</footer>
+    </Container>
+  </footer>
+</div>
 
 <style lang="scss">
   .copyright {

@@ -42,25 +42,25 @@
 
 <ProjectList title="" posts="{contents.slice(0, 5)}" />
 
-<div style="text-align:center;">
+<Container width="md" style="text-align: center;">
   <ReferralCard
     url="https://muckrack.com/pkddapacific"
     image="/media/muckrack.jpg"
     title="Muckrack portfolio"
     description="Visual journalism and data graphics projects"
   />
-</div>
+</Container>
 
 <ProjectList title="" posts="{contents.slice(5)}" />
 
-<div style="text-align:center;">
+<Container width="md" style="text-align: center;">
   <ReferralCard
     url="https://www.behance.net/pkddapacific"
     image="/media/behance.jpg"
     title="Behance portfolio"
     description="More design projects"
   />
-</div>
+</Container>
 
 <style lang="scss">
   .anno {

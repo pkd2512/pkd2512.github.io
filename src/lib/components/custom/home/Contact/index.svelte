@@ -88,13 +88,10 @@
 
   .wrapper {
     display: flex;
-    // max-width: var(--lg);
     margin-inline: auto;
-    margin-top: var(--space-3xl);
     padding-top: var(--space-m-l);
     padding-bottom: var(--space-s-m);
-    // padding-inline: var(--space-s-m);
-    align-items: center;
+    align-items: flex-start;
     justify-content: space-between;
     color: var(--white-soft);
     font-family: var(--font-display);
@@ -131,10 +128,6 @@
     display: block;
     font-weight: var(--font-weight-light);
     font-family: var(--font-sans);
-
-    // @media (--lg-n-below) {
-    //   text-align: center;
-    // }
   }
 
   .email {
@@ -161,10 +154,6 @@
         }
       }
     }
-
-    // @media (--lg-n-below) {
-    //   text-align: center;
-    // }
   }
 
   .copy {
@@ -189,7 +178,7 @@
       display: inline-block;
       position: absolute;
       margin: auto;
-      top: 4px;
+      top: calc(0.15 * var(--font-size-0));
       left: var(--space-s);
 
       @media (--xs-n-below) {

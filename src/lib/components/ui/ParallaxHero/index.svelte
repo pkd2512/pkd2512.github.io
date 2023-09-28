@@ -14,6 +14,7 @@
   @import 'src/lib/styles/mixins/fullHeight';
   .hero {
     width: 100%;
+    margin-inline: auto;
     @include fullheight(0.9);
     background-image: var(--img);
     background-size: cover;

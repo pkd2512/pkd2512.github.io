@@ -15,54 +15,45 @@
   $: console.log(posts);
 </script>
 
+<!-- 
 <Container width="lg">
   <h2>{title}</h2>
-</Container>
+</Container> -->
 
-<Container>
-  <div class="wrapper" style="">
-    <ul class="posts">
-      {#each posts as post}
-        <li class="post">
-          <a href="{post.slug}">
-            <ProjectCard info="{post}" />
-          </a>
-        </li>
-      {/each}
-    </ul>
-  </div>
+<Container width="fluid">
+  <!-- <div class="wrapper" style=""> -->
+  <ul class="posts">
+    {#each posts as post}
+      <li class="post">
+        <a href="{post.slug}">
+          <ProjectCard info="{post}" />
+        </a>
+      </li>
+    {/each}
+  </ul>
+  <!-- </div> -->
 </Container>
 
 <style lang="scss">
-  .wrapper {
-    // define grid cols
-    --cols: 3;
-    --gap: 1px;
-    @media (--xl-only) {
-      --cols: 4;
-    }
-    @media (--lg-n-below) {
-      --cols: 3;
-    }
-    @media (--sm-only) {
-      --cols: 2;
-    }
-  }
-  .wrapper {
-    margin-inline: auto;
-    margin-bottom: var(--space-xl);
-    max-width: calc(
-      var(--cols) * var(--card-width) + (var(--cols) - 1) * var(--gap)
-    );
-  }
   ul {
     padding: 0;
-    display: grid;
-    grid-gap: var(--gap);
-    grid-template-columns: repeat(var(--cols), minmax(0, 1fr));
+    display: flex;
+    flex-wrap: wrap;
+    margin-inline: auto;
+    margin-block-end: var(--space-s);
+
+    // define grid cols
+    --cols: 3;
+    @media (--lg-n-below) {
+      --cols: 2;
+    }
+    @media (--sm-n-below) {
+      --cols: 1;
+    }
   }
   li {
     list-style: none;
+    width: calc(100% / var(--cols));
   }
   a {
     text-decoration: none;

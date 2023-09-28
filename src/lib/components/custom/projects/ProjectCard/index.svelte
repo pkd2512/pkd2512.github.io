@@ -28,25 +28,23 @@
 </div>
 
 <style lang="scss">
-  :global {
-    :where(html) {
-      --card-width: calc(1.1 * var(--sm));
-      @media (--md-n-below) {
-        --card-width: calc(0.5 * var(--sm));
-      }
-    }
-  }
   .card {
     box-sizing: border-box;
     aspect-ratio: var(--ratio-square);
     background-color: var(--white);
-    border-radius: 0.25rem;
+    outline: 1px solid var(--white-soft);
     box-shadow: var(--shadow-2);
     transition: all 0.35s ease;
     display: block;
     overflow-y: hidden;
 
-    width: var(--card-width);
+    @media (1024px <=width <=1280px) {
+      aspect-ratio: var(--ratio-portrait);
+    }
+
+    @media (480px <=width <=768px) {
+      aspect-ratio: var(--ratio-portrait);
+    }
 
     &:hover {
       box-shadow: var(--shadow-1), var(--shadow-3);
@@ -58,22 +56,26 @@
   }
 
   .img {
-    width: var(--card-width);
     height: 100%;
     background-size: cover;
     background-position: center;
-    border-top-left-radius: 0.25rem;
-    border-top-right-radius: 0.25rem;
     transition: height 0.5s ease;
   }
 
   .body {
-    padding: calc(0.8 * var(--space-l)) var(--space-l);
+    padding: var(--space-l);
+
+    @media (--xl-n-below) {
+      padding: var(--space-m);
+    }
 
     p {
       color: var(--black-soft);
-      font-family: var(--font-sans);
+      font-family: var(--font-serif);
       font-size: var(--font-size--1);
+      @media (--sm-n-below) {
+        font-size: var(--font-size-0);
+      }
       margin: 0;
 
       &.title {
@@ -83,6 +85,10 @@
         font-family: var(--font-sans);
         font-weight: var(--font-weight-light);
         line-height: var(--line-height-medium);
+
+        @media (--sm-n-below) {
+          font-weight: var(--font-weight-regular);
+        }
       }
     }
     .tags {

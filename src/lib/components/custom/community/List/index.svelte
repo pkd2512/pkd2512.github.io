@@ -38,23 +38,28 @@
       <h2 id="{slugify(title)}">{title}</h2>
       <ul>
         {#each content as item}
-          <li
-            class="list-item"
-            style="--year:'{formatDate(item.date) || '🗒️'} &bullet; '"
-          >
-            <strong>{@html marked.parse(item.topic)}</strong>
-            <span class="sep">|</span>
-            {@html marked.parse(item.place)}
+          <li class="list-item">
+            <span class="topic">
+              <strong>{@html marked.parse(item.topic)}</strong>
+            </span>
 
-            {#if item.link}
-              <NavLink target="_blank" url="{item.link}"
-                ><Icon
-                  width="22"
-                  height="22"
-                  icon="iconamoon:link-external-duotone"
-                /></NavLink
-              >
-            {/if}
+            <span class="sep">|</span>
+
+            <span class="place">
+              {@html marked.parse(item.place)}
+              <span class="date">
+                {item.date ? '• ' + formatDate(item.date) : ''}
+              </span>
+              {#if item.link}
+                <NavLink target="_blank" url="{item.link}"
+                  ><Icon
+                    width="22"
+                    height="22"
+                    icon="iconamoon:link-external-duotone"
+                  /></NavLink
+                >
+              {/if}
+            </span>
           </li>
         {/each}
       </ul>
@@ -69,46 +74,58 @@
   }
 
   ul {
-    padding-left: calc(var(--space-2xl) + 0.5rem);
-    li {
-      margin-block: var(--space-s);
-      &::marker {
-        color: var(--gray);
-        font-size: var(--font-size--1);
-        font-family: var(--font-display);
-        font-weight: var(--font-weight-medium);
-        content: var(--year);
-      }
-    }
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  li {
+    list-style: none;
+    margin-block: var(--space-s);
+    max-width: calc(0.8 * var(--md));
+  }
+
+  .date {
+    color: var(--gray);
+    font-size: var(--font-size--1);
+    font-family: var(--font-display);
+    font-weight: var(--font-weight-medium);
+    display: inline;
+    white-space: nowrap;
   }
 
   .sep {
     color: var(--gray);
   }
 
+  .topic,
+  .place {
+    display: inline;
+    :global(p),
+    :global(a) {
+      display: inline;
+    }
+  }
+
   .list-wrapper .list-item {
-    :global {
-      strong p {
-        font-weight: var(--font-weight-medium) !important;
-      }
+    :global(strong p) {
+      color: var(--black-soft);
+      font-family: var(--font-sans);
+      font-weight: var(--font-weight-medium);
+    }
 
-      a {
-        svg {
-          transform: translateY(0.35rem);
-          transition: all 0.35s ease;
-        }
+    :global(a svg) {
+      transform: translateY(0.35rem);
+      transition: all 0.35s ease;
+    }
+    :global(a:hover svg) {
+      transform: translate(0.15rem, 0.2rem);
+    }
 
-        &:hover {
-          svg {
-            transform: translate(0.15rem, 0.2rem);
-          }
-        }
-      }
-
-      * {
-        margin-block: 0;
-        display: inline;
-      }
+    :global(*) {
+      margin-block: 0;
     }
   }
 </style>
