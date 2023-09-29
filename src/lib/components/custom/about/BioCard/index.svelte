@@ -31,7 +31,7 @@
 </script>
 
 <section>
-  <ParallaxHero img="/media/hero-about.jpg" />
+  <ParallaxHero vPos="center" img="/media/hero-about.jpg" />
 
   <Container width="md">
     <div class="card">
@@ -65,7 +65,15 @@
 
   section {
     :global(.container-md) {
-      margin-top: -60lvh;
+      margin-top: -70lvh;
+
+      @media (--xl-n-below) {
+        margin-top: -65lvh;
+      }
+
+      @media (max-width: 600px) {
+        margin-top: -60lvh;
+      }
     }
   }
 
@@ -101,6 +109,11 @@
     z-index: var(--layer-1);
     box-shadow: var(--shadow-3);
 
+    @media (--lg-only) {
+      width: 70%;
+      height: 70%;
+    }
+
     img {
       object-fit: cover;
       min-height: 100%;
@@ -131,8 +144,7 @@
     }
 
     p {
-      font-family: var(--font-sans);
-      font-weight: var(--font-weight-light);
+      font-style: italic;
       margin-block: 0;
       text-wrap: balance;
     }

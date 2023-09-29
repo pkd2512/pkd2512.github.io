@@ -44,8 +44,16 @@
 
     // define grid cols
     --cols: 3;
+
+    @media (max-width: 1280px) {
+      --cols: 2;
+    }
+
     @media (--lg-n-below) {
       --cols: 2;
+    }
+    @media (480px<= width <850px) {
+      --cols: 1;
     }
     @media (--sm-n-below) {
       --cols: 1;

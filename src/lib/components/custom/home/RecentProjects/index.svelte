@@ -137,6 +137,9 @@
     }
 
     .dek {
+      margin: 0;
+      font-style: italic;
+      text-wrap: balance;
     }
 
     .links {

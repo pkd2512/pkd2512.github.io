@@ -51,14 +51,18 @@
     box-shadow: var(--shadow-2);
     transition: all 0.35s ease;
     display: block;
-    overflow-y: hidden;
+    overflow: hidden;
 
-    @media (1024px <=width <=1280px) {
+    @media (1280px<= width <=1440px) {
       aspect-ratio: var(--ratio-portrait);
     }
 
-    @media (480px <=width <=768px) {
+    @media (850px<= width <=1024px) {
       aspect-ratio: var(--ratio-portrait);
+    }
+
+    @media (620px<= width <850px) {
+      aspect-ratio: var(--ratio-golden);
     }
 
     &:hover {
@@ -90,7 +94,7 @@
     position: absolute;
     background-size: cover;
     background-position: center;
-    transition: all 0.5s ease;
+    transition: all 0.35s ease;
   }
 
   .body {
@@ -118,12 +122,15 @@
 
     .dek {
       margin: 0;
+      font-style: italic;
+      text-wrap: balance;
     }
 
     .tags {
       display: flex;
       flex-wrap: wrap;
       margin-top: var(--space-xs);
+      background-color: var(--white);
 
       .tag {
         border-radius: 1rem;

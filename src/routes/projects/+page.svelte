@@ -82,10 +82,9 @@
     }
 
     .dek {
-      // color: var(--black-soft);
-      // font-family: var(--font-sans);
-      // font-weight: var(--font-weight-light);
-      // margin: 0;
+      margin: 0;
+      font-style: italic;
+      text-wrap: balance;
     }
 
     .links {

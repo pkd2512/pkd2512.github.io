@@ -39,7 +39,8 @@ enjoy working with spatial datasets and a big part of my work needs me to make m
 
 My work has been recognised with <LinkButton target=_blank label='numerous awards' url='https://www.linkedin.com/in/pkddapacific/details/honors/' />  including the Webby, Society for News Design and Reuters Journalists of the Year Awards.
 
-<div style=text-align:center;><ReferralCard url="https://datajournalism.com/read/blog/best-data-journalism-projects-2021#vaccination-tracker-reuters" image="https://s3.eu-central-1.amazonaws.com/datajournalismcom/long-reads/best-data-journalism-projects-2021/roundup2021-2.jpg" title="Data journalism roundup 2021" description="Featuring the Reuters COVID-19 vaccination tracker"
+<div style=text-align:center;>
+<ReferralCard url="https://datajournalism.com/read/blog/best-data-journalism-projects-2021#vaccination-tracker-reuters" image="https://s3.eu-central-1.amazonaws.com/datajournalismcom/long-reads/best-data-journalism-projects-2021/roundup2021-2.jpg" title="Data journalism roundup 2021" description="Featuring the Reuters COVID-19 vaccination tracker"
 /></div>
 
 ## An engineer turned information designer

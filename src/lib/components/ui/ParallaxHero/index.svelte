@@ -3,10 +3,16 @@
    * @param {String} img
    * url of background image
    */
-  export let img = '/media/pexels-prasanta-kr-dutta-104361.jpg';
+  export let img = '';
+
+  /**
+   * @param {String}
+   * background-y position
+   */
+  export let vPos = 'center';
 </script>
 
-<div class="hero" style="--img: url({img});">
+<div class="hero" style="--img: url({img}); --y:{vPos}">
   <slot />
 </div>
 
@@ -18,17 +24,12 @@
     @include fullheight(0.9);
     background-image: var(--img);
     background-size: cover;
-    background-attachment: fixed;
+
     background-repeat: no-repeat;
-    background-position: center;
+    background-position: center var(--y);
 
     @media (max-width: 600px) {
       @include fullheight(0.8);
-    }
-
-    @media (--md-n-below) {
-      background-attachment: unset;
-      background-position-y: top;
     }
 
     display: flex;

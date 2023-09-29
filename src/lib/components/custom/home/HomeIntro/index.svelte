@@ -6,7 +6,7 @@
 </script>
 
 <section id="hero">
-  <Container width="xl snap skip-sm">
+  <Container width="xl">
     <header>
       <div class="text">
         <h1>{@html hed}</h1>
@@ -61,15 +61,16 @@
   }
 
   .text {
-    max-width: 38%;
+    max-width: calc(0.8 * var(--md));
     position: relative;
     z-index: var(--layer-1);
 
     @media (--xl-n-below) {
-      max-width: 75%;
+      max-width: calc(var(--lg) - 2 * var(--space-xl));
     }
-    @media (--sm-n-below) {
-      max-width: 90%;
+
+    @media (--lg-n-below) {
+      max-width: calc(1.15 * var(--md));
     }
   }
 
@@ -79,6 +80,7 @@
     font-size: var(--font-size-1);
     font-weight: var(--font-weight-light);
     @include text-shadow(var(--purple));
+    max-width: var(--md);
   }
 
   h1 {
