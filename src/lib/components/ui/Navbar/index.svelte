@@ -139,7 +139,6 @@
     transition: transform 0.35s ease, max-width 0.15s ease-out;
     z-index: var(--layer-important);
     background-color: var(--purple-soft);
-    box-shadow: var(--shadow-3), var(--shadow-5);
     position: relative;
     margin-inline: auto;
     max-width: 100%;
@@ -152,6 +151,7 @@
       left: -50%;
 
       max-width: var(--md);
+      box-shadow: var(--shadow-3), var(--shadow-5);
 
       @media (min-width: 600px) {
         border-radius: 15rem;

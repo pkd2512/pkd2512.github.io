@@ -4,7 +4,7 @@
 
   /**
    * @param info - contents for the card
-   * @type {{ intro: { img: any; }; title: any; categories: any; }}
+   * @type {{ image: any; intro: { hed: any; }; description: any; categories: any; }}
    */
   export let info;
 
@@ -24,13 +24,10 @@
   bind:clientHeight="{cardHeight}"
   style="--ch:{cardHeight}px; --ih:{infoHeight}px"
 >
-  <div
-    class="img"
-    style="background-image: url('/media/{info.intro.img}');"
-  ></div>
+  <div class="img" style="background-image: url('/media/{info.image}');"></div>
   <Container width="sm" style="position:relative;">
     <div class="body" bind:clientHeight="{infoHeight}">
-      <p class="hed">{@html info.title}</p>
+      <p class="hed">{@html info.intro.hed}</p>
       <p class="dek">{@html info.description}</p>
       <div class="tags">
         {#each info.categories as tag}

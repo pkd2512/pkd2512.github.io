@@ -41,7 +41,7 @@ published: true
 
 </Container>
 
-<Container width=md style="text-align: center; margin-top: var(--space-m); margin-bottom: var(--space-xl);">
+<Container width=md style="text-align: center; margin-top: var(--space-m); margin-bottom: var(--space-l);">
 
  <LinkButton solid="{true}"  url="#contact" label="Get in touch" />
 

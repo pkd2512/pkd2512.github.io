@@ -31,32 +31,34 @@
 </script>
 
 <section>
-  <ParallaxHero vPos="center" img="/media/hero-about.jpg" />
+  <header>
+    <ParallaxHero vPos="center" img="/media/hero-about.jpg" />
 
-  <Container width="md">
-    <div class="card">
-      <div class="img">
-        <img src="{assets}/media/Prasanta_KrDutta.jpg" alt="" />
+    <Container width="md">
+      <div class="card">
+        <div class="img">
+          <img src="{assets}/media/Prasanta_KrDutta.jpg" alt="" />
+        </div>
+        <div class="body">
+          <h1>{hed}</h1>
+          <p>{@html dek}</p>
+          <span
+            class="icon"
+            role="button"
+            on:click="{copyClick}"
+            use:copy="{dek}"
+          >
+            <Icon
+              width="22"
+              height="22"
+              icon="{icon}"
+              color="var(--purple-soft)"
+            />
+          </span>
+        </div>
       </div>
-      <div class="body">
-        <h1>{hed}</h1>
-        <p>{@html dek}</p>
-        <span
-          class="icon"
-          role="button"
-          on:click="{copyClick}"
-          use:copy="{dek}"
-        >
-          <Icon
-            width="22"
-            height="22"
-            icon="{icon}"
-            color="var(--purple-soft)"
-          />
-        </span>
-      </div>
-    </div>
-  </Container>
+    </Container>
+  </header>
 </section>
 
 <style lang="scss">
