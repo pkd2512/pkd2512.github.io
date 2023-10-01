@@ -1,5 +1,5 @@
 ---
-title: Air Pollution in Northern India during Winters
+title: Deathcare Service Design | Prasanta Kumar Dutta 
 
 description: My first visual story at Reuters, investigating the causes behind the air quality crisis in northern India every winter and its extent, using data collected from air quality monitors, satellite imagery from NASA and photographic evidence.
 
@@ -11,7 +11,7 @@ categories:
 
 image: tree.jpg
 type: project
-date: '2017-4-9'
+date: '2017-9-9'
 published: true
 
 links: 
@@ -37,18 +37,16 @@ intro:
   client: Rupeelog Financial Services
 
   quote: “As our world turns digital, donating data is the most efficient way of donating” — dodata.org
-
-date: '2018-10-16'
-published: true
 ---
 
 
 
-## Markdown
+## Soulace
 
 <script>
   import Container from '$lib/components/ui/Container/index.svelte';
-
+  import LinkButton from '$lib/components/ui/LinkButton/index.svelte';
+  import ProjectNav from '$lib/components/custom/projects/ProjectNav/index.svelte';
 </script>
 
 <Container width="sm">
@@ -64,3 +62,7 @@ Hey friends!
 ![image](/media/page.png)
 
 </figure>
+
+<Container width="sm">
+  <ProjectNav />
+</Container>

@@ -38,6 +38,9 @@
 
     text-transform: uppercase;
     font-size: var(--font-size--1);
+    @media (--sm-n-below) {
+      font-size: var(--font-size--2);
+    }
     font-family: var(--font-display);
     font-weight: var(--font-weight-medium);
     letter-spacing: var(--letter-spaced);

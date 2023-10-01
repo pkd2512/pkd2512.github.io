@@ -5,11 +5,12 @@
   import Analytics from '$lib/components/ui/Analytics/index.svelte';
   import ProjectHero from '$lib/components/custom/projects/ProjectHero/index.svelte';
   import { page } from '$app/stores';
-  $: pageId = $page.route.id;
 
   import '$lib/styles/main.scss';
 
   export let data;
+
+  $: pageId = $page.route.id;
 </script>
 
 <Analytics />
@@ -19,7 +20,7 @@
 {/if}
 
 {#if pageId && pageId === '/projects/[slug]'}
-  <ProjectHero />
+  <ProjectHero meta="{$page.data.meta}" />
 {/if}
 
 <Navbar />

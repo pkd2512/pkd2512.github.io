@@ -12,7 +12,6 @@
   $: contents = data?.contents.filter((d) => d.type === 'project');
 
   $: featured = contents[0];
-  $: console.log(featured);
 </script>
 
 <MetaTags title="Portfolio | Prasanta Kumar Dutta" />
@@ -21,7 +20,7 @@
   <ProjectCard info="{featured}" />
 </a>
 
-<ProjectList posts="{contents.slice(0, 5)}" />
+<ProjectList posts="{contents.slice(1, 5)}" />
 
 <Container width="md" style="text-align: center;">
   <ReferralCard

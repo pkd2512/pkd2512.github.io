@@ -1,18 +1,8 @@
 <script>
   import LinkButton from '$lib/components/ui/LinkButton/index.svelte';
   import { base } from '$app/paths';
-
-  /**
-   * Link to previous project
-   * @type {String}
-   */
-  export let prev;
-
-  /**
-   * Link to next project
-   *    * @type {String}
-   */
-  export let next;
+  import { page } from '$app/stores';
+  import truncateText from '$utils/truncateText';
 
   let arrowLeft = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><rect x="0" y="0" width="24" height="24" fill="none" stroke="none" /><path fill="currentColor" d="m4.431 12.822l13 9A1 1 0 0 0 19 21V3a1 1 0 0 0-1.569-.823l-13 9a1.003 1.003 0 0 0 0 1.645z"/></svg>`;
 
@@ -20,8 +10,16 @@
 </script>
 
 <section>
-  <LinkButton label="{arrowLeft} Previous" solid url="{base}/{prev}" />
-  <LinkButton label="Next up {arrowRight}" solid url="{base}/{next}" />
+  {#if $page.data.adjacent.next}
+    <LinkButton
+      label="Next up{arrowRight} {truncateText(
+        $page.data.adjacent.next.intro.hed,
+        5
+      )}"
+      solid
+      url="{base}/projects/{$page.data.adjacent.next.slug}"
+    />
+  {/if}
 </section>
 
 <style lang="scss">

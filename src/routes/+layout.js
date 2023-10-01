@@ -9,5 +9,9 @@ export async function load() {
   });
   const contents = await getContents(paths);
 
-  return { contents: contents };
+  const contentsByDate = contents.sort(
+    (a, b) => new Date(a.date) > new Date(b.date)
+  );
+
+  return { contents: contentsByDate };
 }

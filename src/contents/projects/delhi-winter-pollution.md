@@ -7,7 +7,7 @@ keywords: Data Journalist, Graphics Journalist, Reuters Graphics Journalist, Dat
 
 image: tree.jpg
 type: project
-date: '2017-4-9'
+date: '2019-9-9'
 published: true
 
 categories:
@@ -47,7 +47,8 @@ intro:
 
 <script>
   import Container from '$lib/components/ui/Container/index.svelte';
-
+  import LinkButton from '$lib/components/ui/LinkButton/index.svelte';
+  import ProjectNav from '$lib/components/custom/projects/ProjectNav/index.svelte';
 </script>
 
 <Container width="sm">
@@ -63,3 +64,7 @@ Hey friends!
 ![image](/media/page.png)
 
 </figure>
+
+<Container width="sm">
+  <ProjectNav />
+</Container>

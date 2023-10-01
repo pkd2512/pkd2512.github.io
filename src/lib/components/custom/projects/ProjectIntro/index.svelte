@@ -1,6 +1,5 @@
 <script>
   import Container from '$lib/components/ui/Container/index.svelte';
-  import { page } from '$app/stores';
   import Icon from '@iconify/svelte';
 
   /**
@@ -8,23 +7,28 @@
    */
   let infoHeight;
 
-  const { hed, dek, img, client, duration } = $page.data.meta.intro;
+  /**
+   * @type {{ intro: { hed: any; dek?: any; img?: any; client?: any; duration?: any; }; }}
+   */
+  export let meta;
 </script>
 
 <section id="hero">
   <Container width="lg">
     <header style="height: {Math.round(infoHeight * 1.5)}px;">
       <div class="text" bind:clientHeight="{infoHeight}">
-        <h1>{@html hed}</h1>
+        <h1>{@html meta.intro.hed}</h1>
         <p>
-          {@html dek}
+          {@html meta.intro.dek}
         </p>
         <p class="meta">
           <span title="client">
-            <Icon icon="mdi:company" width="24" height="24" />{@html client}
+            <Icon icon="mdi:company" width="24" height="24" />{@html meta.intro
+              .client}
           </span>
           <span title="duration">
-            <Icon icon="mdi:calendar" width="24" height="24" />{@html duration}
+            <Icon icon="mdi:calendar" width="24" height="24" />{@html meta.intro
+              .duration}
           </span>
         </p>
       </div>

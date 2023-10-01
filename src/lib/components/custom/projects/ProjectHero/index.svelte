@@ -1,20 +1,55 @@
 <script>
   import Container from '$lib/components/ui/Container/index.svelte';
   import ParallaxHero from '$lib/components/ui/ParallaxHero/index.svelte';
-  import { page } from '$app/stores';
   import { assets } from '$app/paths';
+  import { onMount } from 'svelte';
 
-  const { quote, img } = $page.data.meta.intro;
+  import { scaleLinear } from 'd3-scale';
+
+  /**
+   * @type {{ intro: { img: String; quote: String; }; }}
+   */
+  export let meta;
+
+  /**
+   * @type {number}
+   */
+  let infoHeight;
+
+  /**
+   * @type {number}
+   */
+  let windowHeight;
+
+  /**
+   * @type {number}
+   */
+  let bottom;
+
+  const makeParallax = (/** @type {number | undefined} */ pos) => {
+    return scaleLinear()
+      .clamp(true)
+      .domain([infoHeight, 0.6 * windowHeight])
+      .range([0, -infoHeight])(pos);
+  };
+
+  onMount(() => {
+    window.addEventListener('scroll', () => {
+      bottom = makeParallax(window.scrollY);
+    });
+  });
 </script>
 
+<svelte:window bind:innerHeight="{windowHeight}" />
+
+<ParallaxHero parallax vPos="center" img="{assets}/media/{meta.intro.img}" />
 <Container width="fluid">
-  <div class="anno">
-    <aside>
-      {@html quote}
+  <div class="anno" style="bottom:{bottom}px">
+    <aside bind:clientHeight="{infoHeight}">
+      {@html meta.intro.quote}
     </aside>
   </div>
 </Container>
-<ParallaxHero parallax vPos="center" img="{assets}/media/{img}" />
 
 <style lang="scss">
   .anno {
@@ -25,7 +60,7 @@
     aside {
       text-wrap: balance;
       position: absolute;
-      top: 0;
+      bottom: 0;
       left: 0;
       width: -webkit-fill-available;
       padding: var(--space-s) var(--space-l);

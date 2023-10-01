@@ -8,7 +8,7 @@
   import { page } from '$app/stores';
   import { base } from '$app/paths';
 
-  let data = $page.data.contents
+  $: data = $page.data.contents
     .filter((/** @type {{ type: string; }} */ d) => d.type === 'project')
     .slice(0, 3);
 
