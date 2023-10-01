@@ -21,7 +21,7 @@ links:
     target: _blank
 
   - type: doc
-    url: /projects/delhi-winter-pollution/
+    url: projects/delhi-winter-pollution/
     label: 🗒️ Read more
 
 
@@ -30,7 +30,7 @@ intro:
 
   dek: Lorem markdownum, aequent vocem dixit tamen quidem crimine in maris protinus moror telluris magno, marinae Latonae. Opaca tamquam ligari! Proxima bellare te tractata Atrides exercet.
 
-  img: /media/projects/dodata/hero.jpg
+  img: projects/dodata/hero.jpg
 
   duration: 4 weeks
 

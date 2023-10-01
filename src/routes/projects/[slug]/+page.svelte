@@ -3,7 +3,7 @@
   import Intro from '$lib/components/custom/projects/ProjectIntro/index.svelte';
   export let data;
 
-  $: console.log(data);
+  // $: console.log(data);
 
   let { title, description, keywords, image } = data.meta;
 </script>

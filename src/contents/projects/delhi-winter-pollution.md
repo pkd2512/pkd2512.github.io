@@ -23,7 +23,7 @@ links:
     target: _blank
 
   - type: doc
-    url: /projects/delhi-winter-pollution/
+    url: projects/delhi-winter-pollution/
     label: 🗒️ Read more
 
 
@@ -32,7 +32,7 @@ intro:
 
   dek: per, Narrative Cartographer, User Interface Designer, User Experience Designer, Communication Designer, Data Storyteller, Information Designer, Graphic Designer, Art Director, User-centered design, UX, UI, Data Artist, Web Designer, Web Developer, Front-end Web Developer, Photographer, Traveller, Creative writer, Electronics and Communication Engineer, National Institute of Design, National Institute
 
-  img: /media/projects/dodata/hero.jpg
+  img: projects/dodata/hero.jpg
 
   duration: 4 weeks
 

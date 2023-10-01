@@ -18,7 +18,7 @@ categories:
 
 links: 
   - type: doc
-    url: /projects/dodata/
+    url: projects/dodata/
     label: 🗒️ Read more
 
 intro:
@@ -27,7 +27,7 @@ intro:
 
   dek: "Even though excellent nuggets of knowledge are freely available on the internet, many individuals, especially the underprivileged, do not have access to it. To address the situation, DoData was envisaged — as a not for profit organization, whose main objective is to enable donation of data (internet) for the needy. I worked on the User Interface Design of the mobile app for DoData during my internship at Rupeelog in the summer of 2017."
 
-  img: /media/projects/dodata/hero.jpg
+  img: projects/dodata/hero.jpg
 
   duration: 4 weeks
 
@@ -39,6 +39,7 @@ intro:
 <script>
   import Container from '$lib/components/ui/Container/index.svelte';
   import LinkButton from '$lib/components/ui/LinkButton/index.svelte';
+  import ProjectNav from '$lib/components/custom/projects/ProjectNav/index.svelte';
 </script>
 
 <Container width="md">
@@ -103,6 +104,10 @@ Keeping track of data usage is just a swipe away. It can help users use their ba
 ### Designing the icons
 
 …and then the developers developed.
-An early version of the <LinkButton label='App' target=_blank url='https://apkpure.com/nl/do-data-dodata-platform-for-donation-of-data/com.dodata.org' /> is avaiable on android devices.
+An early version of the <LinkButton label='App' target=_blank url='https://apkpure.com/nl/do-data-dodata-platform-for-donation-of-data/com.dodata.org' /> is available on android devices.
 
+</Container>
+
+<Container width="sm">
+  <ProjectNav />
 </Container>

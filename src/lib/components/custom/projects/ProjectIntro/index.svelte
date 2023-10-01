@@ -7,7 +7,7 @@
    * @type {number}
    */
   let infoHeight;
-  $: console.log(infoHeight);
+
   const { hed, dek, img, client, duration } = $page.data.meta.intro;
 </script>
 

@@ -1,31 +1,21 @@
 <script>
   import Container from '$lib/components/ui/Container/index.svelte';
   import ProjectCard from '$lib/components/custom/projects/ProjectCard/index.svelte';
+  import { base } from '$app/paths';
+
   /**
    * @param posts - list of projects and metadata
    * @type {any[]}
    */
   export let posts;
-
-  /**
-   * @param {String} title - title of the section
-   */
-  export let title = '';
-
-  $: console.log(posts);
 </script>
-
-<!-- 
-<Container width="lg">
-  <h2>{title}</h2>
-</Container> -->
 
 <Container width="fluid">
   <!-- <div class="wrapper" style=""> -->
   <ul class="posts">
     {#each posts as post}
       <li class="post">
-        <a href="{post.slug}">
+        <a href="{base}/projects/{post.slug}">
           <ProjectCard info="{post}" />
         </a>
       </li>

@@ -1,6 +1,7 @@
 <script>
   import Container from '$lib/components/ui/Container/index.svelte';
   import truncateText from '$utils/truncateText';
+  import { assets } from '$app/paths';
 
   /**
    * @param info - contents for the card
@@ -21,10 +22,14 @@
 
 <div
   class="card"
+  data-sveltekit-preload-code
   bind:clientHeight="{cardHeight}"
   style="--ch:{cardHeight}px; --ih:{infoHeight}px"
 >
-  <div class="img" style="background-image: url('/media/{info.image}');"></div>
+  <div
+    class="img"
+    style="background-image: url('{assets}/media/{info.image}');"
+  ></div>
   <Container width="sm" style="position:relative;">
     <div class="body" bind:clientHeight="{infoHeight}">
       <p class="hed">{@html info.intro.hed}</p>

@@ -32,7 +32,7 @@
 
 <section>
   <header>
-    <ParallaxHero vPos="center" img="/media/hero-about.jpg" />
+    <ParallaxHero vPos="center" img="{assets}/media/hero-about.jpg" />
 
     <Container width="md">
       <div class="card">

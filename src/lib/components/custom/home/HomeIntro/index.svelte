@@ -1,6 +1,7 @@
 <script>
   import Container from '$lib/components/ui/Container/index.svelte';
   import { page } from '$app/stores';
+  import { assets } from '$app/paths';
 
   const { hed, dek, img } = $page.data.meta.intro;
 </script>
@@ -14,7 +15,7 @@
           {@html dek}
         </p>
       </div>
-      <div class="img" style="background-image:url(/media/{img})"></div>
+      <div class="img" style="background-image:url({assets}/media/{img})"></div>
     </header>
   </Container>
 </section>

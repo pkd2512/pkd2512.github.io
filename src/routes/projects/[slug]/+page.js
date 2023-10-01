@@ -7,7 +7,6 @@ export async function load({ params }) {
   try {
     const page = await import(`../../../contents/projects/${params.slug}.md`);
 
-    console.log(page);
     return {
       content: page.default,
       meta: page.metadata,

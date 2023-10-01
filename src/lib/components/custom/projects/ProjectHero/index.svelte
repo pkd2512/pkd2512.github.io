@@ -2,6 +2,7 @@
   import Container from '$lib/components/ui/Container/index.svelte';
   import ParallaxHero from '$lib/components/ui/ParallaxHero/index.svelte';
   import { page } from '$app/stores';
+  import { assets } from '$app/paths';
 
   const { quote, img } = $page.data.meta.intro;
 </script>
@@ -13,7 +14,7 @@
     </aside>
   </div>
 </Container>
-<ParallaxHero parallax vPos="center" img="{img}" />
+<ParallaxHero parallax vPos="center" img="{assets}/media/{img}" />
 
 <style lang="scss">
   .anno {

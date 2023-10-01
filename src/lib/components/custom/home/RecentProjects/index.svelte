@@ -4,7 +4,9 @@
   import { fade } from 'svelte/transition';
   import LinkButton from '$lib/components/ui/LinkButton/index.svelte';
   import Icon from '@iconify/svelte';
+  import checkAbsoluteUrl from '$utils/checkAbsoluteUrl';
   import { page } from '$app/stores';
+  import { base } from '$app/paths';
 
   let data = $page.data.contents
     .filter((/** @type {{ type: string; }} */ d) => d.type === 'project')
@@ -14,7 +16,7 @@
     offset = 0,
     progress = 0;
 
-  $: console.log(data);
+  $: console.log(base);
 </script>
 
 <section id="recent-projects">
@@ -49,7 +51,9 @@
                 {#each project.links as link}
                   <div class="link">
                     <LinkButton
-                      url="{link.url}"
+                      url="{checkAbsoluteUrl(link.url)
+                        ? link.url
+                        : base + link.url}"
                       label="{link.label}"
                       target="{link.target || ''}"
                     />
