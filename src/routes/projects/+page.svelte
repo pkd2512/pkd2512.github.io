@@ -12,7 +12,7 @@
   // @ts-ignore
   $: contents = data?.contents.filter((d) => d.type === 'project');
 
-  $: featured = contents[1];
+  $: featured = contents[0];
 </script>
 
 <MetaTags title="Portfolio | Prasanta Kumar Dutta" />
@@ -21,7 +21,7 @@
   <Container width="sm">
     <div class="anno">
       <p class="hed">{featured.intro.hed}</p>
-      <p class="dek">{featured.intro.dek}</p>
+      <p class="dek">{featured.description}</p>
 
       {#if featured.links}
         <div class="links">

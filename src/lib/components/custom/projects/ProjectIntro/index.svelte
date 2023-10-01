@@ -13,7 +13,7 @@
 
 <section id="hero">
   <Container width="lg">
-    <header style="height: {infoHeight * 1.5}px;">
+    <header style="height: {Math.round(infoHeight * 1.5)}px;">
       <div class="text" bind:clientHeight="{infoHeight}">
         <h1>{@html hed}</h1>
         <p>

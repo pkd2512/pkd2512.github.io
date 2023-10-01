@@ -10,8 +10,6 @@
   import '$lib/styles/main.scss';
 
   export let data;
-  const { img } = $page.data.meta.intro;
-  $: console.log($page);
 </script>
 
 <Analytics />

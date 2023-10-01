@@ -42,7 +42,7 @@
         <Container width="sm">
           <div class="anno">
             <p class="hed">{project.intro.hed}</p>
-            <p class="dek">{project.intro.dek}</p>
+            <p class="dek">{project.description}</p>
 
             {#if project.links}
               <div class="links">
@@ -143,7 +143,7 @@
     }
 
     .links {
-      margin-top: var(--space-s-m);
+      margin-top: var(--space-xs);
       display: flex;
       justify-content: end;
       width: 100%;
