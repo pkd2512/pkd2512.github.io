@@ -46,7 +46,7 @@ h2 {
   font-family: var(--font-sans);
   font-size: var(--font-size-2);
   line-height: var(--line-height-medium);
-  margin-block: var(--space-xl) var(--space-xs);
+  margin-block: var(--space-l) var(--space-xs);
 
   @media (max-width: 768px) {
     font-weight: var(--font-weight-regular);
@@ -58,7 +58,7 @@ h3 {
   font-family: var(--font-sans);
   font-size: var(--font-size-1);
   line-height: var(--line-height-medium);
-  margin-block: var(--space-xl) var(--space-2xs);
+  margin-block: var(--space-l) var(--space-2xs);
 
   @media (max-width: 768px) {
     font-weight: var(--font-weight-regular);
@@ -71,7 +71,7 @@ h6 {
   color: var(--black-soft);
   font-weight: var(--font-weight-bold);
   line-height: var(--line-height-medium);
-  margin-block: var(--space-xl) var(--space-2xs);
+  margin-block: var(--space-s) var(--space-2xs);
 }
 
 a {

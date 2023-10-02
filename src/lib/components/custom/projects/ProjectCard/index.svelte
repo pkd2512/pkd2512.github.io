@@ -76,7 +76,7 @@
 
       .img {
         filter: blur(3px);
-        transform: scale3d(1.05, 1.05, 1.05);
+        transform: scale3d(1.01, 1.01, 1.01);
       }
     }
   }

@@ -76,15 +76,12 @@
   ul {
     padding: 0;
     display: flex;
-    justify-content: center;
-    align-items: center;
     flex-direction: column;
   }
 
   li {
     list-style: none;
-    margin-block: var(--space-s);
-    max-width: calc(0.8 * var(--md));
+    margin-block: var(--space-2xs);
   }
 
   .date {

@@ -108,6 +108,4 @@ An early version of the <LinkButton label='App' target=_blank url='https://apkpu
 
 </Container>
 
-<Container width="sm">
-  <ProjectNav />
-</Container>
+<ProjectNav />

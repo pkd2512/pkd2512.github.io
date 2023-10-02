@@ -136,7 +136,7 @@
   nav {
     margin-top: -1px;
     margin-bottom: var(--space-3xl);
-    transition: transform 0.35s ease, max-width 0.15s ease-out;
+    transition: transform 0.35s ease, max-width 0.15s ease;
     z-index: var(--layer-important);
     background-color: var(--purple-soft);
     position: relative;

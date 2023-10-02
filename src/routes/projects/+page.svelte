@@ -45,8 +45,16 @@
 <style lang="scss">
   .featured {
     text-decoration: none;
+
     :global(.card) {
       width: 100%;
+      max-height: 90lvh;
+      @media (max-width: 600px) {
+        max-height: 80lvh;
+      }
+    }
+
+    :global(.card .container-sm) {
       max-height: 90lvh;
       @media (max-width: 600px) {
         max-height: 80lvh;

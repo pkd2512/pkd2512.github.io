@@ -97,6 +97,7 @@
 
     h1 {
       color: var(--white-soft);
+      @include text-shadow(var(--purple));
       margin-inline: auto;
     }
   }

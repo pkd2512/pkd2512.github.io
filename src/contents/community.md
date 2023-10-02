@@ -35,7 +35,7 @@ published: true
 
 <Container width=md>
 
-<p style="margin-block-start: var(--space-xl)">
+<p style="margin-block-start: var(--space-l)">
   I love to talk about design and data visualisation. Over the years, I have instructed students and professionals on data representation, geographic visualisation and visual storytelling.
 </p>
 

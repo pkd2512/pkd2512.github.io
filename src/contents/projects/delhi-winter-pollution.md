@@ -65,6 +65,4 @@ Hey friends!
 
 </figure>
 
-<Container width="sm">
-  <ProjectNav />
-</Container>
+<ProjectNav />

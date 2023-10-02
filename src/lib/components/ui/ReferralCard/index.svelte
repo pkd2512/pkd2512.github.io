@@ -25,11 +25,17 @@
    * Link to external site
    */
   export let url = '';
+
+  /**
+   * @type {String}
+   * Target
+   */
+  export let target = '_blank';
 </script>
 
 <NavLink
   data-card-type="referral-card"
-  target="_blank"
+  target="{target}"
   url="{url}"
   rel="noreferrer"
   disabled="{url === '' ? true : false}"
@@ -42,12 +48,10 @@
         {@html truncateText(description, 15)}
       </p>
       <span class="icon">
-        <Icon
-          width="22"
-          height="22"
-          icon="iconamoon:link-external-duotone"
-        /></span
-      >
+        {#if target === '_blank'}
+          <Icon width="24" height="24" icon="iconamoon:link-external-duotone" />
+        {/if}
+      </span>
     </div>
   </div>
 </NavLink>

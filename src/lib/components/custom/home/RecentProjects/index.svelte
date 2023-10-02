@@ -1,12 +1,13 @@
 <script>
   import Container from '$lib/components/ui/Container/index.svelte';
-  import Scroller from '@sveltejs/svelte-scroller';
   import { fade } from 'svelte/transition';
   import LinkButton from '$lib/components/ui/LinkButton/index.svelte';
   import Icon from '@iconify/svelte';
   import checkAbsoluteUrl from '$utils/checkAbsoluteUrl';
   import { page } from '$app/stores';
-  import { base } from '$app/paths';
+  import { base, assets } from '$app/paths';
+  // @ts-ignore
+  import Scroller from '@sveltejs/svelte-scroller';
 
   $: data = $page.data.contents
     .filter((/** @type {{ type: string; }} */ d) => d.type === 'project')
@@ -15,14 +16,19 @@
   let index = 0,
     offset = 0,
     progress = 0;
-
-  $: console.log(base);
 </script>
+
+<svelte:head>
+  {#each data as d}
+    <link rel="preload" as="image" href="{assets}/media/{d.intro.img}" />
+  {/each}
+</svelte:head>
 
 <section id="recent-projects">
   <Scroller
     top="{0}"
     bottom="{1}"
+    threshold="{0.75}"
     query=".container-sm"
     bind:index="{index}"
     bind:offset="{offset}"
@@ -31,10 +37,9 @@
     <div slot="background">
       {#key index}
         <div
-          in:fade="{{ duration: 300 }}"
-          out:fade="{{ duration: 350 }}"
+          transition:fade="{{ duration: 350 }}"
           class="img"
-          style="background-image:url(media/{data[index].intro.img})"
+          style="background-image:url({assets}/media/{data[index].intro.img})"
         ></div>
       {/key}
     </div>
@@ -115,15 +120,20 @@
 
   [slot='foreground'] {
     :global(.container-sm) {
-      @include fullheight(1.3);
+      @include fullheight(1.5);
 
       display: flex;
       justify-content: center;
-      align-items: center;
+      align-items: flex-start;
+    }
+
+    :global(.container-sm:last-child) {
+      @include fullheight(1.15);
     }
 
     .anno {
       background-color: var(--white);
+      margin-block-start: 50svh;
       padding: var(--space-s-m) var(--space-m-l);
       border-radius: 0.25rem;
       box-shadow: var(--shadow-2);
@@ -143,7 +153,6 @@
     .dek {
       margin: 0;
       font-style: italic;
-      text-wrap: balance;
     }
 
     .links {
