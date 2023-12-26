@@ -14,7 +14,7 @@
 </script>
 
 <section id="hero">
-  <Container width="lg">
+  <Container width="md">
     <header style="height: {Math.round(infoHeight * 1.5)}px;">
       <div class="text" bind:clientHeight="{infoHeight}">
         <h1>{@html meta.intro.hed}</h1>

@@ -67,10 +67,10 @@
 
   section {
     :global(.container-md) {
-      margin-top: -70lvh;
+      margin-top: -75lvh;
 
       @media (--xl-n-below) {
-        margin-top: -65lvh;
+        margin-top: -75lvh;
       }
 
       @media (max-width: 600px) {

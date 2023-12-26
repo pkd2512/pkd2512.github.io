@@ -111,7 +111,7 @@
     box-shadow: var(--shadow-3);
     display: flex;
     flex-flow: column;
-    overflow-y: scroll;
+    overflow-y: hidden;
 
     .hed {
       font-size: var(--font-size-1);
