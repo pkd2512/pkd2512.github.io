@@ -12,8 +12,9 @@
   let articles = [];
 
   onMount(async () => {
+    // @ts-ignore
     articles = await getBlogFeed();
-    // console.log(articles);
+    // console.log('feed', articles);
   });
 </script>
 
@@ -26,7 +27,8 @@
 
       <ReferralCard
         url="{article.link}"
-        image="{article.thumbnail}"
+        image="{article.thumbnail ||
+          'https://cdn-images-1.medium.com/max/357/1*O7E1vMVWGStXv8TLKqR3Gw@2x.png'}"
         title="{article.title}"
         description="{article.description.slice(
           start,

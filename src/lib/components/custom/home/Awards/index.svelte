@@ -48,12 +48,24 @@
           alt="Information is Beautiful Awards"
         /></a
       >
+      <a target="_blank" href="https://lapressclub.org/naej/"
+        ><img
+          src="{assets}/media/awards/la-pc.jpg"
+          alt="Los Angeles Press Club’s National Entertainment Journalism Awards"
+        /></a
+      >
       <a
         target="_blank"
         href="https://www.adobeawards.com/the-gallery?y=2018&liveproject=20188973"
         ><img
           src="{assets}/media/awards/adobe.jpg"
           alt="Adobe Design Achievement Awards"
+        /></a
+      >
+      <a target="_blank" href="https://www.youtube.com/watch?v=z2eIfTX-6Jw"
+        ><img
+          src="{assets}/media/awards/fcc.jpg"
+          alt="Kalinga FCC Awards for excellence in Journalism"
         /></a
       >
     </Marquee>

@@ -140,7 +140,7 @@ blockquote {
 }
 
 figure {
-  margin-block: var(--space-s);
+  margin-block: var(--space-l);
   margin-inline: auto;
 }
 
@@ -151,7 +151,7 @@ figcaption p {
   font-size: var(--font-size-0);
   font-family: var(--font-serif);
   margin-block: 0;
-  line-height: var(--line-height-tight);
+  line-height: var(--line-height-medium);
 }
 
 em {

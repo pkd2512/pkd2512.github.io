@@ -28,7 +28,7 @@
 >
   <div
     class="img"
-    style="background-image: url('{assets}/media/{info.image}');"
+    style="background-image: url('{assets}/media/share-images/{info.image}');"
   ></div>
   <Container width="sm" style="position:relative;">
     <div class="body" bind:clientHeight="{infoHeight}">
