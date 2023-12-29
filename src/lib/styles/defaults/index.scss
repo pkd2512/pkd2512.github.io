@@ -26,6 +26,10 @@ p {
   line-height: var(--line-height-regular);
 }
 
+small {
+  font-size: var(--font-size--1);
+}
+
 p {
   font-family: var(--font-serif);
   margin-block-end: var(--space-s);

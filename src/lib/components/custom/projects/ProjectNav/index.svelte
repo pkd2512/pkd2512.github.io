@@ -40,6 +40,7 @@
     @include sectionTitle;
   }
   section {
+    margin-block-start: var(--space-xl-2xl);
     // display: flex;
     text-align: center;
     // justify-content: center;

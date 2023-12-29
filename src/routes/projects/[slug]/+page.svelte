@@ -2,6 +2,7 @@
   import MetaTags from '$lib/components/ui/MetaTags/index.svelte';
   import Intro from '$lib/components/custom/projects/ProjectIntro/index.svelte';
   import getAdjacentProjects from '$utils/getAdjacentProjects.js';
+  import ProjectNav from '$lib/components/custom/projects/ProjectNav/index.svelte';
 
   export let data;
 
@@ -25,3 +26,5 @@
 <Intro meta="{data.meta}" />
 
 <svelte:component this="{data.content}" />
+
+<ProjectNav />

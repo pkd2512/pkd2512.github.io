@@ -39,7 +39,6 @@ intro:
 <script>
   import Container from '$lib/components/ui/Container/index.svelte';
   import LinkButton from '$lib/components/ui/LinkButton/index.svelte';
-  import ProjectNav from '$lib/components/custom/projects/ProjectNav/index.svelte';
   import OverflowImage from '$lib/components/ui/OverflowingImage/index.svelte'
 </script>
 
@@ -395,5 +394,3 @@ Even though many of them are standard icons, I recreated them in Adobe Illustrat
 An early version of the <LinkButton label='App' target=_blank url='https://apkpure.com/nl/do-data-dodata-platform-for-donation-of-data/com.dodata.org' /> is available on android devices.
 
 </Container>
-
-<ProjectNav />
