@@ -70,11 +70,15 @@
       margin-top: -75lvh;
 
       @media (--xl-n-below) {
-        margin-top: -75lvh;
+        margin-top: -72lvh;
       }
 
       @media (max-width: 600px) {
         margin-top: -60lvh;
+      }
+
+      @media (width <= 430px) and (height >= 900px) {
+        margin-top: -57lvh;
       }
     }
   }

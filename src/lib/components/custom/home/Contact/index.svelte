@@ -32,7 +32,7 @@
 </script>
 
 <section id="contact">
-  <Container width="lg snap">
+  <Container width="lg">
     <div class="wrapper">
       <div class="contact">
         <!-- Get in touch -->

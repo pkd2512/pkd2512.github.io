@@ -24,10 +24,29 @@ published: true
   import LinkButton from '$lib/components/ui/LinkButton/index.svelte';
   import BioCard from '$lib/components/custom/about/BioCard/index.svelte';
   import ReferralCard from '$lib/components/ui/ReferralCard/index.svelte';
+
+  let content;
+  let innerHeight;
+  
+  let top = 0;
+  let marginTop = 0;
+
+  $: if(content && innerHeight) {
+    top = content.offsetTop;
+  }
+
+  $: if(innerHeight) {
+    marginTop = top < innerHeight*0.9 ? Math.round(innerHeight-top) : 0;
+  }
+
+  // $:console.log(top, innerHeight*0.9);
 </script>
+
+<svelte:window bind:innerHeight/>
 
 <BioCard hed={intro.hed} dek={intro.dek}/>
 
+<div bind:this={content} style="margin-top: {marginTop}px" >
 <Container width=md>
 
 ## A storyteller, passionate about data visualisation
@@ -56,6 +75,7 @@ In the meanwhile, I briefly worked as --
 - A freelance UX-UI designer for a digital commerce app, where I ideated user journeys and designed app screens and other <LinkButton target=_blank label='UI assets' url='https://www.behance.net/gallery/52114777/Icon-Design-for-local-shopping-app-Bottleview' />.
 
 </Container>
+</div>
 
 <Container width=md style="text-align: center; margin-top: var(--space-m); margin-bottom: var(--space-xl);">
 

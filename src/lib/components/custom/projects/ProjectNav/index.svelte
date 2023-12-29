@@ -26,7 +26,7 @@
       <ReferralCard
         target=""
         url="{base}/projects/{$page.data.adjacent.next.slug}"
-        image="{assets}/media/{$page.data.adjacent.next.image}"
+        image="{assets}/media/share-images/{$page.data.adjacent.next.image}"
         title="{$page.data.adjacent.next.intro.hed}"
         description="{$page.data.adjacent.next.description}"
       />

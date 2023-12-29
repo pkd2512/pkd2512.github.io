@@ -47,18 +47,22 @@
 
             <span class="place">
               {@html marked.parse(item.place)}
-              <span class="date">
-                {item.date ? '• ' + formatDate(item.date) : ''}
+
+              <span style="white-space: nowrap;">
+                <span class="date">
+                  {item.date ? '• ' + formatDate(item.date) : ''}
+                </span>
+
+                {#if item.link}
+                  <NavLink target="_blank" url="{item.link}"
+                    ><Icon
+                      width="22"
+                      height="22"
+                      icon="iconamoon:link-external-duotone"
+                    /></NavLink
+                  >
+                {/if}
               </span>
-              {#if item.link}
-                <NavLink target="_blank" url="{item.link}"
-                  ><Icon
-                    width="22"
-                    height="22"
-                    icon="iconamoon:link-external-duotone"
-                  /></NavLink
-                >
-              {/if}
             </span>
           </li>
         {/each}

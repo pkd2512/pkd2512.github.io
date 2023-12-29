@@ -72,6 +72,15 @@ intro:
   }
 }
 
+figure.shadow {
+
+  :global(img) {
+    box-shadow: var(--shadow-2);
+    border: 1px solid var(--gray-soft);
+  }
+
+}
+
 .ui-img {
   display: flex;
   justify-content: space-between;
@@ -125,7 +134,7 @@ intro:
 
 ## The Problem
 
-With the penetration of technology in our lives, people today have a plethora of services at their fingertips (literally!). For 2017, the number of smartphone users in India is estimated to cross 300 million. This can give access to a huge collection of knowledge available online via smartphones. However, it was found that despite the availability of the devices and the desire to learn, many of the individuals were unable to utilise the resources for learning.
+With the penetration of technology in our lives, people today have a plethora of services at their fingertips (literally!). For 2017, the number of smartphone users in India is estimated to cross 300 million. This can give access to a huge collection of knowledge available online via smartphones. However, it was found that despite the availability of the devices and the desire to learn, many of the individuals were unable to utilize the resources for learning.
 
 What was needed was a channel that could bridge the following hurdles —
 
@@ -174,19 +183,19 @@ Before proceeding with the app, I had to work on the branding… It is really fu
 
 I associated keywords with the project and began sketching out ideas that involved WiFi, the internet, people and of course the cursive 'D'.
 
- <figure>
+ <figure class=shadow>
 
   ![Photo of pencil sketches on paper showing logo ideas](/media/projects/dodata/logo1.jpg)
 
   </figure>
 
- <figure>
+ <figure class=shadow>
 
   ![Photo of pencil sketches on paper showing logo ideas](/media/projects/dodata/logo2.jpg)
 
   </figure>
 
- <figure>
+ <figure class=shadow>
 
   ![Photo of pencil sketches on paper showing logo ideas](/media/projects/dodata/logo3.jpg)
 
@@ -254,11 +263,11 @@ I finally settled with two hues of green — one with yellow and one with blue, 
 
 ### Choosing typefaces
 
-Now that the logo symbol was finalised, I had to work on finding a suitable typeface that can together make up the logotype.
+Now that the logo symbol was finalized, I had to work on finding a suitable typeface that can together make up the logotype.
 
  <figure>
 
-  ![The logo with different font variation reading DoData](/media/projects/dodata/logotype.png)
+  ![The logo with different font variations reading DoData](/media/projects/dodata/logotype.png)
 
   </figure>
 
@@ -272,13 +281,13 @@ I settled with Bree-Serif for the logotype because of its cheerful and friendly 
 
    <figure>
 
-  ![A mockup of a mobile phone showing the DoData logo](/media/projects/dodata/splash.png)
+  ![A mock-up of a mobile phone showing the DoData logo](/media/projects/dodata/splash.png)
 
   </figure>
 
 ### Designing the UI for the consumer app
 
-The backend of the service was already under development when I began the project. So, the basic app flow had already been decided by the project manager which had been conveyed to me via rough sketches. After I had analysed the wireframes, I suggested a few modifications, which were then incorporated in the final UI. I used Sketch to make the screens and created a prototype using Invision App which helped in smooth handoff of UI specs and assets.
+The backend of the service was already under development when I began the project. So, the basic app flow had already been decided by the project manager which had been conveyed to me via rough sketches. After I had analysed the wireframes, I suggested a few modifications, which were then incorporated into the final UI. I used Sketch to make the screens and created a prototype using Invision App which helped in the smooth hand-off of UI specs and assets.
 
 <OverflowImage breakpoint=480 maxWidth='180%' url='media/projects/dodata/conceptdoc.jpg' alt="Handwritten notes about the app concept." caption="I analysed the concept document to derive the functional specifications and content requirements." />
 
@@ -330,7 +339,7 @@ I wanted to keep the UI as close to a standard Android app so that it is intuiti
     </figure>
   </div>
 
-The dashboard contains the content categorised by the sources, specific to the current user. If a single account is used by an entire family, the account admin can add family members, and they can access their content by simply switching the user from the menu.
+The dashboard contains the content categorized by the sources, specific to the current user. If a single account is used by an entire family, the account admin can add family members, and they can access their content by simply switching the user from the menu.
 
   <div class="ui-img">
     <figure>
@@ -338,7 +347,7 @@ The dashboard contains the content categorised by the sources, specific to the c
     ![Screen mockup for switching user](/media/projects/dodata/switch-user.jpg)
 
     <figcaption>
-    Dialog box to change active user
+    Dialog box to change the active user
     </figcaption>
 
     </figure>
