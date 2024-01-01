@@ -11,16 +11,16 @@
     offset = 0,
     progress = 0;
 
-  $: activeChapter = places[index]?.hed || '';
+  $: activeChapter = places[index]?.key || '';
 
-  $: console.log(index);
+  // $: console.log(index);
 </script>
 
 <section id="travels">
   <Scroller
     top="{0}"
     bottom="{1}"
-    threshold="{0.1}"
+    threshold="{0.5}"
     query=".container-sm"
     bind:index="{index}"
     bind:offset="{offset}"
@@ -31,26 +31,28 @@
     </div>
 
     <div slot="foreground">
-      {#each places as place}
-        <Container width="sm" id="{place.hed}">
-          {#if place.hed}
-            <div class="h4">{place.hed}</div>
-          {/if}
+      {#each places as place, i}
+        <div class="slide {index === i ? 'visible' : 'invisible'}">
+          <Container width="sm" id="{place.key}">
+            {#if place.hed}
+              <div class="h4">{place.hed}</div>
+            {/if}
 
-          {#if place.dek}
-            <p>{place.dek}</p>
-          {/if}
+            {#if place.dek}
+              <p>{place.dek}</p>
+            {/if}
 
-          {#if place.img}
-            <figure>
-              <img
-                src="{assets}/media/projects/andretta/{place.img}"
-                alt="{place.alt}"
-              />
-              <figcaption>{place.caption}</figcaption>
-            </figure>
-          {/if}
-        </Container>
+            {#if place.img}
+              <figure>
+                <img
+                  src="{assets}/media/projects/andretta/{place.img}"
+                  alt="{place.alt}"
+                />
+                <figcaption>{place.caption}</figcaption>
+              </figure>
+            {/if}
+          </Container>
+        </div>
       {/each}
     </div>
   </Scroller>
@@ -84,9 +86,10 @@
 
     :global(.container-sm) {
       background-color: var(--white-soft);
-      box-shadow: var(--shadow-2);
+      box-shadow: var(--shadow-3);
       padding-inline: var(--space-xl);
       padding-block-start: var(--space-l);
+      margin-block-end: var(--space-3xl);
       display: flex;
       flex-direction: column;
     }
@@ -98,6 +101,19 @@
     :global(.container-sm#Closing) {
       visibility: hidden;
       @include fullheight;
+    }
+
+    .slide {
+      transition: all 0.45s cubic-bezier(0.83, 0, 0.17, 1);
+
+      &.visible {
+        opacity: 1;
+      }
+
+      &.invisible {
+        opacity: 0;
+        transform: scale3d(0.95, 0.95, 1);
+      }
     }
   }
 </style>
