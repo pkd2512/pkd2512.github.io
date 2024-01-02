@@ -44,6 +44,7 @@ intro:
   import LinkButton from '$lib/components/ui/LinkButton/index.svelte';
   import OverflowImage from '$lib/components/ui/OverflowingImage/index.svelte';
 
+  import Award from '$lib/components/custom/projects/ProjectAward/index.svelte';
   import Map from '$lib/components/custom/projects/AndrettaMap/index.svelte';
 </script>
 
@@ -55,6 +56,12 @@ intro:
   }
 
 </style>
+
+<Award img="adobe.jpg" url="https://www.adobeawards.com/the-gallery?y=2018&liveproject=20188973" notes="
+<b>SEMIFINALIST</b>
+<br />
+Commercial Photography &middot; 2018
+"/>
 
 <Container width="md">
 
@@ -94,6 +101,7 @@ The research study, spanning a little over a week, turned into a fun trip that i
 ## The Photostory
 
 My output of the project is the photostory that attempts to paint a picture of the place as seen by me. All the photographs contained in the book have been taken with my Nikon D5200 using a 18-105mm lens, which were edited using Google Nik Collection on Adobe Photoshop and then compiled into the story using Adobe Illustrator.
+
 You can navigate through the digital album shown below by manually turning the pages at the curl using the mouse or using the <kbd>&#8592;</kbd> and <kbd>&#8594;</kbd> keys. To peek into a section of a page click on the section to zoom in and out of it. You can also zoom out of a view using the <kbd>Esc</kbd> key.
 
 <p style="font-style:italic;">

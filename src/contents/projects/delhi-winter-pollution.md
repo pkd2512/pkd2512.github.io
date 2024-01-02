@@ -64,5 +64,3 @@ Hey friends!
 ![image](/media/page.png)
 
 </figure>
-
-<ProjectNav />
