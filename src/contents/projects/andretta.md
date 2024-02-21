@@ -67,7 +67,7 @@ Commercial Photography &middot; 2018
 
 ## About Palampur
 
-Known as the "Tea capital of North India", Palampur is a town lying in the laps of the Kangra valley, surrounded by tea gardens and pine forests which gradually merge with the Dhauladhar ranges. Located at an elevation of 1,472 m above sea-level at the confluence of the Himalayas and plains, it enjoys the best of both but the horrors of neither, which makes it a huge attraction for tourists from India and abroad alike.
+Known as the "Tea capital of North India", Palampur is a town lying in the lap of the Kangra valley, surrounded by tea gardens and pine forests which gradually merge with the Dhauladhar ranges. Located at an elevation of 1,472 m above sea level at the confluence of the Himalayas and plains, it enjoys the best of both but the horrors of neither, which makes it a huge attraction for tourists from India and abroad alike.
 
 The town has derived its name from the local word 'palum', meaning lots of water, which is attributed to the numerous steams flowing across the valley. Besides being a treasure trove of scenic beauty, it has also been a hotbed of art and culture for a very long time, which provides something for people of all tastes. It also has many iconic temples and buildings constructed during the colonial period.
 
@@ -78,11 +78,11 @@ The town has derived its name from the local word 'palum', meaning lots of water
 The concept of pottery as an art form was introduced to India in 1952 by Padma Shri Sardar Gurcharan Singh, fondly known as 'Daddyji'' with the establishment of "Delhi Blue Pottery". Slipware is pottery identified by its primary decorating process where slip is placed onto the leather-hard clay body surface before firing by dipping, painting or splashing. Slip is an aqueous suspension of a clay body, which is a mixture of clays and other minerals such as quartz, feldspar and mica.
 
 As the wave of urbanisation swept over Delhi, with the repercussions of political unrest, the pottery was shifted to Andretta, a village 13 km from Palampur, in 1984. The responsibility had passed on to *Daddyji*'s son, Mansimran ‘*Mini*' Singh, and his wife Mary Singh.
-Today, the place not only is the hub of slipware pottery, but also serves as a training centre for people interested in learning the craft of studio pottery.
+Today, the place not only is the hub of slipware pottery but also serves as a training centre for people interested in learning the craft of studio pottery.
 
 ## The Idea
 
-We, a team of four people — <LinkButton label='Jasleen Rana' target=_blank url='https://www.linkedin.com/in/jasleen-rana-979b63118/' />, <LinkButton label='Faaiza Saeed' target=_blank url='https://www.linkedin.com/in/faaizasaeed/' />, <LinkButton label='Niranjan Morkar' target=_blank url='https://www.linkedin.com/in/niranjanmorkar/' />, and I, had decided to study the life and rich culture of Palampur and document the studio pottery in Andretta. The idea was to bring out the essence of the place to the rest of the world through an academic project, while identify problem areas that can be intervened in.
+We, a team of four people — <LinkButton label='Jasleen Rana' target=_blank url='https://www.linkedin.com/in/jasleen-rana-979b63118/' />, <LinkButton label='Faaiza Saeed' target=_blank url='https://www.linkedin.com/in/faaizasaeed/' />, <LinkButton label='Niranjan Morkar' target=_blank url='https://www.linkedin.com/in/niranjanmorkar/' />, and I, had decided to study the life and rich culture of Palampur and document the studio pottery in Andretta. The idea was to bring out the essence of the place to the rest of the world through an academic project while identifying problem areas that can be intervened in.
 
 The research study, spanning a little over a week, turned into a fun trip that involved studying pottery, interviewing people, clicking pictures, making new friends and romancing with Nature.
 

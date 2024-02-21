@@ -44,6 +44,7 @@
 <style lang="scss">
   img {
     max-width: var(--xs);
+    width: 100%;
     margin-inline: auto;
   }
 
@@ -58,8 +59,7 @@
   }
 
   .award {
-    max-width: calc(0.75 * var(--md));
-    padding: var(--space-s);
+    padding: var(--space-s) var(--space-l);
     text-align: center;
     background-color: var(--white);
     z-index: var(--layer-5);
