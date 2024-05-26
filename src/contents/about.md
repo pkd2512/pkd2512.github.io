@@ -25,28 +25,32 @@ published: true
   import BioCard from '$lib/components/custom/about/BioCard/index.svelte';
   import ReferralCard from '$lib/components/ui/ReferralCard/index.svelte';
 
-  let content;
+  let el;
   let innerHeight;
   
   let top = 0;
   let marginTop = 0;
 
-  $: if(content && innerHeight) {
-    top = content.offsetTop;
+  const getTop = () =>{
+    const { top } = el && el.getBoundingClientRect();
+    return top;
   }
 
-  $: if(innerHeight) {
-    marginTop = top < innerHeight*0.9 ? Math.round(innerHeight-top) : 0;
+  $: if(el) {
+    top = getTop();
   }
 
-  // $:console.log(top, innerHeight*0.9);
+  $: if(innerHeight >960) {
+   marginTop = top < innerHeight*0.9 ? Math.round(innerHeight*0.15) : 0;
+  }
+
 </script>
 
 <svelte:window bind:innerHeight/>
 
 <BioCard hed={intro.hed} dek={intro.dek}/>
 
-<div bind:this={content} style="margin-top: {marginTop}px" >
+<div bind:this={el} style="position: relative; top: {marginTop}px" >
 <Container width=md>
 
 ## A storyteller, passionate about data visualisation
