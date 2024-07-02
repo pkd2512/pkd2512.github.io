@@ -59,6 +59,11 @@
       }
     }
   }
+
+  blockquote {
+    padding-block-end: 0;
+  }
+
   :global {
     #mentoring {
       li {

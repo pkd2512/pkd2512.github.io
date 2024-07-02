@@ -36,9 +36,9 @@
 
     <Container width="md">
       <div class="card">
-        <div class="img">
+        <!-- <div class="img">
           <img src="{assets}/media/Prasanta_KrDutta.jpg" alt="" />
-        </div>
+        </div> -->
         <div class="body">
           <h1>{hed}</h1>
           <p>{@html dek}</p>
@@ -64,24 +64,6 @@
 <style lang="scss">
   @import 'src/lib/styles/mixins/screenReaderOnly';
   @import 'src/lib/styles/mixins/fullHeight';
-
-  section {
-    :global(.container-md) {
-      margin-top: -75lvh;
-
-      @media (--xl-n-below) {
-        margin-top: -72lvh;
-      }
-
-      @media (max-width: 600px) {
-        margin-top: -60lvh;
-      }
-
-      @media (width <= 430px) and (height >= 900px) {
-        margin-top: -57lvh;
-      }
-    }
-  }
 
   .card {
     display: flex;
@@ -133,13 +115,12 @@
     width: 100%;
     border-radius: 0.25rem;
     padding: var(--space-l) var(--space-s) var(--space-l) var(--space-m-l);
-    background-color: var(--white);
+    background-color: var(--white-soft);
     display: flex;
     align-items: center;
-    box-shadow: var(--shadow-1);
+    box-shadow: var(--shadow-2);
 
-    margin-top: -13%;
-    padding-top: 15%;
+    margin-top: -25%;
 
     @media (--md-n-below) {
       width: 100%;

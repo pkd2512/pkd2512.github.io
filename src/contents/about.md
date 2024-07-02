@@ -25,32 +25,10 @@ published: true
   import BioCard from '$lib/components/custom/about/BioCard/index.svelte';
   import ReferralCard from '$lib/components/ui/ReferralCard/index.svelte';
 
-  let el;
-  let innerHeight;
-  
-  let top = 0;
-  let marginTop = 0;
-
-  const getTop = () =>{
-    const { top } = el && el.getBoundingClientRect();
-    return top;
-  }
-
-  $: if(el) {
-    top = getTop();
-  }
-
-  $: if(innerHeight >960) {
-   marginTop = top < innerHeight*0.9 ? Math.round(innerHeight*0.15) : 0;
-  }
-
 </script>
-
-<svelte:window bind:innerHeight/>
 
 <BioCard hed={intro.hed} dek={intro.dek}/>
 
-<div bind:this={el} style="position: relative; top: {marginTop}px" >
 <Container width=md>
 
 ## A storyteller, passionate about data visualisation
@@ -79,7 +57,6 @@ In the meanwhile, I briefly worked as --
 - A freelance UX-UI designer for a digital commerce app, where I ideated user journeys and designed app screens and other <LinkButton target=_blank label='UI assets' url='https://www.behance.net/gallery/52114777/Icon-Design-for-local-shopping-app-Bottleview' />.
 
 </Container>
-</div>
 
 <Container width=md style="text-align: center; margin-top: var(--space-m); margin-bottom: var(--space-xl);">
 
@@ -102,6 +79,12 @@ My logo, imagined as islands in the Pacific generated using ControlNet v1.1.
 </figcaption>
 
 </figure>
+
+<Container width=md style="text-align: center; margin-top: var(--space-m); margin-bottom: var(--space-xl);">
+
+ <LinkButton solid="{true}" target=_blank  url="https://www.redbubble.com/people/daPacificArt/shop" label="Shop art prints" />
+
+</Container>
 
 My experiments don't stop in the digital realm. When I am not working, you can find me exploring places and indulging in the <LinkButton target=_blank label='culinary arts' url='https://www.instagram.com/thebongbawarchi/' />.
 

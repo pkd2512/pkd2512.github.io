@@ -28,6 +28,7 @@ published: true
   import Awards from '$lib/components/custom/home/Awards/index.svelte';
   import Testimonials from '$lib/components/custom/home/Testimonials/index.svelte';
   import BlogFeed from '$lib/components/custom/home/BlogFeed/index.svelte';
+  import Shop from '$lib/components/custom/home/Shop/index.svelte';
 </script>
 
 <RecentProjects />
@@ -55,7 +56,7 @@ Over the years, I have instructed design students on data representation, geovis
 
 <Testimonials/>
 
-<Container style="margin-top: var(--space-2xl-3xl);" width=md>
+<Container  width=md>
 
 ## Art and Photography
 
@@ -72,6 +73,8 @@ I dabble in creative coding and generative art, mainly as a means to explore the
 </figcaption>
 
 </figure>
+
+<Shop />
 
 <br />
 
