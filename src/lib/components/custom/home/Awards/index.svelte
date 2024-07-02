@@ -54,6 +54,14 @@
           alt="Los Angeles Press Club’s National Entertainment Journalism Awards"
         /></a
       >
+      <a
+        target="_blank"
+        href="https://opcofamerica.org/Awardarchive/the-whitman-bassow-award-2023/"
+        ><img
+          src="{assets}/media/awards/whitman.jpg"
+          alt="18 The Whitman Bassow Award 2023"
+        /></a
+      >
       <a target="_blank" href="https://www.youtube.com/watch?v=z2eIfTX-6Jw"
         ><img
           src="{assets}/media/awards/fcc.jpg"
