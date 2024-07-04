@@ -49,7 +49,7 @@ intro:
 </script>
 
 <style lang='scss'>
-  @import 'src/lib/styles/mixins/iframeResponsive';
+  @import 'src/lib/styles/mixins/index';
 
   .embed-responsive {
     @include iframeResponsive;

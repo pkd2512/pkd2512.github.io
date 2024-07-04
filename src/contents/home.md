@@ -11,9 +11,9 @@ image: share.jpg
 type: page
 
 intro:
-  hed: Information Experience Designer
+  hed: Prasanta Kumar Dutta
 
-  dek: I craft award-winning visual stories with data at Reuters and solve problems in an aesthetically pleasing&nbsp;way.
+  dek: I am an Information Experience Designer, crafting award-winning visual stories with data at Reuters and solving problems in an aesthetically pleasing&nbsp;way.
 
   img: hero.png
 

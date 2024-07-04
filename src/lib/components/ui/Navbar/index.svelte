@@ -183,12 +183,12 @@
       border-radius: 1rem;
       margin-top: var(--space-xs);
       background-color: var(--purple);
-      transition: all 0.35s ease;
+      transition: width 0.35s ease;
     }
 
     :global(a.active::after) {
       width: 100%;
-      height: 0.3rem;
+      height: 0.35rem;
     }
   }
 

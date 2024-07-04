@@ -31,7 +31,7 @@ published: true
   import resources from '/src/contents/data/resources.csv';
 </script>
 
-<ParallaxHero vPos="top" img='/media/hero-community.jpg'/>
+<ParallaxHero img='/media/hero-community.jpg'/>
 
 <Container width=md>
 

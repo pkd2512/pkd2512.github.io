@@ -1,4 +1,7 @@
 <script>
+  import { scaleLinear } from 'd3-scale';
+  import { onMount } from 'svelte';
+
   /**
    * @param {String} img
    * url of background image
@@ -6,19 +9,33 @@
   export let img = '';
 
   /**
+   * @type {number}
+   */
+  let windowHeight;
+
+  /**
    * @param {String}
    * background-y position
    */
-  export let vPos = 'center';
+  let vPos = 10;
 
-  export let parallax = false;
+  const makeParallax = (/** @type {number | undefined} */ pos) => {
+    return scaleLinear()
+      .clamp(true)
+      .domain([0, 0.9 * windowHeight])
+      .range([10, -100])
+      .clamp(true)(pos);
+  };
+
+  onMount(() => {
+    window.addEventListener('scroll', () => {
+      vPos = makeParallax(window.scrollY);
+    });
+  });
 </script>
 
-<div
-  class="hero"
-  class:parallax="{parallax}"
-  style="--img: url({img}); --y:{vPos}"
->
+<svelte:window bind:innerHeight="{windowHeight}" />
+<div class="hero" style="--img: url({img}); --y:{vPos}%">
   <slot />
 </div>
 

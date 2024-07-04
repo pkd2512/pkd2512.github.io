@@ -1,4 +1,3 @@
 @mixin fullheight($i: 1) {
-  // min-height: calc(#{$i} * 100lvh);
   height: calc(#{$i} * 100lvh);
 }

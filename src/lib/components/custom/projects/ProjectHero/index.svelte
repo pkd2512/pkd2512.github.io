@@ -42,7 +42,7 @@
 
 <svelte:window bind:innerHeight="{windowHeight}" />
 
-<ParallaxHero parallax vPos="center" img="{assets}/media/{meta.intro.img}" />
+<ParallaxHero img="{assets}/media/{meta.intro.img}" />
 <Container width="fluid">
   <div class="anno" style="bottom:{bottom}px">
     <aside bind:clientHeight="{infoHeight}">

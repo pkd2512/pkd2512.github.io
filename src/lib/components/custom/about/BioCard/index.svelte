@@ -32,7 +32,7 @@
 
 <section>
   <header>
-    <ParallaxHero vPos="center" img="{assets}/media/hero-about.jpg" />
+    <ParallaxHero img="{assets}/media/hero-about.jpg" />
 
     <Container width="md">
       <div class="card">
@@ -120,7 +120,7 @@
     align-items: center;
     box-shadow: var(--shadow-2);
 
-    margin-top: -25%;
+    margin-top: -15%;
 
     @media (--md-n-below) {
       width: 100%;
