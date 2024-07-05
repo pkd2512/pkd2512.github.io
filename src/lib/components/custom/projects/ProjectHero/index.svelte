@@ -42,7 +42,10 @@
 
 <svelte:window bind:innerHeight="{windowHeight}" />
 
-<ParallaxHero img="{assets}/media/{meta.intro.img}" />
+<div class="img">
+  <ParallaxHero img="{assets}/media/{meta.intro.img}" />
+</div>
+
 <Container width="fluid">
   <div class="anno" style="bottom:{bottom}px">
     <aside bind:clientHeight="{infoHeight}">
@@ -52,6 +55,14 @@
 </Container>
 
 <style lang="scss">
+  @import 'src/lib/styles/mixins/index';
+
+  .img {
+    :global(.hero) {
+      @include fullheight(0.8);
+    }
+  }
+
   .anno {
     box-shadow: var(--shadow-2);
     max-width: 100%;

@@ -26,7 +26,7 @@ intro:
   hed: Andretta
 
   dek: "The true image of a society is depicted through its culture — people, values, lifestyle, art and architecture. Andretta, a small town nestled in the pristine Kangra Valley, is not just home to slipware pottery in India, but also a cultural ensemble in itself along with Palampur — the Tea Capital of North India.
-  
+
   <br/>
   I attempted to capture the cultural essence of the place through a photobiography as a part of my design project in the spring of 2017."
 

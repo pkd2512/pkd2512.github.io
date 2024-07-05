@@ -30,7 +30,10 @@ links:
 intro:
   hed: Winter air pollution in north India
 
-  dek: Investigating the causes behind the air quality crisis in northern India every winter and its extent, using data collected from air quality monitors, satellite imagery from NASA and photographic evidence.
+  dek: "Each year, from late October, a thick blanket of smog settles over vast swathes of northern India, including the capital, New Delhi, pushing air pollution levels off the charts. 
+
+  <br>
+  I worked on this three-part series as a part of my Master's graduation project that looks at the causes, severity and extent of the systemic problem using data collected from air quality monitors, satellite imagery from NASA and photographic evidence."
 
   img: projects/delhi-winter-pollution/hero.jpg
 
@@ -41,26 +44,80 @@ intro:
   quote: “North Indian cities, including Delhi, top a list of places with the worst air in the world” — WHO
 ---
 
-
-
-## Markdown
-
 <script>
   import Container from '$lib/components/ui/Container/index.svelte';
   import LinkButton from '$lib/components/ui/LinkButton/index.svelte';
   import ProjectNav from '$lib/components/custom/projects/ProjectNav/index.svelte';
 </script>
 
-<Container width="sm">
+<style lang='scss'>
+  @import 'src/lib/styles/mixins/index';
 
-Hey friends!
+  .embed-responsive {
+    @include iframeResponsive;
+  }
 
-![image](/media/tree.jpg)
+  .brief-cards {
+    display: flex;
+    gap: var(--space-xs);
+    font-family: var(--font-serif);
+    color: var(--black-soft);
+    line-height:  var(--line-height-medium);
+    font-style: italic;
+    text-wrap: pretty;
+
+    .card {
+      background-color: var(--gray-soft);
+      padding: var(--space-s);
+      width: calc(100%/3);
+      border-radius: 0.25rem;
+    }
+  }
+
+</style>
+
+<Container width="md">
+
+## Creative brief
+
+Delhi’s deteriorating air quality in the cold season was not a new phenomenon and had already been widely reported on. However, we wanted to investigate the nuances through the lens of data and explore storytelling ideas for explaining them to the mass audience, as a means of creating awareness before the upcoming cold season by developing interactive visuals for the same.
 
 </Container>
 
+<Container width="lg">
+  <figure class="brief-cards">
+    <div class="card">
+      01
+      <br>
+      <b>Investigate the conjecture</b> that the quality of air in north India deteriorates during the cold season.
+    </div>
+    <div class="card">
+      02
+      <br>
+      <b>Identify patterns</b> and come up with conclusive evidence to explain Delhi air pollution.
+    </div>
+    <div class="card">
+      03
+      <br>
+      <b>Use visual methods to explain</b> the facts that can help create awareness and start conversations in the right direction.
+    </div>
+  </figure>
+</Container>
+
+<Container width="md">
+
+## Research and analysis
+
+We were familiar with the most common causes that the increased air pollution were attributed to -- crop stubble burning in the neighbouring states and burning of firecrackers during the festival of Diwali. After a brief reading on how to best quantify air quality, we sourced some data for particulate pollutants in the city and plotted along with the stubble burning data.
+
 <figure>
 
-![image](/media/page.png)
+  ![A word cloud of some causes identified](/media/projects/delhi-winter-pollution/causes.png)
 
-</figure>
+  <figcaption>
+  After extensive secondary research, we were able to narrow down major elements of the system that contribute to the air quality in the region.
+  </figcaption>
+
+  </figure>
+
+</Container>

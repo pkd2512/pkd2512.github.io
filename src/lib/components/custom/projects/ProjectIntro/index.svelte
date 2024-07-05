@@ -37,8 +37,7 @@
 </section>
 
 <style lang="scss">
-  @import 'src/lib/styles/mixins/fullHeight';
-  @import 'src/lib/styles/mixins/shadows';
+  @import 'src/lib/styles/mixins/index';
 
   #hero {
     margin-top: calc(-1.5 * var(--space-3xl));
