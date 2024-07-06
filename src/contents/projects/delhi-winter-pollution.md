@@ -248,7 +248,7 @@ The high-resolution images may take a while to load upon zoom, depending upon yo
 <Container width="fluid">
 
 <div class='embed-responsive'>
-  <iframe class="embed-responsive-item" src="http://prasantakrdutta.com/palampur-studies/" frameborder="0" scrolling="yes" height="100%" width="100%"allowfullscreen=""></iframe>
+  <iframe class="embed-responsive-item" src="http://prasantakrdutta.com/delhi-winter-pollution-gpdoc/" frameborder="0" scrolling="yes" height="100%" width="100%"allowfullscreen=""></iframe>
 </div>
 
 </Container>
