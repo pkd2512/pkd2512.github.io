@@ -1,7 +1,7 @@
 ---
 title: Air pollution in north India | Prasanta Kumar Dutta
 
-description: Investigating the causes behind the air quality crisis in northern India every winter and its extent, using data collected from air quality monitors, satellite imagery from NASA and photographic evidence.
+description: Visual analysis of the air quality crisis in northern India every winter and its extent, using data collected from air quality monitors, satellite imagery from NASA and photographic evidence.
 
 keywords: Data Journalist, Graphics Journalist, Reuters Graphics Journalist, Data Visualisation Developer, Data Visualization Developer, Narrative Cartographer, User Interface Designer, User Experience Designer, Communication Designer, Data Storyteller, Information Designer, Graphic Designer, Art Director, User-centered design, UX, UI, Data Artist, Web Designer, Web Developer, Front-end Web Developer, Photographer, Traveller, Creative writer, Electronics and Communication Engineer, National Institute of Design, National Institute of Technology Durgapur, Prasanta, PrasantaKrDutta, Prasanta Kumar Dutta, Prasanta KrDutta, pkddapacific, pkd.dapacific, pkd_da_pacific, daPacific.
 
@@ -178,7 +178,6 @@ Using monthly data of Aerosol Optical Thickness and Visible Infrared Imaging Rad
 <Container width="md" style="text-align:center; margin-block-end:var(--space-l)">
 
   <ReferralCard
-    target=""
     url="https://www.reuters.com/graphics/INDIA-POLLUTION/010080SY1KE/"
     image="https://fingfx.thomsonreuters.com/gfx/rngs/INDIA-POLLUTION/010080SY1KE/images/share-card.jpg"
     title="Preparing to choke"
@@ -228,7 +227,6 @@ Using the heat map as a starting point, the time period of observations was expa
 <Container width="md" style="text-align:center; margin-block-end:var(--space-l)">
 
   <ReferralCard
-    target=""
     url="https://www.reuters.com/graphics/INDIA-POLLUTION/010081VR3BW/"
     image="https://www.reuters.com/graphics/INDIA-POLLUTION/010081VR3BW/images/share-card.png"
     title="Palette of Pollution"

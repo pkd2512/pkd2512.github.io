@@ -188,7 +188,7 @@
 
     :global(a.active::after) {
       width: 100%;
-      height: 0.35rem;
+      // height: 0.35rem;
     }
   }
 

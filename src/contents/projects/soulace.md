@@ -1,64 +1,78 @@
 ---
-title: Deathcare Service Design | Prasanta Kumar Dutta 
+title: Soulace deathcare service | Prasanta Kumar Dutta 
 
-description: My first visual story at Reuters, investigating the causes behind the air quality crisis in northern India every winter and its extent, using data collected from air quality monitors, satellite imagery from NASA and photographic evidence.
+description: A digital service design concept to make death care service experiences more humane and less unpleasant.
 
 keywords: Data Journalist, Graphics Journalist, Reuters Graphics Journalist, Data Visualisation Developer, Data Visualization Developer, Narrative Cartographer, User Interface Designer, User Experience Designer, Communication Designer, Data Storyteller, Information Designer, Graphic Designer, Art Director, User-centered design, UX, UI, Data Artist, Web Designer, Web Developer, Front-end Web Developer, Photographer, Traveller, Creative writer, Electronics and Communication Engineer, National Institute of Design, National Institute of Technology Durgapur, Prasanta, PrasantaKrDutta, Prasanta Kumar Dutta, Prasanta KrDutta, pkddapacific, pkd.dapacific, pkd_da_pacific, daPacific.
 
 categories:
-  - reuters
-  - infographics
+  - NID 
+  - Service Design
+  - UX Design
 
-image: tree.jpg
+image: soulace.jpg
 type: project
 date: '2017-9-9'
 published: true
 
 links: 
-  - type: project
-    url: https://www.reuters.com/graphics/INDIA-POLLUTION/010080SY1KE/
-    label: 📔 View Project
-    target: _blank
-
   - type: doc
-    url: projects/delhi-winter-pollution/
+    url: projects/soulace/
     label: 🗒️ Read more
 
 
 intro:
-  hed: Air Pollution in Northern India during Winters
+  hed: Soulace
 
-  dek: Lorem markdownum, aequent vocem dixit tamen quidem crimine in maris protinus moror telluris magno, marinae Latonae. Opaca tamquam ligari! Proxima bellare te tractata Atrides exercet.
+  dek: "Coping with the death of a loved one is not an easy task. There is a need for a service for such situations that can make the experience of dealing with hospitals, funeral homes, offices and their convoluted formalities a less unpleasant one. 
 
-  img: projects/dodata/hero.jpg
+  <br>
+  I worked on conceptualising and designing this service experience during my Masters."
+
+  img: projects/soulace/hero.jpg
 
   duration: 4 weeks
 
-  client: Rupeelog Financial Services
+  client: National Institute of Design, Bangalore
 
-  quote: “As our world turns digital, donating data is the most efficient way of donating” — dodata.org
+  url: '#video-demo'
+
+  quote: “While we put so much efforts and resources into making smooth userflows to order cabs and coffee and better manicure services, why are the most gut wrenching experiences treated with such shoddiness?!” — Madhura Chavan
 ---
-
-
-
-## Soulace
 
 <script>
   import Container from '$lib/components/ui/Container/index.svelte';
   import LinkButton from '$lib/components/ui/LinkButton/index.svelte';
   import ProjectNav from '$lib/components/custom/projects/ProjectNav/index.svelte';
+  import Video from '$lib/components/ui/Video/index.svelte';
 </script>
 
-<Container width="sm">
+<style lang='scss'>
+  @import 'src/lib/styles/mixins/index';
 
-Hey friends!
+  .embed-responsive {
+    @include iframeResponsive;
+  }
 
-![image](/media/tree.jpg)
+  #video-demo {
+    aspect-ratio: 16/9;
+    width: 100%;
+
+    video {
+      max-width: 100%;
+    }
+  }
+
+</style>
+
+<Container width="md">
+
+## Background
 
 </Container>
 
-<figure>
+<Container width="lg">
 
-![image](/media/page.png)
+<Video id="video-demo" url="media/projects/soulace/soulace-madhavi.mp4"  poster="media/projects/soulace/demo-poster.jpg" />
 
-</figure>
+</Container>
