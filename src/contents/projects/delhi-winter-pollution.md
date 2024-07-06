@@ -41,6 +41,8 @@ intro:
 
   client: Reuters
 
+  url: https://www.reuters.com/graphics/INDIA-POLLUTION/010080SY1KE/
+
   quote: “North Indian cities, including Delhi, top a list of places with the worst air in the world” — WHO
 ---
 

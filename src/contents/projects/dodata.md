@@ -31,6 +31,8 @@ intro:
 
   duration: 4 weeks
 
+  url: '#designing-the-ui-for-the-consumer-app'
+
   client: Rupeelog Financial Services
 
   quote: “As our world turns digital, donating data is the most efficient way of donating” — dodata.org

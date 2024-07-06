@@ -8,7 +8,7 @@
   let infoHeight;
 
   /**
-   * @type {{ intro: { hed: any; dek?: any; img?: any; client?: any; duration?: any; }; }}
+   * @type {{ intro: { hed: any; dek?: any; img?: any; client?: any; url?: any; duration?: any; }; }}
    */
   export let meta;
 </script>
@@ -30,6 +30,23 @@
             <Icon icon="mdi:calendar" width="24" height="24" />{@html meta.intro
               .duration}
           </span>
+          {#if meta.intro?.url}
+            {@const internal = meta.intro.url.includes('#')}
+            <span title="link">
+              <a
+                href="{meta.intro.url}"
+                target="{internal ? '_self' : '_blank'}"
+              >
+                <Icon
+                  icon="{internal
+                    ? 'mdi:file-document-box-multiple-outline'
+                    : 'mdi:open-in-new'}"
+                  width="24"
+                  height="24"
+                />View project
+              </a>
+            </span>
+          {/if}
         </p>
       </div>
     </header>
@@ -81,6 +98,7 @@
       &.meta {
         font-family: var(--font-sans);
         font-size: var(--font-size--1);
+        font-weight: var(--font-weight-medium);
 
         span {
           display: inline-flex;
@@ -89,6 +107,28 @@
           letter-spacing: var(--letter-spaced);
           :global(svg) {
             margin-inline-end: var(--space-3xs);
+          }
+        }
+
+        a {
+          text-decoration: none;
+          color: inherit;
+          display: inline-flex;
+          align-items: flex-end;
+          margin-inline-end: var(--space-s);
+          font-size: var(--font-size--1);
+          transition: font-weight 0.3s ease;
+
+          :global(svg) {
+            transition: all 0.3s ease;
+          }
+
+          &:hover {
+            font-weight: var(--font-weight-bold);
+
+            :global(svg) {
+              transform: scale(1.1);
+            }
           }
         }
       }

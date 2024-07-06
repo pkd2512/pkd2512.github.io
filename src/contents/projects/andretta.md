@@ -34,6 +34,8 @@ intro:
 
   duration: 4 weeks
 
+  url: '#the-photostory'
+
   client:  National Institute of Design, Bangalore
 
   quote: “Pottery is the measure of a country's civilisation” — Sardar Gurcharan Singh, founder, Delhi Blue
