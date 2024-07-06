@@ -86,6 +86,7 @@
 
   h1 {
     color: var(--white-soft);
+    text-wrap: balance;
     margin-inline: auto;
     margin-block: var(--space-l);
     @include filter-shadow(var(--purple));

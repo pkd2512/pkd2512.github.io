@@ -78,7 +78,7 @@ I dabble in creative coding and generative art, mainly as a means to explore the
 
 <br />
 
-Over the years, I have also created a collection of stock photographs that have been viewed more than 11M times. Available for download on <LinkButton label='Unsplash' url='https://unsplash.com/@pkddapacific' target=_blank /> and  <LinkButton label='Pexels' url='https://www.pexels.com/@pkddapacific/' target=_blank />.
+Over the years, I have also created a collection of stock photographs that have been viewed more than 11M times. Available for download on <LinkButton label='Unsplash' url='https://unsplash.com/@pkddapacific' target=_blank />, <LinkButton label='Pexels' url='https://www.pexels.com/@pkddapacific/' target=_blank /> and <LinkButton label='Noun Project' url='https://thenounproject.com/creator/prasanta/?tab=photos' target=_blank />.
 
 <figure>
 

@@ -1,4 +1,6 @@
 <script>
+  import Container from '$lib/components/ui/Container/index.svelte';
+
   /**
    * @param url Path to the  image
    * @type {String}
@@ -60,9 +62,11 @@
   </figure>
 
   <!-- svelte-ignore a11y-structure -->
-  <figcaption>
-    {@html caption}
-  </figcaption>
+  <Container width="md">
+    <figcaption>
+      {@html caption}
+    </figcaption>
+  </Container>
 </div>
 
 <style lang="scss">
