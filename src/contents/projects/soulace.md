@@ -45,6 +45,7 @@ intro:
   import LinkButton from '$lib/components/ui/LinkButton/index.svelte';
   import ProjectNav from '$lib/components/custom/projects/ProjectNav/index.svelte';
   import Video from '$lib/components/ui/Video/index.svelte';
+  import SoulaceScreens from '$lib/components/custom/projects/SoulaceScreens/index.svelte';
 </script>
 
 <style lang='scss'>
@@ -69,10 +70,98 @@ intro:
 
 ## Background
 
+Death is an unavoidable part of life and dealing with that of a loved one is perhaps the most difficult task that one faces in life. Besides coping with the emotional trauma, one also has to take care of everything associated with the deceased — starting from performing the last rites to settling the official matters to provide for his family.
+
+A lot happens over a very short span of time, which involves interacting with various stakeholders, understanding their processes and working accordingly to fulfil one's goals. Not surprisingly though, an entire industry has evolved around this. While there is no official estimate, the death-care industry is worth about $2.5 billion in India (as of 2015), where about 8.5 million die every year. The US death-care industry is worth nearly $20 billion.
+
+> Death-care industry — companies and organizations that provide services related to death: funerals, cremation or burial, and memorials, including funeral homes, coffins, crematoria, cemeteries, and headstones.
+
+## The Problem
+
+So how did people manage death before all these?
+
+Generally, it worked on the basis of information that was passed on through families or friends. And even today, it works that way for people who have lived at the same place for the most part of their lifetime. But as families get nuclear and spread across for education and jobs, access to such means of information diminishes.
+
+The current death-care companies are mostly service providers of some form — cremation, burial, repatriation and so on and they operate locally. Even though one can find them on the internet, actually availing their services is still daunting because the different service providers need to be understood and dealt with separately. Also, with the increasing population, the demand for the services has also increased. Availing them requires aquiring the right information and taking the right actions — something that can be eased with the use of technology today, without increasing the cognitive load on the person.
+
+Also, these service providers do not deal with how the person handles official work like insurances and banking, nor do they have proper information systems in place.
+
+</Container>
+
+<Container width="md">
+
+## The Solution
+
+> Assistive-Agentive service — Agentive technology, based on Artificial Narrow Intelligence, does things on your behalf, while allowing you to turn your attention elsewhere. This is an emerging category of technology, which will need new approaches to user experience design. This intelligence can learn and infer but cannot generalise.
+> <cite> — Chris Noessel, Designing Agentive Technology: AI That Works for People
+
+The service is envisioned to simplify the complete scenario related to handling the death of a loved one.
+Informing people, arranging for immediate family care (if needed), doctor related formalities.
+
+* Arranging for funeral and related matters.
+
+* Handle accidental, police, legal or medical issues.
+
+* Financial consulting, easy managing of insurance claims, pension, and handling of bank accounts etc.
+
+* Keep track of documents online and easy application process for every stakeholder interaction and an efficient feedback system to keep the user informed at every stage of the process.
+
+* Users can later opt to answer queries from other people, to help them out when they are in a similar situation.
+
+The system involves numerous stakeholders, including government agencies, that will need to come together to provide the various services required. In this project I have focussed on the end-user to lay out a general framework for the system and designed the interface that the user will need to avail the services.
+
+Due to constraints of time and resources, I have designed the prototype for a single segment of the service, which establishes the working of the interface and the system.
+
 </Container>
 
 <Container width="lg">
 
-<Video id="video-demo" url="media/projects/soulace/soulace-madhavi.mp4"  poster="media/projects/soulace/demo-poster.jpg" />
+<Video id="video-laptop" url="media/projects/soulace/soulace-webdemo.mp4" poster="media/projects/soulace/soulace-webdemo-poster.jpg" caption="UI prototype for a single segment of the consumer-side of the service, which establishes the various features of the system." />
+
+</Container>
+
+<Container width="md">
+
+### Understanding the ecosystem
+
+The different aspects related to the death of an individual were noted and categorized based on the kind of activities involved based on my personal experiences and secondary research. This gave a rough idea about the various areas that need to be addressed.
+
+</Container>
+
+<Container width="md">
+
+Before proceeding further, I wanted to know what people, who have dealt with death in the family or otherwise, had to say about their experiences in terms of dealing with different stakeholders and the idea of a death-care service. I circulated a survey in my circles and had received quite a response.
+
+Even though the answers varied based on the individual scenario, some common areas of thought were summarised as follows.
+
+From this it was evident that the problem needed to be addressed in two segments — things that need immediate attention and those that span over a period of time after the death of an individual. I began to break down the activities based on temporal priorities so that I could address them at the granular level in my design.
+
+In most cases, the death of family member is handled by the spouse or the children. So, I analysed a second segment (relating to financial / official matters) where the deceased is a parent.
+
+Now that I had a fair understanding of the problem, it was necessary to look into the current state of the death-care services in India. For this purpose, I did a competitive analysis of some prominent service providers in India.
+
+* *Kashi Moksha Incorporation*, a funeral service, managed by a priest operating out of Varanasi.
+
+* *Moksha-Sibil*, an online portal for Hindu final rites from Ahmedabad.
+
+* *Anthyesti*, providing funeral services in Kolkata.
+
+* *Swargadwara*, an Odisha based start-up that supports families in post-death rituals.
+
+* *Indian Funeral*, run by a coffin-maker family from Mumbai that provides last-rites services.
+
+* Repatriation service providers like *VMEDO* and *Sanjeevini*.
+
+### Understanding the bereaved
+
+Based on the research, I mapped the journey of the bereaved, divided into three time-segments — within 24 hours, between 24-48 hours, and a month and beyond. I mapped out the different activities involved and the experience of the bereaved while handling them. For some activities the boundaries are dilute, meaning that they might require immediate addressing, but take a while before they get resolved.
+
+</Container>
+
+<Container width="lg">
+
+<SoulaceScreens />
+
+<Video id="video-demo" url="media/projects/soulace/soulace-madhavi.mp4" poster="media/projects/soulace/soulace-madhavi-poster.jpg" />
 
 </Container>

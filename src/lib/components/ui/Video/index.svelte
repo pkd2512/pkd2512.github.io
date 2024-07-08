@@ -22,6 +22,11 @@
    */
   export let alt;
 
+  /**
+   * @param {string} caption - The caption for the video.
+   */
+  export let caption;
+
   let time = 0;
   /**
    * @type {number}
@@ -31,8 +36,6 @@
   let showControls = true;
   // @ts-ignore
   $: progress = duration ? Number.parseFloat(time / duration).toFixed(3) : 0;
-
-  $: console.log(progress);
 
   /**
    * @type {string | number | NodeJS.Timeout | undefined}
@@ -79,42 +82,55 @@
   }
 </script>
 
-<div class="wrapper" id="{id}">
-  <video
-    playsinline
-    autoplay
-    controlslist="nodownload noremoteplayback"
-    on:mousemove="{handleMove}"
-    on:touchmove|preventDefault="{handleMove}"
-    on:mousedown="{handleMousedown}"
-    on:mouseup="{handleMouseup}"
-    bind:currentTime="{time}"
-    bind:duration="{duration}"
-    bind:paused="{paused}"
-    src="{assets}/{url}"
-    poster="{assets}/{poster}"
-  >
-    <track kind="captions" />
-    <meta itemprop="description" content="{alt}" />
-  </video>
+<figure>
+  <div class="wrapper" id="{id}">
+    <video
+      playsinline
+      autoplay
+      controlslist="nodownload noremoteplayback"
+      on:mousemove="{handleMove}"
+      on:touchmove|preventDefault="{handleMove}"
+      on:mousedown="{handleMousedown}"
+      on:mouseup="{handleMouseup}"
+      bind:currentTime="{time}"
+      bind:duration="{duration}"
+      bind:paused="{paused}"
+      src="{assets}/{url}"
+      poster="{assets}/{poster}"
+    >
+      <track kind="captions" />
+      <meta itemprop="description" content="{alt}" />
+    </video>
 
-  <div
-    class="controls"
-    style="--progress:{progress}; opacity: {duration && showControls ? 1 : 0}"
-  >
-    {#if paused}
-      <Icon icon="mdi:play-circle-outline" width="24" height="24" />
-    {:else}
-      <Icon icon="mdi:motion-pause-outline" width="24" height="24" />
-    {/if}
+    <div
+      class="controls"
+      style="--progress:{progress}; opacity: {duration && showControls ? 1 : 0}"
+    >
+      {#if paused}
+        <Icon icon="mdi:play-circle-outline" width="24" height="24" />
+      {:else}
+        <Icon icon="mdi:motion-pause-outline" width="24" height="24" />
+      {/if}
 
-    <progress value="{time / duration || 0}"></progress>
+      <progress value="{time / duration || 0}"></progress>
+    </div>
   </div>
-</div>
+  {#if caption}
+    <figcaption>
+      {caption}
+    </figcaption>
+  {/if}
+</figure>
 
 <style lang="scss">
   .wrapper {
     position: relative;
+  }
+
+  figcaption {
+    max-width: var(--md);
+    margin-block-start: var(--space-xs);
+    margin-inline: auto;
   }
 
   video {
@@ -122,11 +138,15 @@
   }
 
   .controls {
+    margin-inline: auto;
+    left: 50%;
+    transform: translateX(-50%);
     display: flex;
     align-items: center;
     position: absolute;
     bottom: 6px;
     width: 100%;
+    // max-width: var(--md);
     transition: opacity 1s;
     pointer-events: none;
 

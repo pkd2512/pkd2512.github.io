@@ -28,6 +28,7 @@ p {
 
 small {
   font-size: var(--font-size--1);
+  line-height: var(--line-height-tight);
 }
 
 p {
@@ -166,4 +167,38 @@ figcaption p {
 
 em {
   font-weight: var(--font-weight-medium);
+}
+
+button {
+  background-color: var(--purple-soft);
+  padding-block: var(--space-xs);
+  padding-inline: var(--space-s);
+  color: var(--white);
+  border: none;
+  border-bottom: 0.25rem solid var(--white);
+  border-radius: 0.125rem;
+  max-width: fit-content;
+  margin-inline: auto;
+  cursor: pointer;
+  text-decoration: none;
+
+  text-transform: uppercase;
+  font-size: var(--font-size--1);
+  @media (--sm-n-below) {
+    font-size: var(--font-size--2);
+  }
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-medium);
+  letter-spacing: var(--letter-spaced);
+
+  transition: all 0.15s linear;
+
+  &:hover,
+  &:active {
+    border-radius: 0;
+    color: var(--purple);
+    background-color: var(--white-soft);
+    font-weight: var(--font-weight-bold);
+    border-bottom: 0.25rem solid var(--purple);
+  }
 }
