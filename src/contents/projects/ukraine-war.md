@@ -6,7 +6,7 @@ keywords: Data Journalist, Graphics Journalist, Reuters Graphics Journalist, Dat
 image: tree.jpg
 type: project
 date: '2022-2-28'
-published: true
+published: false
 
 categories:
   - Rupeelog

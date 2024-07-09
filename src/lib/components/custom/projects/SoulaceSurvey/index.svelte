@@ -13,7 +13,7 @@
     <Modal bind:showModal="{showModal}">
       <Container width="md" id="survey">
         <p>
-          The questionnaire had two parts — Experience of dealing with death and
+          The questionnaire has two parts — Experience of dealing with death and
           Views on Death-care service. If the answer to the first question is
           'NO', then the respondent skips to Section 3 of the survey.
         </p>
