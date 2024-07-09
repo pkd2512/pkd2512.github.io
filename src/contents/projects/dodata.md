@@ -41,7 +41,7 @@ intro:
 <script>
   import Container from '$lib/components/ui/Container/index.svelte';
   import LinkButton from '$lib/components/ui/LinkButton/index.svelte';
-  import OverflowImage from '$lib/components/ui/OverflowingImage/index.svelte'
+  import OverflowImage from '$lib/components/ui/OverflowingImage/index.svelte';
 </script>
 
 <style lang='scss'>
