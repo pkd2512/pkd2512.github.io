@@ -26,11 +26,16 @@
   export let image = 'share.jpg';
 
   $: pageUrl = $page.url;
-  $: canonicalUrl = (getPageOrigin(pageUrl) + pageUrl.pathname).replace(
+  $: canonicalUrl = ('http://prasantakrdutta.com' + pageUrl.pathname).replace(
     /index\.html/,
     ''
   );
-  $: imageUrl = `${getPageOrigin(pageUrl)}/media/share-images/${image}`;
+  // $: canonicalUrl = (getPageOrigin(pageUrl) + pageUrl.pathname).replace(
+  //   /index\.html/,
+  //   ''
+  // );
+  $: imageUrl = `http://prasantakrdutta.com/media/share-images/${image}`;
+  // $: imageUrl = `${getPageOrigin(pageUrl)}/media/share-images/${image}`;
 
   $: personSchema = {
     '@context': 'https://schema.org/',
@@ -86,7 +91,12 @@
       content="{description}"
       itemprop="description"
     />
-    <meta property="og:image" content="{imageUrl}" itemprop="image" />
+    <meta
+      property="og:image"
+      name="image"
+      content="{imageUrl}"
+      itemprop="image"
+    />
     <meta property="og:site_name" content="Prasanta Kumar Dutta" />
 
     <!-- Twitter -->
