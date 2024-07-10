@@ -14,10 +14,6 @@
   onMount(async () => {
     // @ts-ignore
     articles = await getBlogFeed();
-    console.log('feed', articles);
-    console.log(
-      articles[0]['description'].toString().match(/<img[^>]+src="([^">]+)"/)[0]
-    );
   });
 </script>
 

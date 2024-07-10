@@ -32,8 +32,6 @@
   );
   $: imageUrl = `${getPageOrigin(pageUrl)}/share-images/${image}`;
 
-  // $: console.log(getPageOrigin(pageUrl));
-
   $: personSchema = {
     '@context': 'https://schema.org/',
     '@type': 'Person',
@@ -95,7 +93,7 @@
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:site" content="@Da_Pacific" />
     <meta name="twitter:creator" content="@Da_Pacific" />
-    <meta name="twitter:title" content="{title}}" />
+    <meta name="twitter:title" content="{title}" />
     <meta name="twitter:description" content="{description}" />
     <meta name="twitter:url" content="{canonicalUrl}" />
     <meta name="twitter:image" content="{imageUrl}" />
