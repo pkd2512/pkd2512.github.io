@@ -39,7 +39,7 @@
     <div slot="background">
       {#key index}
         <div
-          transition:fade="{{ duration: 350 }}"
+          in:fade="{{ duration: 250 }}"
           class="img"
           style="background-image:url({assets}/media/{data[index].intro.img})"
         ></div>
@@ -135,12 +135,17 @@
 
     .anno {
       background-color: var(--white);
-      margin-block-start: 50svh;
+      margin-block-start: 50lvh;
       padding: var(--space-s-m) var(--space-m-l);
       border-radius: 0.25rem;
       box-shadow: var(--shadow-2);
       display: flex;
       flex-flow: column;
+
+      @media (--md-n-below) {
+        width: calc(100% - var(--space-xl));
+        margin-block-start: 300px;
+      }
     }
 
     .hed {

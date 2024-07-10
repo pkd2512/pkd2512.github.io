@@ -1,3 +1,7 @@
 @mixin fullheight($i: 1) {
   height: calc(#{$i} * 100lvh);
+
+  @media (width <= 720px) {
+    height: calc(#{$i} * 750px);
+  }
 }

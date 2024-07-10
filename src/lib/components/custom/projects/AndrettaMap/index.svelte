@@ -124,7 +124,7 @@
       }
 
       @media (--xl-n-below) {
-        margin-bottom: 100vh;
+        margin-bottom: 100lvh;
 
         &:last-of-type {
           margin-bottom: 0;
