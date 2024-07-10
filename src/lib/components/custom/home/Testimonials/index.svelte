@@ -60,8 +60,16 @@
     }
   }
 
+  :global(.splide button) {
+    border: none !important;
+  }
+
   blockquote {
-    padding-block-end: 0;
+    padding: var(--space-s-m) var(--space-xl);
+
+    @media (width <= 720px) {
+      padding: var(--space-xl) var(--space-s-m);
+    }
   }
 
   :global {

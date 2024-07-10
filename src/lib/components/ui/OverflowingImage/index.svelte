@@ -62,7 +62,7 @@
   </figure>
 
   <!-- svelte-ignore a11y-structure -->
-  <Container width="md">
+  <Container width="md" style="padding-inline: 0">
     <figcaption>
       {@html caption}
     </figcaption>

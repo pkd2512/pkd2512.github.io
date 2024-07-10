@@ -20,12 +20,14 @@
   /**
    * @param {string} alt - The alternative text for the video.
    */
-  export let alt;
+  export let alt = 'video';
 
   /**
    * @param {string} caption - The caption for the video.
    */
   export let caption;
+
+  let iconSize = 24;
 
   let time = 0;
   /**
@@ -104,12 +106,23 @@
 
     <div
       class="controls"
-      style="--progress:{progress}; opacity: {duration && showControls ? 1 : 0}"
+      style="--progress:{progress}; --icon-size: {iconSize}px; opacity: {duration &&
+      showControls
+        ? 1
+        : 0}"
     >
       {#if paused}
-        <Icon icon="mdi:play-circle-outline" width="24" height="24" />
+        <Icon
+          icon="mdi:play-circle-outline"
+          width="{iconSize}"
+          height="{iconSize}"
+        />
       {:else}
-        <Icon icon="mdi:motion-pause-outline" width="24" height="24" />
+        <Icon
+          icon="mdi:motion-pause-outline"
+          width="{iconSize}"
+          height="{iconSize}"
+        />
       {/if}
 
       <progress value="{time / duration || 0}"></progress>
@@ -152,7 +165,7 @@
 
     :global(svg) {
       position: absolute;
-      left: calc(var(--progress) * 100%);
+      left: calc((var(--progress) * 100%) - (0.5 * var(--icon-size)));
       background: var(--white-soft);
       border-radius: 24px;
     }

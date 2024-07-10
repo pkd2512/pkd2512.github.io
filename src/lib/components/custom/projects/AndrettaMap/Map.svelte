@@ -293,7 +293,7 @@
   @import 'src/lib/styles/mixins/fullHeight';
 
   .map {
-    @include fullheight;
+    @include fullheight(1);
     margin: 0;
   }
 </style>

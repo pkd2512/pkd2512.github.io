@@ -82,10 +82,14 @@
       backdrop-filter: blur(5px);
       background-color: rgba($color: #fafafa, $alpha: 0.75);
 
-      @media (--sm-n-below) {
+      @media (--md-n-below) {
         padding: var(--space-s) var(--space-s);
-        font-size: var(--font-size--1);
         text-align: left;
+        text-wrap: pretty;
+      }
+
+      @media (--sm-n-below) {
+        font-size: var(--font-size--1);
       }
     }
   }

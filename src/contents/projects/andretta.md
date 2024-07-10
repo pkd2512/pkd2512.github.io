@@ -59,11 +59,11 @@ intro:
 
 </style>
 
-<Award img="adobe.jpg" url="https://www.adobeawards.com/the-gallery?y=2018&liveproject=20188973" notes="
+<!-- <Award img="adobe.jpg" url="https://www.adobeawards.com/the-gallery?y=2018&liveproject=20188973" notes="
 <b>SEMIFINALIST</b>
 <br />
 Commercial Photography &middot; 2018
-"/>
+"/> -->
 
 <Container width="md">
 

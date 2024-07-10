@@ -41,12 +41,6 @@
           <li class="list-item">
             <span class="topic">
               <strong>{@html marked.parse(item.topic)}</strong>
-            </span>
-
-            <span class="sep">|</span>
-
-            <span class="place">
-              {@html marked.parse(item.place)}
 
               <span style="white-space: nowrap;">
                 <span class="date">
@@ -63,6 +57,10 @@
                   >
                 {/if}
               </span>
+            </span>
+
+            <span class="place">
+              {@html marked.parse(item.place)}
             </span>
           </li>
         {/each}
@@ -101,9 +99,7 @@
     color: var(--gray);
   }
 
-  .topic,
-  .place {
-    display: inline;
+  .topic {
     :global(p),
     :global(a) {
       display: inline;

@@ -13,14 +13,19 @@
 
   $: activeChapter = places[index]?.key || '';
 
-  // $: console.log(index);
+  /**
+   * @type {number}
+   */
+  let windowWidth;
 </script>
+
+<svelte:window bind:innerWidth="{windowWidth}" />
 
 <section id="travels">
   <Scroller
     top="{0}"
     bottom="{1}"
-    threshold="{0.5}"
+    threshold="{windowWidth < 1440 ? 1 : 0.75}"
     query=".container-sm"
     bind:index="{index}"
     bind:offset="{offset}"
@@ -71,14 +76,17 @@
 
   [slot='background'] {
     overflow: hidden;
-    // width: calc(100% - (var(--sm) + var(--space-3xl)));
-    // box-shadow: var(--shadow-2);
   }
 
   [slot='foreground'] {
     width: calc(var(--sm) + var(--space-3xl));
     margin-left: auto;
     margin-right: var(--space-xs);
+
+    @media (--lg-n-below) {
+      width: auto;
+      margin: 0;
+    }
 
     :global(figure) {
       margin-block-start: 0;
@@ -113,6 +121,19 @@
       &.invisible {
         opacity: 0;
         transform: scale3d(0.95, 0.95, 1);
+      }
+
+      @media (--xl-n-below) {
+        margin-bottom: 100vh;
+
+        &:last-of-type {
+          margin-bottom: 0;
+        }
+
+        &.invisible {
+          opacity: 1;
+          transform: scale3d(1, 1, 1);
+        }
       }
     }
   }

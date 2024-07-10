@@ -43,13 +43,17 @@ published: true
 
 <Container width=md style="text-align: center; margin-top: var(--space-m); margin-bottom: var(--space-l);">
 
- <LinkButton solid="{true}"  url="#contact" label="Get in touch" />
+ <!-- <LinkButton solid="{true}"  url="#contact" label="Get in touch" /> -->
 
  </Container>
+
+<div style="max-width: calc(0.85 * var(--md)); margin: auto;">
 
 <List title='Talks and Workshops' content={talks}/>
 
 <List title='In the classroom' content={teachings}/>
+
+</div>
 
 <Container width=md style="text-align: center;">
 <ReferralCard  url="https://medium.com/diarium-da-pacific/showcasing-brilliance-2fe5fa976b5b" image="/media/teachings.jpg" title="Showcasing Brilliance" description="A curation of data visualisation projects from my students"/>

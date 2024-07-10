@@ -103,9 +103,15 @@ img {
 blockquote {
   margin-inline: 0;
   margin-block: var(--space-xs-s);
-  padding: var(--space-s-m) var(--space-xl);
   background-color: var(--white);
   -webkit-mask: var(--mask-edge-drip-horizontal);
+  padding: var(--space-s) var(--space-xs);
+
+  @media (width <= 720px) {
+    -webkit-mask: var(--mask-edge-drip-vertical);
+    padding: var(--space-l) var(--space-s);
+  }
+
   p {
     padding: var(--space-xs-s);
     @media (width >=768px) {
@@ -136,8 +142,10 @@ blockquote {
 
   cite {
     padding: var(--space-xs-s);
+    padding-top: 0;
     @media (width >=768px) {
       padding: var(--space-xs-s) var(--space-xl);
+      padding-top: 0;
     }
     font-style: normal;
     color: var(--black-soft);
