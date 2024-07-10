@@ -1,0 +1,216 @@
+/* 
+  --------------------------------------------------
+  Sets default styles for native HTML elements
+  Colour, Sizing and Fonts
+  --------------------------------------------------
+*/
+
+html {
+  background-color: var(--white-soft);
+  -webkit-font-smoothing: antialiased;
+
+  scroll-behavior: smooth;
+
+  ::selection {
+    background: var(--purple);
+    color: var(--white);
+  }
+}
+
+body,
+p {
+  font-family: var(--font-sans);
+  font-weight: var(--font-weight-regular);
+  color: var(--black);
+  font-size: var(--font-size-0);
+  line-height: var(--line-height-regular);
+}
+
+small {
+  font-size: var(--font-size--1);
+  line-height: var(--line-height-tight);
+}
+
+p {
+  font-family: var(--font-serif);
+  margin-block-end: var(--space-s);
+  margin-block-start: 0;
+}
+
+h1,
+.h1 {
+  color: var(--black-soft);
+  font-family: var(--font-display);
+  font-size: var(--font-size-4);
+  line-height: var(--line-height-tight);
+  margin-block: var(--space-xl) var(--space-2xs);
+}
+
+h2,
+.h2 {
+  color: var(--black-soft);
+  font-weight: var(--font-weight-light);
+  font-family: var(--font-sans);
+  font-size: var(--font-size-2);
+  line-height: var(--line-height-medium);
+  margin-block: var(--space-l) var(--space-xs);
+
+  @media (max-width: 768px) {
+    font-weight: var(--font-weight-regular);
+  }
+}
+
+h3,
+.h3 {
+  font-weight: var(--font-weight-light);
+  font-family: var(--font-sans);
+  font-size: var(--font-size-1);
+  line-height: var(--line-height-medium);
+  margin-block: var(--space-l) var(--space-2xs);
+
+  @media (max-width: 768px) {
+    font-weight: var(--font-weight-regular);
+  }
+}
+
+h4,
+.h4,
+h5,
+.h5,
+h6,
+.h6 {
+  color: var(--black-soft);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-medium);
+  margin-block: var(--space-s) var(--space-2xs);
+}
+
+a {
+  font-family: var(--font-sans);
+  color: var(--purple);
+}
+
+pre,
+code,
+kbd {
+  font-family: var(--font-mono);
+}
+
+img {
+  max-width: 100%;
+}
+
+blockquote {
+  margin-inline: 0;
+  margin-block: var(--space-xs-s);
+  background-color: var(--white);
+  -webkit-mask: var(--mask-edge-drip-horizontal);
+  padding: var(--space-s) var(--space-xs);
+
+  @media (width <= 720px) {
+    -webkit-mask: var(--mask-edge-drip-vertical);
+    padding: var(--space-l) var(--space-s);
+  }
+
+  p {
+    padding: var(--space-xs-s);
+    @media (width >=768px) {
+      padding: var(--space-xs-s) var(--space-xl);
+    }
+    color: var(--black-soft);
+    font-weight: var(--font-weight-regular);
+    font-size: var(--font-size-0);
+    font-family: var(--font-serif);
+    font-style: italic;
+    margin-block: 0;
+
+    &:before {
+      content: '“';
+      position: absolute;
+      float: left;
+      height: 0;
+      font-style: normal;
+      top: 0;
+      margin-top: -1rem;
+      margin-left: -2rem;
+      display: block;
+      color: var(--gray-soft);
+      font-size: calc(10 * var(--font-size-0));
+      mix-blend-mode: multiply;
+    }
+  }
+
+  cite {
+    padding: var(--space-xs-s);
+    padding-top: 0;
+    @media (width >=768px) {
+      padding: var(--space-xs-s) var(--space-xl);
+      padding-top: 0;
+    }
+    font-style: normal;
+    color: var(--black-soft);
+    font-weight: var(--font-weight-medium);
+    font-size: var(--font-size--1);
+    font-family: var(--font-display);
+    margin-block: 0;
+    text-align-last: start;
+    display: block;
+  }
+}
+
+figure {
+  margin-block: var(--space-l);
+  margin-inline: auto;
+}
+
+figcaption,
+figcaption p {
+  color: var(--black-soft);
+  font-style: italic;
+  font-size: var(--font-size-0);
+  font-family: var(--font-serif);
+  margin-block: 0;
+  line-height: var(--line-height-medium);
+}
+
+em {
+  font-weight: var(--font-weight-medium);
+}
+
+button {
+  background-color: var(--purple-soft);
+  padding-block: var(--space-xs);
+  padding-inline: var(--space-s);
+  color: var(--white);
+  border: none;
+  border-bottom: 0.25rem solid var(--white);
+  border-radius: 0.125rem;
+  max-width: fit-content;
+  margin-inline: auto;
+  cursor: pointer;
+  text-decoration: none;
+
+  text-transform: uppercase;
+  font-size: var(--font-size--1);
+  @media (--sm-n-below) {
+    font-size: var(--font-size--2);
+  }
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-medium);
+  letter-spacing: var(--letter-spaced);
+
+  transition: all 0.15s linear;
+
+  &:hover,
+  &:active {
+    border-radius: 0;
+    color: var(--purple);
+    background-color: var(--white-soft);
+    font-weight: var(--font-weight-bold);
+    border-bottom: 0.25rem solid var(--purple);
+  }
+}
+
+dialog {
+  padding: 0;
+}

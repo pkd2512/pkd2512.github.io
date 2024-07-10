@@ -1,0 +1,2 @@
+{"rule":"OXFORD_SPELLING_Z_NOT_S","sentence":"^\\QVisualising Delhi's air quality\\E$"}
+{"rule":"COMMA_PARENTHESIS_WHITESPACE","sentence":"^\\QThe project was also featured on , the Annual Design Show at the National Institute of Design, Ahmedabad, India in March 2020.\\E$"}
