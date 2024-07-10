@@ -35,7 +35,7 @@
 
 <NavLink
   data-card-type="referral-card"
-  target="{target}"
+  target=""
   url="{url}"
   rel="noreferrer"
   disabled="{url === '' ? true : false}"

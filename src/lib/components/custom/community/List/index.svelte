@@ -48,7 +48,7 @@
                 </span>
 
                 {#if item.link}
-                  <NavLink target="_blank" url="{item.link}"
+                  <NavLink target="" url="{item.link}"
                     ><Icon
                       width="22"
                       height="22"

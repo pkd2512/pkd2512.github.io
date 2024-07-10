@@ -10,6 +10,6 @@ export default (link, host) => {
   try {
     const newHost = new URL(link).hostname;
 
-    return isEqual(host, newHost) ? '' : '_blank';
+    return isEqual(host, newHost) ? '' : '';
   } catch (error) {}
 };

@@ -138,14 +138,14 @@ We were familiar with the most common causes that the increased air pollution we
 
 ## Design solution
 
-The timing of the project, when it started — September 2018, was quite appropriate to study the air quality crisis in Delhi thoroughly as it could be substantiated with data from coming months. We, a team comprising <LinkButton label='Rajshree Deshmukh' target=_blank url='https://www.linkedin.com/in/rajshree-deshmukh/' />, <LinkButton label='Gurman Bhatia' target=_blank url='https://www.linkedin.com/in/gurmanbhatia/' /> and <LinkButton label='Simon Scarr' target=_blank url='https://www.linkedin.com/in/simon-scarr/' /> began ideating on project angles which can be summarised as --
+The timing of the project, when it started — September 2018, was quite appropriate to study the air quality crisis in Delhi thoroughly as it could be substantiated with data from coming months. We, a team comprising <LinkButton label='Rajshree Deshmukh'  url='https://www.linkedin.com/in/rajshree-deshmukh/' />, <LinkButton label='Gurman Bhatia'  url='https://www.linkedin.com/in/gurmanbhatia/' /> and <LinkButton label='Simon Scarr'  url='https://www.linkedin.com/in/simon-scarr/' /> began ideating on project angles which can be summarised as --
 
-* Elaborate the reasons behind the air quality crisis using explainer graphic using 2017 evidence, and a primer of what may happen in 2018. <LinkButton label='See Project' target=_blank url='https://www.reuters.com/graphics/INDIA-POLLUTION/010080SY1KE/' />
+* Elaborate the reasons behind the air quality crisis using explainer graphic using 2017 evidence, and a primer of what may happen in 2018. <LinkButton label='See Project'  url='https://www.reuters.com/graphics/INDIA-POLLUTION/010080SY1KE/' />
 
-* Show qualitatively/quantitatively the impact of Diwali firecrackers, stubble burning and the meteorological factors on air pollution. <LinkButton label='See Project' target=_blank url='https://www.reuters.com/graphics/INDIA-POLLUTION/010081VR3BW/' />
+* Show qualitatively/quantitatively the impact of Diwali firecrackers, stubble burning and the meteorological factors on air pollution. <LinkButton label='See Project'  url='https://www.reuters.com/graphics/INDIA-POLLUTION/010081VR3BW/' />
 
 * Show visually, how bad Delhi’s air can get in winter.
-Get photos/videos; do some experiment to see the particulate pollutants. <LinkButton label='See Project' target=_blank url='https://www.reuters.com/graphics/INDIA-POLLUTION/01008173281/' />
+Get photos/videos; do some experiment to see the particulate pollutants. <LinkButton label='See Project'  url='https://www.reuters.com/graphics/INDIA-POLLUTION/01008173281/' />
 
 ### Making air quality maps
 
@@ -255,6 +255,6 @@ The high-resolution images may take a while to load upon zoom, depending upon yo
 
 <Container width="md">
 
-The project was also featured on <LinkButton label='Lines of Inquiry' target=_blank url='https://issuu.com/strangerobot/docs/loi_nid_ebook/94' />, the Annual Design Show at the National Institute of Design, Ahmedabad, India in March 2020.
+The project was also featured on <LinkButton label='Lines of Inquiry'  url='https://issuu.com/strangerobot/docs/loi_nid_ebook/94' />, the Annual Design Show at the National Institute of Design, Ahmedabad, India in March 2020.
 
 </Container>

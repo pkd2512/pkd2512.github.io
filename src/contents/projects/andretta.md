@@ -84,7 +84,7 @@ Today, the place not only is the hub of slipware pottery but also serves as a tr
 
 ## The Idea
 
-We, a team of four people — <LinkButton label='Jasleen Rana' target=_blank url='https://www.linkedin.com/in/jasleen-rana-979b63118/' />, <LinkButton label='Faaiza Saeed' target=_blank url='https://www.linkedin.com/in/faaizasaeed/' />, <LinkButton label='Niranjan Morkar' target=_blank url='https://www.linkedin.com/in/niranjanmorkar/' />, and I, had decided to study the life and rich culture of Palampur and document the studio pottery in Andretta. The idea was to bring out the essence of the place to the rest of the world through an academic project while identifying problem areas that can be intervened in.
+We, a team of four people — <LinkButton label='Jasleen Rana'  url='https://www.linkedin.com/in/jasleen-rana-979b63118/' />, <LinkButton label='Faaiza Saeed'  url='https://www.linkedin.com/in/faaizasaeed/' />, <LinkButton label='Niranjan Morkar'  url='https://www.linkedin.com/in/niranjanmorkar/' />, and I, had decided to study the life and rich culture of Palampur and document the studio pottery in Andretta. The idea was to bring out the essence of the place to the rest of the world through an academic project while identifying problem areas that can be intervened in.
 
 The research study, spanning a little over a week, turned into a fun trip that involved studying pottery, interviewing people, clicking pictures, making new friends and romancing with Nature.
 

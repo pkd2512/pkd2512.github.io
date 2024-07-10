@@ -12,7 +12,7 @@
 
     <LinkButton
       solid="{true}"
-      target="_blank"
+      target=""
       url="https://www.redbubble.com/people/daPacificArt/shop"
       label="Shop art prints"
     />

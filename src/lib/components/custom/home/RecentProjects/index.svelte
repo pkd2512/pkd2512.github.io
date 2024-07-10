@@ -62,7 +62,7 @@
                         ? link.url
                         : base + link.url}"
                       label="{link.label}"
-                      target="{link.target || ''}"
+                      target=""
                     />
                   </div>
                 {/each}

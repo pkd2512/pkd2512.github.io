@@ -38,7 +38,7 @@
 
     <LinkButton
       label="Book a session"
-      target="_blank"
+      target=""
       url="https://topmate.io/prasanta_kumar_dutta"
       solid="{true}"
     />

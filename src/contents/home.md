@@ -60,7 +60,7 @@ Over the years, I have instructed design students on data representation, geovis
 
 ## Art and Photography
 
-I dabble in creative coding and generative art, mainly as a means to explore the beauty of mathematics, some of which are documented on my <LinkButton label='blog' url='https://medium.com/diarium-da-pacific' target=_blank /> and <LinkButton label='Instagram' url='https://www.instagram.com/thebongartista/' target=_blank />.
+I dabble in creative coding and generative art, mainly as a means to explore the beauty of mathematics, some of which are documented on my <LinkButton label='blog' url='https://medium.com/diarium-da-pacific'  /> and <LinkButton label='Instagram' url='https://www.instagram.com/thebongartista/'  />.
 
 <figure>
 
@@ -68,7 +68,7 @@ I dabble in creative coding and generative art, mainly as a means to explore the
 
 <figcaption>
 
-<em>Ideas | Thoughts | Actions.</em>  This interactive sketch was created using p5.js as a part of Inktober 2021 explorations on <LinkButton label='Openprocessing' target=_blank url='https://openprocessing.org/user/66773' />. Move around the canvas to find spots of turbulence or&nbsp;calm.
+<em>Ideas | Thoughts | Actions.</em>  This interactive sketch was created using p5.js as a part of Inktober 2021 explorations on <LinkButton label='Openprocessing'  url='https://openprocessing.org/user/66773' />. Move around the canvas to find spots of turbulence or&nbsp;calm.
 
 </figcaption>
 
@@ -78,7 +78,7 @@ I dabble in creative coding and generative art, mainly as a means to explore the
 
 <br />
 
-Over the years, I have also created a collection of stock photographs that have been viewed more than 11M times. Available for download on <LinkButton label='Unsplash' url='https://unsplash.com/@pkddapacific' target=_blank />, <LinkButton label='Pexels' url='https://www.pexels.com/@pkddapacific/' target=_blank /> and <LinkButton label='Noun Project' url='https://thenounproject.com/creator/prasanta/?tab=photos' target=_blank />.
+Over the years, I have also created a collection of stock photographs that have been viewed more than 11M times. Available for download on <LinkButton label='Unsplash' url='https://unsplash.com/@pkddapacific'  />, <LinkButton label='Pexels' url='https://www.pexels.com/@pkddapacific/'  /> and <LinkButton label='Noun Project' url='https://thenounproject.com/creator/prasanta/?tab=photos'  />.
 
 <figure>
 
@@ -86,7 +86,7 @@ Over the years, I have also created a collection of stock photographs that have 
 
 <figcaption>
 
-<em>A close up view of a mask of Goddess Durga being hand-painted.</em> This photo, taken in 2016, has been downloaded nearly 20k times and have been featured on <LinkButton label='CNN' target=_blank url='https://sponsorcontent.cnn.com/edition/2018/more-to-incredible-india/' /> and <LinkButton label='Times Travel' target=_blank url='https://timesofindia.indiatimes.com/travel/destinations/what-makes-bengals-durga-puja-special/photostory/86833303.cms' />.
+<em>A close up view of a mask of Goddess Durga being hand-painted.</em> This photo, taken in 2016, has been downloaded nearly 20k times and have been featured on <LinkButton label='CNN'  url='https://sponsorcontent.cnn.com/edition/2018/more-to-incredible-india/' /> and <LinkButton label='Times Travel'  url='https://timesofindia.indiatimes.com/travel/destinations/what-makes-bengals-durga-puja-special/photostory/86833303.cms' />.
 
 </figcaption>
 

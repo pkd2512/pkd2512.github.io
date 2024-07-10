@@ -29,7 +29,7 @@
     bind:clientHeight="{height}"
     style="margin-block-start: -{0.35 * height}px"
   >
-    <a href="{url}" target="_blank">
+    <a href="{url}" target="">
       <img
         src="{assets}/media/awards/{img}"
         alt="Adobe Design Achievement Awards"

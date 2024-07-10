@@ -393,6 +393,6 @@ Even though many of them are standard icons, I recreated them in Adobe Illustrat
 <OverflowImage breakpoint=480 maxWidth='180%' url='media/projects/dodata/icons.png' alt="Icons deisgned for the app" shadow='{false}' caption="" />
 
 …and then the developers developed.
-An early version of the <LinkButton label='App' target=_blank url='https://apkpure.com/nl/do-data-dodata-platform-for-donation-of-data/com.dodata.org' /> is available on android devices.
+An early version of the <LinkButton label='App'  url='https://apkpure.com/nl/do-data-dodata-platform-for-donation-of-data/com.dodata.org' /> is available on android devices.
 
 </Container>

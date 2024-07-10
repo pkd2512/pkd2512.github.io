@@ -33,10 +33,7 @@
           {#if meta.intro?.url}
             {@const internal = meta.intro.url.includes('#')}
             <span title="link">
-              <a
-                href="{meta.intro.url}"
-                target="{internal ? '_self' : '_blank'}"
-              >
+              <a href="{meta.intro.url}">
                 <Icon
                   icon="{internal
                     ? 'mdi:file-document-box-multiple-outline'

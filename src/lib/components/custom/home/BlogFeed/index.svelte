@@ -45,7 +45,7 @@
     <LinkButton
       solid
       url="https://medium.com/diarium-da-pacific"
-      target="_blank"
+      target=""
       label="Show all posts"
     />
   </div>

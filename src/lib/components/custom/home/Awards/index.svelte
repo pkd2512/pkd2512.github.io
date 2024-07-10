@@ -23,7 +23,7 @@
       <div class="mobile">
         <Marquee pauseOnHover="{true}" speed="{15}" play="{play}">
           {#each awards.slice(0, slice) as item}
-            <a target="_blank" id="{item.id}" href="{item.url}"
+            <a target="" id="{item.id}" href="{item.url}"
               ><img
                 src="{assets}/media/awards/{item.img}"
                 alt="{item.alt}"
@@ -38,7 +38,7 @@
           direction="right"
         >
           {#each awards.slice(slice, slice * 2) as item}
-            <a target="_blank" id="{item.id}" href="{item.url}"
+            <a target="" id="{item.id}" href="{item.url}"
               ><img
                 src="{assets}/media/awards/{item.img}"
                 alt="{item.alt}"
@@ -50,7 +50,7 @@
     {:else}
       <Marquee pauseOnHover="{true}" speed="{45}" play="{play}">
         {#each awards as item}
-          <a target="_blank" id="{item.id}" href="{item.url}"
+          <a target="" id="{item.id}" href="{item.url}"
             ><img src="{assets}/media/awards/{item.img}" alt="{item.alt}" /></a
           >
         {/each}
