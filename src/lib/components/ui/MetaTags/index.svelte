@@ -30,7 +30,7 @@
     /index\.html/,
     ''
   );
-  $: imageUrl = `${getPageOrigin(pageUrl)}/share-images/${image}`;
+  $: imageUrl = `${getPageOrigin(pageUrl)}/media/share-images/${image}`;
 
   $: personSchema = {
     '@context': 'https://schema.org/',
