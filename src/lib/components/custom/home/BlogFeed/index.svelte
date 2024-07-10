@@ -14,7 +14,10 @@
   onMount(async () => {
     // @ts-ignore
     articles = await getBlogFeed();
-    // console.log('feed', articles);
+    console.log('feed', articles);
+    console.log(
+      articles[0]['description'].toString().match(/<img[^>]+src="([^">]+)"/)[0]
+    );
   });
 </script>
 
@@ -24,10 +27,12 @@
     {#each articles?.slice(0, 3) as article}
       {@const start = article.description.indexOf('<h4>') + 4}
       {@const end = article.description.indexOf('</h4>')}
-
+      {@const thumbnail = article.description
+        .toString()
+        .match(/<img[^>]+src="([^">]+)"/)[1]}
       <ReferralCard
         url="{article.link}"
-        image="{article.thumbnail ||
+        image="{thumbnail ||
           'https://cdn-images-1.medium.com/max/357/1*O7E1vMVWGStXv8TLKqR3Gw@2x.png'}"
         title="{article.title}"
         description="{article.description.slice(
