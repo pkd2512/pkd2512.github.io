@@ -9,7 +9,9 @@
   export let data;
 
   // @ts-ignore
-  $: contents = data?.contents.filter((d) => d.type === 'project');
+  $: contents = data?.contents
+    .filter((d) => d.type === 'project') // @ts-ignore
+    .sort((a, b) => new Date(b.date) - new Date(a.date));
 
   $: featured = contents[0];
 </script>
