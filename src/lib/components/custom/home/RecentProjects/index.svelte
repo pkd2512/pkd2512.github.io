@@ -11,7 +11,9 @@
 
   $: data = $page.data.contents
     .filter((/** @type {{ type: string; }} */ d) => d.type === 'project')
-    .slice(0, 3);
+    .slice(0, 3)
+    // @ts-ignore
+    .sort((a, b) => new Date(b.date) - new Date(a.date));
 
   let index = 0,
     offset = 0,

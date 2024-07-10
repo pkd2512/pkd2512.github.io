@@ -5,7 +5,6 @@
  */
 export default (baseUrl) => {
   try {
-    console.log(new URL(baseUrl).origin);
     return new URL(baseUrl).origin;
   } catch {
     if (typeof window !== 'undefined') return getOrigin(window.location.href);
