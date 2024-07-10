@@ -54,7 +54,7 @@ const config = {
     },
   },
 
-  appDir: '_app',
+  appDir: 'app',
   files: {
     assets: 'static',
     lib: 'src/lib',
