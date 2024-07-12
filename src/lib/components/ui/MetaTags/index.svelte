@@ -26,7 +26,7 @@
   export let image = 'share.jpg';
 
   $: pageUrl = $page.url;
-  $: canonicalUrl = ('http://prasantakrdutta.com' + pageUrl.pathname).replace(
+  $: canonicalUrl = ('https://prasantakrdutta.com' + pageUrl.pathname).replace(
     /index\.html/,
     ''
   );
@@ -34,14 +34,14 @@
   //   /index\.html/,
   //   ''
   // );
-  $: imageUrl = `http://prasantakrdutta.com/media/share-images/${image}`;
+  $: imageUrl = `https://prasantakrdutta.com/media/share-images/${image}`;
   // $: imageUrl = `${getPageOrigin(pageUrl)}/media/share-images/${image}`;
 
   $: personSchema = {
     '@context': 'https://schema.org/',
     '@type': 'Person',
     name: 'Prasanta Kumar Dutta',
-    url: 'http://prasantakrdutta.com/',
+    url: 'https://prasantakrdutta.com/',
     image: `${imageUrl}`,
     sameAs: [
       'https://www.reuters.com/authors/prasanta-kumar-dutta/',
