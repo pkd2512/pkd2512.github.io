@@ -126,6 +126,10 @@
       @media (--xl-n-below) {
         margin-bottom: 100lvh;
 
+        @media (width <= 720px) {
+          margin-bottom: 750px;
+        }
+
         &:last-of-type {
           margin-bottom: 0;
         }
