@@ -42,8 +42,14 @@ export default () => {
 
 export const registerPageview = () => {
   if (typeof window === 'undefined' || !window.gtag) return;
-  window.gtag('event', 'page_view', {
-    page_location: window.location.origin + window.location.pathname,
-    page_title: document?.title,
-  });
+
+  if (!['localhost', '127.0.0.1'].includes(window.location.hostname)) {
+    window.gtag('event', 'page_view', {
+      page_location: window.location.origin + window.location.pathname,
+      page_title: document?.title,
+      language: window?.navigator?.language,
+      user_agent: window.navigator.userAgent,
+      device: window.devicePixelRatio,
+    });
+  }
 };
