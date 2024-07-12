@@ -1,5 +1,6 @@
 <script>
   import Icon from '@iconify/svelte';
+  import { browser } from '$app/environment';
 
   /**
    * @type {boolean}
@@ -12,7 +13,20 @@
   let dialog; // HTMLDialogElement
 
   $: if (dialog && showModal) dialog.showModal();
+
+  $: if (browser) {
+    const body = document.querySelector('body');
+    if (body) {
+      if (showModal) {
+        body.style.overflow = 'hidden';
+      } else {
+        body.style.overflow = 'auto';
+      }
+    }
+  }
 </script>
+
+<svelte:body style="overflow: hidden;" />
 
 <!-- svelte-ignore a11y-click-events-have-key-events a11y-no-noninteractive-element-interactions -->
 <dialog
@@ -27,14 +41,14 @@
     <slot />
 
     <!-- svelte-ignore a11y-autofocus -->
-    <!-- <button autofocus on:click="{() => dialog.close()}">
+    <button class="close" autofocus on:click="{() => dialog.close()}">
       <Icon
         icon="iconamoon:close-duotone"
         width="36"
         height="36"
-        style="color: var(--purple-soft)"
+        style="color: var(--purple)"
       />
-    </button> -->
+    </button>
   </div>
 </dialog>
 
@@ -42,17 +56,11 @@
   dialog {
     background: transparent;
     border: none;
-    /* max-width: 32em;
-    border-radius: 0.2em;
-    border: none;
-    padding: 0; */
   }
   dialog::backdrop {
     background: rgba(0, 0, 0, 0.85);
   }
-  /* dialog > div {
-    padding: 1em;
-  } */
+
   dialog[open] {
     animation: zoom 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
   }
@@ -76,9 +84,20 @@
     }
   }
   button {
-    display: block;
     border: none;
-    background: none;
-    cursor: pointer;
+    background: transparent;
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: var(--layer-1);
+
+    &:hover,
+    &:focus,
+    &:focus-visible,
+    &:active {
+      border: none;
+      background: transparent;
+      outline: none;
+    }
   }
 </style>
