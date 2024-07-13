@@ -82,7 +82,7 @@
 <style lang="scss">
   section {
     background-color: var(--purple-soft);
-    background-image: url('/media/textures/small-crackle-bright.png');
+    background-image: url('/media/textures/small-crackle-bright.webp');
     background-blend-mode: overlay;
   }
 

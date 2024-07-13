@@ -32,7 +32,7 @@
 
 <section>
   <header>
-    <ParallaxHero img="{assets}/media/hero-about.jpg" />
+    <ParallaxHero img="{assets}/media/hero-about.webp" />
 
     <Container width="md">
       <div class="card">

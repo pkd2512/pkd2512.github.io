@@ -23,7 +23,7 @@
    * @param {String} image - Thubnail to be shown in share card.
    * Share images should be in "static/share-images"
    */
-  export let image = 'share.jpg';
+  export let image = 'share.webp';
 
   $: pageUrl = $page.url;
   $: canonicalUrl = ('https://prasantakrdutta.com' + pageUrl.pathname).replace(

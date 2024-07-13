@@ -17,7 +17,7 @@
           Views on Death-care service. If the answer to the first question is
           'NO', then the respondent skips to Section 3 of the survey.
         </p>
-        <img src="{assets}/media/projects/soulace/survey.png" alt="" />
+        <img src="{assets}/media/projects/soulace/survey.webp" alt="" />
       </Container>
     </Modal>
   </div>

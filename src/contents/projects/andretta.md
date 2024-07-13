@@ -5,7 +5,7 @@ description: Exploring the life and culture of Palampur through the lens with sp
 
 keywords: Photography, Photojournalism, Palampur, Valley of Gods,Andretta pottery, Slipware, Semiotic study, Photostory, Data Journalist, Graphics Journalist, Reuters Graphics Journalist, Data Visualisation Developer, Data Visualization Developer, Narrative Cartographer, User Interface Designer, User Experience Designer, Communication Designer, Data Storyteller, Information Designer, Graphic Designer, Art Director, User-centered design, UX, UI, Data Artist, Web Designer, Web Developer, Front-end Web Developer, Photographer, Traveller, Creative writer, Electronics and Communication Engineer, National Institute of Design, National Institute of Technology Durgapur, Prasanta, PrasantaKrDutta, Prasanta Kumar Dutta, Prasanta KrDutta, pkddapacific, pkd.dapacific, pkd_da_pacific, daPacific.
 
-image: andretta.jpg
+image: andretta.webp
 type: project
 date: '2017-4-8'
 published: true
@@ -30,7 +30,7 @@ intro:
   <br/>
   I attempted to capture the cultural essence of the place through a photobiography as a part of my design project in the spring of 2017."
 
-  img: projects/andretta/hero.jpg
+  img: projects/andretta/hero.webp
 
   duration: 4 weeks
 

@@ -9,5 +9,4 @@
   export let alt;
 </script>
 
-<enhanced:img src="{src}" alt="{alt}" loading="lazy" draggable="false"
-></enhanced:img>
+<img src="{src}" alt="{alt}" loading="lazy" draggable="false" />

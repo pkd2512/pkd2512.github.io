@@ -27,7 +27,7 @@
 <Container width="md" style="text-align: center;">
   <ReferralCard
     url="https://muckrack.com/pkddapacific"
-    image="{assets}/media/muckrack.jpg"
+    image="{assets}/media/muckrack.webp"
     title="Muckrack portfolio"
     description="Visual journalism and data graphics projects"
   />
@@ -38,7 +38,7 @@
 <Container width="md" style="text-align: center;">
   <ReferralCard
     url="https://www.behance.net/pkddapacific"
-    image="{assets}/media/behance.jpg"
+    image="{assets}/media/behance.webp"
     title="Behance portfolio"
     description="More design projects"
   />

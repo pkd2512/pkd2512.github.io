@@ -110,7 +110,7 @@
 
     filter: drop-shadow(0 1px 35px hsl(269, 33%, 22%));
 
-    background-image: url('/media/textures/small-crackle-bright.png');
+    background-image: url('/media/textures/small-crackle-bright.webp');
     background-blend-mode: overlay;
 
     box-shadow: var(--shadow-3);

@@ -5,7 +5,7 @@ description: Interface design for DoData mobile app, a nonprofit initiative to e
 
 keywords: Data Journalist, Graphics Journalist, Reuters Graphics Journalist, Data Visualisation Developer, Data Visualization Developer, Narrative Cartographer, User Interface Designer, User Experience Designer, Communication Designer, Data Storyteller, Information Designer, Graphic Designer, Art Director, User-centered design, UX, UI, Data Artist, Web Designer, Web Developer, Front-end Web Developer, Photographer, Traveller, Creative writer, Electronics and Communication Engineer, National Institute of Design, National Institute of Technology Durgapur, Prasanta, PrasantaKrDutta, Prasanta Kumar Dutta, Prasanta KrDutta, pkddapacific, pkd.dapacific, pkd_da_pacific, daPacific.
 
-image: dodata.jpg
+image: dodata.webp
 type: project
 date: '2017-4-9'
 published: true
@@ -27,7 +27,7 @@ intro:
 
   dek: "Even though excellent nuggets of knowledge are freely available on the internet, many individuals, especially the underprivileged, do not have access to it. To address the situation, DoData was envisaged — as a not-for-profit organization, whose main objective is to enable the donation of data (internet) for the needy. I worked on the User Interface Design of the mobile app for DoData during my internship at Rupeelog in the summer of 2017."
 
-  img: projects/dodata/hero.jpg
+  img: projects/dodata/hero.webp
 
   duration: 4 weeks
 
@@ -142,7 +142,7 @@ What was needed was a channel that could bridge the following hurdles —
   <div class="prob-img">
     <figure>
 
-    ![Icon of a Wi-Fi signal displayed inside an outline of a mobile phone](/media/projects/dodata/prob1.png)
+    ![Icon of a Wi-Fi signal displayed inside an outline of a mobile phone](/media/projects/dodata/prob1.webp)
 
     <figcaption>
     Bandwidth connecting the two is costly and availability is very limited
@@ -152,7 +152,7 @@ What was needed was a channel that could bridge the following hurdles —
 
     <figure>
 
-    ![Icon of a play button displayed inside an outline of a mobile phone](/media/projects/dodata/prob2.png)
+    ![Icon of a play button displayed inside an outline of a mobile phone](/media/projects/dodata/prob2.webp)
 
     <figcaption>
     Bandwidth is available but misused to consume data only for “entertainment”
@@ -174,7 +174,7 @@ And that interface for the end user is what I got a chance to work on!
 
 The app is aimed at helping users consume informative content via mobile data in their native language. It would also capture and report data usage for the DoData app and other indicated apps to ensure effective use of the donated data.
 
-<OverflowImage breakpoint=480 maxWidth='180%' url='media/projects/dodata/user.jpg' alt="Handwritten notes about the use cases - children education, vocational training, special kids, organisations for its members, the Japanese government." caption="Based on the concept document I translated the use cases to UI requirements" />
+<OverflowImage breakpoint=480 maxWidth='180%' url='media/projects/dodata/user.webp' alt="Handwritten notes about the use cases - children education, vocational training, special kids, organisations for its members, the Japanese government." caption="Based on the concept document I translated the use cases to UI requirements" />
 
 The content to be served is curated by different NGOs for their users. The users can have content from multiple sources — NGOs and third parties. They may be kids trying to learn science or grown-ups trying to pick up a new skill for work.
 
@@ -186,19 +186,19 @@ I associated keywords with the project and began sketching out ideas that involv
 
  <figure class=shadow>
 
-  ![Photo of pencil sketches on paper showing logo ideas](/media/projects/dodata/logo1.jpg)
+  ![Photo of pencil sketches on paper showing logo ideas](/media/projects/dodata/logo1.webp)
 
   </figure>
 
  <figure class=shadow>
 
-  ![Photo of pencil sketches on paper showing logo ideas](/media/projects/dodata/logo2.jpg)
+  ![Photo of pencil sketches on paper showing logo ideas](/media/projects/dodata/logo2.webp)
 
   </figure>
 
  <figure class=shadow>
 
-  ![Photo of pencil sketches on paper showing logo ideas](/media/projects/dodata/logo3.jpg)
+  ![Photo of pencil sketches on paper showing logo ideas](/media/projects/dodata/logo3.webp)
 
   <figcaption>
   Sketching out initial logo ideas for DoData, before moving on to digital drawings in Adobe Illustrator.
@@ -210,7 +210,7 @@ The idea was to integrate the gesture of giving with care with the symbol for th
 
  <figure>
 
-  ![Digital grayscale renders of nine different variations of logo ideas](/media/projects/dodata/logo.png)
+  ![Digital grayscale renders of nine different variations of logo ideas](/media/projects/dodata/logo.webp)
 
   </figure>
 
@@ -218,7 +218,7 @@ The folks at Rupeelog decided to go with the bottom right shape. It is simple an
 
  <figure>
 
-  ![The logo and one showing the construction lines](/media/projects/dodata/logofinal.png)
+  ![The logo and one showing the construction lines](/media/projects/dodata/logofinal.webp)
 
   </figure>
 
@@ -228,7 +228,7 @@ I wanted colours that could express growth, prosperity and happiness along with 
 
  <figure>
 
-  ![The logo with different colour variations](/media/projects/dodata/logocolour.png)
+  ![The logo with different colour variations](/media/projects/dodata/logocolour.webp)
 
   </figure>
 
@@ -268,7 +268,7 @@ Now that the logo symbol was finalized, I had to work on finding a suitable type
 
  <figure>
 
-  ![The logo with different font variations reading DoData](/media/projects/dodata/logotype.png)
+  ![The logo with different font variations reading DoData](/media/projects/dodata/logotype.webp)
 
   </figure>
 
@@ -276,13 +276,13 @@ I settled with Bree-Serif for the logotype because of its cheerful and friendly 
 
  <figure>
 
-  ![Typeface sample of Bree Serif](/media/projects/dodata/type.png)
+  ![Typeface sample of Bree Serif](/media/projects/dodata/type.webp)
 
   </figure>
 
    <figure>
 
-  ![A mock-up of a mobile phone showing the DoData logo](/media/projects/dodata/splash.png)
+  ![A mock-up of a mobile phone showing the DoData logo](/media/projects/dodata/splash.webp)
 
   </figure>
 
@@ -290,16 +290,16 @@ I settled with Bree-Serif for the logotype because of its cheerful and friendly 
 
 The backend of the service was already under development when I began the project. So, the basic app flow had already been decided by the project manager which had been conveyed to me via rough sketches. After I had analysed the wireframes, I suggested a few modifications, which were then incorporated into the final UI. I used Sketch to make the screens and created a prototype using Invision App which helped in the smooth hand-off of UI specs and assets.
 
-<OverflowImage breakpoint=480 maxWidth='180%' url='media/projects/dodata/conceptdoc.jpg' alt="Handwritten notes about the app concept." caption="I analysed the concept document to derive the functional specifications and content requirements." />
+<OverflowImage breakpoint=480 maxWidth='180%' url='media/projects/dodata/conceptdoc.webp' alt="Handwritten notes about the app concept." caption="I analysed the concept document to derive the functional specifications and content requirements." />
 
-<OverflowImage breakpoint=480 maxWidth='180%' url='media/projects/dodata/ia.jpg' alt="Handwritten notes about the app information architecture." caption="I analysed the information architecture suggesting modifications to improve the UX." />
+<OverflowImage breakpoint=480 maxWidth='180%' url='media/projects/dodata/ia.webp' alt="Handwritten notes about the app information architecture." caption="I analysed the information architecture suggesting modifications to improve the UX." />
 
 I wanted to keep the UI as close to a standard Android app so that it is intuitive to users familiar with an Android phone. Also, to avoid leaving the users in a state of anguish, it was important to consider edge cases to handle error scenarios efficiently.
 
   <div class="ui-img">
     <figure>
 
-    ![Screen mockup to create new password](/media/projects/dodata/forgot-password-reset.jpg)
+    ![Screen mockup to create new password](/media/projects/dodata/forgot-password-reset.webp)
 
     <figcaption>
     If the user doesn't receive the OTP on the number entered or wishes to change it, he can do so without using the back button.
@@ -309,7 +309,7 @@ I wanted to keep the UI as close to a standard Android app so that it is intuiti
 
     <figure>
 
-    ![Screen mockup when incorrect password is entered](/media/projects/dodata/password-error.jpg)
+    ![Screen mockup when incorrect password is entered](/media/projects/dodata/password-error.webp)
 
     <figcaption>
     When an incorrect password is entered, the user is asked to either check the password and retry or reset the password.
@@ -321,7 +321,7 @@ I wanted to keep the UI as close to a standard Android app so that it is intuiti
   <div class="ui-img">
     <figure>
 
-    ![Screen mockup for invalid mobile number](/media/projects/dodata/invalid-mobile-error.jpg)
+    ![Screen mockup for invalid mobile number](/media/projects/dodata/invalid-mobile-error.webp)
 
     <figcaption>
     When the user enters an invalid mobile number, he is asked to check and enter the number again.
@@ -331,7 +331,7 @@ I wanted to keep the UI as close to a standard Android app so that it is intuiti
 
     <figure>
 
-    ![Screen mockup when an unrecognised mobile number is entered](/media/projects/dodata/unregistered-mobile-error.jpg)
+    ![Screen mockup when an unrecognised mobile number is entered](/media/projects/dodata/unregistered-mobile-error.webp)
 
     <figcaption>
     When the user enters a valid (10-digit) mobile number that has not been registered as a DoData user, he can either register it or retry with a different number.
@@ -345,7 +345,7 @@ The dashboard contains the content categorized by the sources, specific to the c
   <div class="ui-img">
     <figure>
 
-    ![Screen mockup for switching user](/media/projects/dodata/switch-user.jpg)
+    ![Screen mockup for switching user](/media/projects/dodata/switch-user.webp)
 
     <figcaption>
     Dialog box to change the active user
@@ -359,7 +359,7 @@ The card-grid layout is preferred here as it gives an overview of content catego
   <div class="ui-img">
     <figure>
 
-    ![Screen mockup of user dashboard](/media/projects/dodata/dashboard.jpg)
+    ![Screen mockup of user dashboard](/media/projects/dodata/dashboard.webp)
 
     <figcaption>
     User dashboard with content group cards
@@ -377,7 +377,7 @@ Keeping track of data usage is just a swipe away. It can help users use their ba
   <div class="ui-img">
     <figure>
 
-    ![Screen mockup of data usage stats](/media/projects/dodata/data-usage.jpg)
+    ![Screen mockup of data usage stats](/media/projects/dodata/data-usage.webp)
 
     <figcaption>
     Data usage statistics for the user
@@ -390,7 +390,7 @@ Keeping track of data usage is just a swipe away. It can help users use their ba
 
 Even though many of them are standard icons, I recreated them in Adobe Illustrator using the Material Design Grid to fit the solid visual family.
 
-<OverflowImage breakpoint=480 maxWidth='180%' url='media/projects/dodata/icons.png' alt="Icons deisgned for the app" shadow='{false}' caption="" />
+<OverflowImage breakpoint=480 maxWidth='180%' url='media/projects/dodata/icons.webp' alt="Icons deisgned for the app" shadow='{false}' caption="" />
 
 …and then the developers developed.
 An early version of the <LinkButton label='App'  url='https://apkpure.com/nl/do-data-dodata-platform-for-donation-of-data/com.dodata.org' /> is available on android devices.

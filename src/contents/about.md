@@ -6,7 +6,7 @@ description: Award-winning Information Experience Designer, crafting visual stor
 
 keywords: Data Journalist, Graphics Journalist, Reuters Graphics Journalist, Data Visualisation Developer, Data Visualization Developer, Narrative Cartographer, User Interface Designer, User Experience Designer, Communication Designer, Data Storyteller, Information Designer, Graphic Designer, Art Director, User-centered design, UX, UI, Data Artist, Web Designer, Web Developer, Front-end Web Developer, Photographer, Traveller, Creative writer, Electronics and Communication Engineer, National Institute of Design, National Institute of Technology Durgapur, Prasanta, PrasantaKrDutta, Prasanta Kumar Dutta, Prasanta KrDutta, pkddapacific, pkd.dapacific, pkd_da_pacific, daPacific.
 
-image: share.jpg
+image: share.webp
 
 type: page
 
@@ -15,7 +15,7 @@ intro:
 
   dek: Prasanta Kumar Dutta is an Information Experience Designer from India, working at the intersection of design, coding, and journalism at Reuters. With a background in engineering and design, he crafts data-driven pieces that help narrate important stories visually. Several of his work has been recognized with numerous awards. He also teaches and talks about data visualization, narrative cartography, and design at eminent institutes across&nbsp;India.
 
-  img: hero.png
+  img: hero.webp
 
 published: true
 ---
@@ -72,7 +72,7 @@ I love to dabble in generative and digital art when I can. You can find some of 
 
 <figure>
 
-![My logo, reading PKD, imagined as islands in the Pacific generated using ControlNet v1.1.](/media/pkd-islands.png)
+![My logo, reading PKD, imagined as islands in the Pacific generated using ControlNet v1.1.](/media/pkd-islands.webp)
 
 <figcaption>
 My logo, imagined as islands in the Pacific generated using ControlNet v1.1.
@@ -88,7 +88,7 @@ My logo, imagined as islands in the Pacific generated using ControlNet v1.1.
 
 My experiments don't stop in the digital realm. When I am not working, you can find me exploring places and indulging in the <LinkButton  label='culinary arts' url='https://www.instagram.com/thebongbawarchi/' />.
 
-<div style=text-align:center;><ReferralCard url="https://medium.com/diarium-da-pacific/cooking-is-therapy-424efbdc4570" image="/media/cooking.jpg" title="Cooking is therapy" description="How a designer finds solace in the culinary arts to exercise his creative senses"
+<div style=text-align:center;><ReferralCard url="https://medium.com/diarium-da-pacific/cooking-is-therapy-424efbdc4570" image="/media/cooking.webp" title="Cooking is therapy" description="How a designer finds solace in the culinary arts to exercise his creative senses"
 /></div>
 
 </Container>

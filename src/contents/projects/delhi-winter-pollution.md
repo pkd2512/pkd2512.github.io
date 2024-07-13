@@ -5,7 +5,7 @@ description: Visual analysis of the air quality crisis in northern India every w
 
 keywords: Data Journalist, Graphics Journalist, Reuters Graphics Journalist, Data Visualisation Developer, Data Visualization Developer, Narrative Cartographer, User Interface Designer, User Experience Designer, Communication Designer, Data Storyteller, Information Designer, Graphic Designer, Art Director, User-centered design, UX, UI, Data Artist, Web Designer, Web Developer, Front-end Web Developer, Photographer, Traveller, Creative writer, Electronics and Communication Engineer, National Institute of Design, National Institute of Technology Durgapur, Prasanta, PrasantaKrDutta, Prasanta Kumar Dutta, Prasanta KrDutta, pkddapacific, pkd.dapacific, pkd_da_pacific, daPacific.
 
-image: delhi-winter-pollution.jpg
+image: delhi-winter-pollution.webp
 type: project
 date: '2018-10-16'
 published: true
@@ -35,7 +35,7 @@ intro:
   <br>
   I worked on this for my Master's graduation project that looks at the causes, severity and extent of the systemic problem using data collected from air quality monitors, satellite imagery from NASA and photographic evidence."
 
-  img: projects/delhi-winter-pollution/hero.jpg
+  img: projects/delhi-winter-pollution/hero.webp
 
   duration: 10 weeks
 
@@ -124,11 +124,11 @@ Delhi’s deteriorating air quality in the cold season was not a new phenomenon 
 
 We were familiar with the most common causes that the increased air pollution were attributed to -- crop stubble burning in the neighbouring states and burning of firecrackers during the festival of Diwali. After a brief reading on how to best quantify air quality, we sourced some data for particulate pollutants in the city and plotted along with the stubble burning data.
 
-<OverflowImage breakpoint=480 maxWidth='150%' url='media/projects/delhi-winter-pollution/research-chart.jpg' alt="Screenshot of line charts showing PM2.5 levels and fires detected between 2015 and 2018." caption="The data was plotted using MS Excel. Looking at the particulate pollutant levels alongside the fires data and Diwali helped establish a correlation among the events." />
+<OverflowImage breakpoint=480 maxWidth='150%' url='media/projects/delhi-winter-pollution/research-chart.webp' alt="Screenshot of line charts showing PM2.5 levels and fires detected between 2015 and 2018." caption="The data was plotted using MS Excel. Looking at the particulate pollutant levels alongside the fires data and Diwali helped establish a correlation among the events." />
 
 <figure>
 
-  ![A word cloud of some causes identified - factories, smoke, motor vehicles, dust, crop fires, aerosols, particulate pollutants, weather conditions, smog, haze, fog, slow winds.](/media/projects/delhi-winter-pollution/causes.png)
+  ![A word cloud of some causes identified - factories, smoke, motor vehicles, dust, crop fires, aerosols, particulate pollutants, weather conditions, smog, haze, fog, slow winds.](/media/projects/delhi-winter-pollution/causes.webp)
 
   <figcaption>
   After extensive secondary research, we were able to narrow down major elements of the system that contribute to the air quality in the region.
@@ -151,11 +151,11 @@ Get photos/videos; do some experiment to see the particulate pollutants. <LinkBu
 
 Using monthly data of Aerosol Optical Thickness and Visible Infrared Imaging Radiometer Suite (VIIRS) 375 m active fire product from NASA, I created the maps on QGIS.
 
-![A panel of three maps showing the haze and dots of fires in orange over the norther part of India for March, October and November 2017.](/media/projects/delhi-winter-pollution/map-1.jpg)
+![A panel of three maps showing the haze and dots of fires in orange over the norther part of India for March, October and November 2017.](/media/projects/delhi-winter-pollution/map-1.webp)
 
   <figure>
 
-  ![A panel of two maps for March and October 2017 showing the air quality as grey smoke. Location of fires are shown as red dots. The direction of wind is marked using arrows around Delhi.](/media/projects/delhi-winter-pollution/map-2.jpg)
+  ![A panel of two maps for March and October 2017 showing the air quality as grey smoke. Location of fires are shown as red dots. The direction of wind is marked using arrows around Delhi.](/media/projects/delhi-winter-pollution/map-2.webp)
 
   <figcaption>
   The final maps were exported and styled in Adobe Illustrator. Annotations were added to add context for the readers. Multiple versions of the layout were designed to account for responsive design of the webpage using ai2html.
@@ -165,7 +165,7 @@ Using monthly data of Aerosol Optical Thickness and Visible Infrared Imaging Rad
 
   <figure>
 
-  ![A satellite image showing Punjab, Haryana and Delhi covered by a white smoky haze. Red dots are overlaid on it to show location of stubble burning fires detected by satellite.](/media/projects/delhi-winter-pollution/map-3.jpg)
+  ![A satellite image showing Punjab, Haryana and Delhi covered by a white smoky haze. Red dots are overlaid on it to show location of stubble burning fires detected by satellite.](/media/projects/delhi-winter-pollution/map-3.webp)
 
   <figcaption>
   In order to further establish the presence of multitude of fires in the Punjab region in the month of October as seen from VIIRS fire data, I analysed satellite images from NASA Worldview for traces of smoke and fumes that correspond to fire the spots detected.
@@ -179,7 +179,7 @@ Using monthly data of Aerosol Optical Thickness and Visible Infrared Imaging Rad
 
   <ReferralCard
     url="https://www.reuters.com/graphics/INDIA-POLLUTION/010080SY1KE/"
-    image="https://fingfx.thomsonreuters.com/gfx/rngs/INDIA-POLLUTION/010080SY1KE/images/share-card.jpg"
+    image="https://fingfx.thomsonreuters.com/gfx/rngs/INDIA-POLLUTION/010080SY1KE/images/share-card.png"
     title="Preparing to choke"
     description="India’s annual air pollution threat explained"
   />
@@ -196,7 +196,7 @@ Using PM2.5 concentrations data at Continuous Air Quality Monitoring Stations (C
 
   <figure>
 
-  ![A heatmap of square cells ranging from light to dark blues show air quality in different regions of Delhi from 5-9 November, 2018 .](/media/projects/delhi-winter-pollution/heatmap-1.jpg)
+  ![A heatmap of square cells ranging from light to dark blues show air quality in different regions of Delhi from 5-9 November, 2018 .](/media/projects/delhi-winter-pollution/heatmap-1.webp)
 
   <figcaption>
   Certain patterns emerge from the PM2.5 data for the Diwali period in 2018 — poor air on Nov. 5 due to stubble burning fires, followed by relatively clean air the next day and extremely high levels of PM2.5 on Diwali night, which breaks the sensors at most stations.
@@ -208,7 +208,7 @@ Using the heat map as a starting point, the time period of observations was expa
 
   <figure>
 
-  ![Variations of the colour scale used in the heatmap.](/media/projects/delhi-winter-pollution/heatmap-2.jpg)
+  ![Variations of the colour scale used in the heatmap.](/media/projects/delhi-winter-pollution/heatmap-2.webp)
 
   <figcaption>
   The colour scale took quite a few rounds of iterations to resemble the various categories in terms of health impacts of PM2.5 concentrations to add meaning and context to the heatmap. In order to effectively highlight the upper end using reds and purples the ramp was created using HCL (Hue-Chroma-Luminance) colour-interpolation in d3.js.
@@ -220,7 +220,7 @@ Using the heat map as a starting point, the time period of observations was expa
 
 <Container width="lg">
 
-  <OverflowImage breakpoint=720 maxWidth='200%' url='media/projects/delhi-winter-pollution/heatmap-3.jpg' alt="Screenshot of a section of the heatmap." caption="The air quality heatmap, paired with charts showing temperature, wind speeds and fires data. The final version was simplified and fires information was added as annotations at relevant places." />
+  <OverflowImage breakpoint=720 maxWidth='200%' url='media/projects/delhi-winter-pollution/heatmap-3.webp' alt="Screenshot of a section of the heatmap." caption="The air quality heatmap, paired with charts showing temperature, wind speeds and fires data. The final version was simplified and fires information was added as annotations at relevant places." />
 
 </Container>
 

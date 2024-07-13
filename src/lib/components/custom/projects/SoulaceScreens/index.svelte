@@ -4,7 +4,7 @@
   import Modal from '$lib/components/ui/Modal/index.svelte';
   import ImageSlideshow from '$lib/components/ui/ImageSlideshow/index.svelte';
 
-  let images = range(33).map((i) => `${i + 1}.png`);
+  let images = range(33).map((i) => `${i + 1}.webp`);
   let showModal = false;
 </script>
 

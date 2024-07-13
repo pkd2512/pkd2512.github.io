@@ -10,7 +10,7 @@ categories:
   - Service Design
   - UX Design
 
-image: soulace.jpg
+image: soulace.webp
 type: project
 date: '2017-11-13'
 published: true
@@ -29,7 +29,7 @@ intro:
   <br>
   I worked on conceptualising and designing this service experience during my Masters."
 
-  img: projects/soulace/hero.jpg
+  img: projects/soulace/hero.webp
 
   duration: 4 weeks
 
@@ -158,7 +158,7 @@ Also, these service providers do not deal with how the person handles official w
   <div class="prob-img">
     <figure>
 
-    ![Icon of a van](/media/projects/soulace/prob1.png)
+    ![Icon of a van](/media/projects/soulace/prob1.webp)
 
     <figcaption>
     It often becomes difficult to arrange for hearse vans or repatriation services.
@@ -168,7 +168,7 @@ Also, these service providers do not deal with how the person handles official w
 
     <figure>
 
-    ![Icon of a coffin](/media/projects/soulace/prob2.png)
+    ![Icon of a coffin](/media/projects/soulace/prob2.webp)
 
     <figcaption>
     Booking crematoriums, and graves can be a daunting task and may not be easily available for immediate requirements.
@@ -178,7 +178,7 @@ Also, these service providers do not deal with how the person handles official w
 
     <figure>
 
-    ![Icon of a hanging portrait with a garland](/media/projects/soulace/prob3.png)
+    ![Icon of a hanging portrait with a garland](/media/projects/soulace/prob3.webp)
 
     <figcaption>
     Funeral rites vary with religion and region, and encompasses various ceremonies that require accessing a range of added services like getting priests, materials, halls, etc.
@@ -188,7 +188,7 @@ Also, these service providers do not deal with how the person handles official w
 
     <figure>
 
-    ![Icon of a legal certificate witha gavel and badge](/media/projects/soulace/prob4.png)
+    ![Icon of a legal certificate witha gavel and badge](/media/projects/soulace/prob4.webp)
 
     <figcaption>
     Post death, handling office related work for financial and legal matters become a heavy task due to lack of proper feedback from the system, delays and related paperwork and footwork.
@@ -198,7 +198,7 @@ Also, these service providers do not deal with how the person handles official w
 
     <figure>
 
-    ![Icon of a computer screen with a form displayed](/media/projects/soulace/prob5.png)
+    ![Icon of a computer screen with a form displayed](/media/projects/soulace/prob5.webp)
 
     <figcaption>
     Lack of a proper information system in matters like that of succession, keeping track of pension applications etc.
@@ -208,7 +208,7 @@ Also, these service providers do not deal with how the person handles official w
 
     <figure>
 
-    ![Icon of two people sitting on chairs and chatting](/media/projects/soulace/prob6.png)
+    ![Icon of two people sitting on chairs and chatting](/media/projects/soulace/prob6.webp)
 
     <figcaption>
     Lack of sharing of information and experience openly in the community.
@@ -247,7 +247,7 @@ Due to constraints of time and resources, I have designed the prototype for a si
 
 <Container width="lg">
 
-<Video id="video-laptop" url="media/projects/soulace/soulace-webdemo.mp4" poster="media/projects/soulace/soulace-webdemo-poster.jpg" caption="UI prototype for a single segment of the consumer-side of the service, which establishes the various features of the system." />
+<Video id="video-laptop" url="media/projects/soulace/soulace-webdemo.mp4" poster="media/projects/soulace/soulace-webdemo-poster.webp" caption="UI prototype for a single segment of the consumer-side of the service, which establishes the various features of the system." />
 
 </Container>
 
@@ -261,7 +261,7 @@ The different aspects related to the death of an individual were noted and categ
 
 <Container width="xl">
 
-<OverflowImage breakpoint=960 maxWidth='250%' shadow="{false}" url='media/projects/soulace/Death_Care_Service.png' alt="A mindmap showing the various components of death care service - Funeral, Family support, Belongings and Legal matters." caption="" />
+<OverflowImage breakpoint=960 maxWidth='250%' shadow="{false}" url='media/projects/soulace/Death_Care_Service.webp' alt="A mindmap showing the various components of death care service - Funeral, Family support, Belongings and Legal matters." caption="" />
 
 </Container>
 
@@ -273,7 +273,7 @@ Before proceeding further, I wanted to know what people, who have dealt with dea
 
 Even though the answers varied based on the individual scenario, some common areas of thought were summarised as follows--
 
-<OverflowImage breakpoint=480 maxWidth='180%' shadow="{false}" url='media/projects/soulace/survey-result.png' alt="Views and feedback on death-care service from the survey" caption="" />
+<OverflowImage breakpoint=480 maxWidth='180%' shadow="{false}" url='media/projects/soulace/survey-result.webp' alt="Views and feedback on death-care service from the survey" caption="" />
 
 From this it was evident that the problem needed to be addressed in two segments — things that need immediate attention and those that span over a period of time after the death of an individual.
 
@@ -281,13 +281,13 @@ From this it was evident that the problem needed to be addressed in two segments
 
 <Container width="lg">
 
-<OverflowImage breakpoint=480 maxWidth='180%' shadow="{true}" url='media/projects/soulace/death1.jpg' alt="Things that need immediate attention post-death" caption="I began to break down the activities based on temporal priorities so that I could address them at a granular level in my design." />
+<OverflowImage breakpoint=480 maxWidth='180%' shadow="{true}" url='media/projects/soulace/death1.webp' alt="Things that need immediate attention post-death" caption="I began to break down the activities based on temporal priorities so that I could address them at a granular level in my design." />
 
 </Container>
 
 <Container width="lg">
 
-<OverflowImage breakpoint=480 maxWidth='180%' shadow="{true}" url='media/projects/soulace/death2.jpg' alt="Things that need attention in case of death of a parent" caption="In most cases, the death of family member is handled by the spouse or the children. So, I analysed a second segment (relating to financial / official matters) where the deceased is a parent." />
+<OverflowImage breakpoint=480 maxWidth='180%' shadow="{true}" url='media/projects/soulace/death2.webp' alt="Things that need attention in case of death of a parent" caption="In most cases, the death of family member is handled by the spouse or the children. So, I analysed a second segment (relating to financial / official matters) where the deceased is a parent." />
 
 </Container>
 
@@ -315,7 +315,7 @@ Based on the research, I mapped the journey of the bereaved, divided into three 
 
 <Container width="xl">
 
-<OverflowImage breakpoint=1080 maxWidth='250%' shadow="{false}" url='media/projects/soulace/expmap.png' alt="A generalised experience-map for the user-journey of the bereaved" caption="A generalised experience-map for the user-journey of the bereaved" />
+<OverflowImage breakpoint=1080 maxWidth='250%' shadow="{false}" url='media/projects/soulace/expmap.webp' alt="A generalised experience-map for the user-journey of the bereaved" caption="A generalised experience-map for the user-journey of the bereaved" />
 
 </Container>
 
@@ -329,13 +329,13 @@ Given the vast scope of the service, I identified key requirements for the servi
 
   <div class="sol-img" style="text-align: center; margin: var(--space-s) auto; max-width: var(--xs);">
 
-    ![A holistic service that Ian guide a person through all associated activities, without increasing cognitive load. The service should take all stakeholders into account that may be involved in the user journey.](/media/projects/soulace/sol1.png)
+    ![A holistic service that Ian guide a person through all associated activities, without increasing cognitive load. The service should take all stakeholders into account that may be involved in the user journey.](/media/projects/soulace/sol1.webp)
 
 
-    ![A service that provides information + assístance with minimal user involvement. The service should be assistive-agentive in nature.](/media/projects/soulace/sol2.png)
+    ![A service that provides information + assístance with minimal user involvement. The service should be assistive-agentive in nature.](/media/projects/soulace/sol2.webp)
 
 
-    ![A one-stop solution for death care service. The service should be easily accessible and should provide all feasible features that a one may need.](/media/projects/soulace/sol3.png)
+    ![A one-stop solution for death care service. The service should be easily accessible and should provide all feasible features that a one may need.](/media/projects/soulace/sol3.webp)
 
   </div>
 
@@ -343,19 +343,19 @@ The user will use the interface to fulfil the requirements. The AI agents will s
 
 I focussed on designing the user-interface that will be used by the bereaved as a part of the death-care solution.
 
-  <OverflowImage breakpoint=480 maxWidth='180%' shadow="{false}" url='media/projects/soulace/model.png' alt="parts of the service bluprint" caption="Block diagram of operation of the death-care service, showing the stakeholders and service touchpoints." />
+  <OverflowImage breakpoint=480 maxWidth='180%' shadow="{false}" url='media/projects/soulace/model.webp' alt="parts of the service bluprint" caption="Block diagram of operation of the death-care service, showing the stakeholders and service touchpoints." />
 
 ### Creating an identity for the service
 
 It was time that I gave a name to this service and delved a bit into graphic design. I decided to call the service, **soulace** — *your companion in the face of distress helping you deal with the loss of your loved one*.
 
-    ![Two words soul + solace](/media/projects/soulace/soulace.png)
+    ![Two words soul + solace](/media/projects/soulace/soulace.webp)
 
 The next task was choosing a colour palette. Even though, black and red are usually associated with danger and death, such bold colours would alarm and distress the bereaved. I wanted to use hues that could create a sense of consolation and emotional strength in the difficult times and complement the mourning. I chose flowers used in funerals for colour reference as they are a visual expression of love, sympathy, and respect, as well as a means of lending support and sharing the burden of grief.
 
 The lily is the flower most commonly associated with funeral services as they symbolize the innocence that has been restored to the soul of the departed. The marigold is a commonly used flower in Hindu funerals. It is also known as *flor de muerto* (flower of death) and is used extensively in Mexico during the *El Día de los Muertos*, a festival to remember and honour the departed.
 
-  <OverflowImage breakpoint=480 maxWidth='100%' shadow="{false}" url='media/projects/soulace/flower.jpg' alt="Image of lily and marigold." caption="A purple Lily (left) and Marigold (right). Purple is associated with spirituality and mourning."/>
+  <OverflowImage breakpoint=480 maxWidth='100%' shadow="{false}" url='media/projects/soulace/flower.webp' alt="Image of lily and marigold." caption="A purple Lily (left) and Marigold (right). Purple is associated with spirituality and mourning."/>
 
 <div class=palette>
   <div class=strip>
@@ -391,15 +391,15 @@ I decided to go with Proxima Nova, a geometric sans-serif font by Mark Simonson,
 > Proxima Nova is a font people can easily connect with, probably because of the qualities I put into the font — the proportions, the spacing, the overall look and feel. I tried to make the shapes of the letters simple and clear. It doesn’t have a lot of fussy details or mannerisms. Maybe it has to do with the open, circular forms, which perhaps give it a “friendly” appearance, especially in the lowercase.
 > <cite> — Mark Simonson
 
-  ![Sample of typeface Proxima Nova](/media/projects/soulace/type.png)
+  ![Sample of typeface Proxima Nova](/media/projects/soulace/type.webp)
 
-  ![Explorations of the wordmark soulace](/media/projects/soulace/logoexp.png)
+  ![Explorations of the wordmark soulace](/media/projects/soulace/logoexp.webp)
 
   <Container width='sm' style="margin-block-start: var(--space-l)">
 
-  ![Outline view of the logo showing dimensions and measurements.](/media/projects/soulace/logo-outline.png)
+  ![Outline view of the logo showing dimensions and measurements.](/media/projects/soulace/logo-outline.webp)
 
-  ![Final soulace logo at different sizes](/media/projects/soulace/logo-full.png)
+  ![Final soulace logo at different sizes](/media/projects/soulace/logo-full.webp)
 
   </Container>
 
@@ -445,7 +445,7 @@ I created the design in Adobe XD using a standard 12-column responsive grid. It 
 
 <Container width="xl">
 
-  <OverflowImage breakpoint=1280 maxWidth='180%' shadow="{false}" url='media/projects/soulace/laptopexp@2x.png' alt="Mock-up of the landing page of soulace website on a laptop screen" caption="" />
+  <OverflowImage breakpoint=1280 maxWidth='180%' shadow="{false}" url='media/projects/soulace/laptopexp@2x.webp' alt="Mock-up of the landing page of soulace website on a laptop screen" caption="" />
 
 </Container>
 
@@ -466,6 +466,6 @@ As Madhavi googled about how to take a deceased back home to Kolkata, she came a
 
 <SoulaceScreens />
 
-<Video id="video-demo" url="media/projects/soulace/soulace-madhavi.mp4" poster="media/projects/soulace/soulace-madhavi-poster.jpg" />
+<Video id="video-demo" url="media/projects/soulace/soulace-madhavi.mp4" poster="media/projects/soulace/soulace-madhavi-poster.webp" />
 
 </Container>
