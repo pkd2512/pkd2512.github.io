@@ -44,7 +44,7 @@ const config = {
       pages: 'docs',
       assets: 'docs',
       fallback: undefined,
-      precompress: false,
+      precompress: true,
       strict: true,
     }),
     paths: {
