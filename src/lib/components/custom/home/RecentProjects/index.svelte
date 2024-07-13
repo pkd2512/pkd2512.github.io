@@ -18,8 +18,6 @@
   let index = 0,
     offset = 0,
     progress = 0;
-
-  $: console.log(base, data);
 </script>
 
 <svelte:head>
