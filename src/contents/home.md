@@ -1,6 +1,6 @@
 ---
 # Metadata
-title: Prasanta Kumar Dutta
+title: Prasanta Kumar Dutta | Information Experience Designer
 
 description: Award-winning Information Experience Designer, crafting visual stories with data and solving problems in an aesthetically pleasing way.
 
