@@ -18,6 +18,8 @@
   let index = 0,
     offset = 0,
     progress = 0;
+
+  $: console.log(base, data);
 </script>
 
 <svelte:head>
@@ -60,7 +62,7 @@
                     <LinkButton
                       url="{checkAbsoluteUrl(link.url)
                         ? link.url
-                        : base + link.url}"
+                        : `${base}/${link.url}`}"
                       label="{link.label}"
                       target=""
                     />

@@ -1,10 +1,10 @@
 <script>
   // @ts-nocheck
-  import { Map } from 'mapbox-gl';
+  import mapboxgl from 'mapbox-gl';
   import 'mapbox-gl/dist/mapbox-gl.css';
 
   import { onMount, afterUpdate, onDestroy } from 'svelte';
-  import { env } from '$env/dynamic/public';
+  import { PUBLIC_MAPBOX_TOKEN } from '$env/static/public';
 
   /**
    * @param {String} chapter Name of active chapter
@@ -214,9 +214,9 @@
 
   // Draw the map
   onMount(() => {
-    map = new Map({
+    map = new mapboxgl.Map({
       container: mapContainer,
-      accessToken: env.PUBLIC_MAPBOX_TOKEN,
+      accessToken: PUBLIC_MAPBOX_TOKEN,
       style: 'mapbox://styles/pkddapacific/clqrro3qz00tu01qych922aj6',
       center: chapters.Opening.center,
       zoom: chapters.Opening.zoom,
