@@ -15,7 +15,7 @@
 
 <Analytics />
 
-{#if pageId && pageId === '/'}
+{#if pageId && (pageId === '/' || pageId === '/colophone')}
   <Intro />
 {/if}
 
