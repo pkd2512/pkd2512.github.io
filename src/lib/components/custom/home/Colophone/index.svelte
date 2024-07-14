@@ -66,8 +66,8 @@
     </p>
 
     <p>
-      The <span class="logo"></span> logo is a visual play on the symmetry of my
-      initials <kbd>p</kbd> and
+      The <span class="logo"></span> logo is a visual play on the reflective
+      symmetry of my initials <kbd>p</kbd> and
       <kbd>d</kbd>
       along the axis of <kbd>k</kbd> made by the negative space between the shapes.
     </p>
@@ -90,7 +90,7 @@
 
 <style lang="scss">
   #content {
-    background-color: var(--white);
+    // background-color: var(--white);
     // padding-inline: var(--space-m-l);
     // padding-block: var(--space-l-xl);
     border-radius: var(--space-2xs);
