@@ -40,13 +40,8 @@
         {#each content as item}
           <li class="list-item">
             <span class="topic">
-              <strong>{@html marked.parse(item.place)}</strong>
-
-              <span style="white-space: nowrap;">
-                <span class="date">
-                  {item.date ? '• ' + formatDate(item.date) : ''}
-                </span>
-
+              <strong
+                >{@html marked.parse(item.place)}
                 {#if item.link}
                   <NavLink target="" url="{item.link}"
                     ><Icon
@@ -55,11 +50,22 @@
                       icon="iconamoon:link-external-duotone"
                     /></NavLink
                   >
-                {/if}
-              </span>
+                {/if}</strong
+              >
+
+              <!-- <span
+                style="white-space: nowrap; line-height: var(--line-height-tight);"
+              >
+                <span class="date">
+                  {item.date ? formatDate(item.date) : ''}
+                </span>
+              </span> -->
             </span>
 
             <span class="place">
+              <span class="date">
+                {item.date ? formatDate(item.date) + ' • ' : ''}
+              </span>
               {@html marked.parse(item.topic)}
             </span>
           </li>
@@ -100,6 +106,19 @@
   }
 
   .topic {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+
+    :global(p),
+    :global(a) {
+      display: inline-flex;
+      line-height: var(--line-height-medium);
+    }
+  }
+
+  .place {
+    display: inline;
     :global(p),
     :global(a) {
       display: inline;
