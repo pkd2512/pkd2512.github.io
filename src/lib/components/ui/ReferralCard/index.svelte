@@ -88,7 +88,12 @@
     box-shadow: var(--shadow-1);
 
     @media (--md-n-below) {
+      max-width: var(--sm);
+    }
+
+    @media (width < 575px) {
       width: 100%;
+      max-width: var(--xs);
     }
 
     transition: all 0.3s ease;

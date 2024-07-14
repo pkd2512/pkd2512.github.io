@@ -48,8 +48,8 @@
     box-sizing: border-box;
     position: relative;
     aspect-ratio: var(--ratio-square);
-    background-color: var(--white);
-    outline: 1px solid var(--white-soft);
+    background-color: var(--white-soft);
+    outline: var(--space-3xs) solid var(--white-soft);
     box-shadow: var(--shadow-2);
     transition: all 0.35s ease;
     display: block;
@@ -69,6 +69,7 @@
 
     &:hover {
       box-shadow: var(--shadow-1), var(--shadow-3);
+      // z-index: var(--layer-1);
 
       .body {
         opacity: 1;
