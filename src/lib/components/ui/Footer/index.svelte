@@ -1,10 +1,8 @@
 <script>
   import Container from '$lib/components/ui/Container/index.svelte';
   import NavLink from '$lib/components/ui/Navlink/index.svelte';
-  import Modal from '$lib/components/ui/Modal/index.svelte';
   import Logo from '$lib/components/ui/Logo/index.svelte';
   import Contact from '$lib/components/custom/home/Contact/index.svelte';
-  import Colophone from '$lib/components/custom/home/Colophone/index.svelte';
 
   // @ts-ignore
   import socialUrls from '/src/contents/data/socialurls.csv';
@@ -36,10 +34,6 @@
     </Container>
   </footer>
 </div>
-
-<Modal bind:showModal="{showModal}">
-  <Colophone />
-</Modal>
 
 <style lang="scss">
   .copyright {
