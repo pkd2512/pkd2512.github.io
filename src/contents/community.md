@@ -29,6 +29,7 @@ published: true
   import talks from '/src/contents/data/talks.csv';
   import teachings from '/src/contents/data/teachings.csv';
   import resources from '/src/contents/data/resources.csv';
+  import mentions from '/src/contents/data/mentions.csv';
 </script>
 
 <ParallaxHero img='/media/hero-community.webp'/>
@@ -47,7 +48,9 @@ published: true
 
  </Container>
 
-<div style="max-width: calc(0.85 * var(--md)); margin: auto;">
+<div style="max-width: calc(1 * var(--md)); margin: auto;">
+
+<List title='Interviews and Features' content={mentions}/>
 
 <List title='Talks and Workshops' content={talks}/>
 

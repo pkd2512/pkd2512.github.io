@@ -40,7 +40,7 @@
         {#each content as item}
           <li class="list-item">
             <span class="topic">
-              <strong>{@html marked.parse(item.topic)}</strong>
+              <strong>{@html marked.parse(item.place)}</strong>
 
               <span style="white-space: nowrap;">
                 <span class="date">
@@ -60,7 +60,7 @@
             </span>
 
             <span class="place">
-              {@html marked.parse(item.place)}
+              {@html marked.parse(item.topic)}
             </span>
           </li>
         {/each}
