@@ -48,7 +48,7 @@ published: true
 
  </Container>
 
-<div style="max-width: calc(1 * var(--md)); margin: auto;">
+<div style="max-width: calc(0.85 * var(--md)); margin: auto;">
 
 <List title='Interviews and Features' content={mentions}/>
 
