@@ -89,21 +89,6 @@
 </div>
 
 <style lang="scss">
-  #content {
-    // background-color: var(--white);
-    // padding-inline: var(--space-m-l);
-    // padding-block: var(--space-l-xl);
-    border-radius: var(--space-2xs);
-
-    p {
-      font-family: var(--font-sans);
-
-      &:last-child {
-        margin-block-end: 0;
-      }
-    }
-  }
-
   .logo {
     background-image: url('/favicon.png');
     background-size: contain;

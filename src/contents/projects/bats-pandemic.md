@@ -8,7 +8,7 @@ keywords: Globe visualisation, Simulation, Pandemic visualisation, Data Journali
 image: bats-pandemic.webp
 type: project
 date: '2023-05-16'
-published: true
+published: false
 
 categories:
   - Reuters
