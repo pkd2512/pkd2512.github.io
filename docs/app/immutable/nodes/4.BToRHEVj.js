@@ -1,0 +1,1 @@
+import{s as e}from"../chunks/scheduler.BqdCgcHo.js";import{S as n,i}from"../chunks/index.H_fSqiTt.js";function s(t){return window.location.href="https://medium.com/diarium-da-pacific",[]}class c extends n{constructor(o){super(),i(this,o,s,null,e,{})}}export{c as component};
