@@ -42,12 +42,7 @@
     <div class="icon">
       <Icon icon="zondicons:news-paper" />
     </div>
-    <LinkButton
-      solid
-      url="https://medium.com/diarium-da-pacific"
-      target=""
-      label="Show all posts"
-    />
+    <LinkButton solid url="/blog" target="" label="Show all posts" />
   </div>
 </Container>
 

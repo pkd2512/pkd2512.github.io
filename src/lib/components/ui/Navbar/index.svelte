@@ -24,7 +24,7 @@
       let newUrl = url;
       switch (name) {
         case 'Blog':
-          newUrl = 'https://medium.com/diarium-da-pacific';
+          newUrl = '/blog';
 
           break;
 
