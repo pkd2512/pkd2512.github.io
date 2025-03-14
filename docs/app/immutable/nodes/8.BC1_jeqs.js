@@ -1,0 +1,1 @@
+import{s as a}from"../chunks/scheduler.BqdCgcHo.js";import{S as e,i as o}from"../chunks/index.H_fSqiTt.js";function s(t){return window.location.href="https://prasantakrdutta.notion.site/Mapping-in-Datawrapper-1ad7996222248012875cc2e44b33c283",[]}class p extends e{constructor(n){super(),o(this,n,s,null,a,{})}}export{p as component};
