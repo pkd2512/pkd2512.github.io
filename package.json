@@ -4,7 +4,7 @@
 	"private": true,
 	"scripts": {
 		"dev": "vite dev --open",
-		"build": "vite build",
+		"build": "vite build --output docs",
 		"postbuild": "npx svelte-sitemap --out-dir docs --trailing-slashes true --ignore 'pinterest-**' --domain https://prasantakrdutta.com",
 		"preview": "vite preview",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./jsconfig.json",
