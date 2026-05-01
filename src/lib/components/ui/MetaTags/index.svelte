@@ -2,42 +2,25 @@
   import { page } from '$app/stores';
   import getPageOrigin from '$utils/getPageOrigin';
 
-  /**
-   * @param {String} title - Title to be shown in browser tab and share card
-   */
-  export let title = 'Prasanta Kumar Dutta';
+  let {
+    title = 'Prasanta Kumar Dutta',
+    description = 'Award-winning Information Experience Designer, crafting visual stories with data and solving problems in an aesthetically pleasing way.',
+    keywords = 'Data Journalist, Graphics Journalist, Reuters Graphics Journalist, Data Visualisation Developer, Data Visualization Developer, Narrative Cartographer, User Interface Designer, User Experience Designer, Communication Designer, Data Storyteller, Information Designer, Graphic Designer, Art Director, User-centered design, UX, UI, Data Artist, Web Designer, Web Developer, Front-end Web Developer, Photographer, Traveller, Creative writer, Electronics and Communication Engineer, National Institute of Design, National Institute of Technology Durgapur, Prasanta, PrasantaKrDutta, Prasanta Kumar Dutta, Prasanta KrDutta, pkddapacific, pkd.dapacific, pkd_da_pacific, daPacific.',
+    image = 'share.webp',
+  } = $props();
 
-  /**
-   * @param {String} description - Description to be shown in search results
-   */
-  export let description =
-    'Award-winning Information Experience Designer, crafting visual stories with data and solving problems in an aesthetically pleasing way.';
-
-  /**
-   * @param {String} keywords - Keywords to be shown in search results
-   */
-  export let keywords =
-    'Data Journalist, Graphics Journalist, Reuters Graphics Journalist, Data Visualisation Developer, Data Visualization Developer, Narrative Cartographer, User Interface Designer, User Experience Designer, Communication Designer, Data Storyteller, Information Designer, Graphic Designer, Art Director, User-centered design, UX, UI, Data Artist, Web Designer, Web Developer, Front-end Web Developer, Photographer, Traveller, Creative writer, Electronics and Communication Engineer, National Institute of Design, National Institute of Technology Durgapur, Prasanta, PrasantaKrDutta, Prasanta Kumar Dutta, Prasanta KrDutta, pkddapacific, pkd.dapacific, pkd_da_pacific, daPacific.';
-
-  /**
-   * @param {String} image - Thubnail to be shown in share card.
-   * Share images should be in "static/share-images"
-   */
-  export let image = 'share.webp';
-
-  $: pageUrl = $page.url;
-  $: canonicalUrl = ('https://prasantakrdutta.com' + pageUrl.pathname).replace(
-    /index\.html/,
-    ''
+  let pageUrl = $derived($page.url);
+  let canonicalUrl = $derived(
+    ('https://prasantakrdutta.com' + pageUrl.pathname).replace(
+      /index\.html/,
+      ''
+    )
   );
-  // $: canonicalUrl = (getPageOrigin(pageUrl) + pageUrl.pathname).replace(
-  //   /index\.html/,
-  //   ''
-  // );
-  $: imageUrl = `https://prasantakrdutta.com/media/share-images/${image}`;
-  // $: imageUrl = `${getPageOrigin(pageUrl)}/media/share-images/${image}`;
+  let imageUrl = $derived(
+    `https://prasantakrdutta.com/media/share-images/${image}`
+  );
 
-  $: personSchema = {
+  let personSchema = $derived({
     '@context': 'https://schema.org/',
     '@type': 'Person',
     name: 'Prasanta Kumar Dutta',
@@ -71,7 +54,7 @@
       '@type': 'Organization',
       name: 'Reuters',
     },
-  };
+  });
 </script>
 
 <svelte:head>

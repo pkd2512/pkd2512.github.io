@@ -2,9 +2,11 @@
   import Logo from '$lib/components/ui/Logo/index.svelte';
   import CircleType from 'circletype';
   import GraphemeSplitter from 'grapheme-splitter';
-  import { onMount, afterUpdate } from 'svelte';
+  import { onMount } from 'svelte';
   import remToPixels from '$utils/remToPixels';
   import { scaleLinear } from 'd3-scale';
+
+  let { mobile = false } = $props();
 
   /**
    * @type {HTMLDivElement}
@@ -12,25 +14,21 @@
   let circleTextEl;
 
   /**
-   * @param {Boolean} mobile Is the badge for mobile
-   */
-  export let mobile = false;
-
-  // @ts-ignore
-  let circleText;
-
-  let scrollY = 0;
-
-  let windowHeight = 0;
-
-  let size = mobile ? '7.5rem' : '8.75rem';
-
-  let getRotation = (/** @type {any} */ d) => {};
-
-  /**
    * @type {HTMLDivElement}
    */
   let badgeEl;
+
+  /**
+   * @type {any}
+   */
+  let circleText = $state(null);
+
+  let scrollY = $state(0);
+  let windowHeight = $state(0);
+
+  let size = $derived(mobile ? '7.5rem' : '8.75rem');
+
+  let getRotation = $state((/** @type {any} */ d) => d);
 
   const makeText = (/** @type {String} */ text) => {
     let chars = new GraphemeSplitter().splitGraphemes(text);
@@ -53,6 +51,7 @@
     circleText.dir(1).forceWidth();
 
     // generate circle rotation scale
+    // @ts-ignore
     getRotation = scaleLinear()
       .domain([0, windowHeight * 0.8])
       .range([0, 360])
@@ -76,10 +75,12 @@
     };
   });
 
-  afterUpdate(() => {
-    // @ts-ignore
-    circleText.refresh();
-    circleTextEl.classList.add('visible');
+  $effect(() => {
+    if (circleText && circleTextEl) {
+      // @ts-ignore
+      circleText.refresh();
+      circleTextEl.classList.add('visible');
+    }
   });
 </script>
 

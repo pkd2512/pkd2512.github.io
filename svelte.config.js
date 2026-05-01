@@ -85,11 +85,6 @@ const config = {
     }),
     mdsvex(mdsvexOptions),
   ],
-  compilerOptions: {
-    compatibility: {
-      componentApi: 4, // Enable Svelte 4 compatibility mode
-    },
-  },
 };
 
 export default config;

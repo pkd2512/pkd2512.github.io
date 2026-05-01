@@ -2,35 +2,14 @@
   import Icon from '@iconify/svelte';
   import truncateText from '$utils/truncateText';
   import NavLink from '$lib/components/ui/Navlink/index.svelte';
-  /**
-   * @type {String}
-   * Path to thumbnail image
-   */
-  export let image;
 
-  /**
-   * @type {String}
-   * Card title
-   */
-  export let title;
-
-  /**
-   * @type {string}
-   * Card description text
-   */
-  export let description = '';
-
-  /**
-   * @type {String}
-   * Link to external site
-   */
-  export let url = '';
-
-  /**
-   * @type {String}
-   * Target
-   */
-  export let target = '_blank';
+  let {
+    image,
+    title,
+    description = '',
+    url = '',
+    target = '_blank',
+  } = $props();
 </script>
 
 <NavLink

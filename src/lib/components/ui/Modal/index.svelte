@@ -2,44 +2,53 @@
   import Icon from '@iconify/svelte';
   import { browser } from '$app/environment';
 
-  /**
-   * @type {boolean}
-   */
-  export let showModal; // boolean
+  let { showModal = $bindable(false), header = undefined, children } = $props();
 
   /**
-   * @type {HTMLDialogElement}
+   * @type {HTMLDialogElement | undefined}
    */
-  let dialog; // HTMLDialogElement
+  let dialog = $state();
 
-  $: if (dialog && showModal) dialog.showModal();
+  $effect(() => {
+    if (dialog && showModal) dialog.showModal();
+  });
 
-  $: if (browser) {
-    const body = document.querySelector('body');
-    if (body) {
-      if (showModal) {
-        body.style.overflow = 'hidden';
-      } else {
-        body.style.overflow = 'auto';
+  $effect(() => {
+    if (browser) {
+      const body = document.querySelector('body');
+      if (body) {
+        if (showModal) {
+          body.style.overflow = 'hidden';
+        } else {
+          body.style.overflow = 'auto';
+        }
       }
     }
-  }
+  });
 </script>
 
-<!-- svelte-ignore a11y-click-events-have-key-events a11y-no-noninteractive-element-interactions -->
+<!-- svelte-ignore a11y_click_events_have_key_events a11y_no_noninteractive_element_interactions -->
 <dialog
   bind:this="{dialog}"
-  on:close="{() => (showModal = false)}"
-  on:click|self="{() => dialog.close()}"
+  onclose="{() => (showModal = false)}"
+  onclick="{(e) => {
+    if (e.target === e.currentTarget) dialog?.close();
+  }}"
 >
-  <!-- svelte-ignore a11y-no-static-element-interactions -->
-  <div on:click|stopPropagation>
-    <slot name="header" />
+  <!-- svelte-ignore a11y_no_static_element_interactions -->
+  <div
+    onclick="{(e) => {
+      e.stopPropagation();
+    }}"
+  >
+    {#if header}
+      {@render header()}
+    {/if}
 
-    <slot />
+    {@render children?.()}
 
-    <!-- svelte-ignore a11y-autofocus -->
-    <button class="close" autofocus on:click="{() => dialog.close()}">
+    <!-- svelte-ignore a11y_autofocus -->
+    <button class="close" autofocus onclick="{() => dialog?.close()}">
       <Icon
         icon="iconamoon:close-duotone"
         width="36"

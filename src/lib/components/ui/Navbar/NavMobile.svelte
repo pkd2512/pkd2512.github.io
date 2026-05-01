@@ -8,21 +8,17 @@
   import { afterNavigate } from '$app/navigation';
   import resolveLinkTarget from '$utils/resolveLinkTarget';
 
-  /**
-   * Nav items
-   * @type {any[]}
-   */
-  export let links;
+  let { links } = $props();
 
-  $: isOpen = false;
+  let isOpen = $state(false);
 
   afterNavigate(() => {
     isOpen = false;
   });
 
-  $: pageId = $page.route.id;
-  $: pageHash = $page.url.hash;
-  $: home = links.filter((d) => d.url === '/')[0];
+  let pageId = $derived($page.route.id);
+  let pageHash = $derived($page.url.hash);
+  let home = $derived(links.filter((/** @type {any} */ d) => d.url === '/')[0]);
 </script>
 
 <nav
@@ -31,7 +27,7 @@
   class:open="{isOpen}"
   use:scrollDirection
   use:inview="{{ root: null, threshold: 1 }}"
-  on:inview_change="{(
+  oninview_change="{(
     /** @type {{ detail: { node: { classList: { toggle: (arg0: string, arg1: boolean) => void; }; }; inView: any; }; }} */ e
   ) => {
     window.scrollY > -1 &&
@@ -50,7 +46,13 @@
     </NavLink>
   </div>
 
-  <div role="button" class="hamburger" on:click="{() => (isOpen = !isOpen)}">
+  <div
+    role="button"
+    class="hamburger"
+    onclick="{() => (isOpen = !isOpen)}"
+    onkeydown="{(e) => e.key === 'Enter' && (isOpen = !isOpen)}"
+    tabindex="0"
+  >
     <Hamburger open="{isOpen}" />
   </div>
 

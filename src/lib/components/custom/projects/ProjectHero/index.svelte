@@ -2,41 +2,45 @@
   import Container from '$lib/components/ui/Container/index.svelte';
   import ParallaxHero from '$lib/components/ui/ParallaxHero/index.svelte';
   import { assets } from '$app/paths';
-  import { onMount } from 'svelte';
 
   import { scaleLinear } from 'd3-scale';
 
   /**
-   * @type {{ intro: { img: String; quote: String; }; }}
+   * @type {{ meta: { intro: { img: String; quote: String; }; } }}
    */
-  export let meta;
+  let { meta } = $props();
 
   /**
-   * @type {number}
+   * @type {number | undefined}
    */
-  let infoHeight;
+  let infoHeight = $state();
 
   /**
-   * @type {number}
+   * @type {number | undefined}
    */
-  let windowHeight;
+  let windowHeight = $state();
 
   /**
-   * @type {number}
+   * @type {number | undefined}
    */
-  let bottom;
+  let bottom = $state();
 
   const makeParallax = (/** @type {number | undefined} */ pos) => {
+    if (!infoHeight || !windowHeight) return 0;
     return scaleLinear()
       .clamp(true)
       .domain([infoHeight, 0.6 * windowHeight])
       .range([0, -infoHeight])(pos);
   };
 
-  onMount(() => {
-    window.addEventListener('scroll', () => {
+  $effect(() => {
+    const handleScroll = () => {
       bottom = makeParallax(window.scrollY);
-    });
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
   });
 </script>
 

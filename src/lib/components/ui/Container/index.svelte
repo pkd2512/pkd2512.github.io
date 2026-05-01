@@ -3,10 +3,10 @@
    * @param {string} width - xxs, xs, sm, md, lg, xl, xxl, fluid.
    * Check media-sizes.scss for reference
    */
-  export let width = '';
+  let { width = '', ...restProps } = $props();
 </script>
 
-<div {...$$restProps} class="{width ? `container-${width}` : 'container'}">
+<div {...restProps} class="{width ? `container-${width}` : 'container'}">
   <slot />
 </div>
 
