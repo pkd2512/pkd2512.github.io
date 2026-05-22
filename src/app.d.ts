@@ -1,5 +1,3 @@
-// See https://kit.svelte.dev/docs/types#app
-// for information about these interfaces
 declare global {
 	namespace App {
 		// interface Error {}
@@ -7,6 +5,18 @@ declare global {
 		// interface PageData {}
 		// interface Platform {}
 	}
+
+	interface Window {
+		dataLayer: unknown[];
+		gtag: (...args: unknown[]) => void;
+	}
+}
+
+declare module '*.md' {
+	import type { SvelteComponent } from 'svelte';
+	const content: SvelteComponent;
+	export default content;
+	export const metadata: Record<string, unknown>;
 }
 
 export {};

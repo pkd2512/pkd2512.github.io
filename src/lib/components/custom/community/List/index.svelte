@@ -7,6 +7,7 @@
   import { timeFormat } from 'd3-time-format';
   import slugify from '$utils/slugify';
 
+  // @ts-ignore
   marked.use(markedSmartypants());
 
   /**

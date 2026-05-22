@@ -10,8 +10,8 @@
 
   // @ts-ignore
   $: contents = data?.contents
-    .filter((d) => d.type === 'project') // @ts-ignore
-    .sort((a, b) => new Date(b.date) - new Date(a.date));
+    .filter(/** @param {{type: string}} d */ (d) => d.type === 'project')
+    .sort(/** @param {{date: string}} a @param {{date: string}} b */ (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
   $: featured = contents[0];
 </script>
