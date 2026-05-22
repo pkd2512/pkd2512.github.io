@@ -5,14 +5,6 @@
   import { copy } from 'svelte-copy';
   import { assets } from '$app/paths';
 
-  /**
-   * @param {String} hed
-   * Title of the card
-   */
-  /**
-   * @param {String} dek
-   * Card description
-   */
   let { hed = '', dek = '' } = $props();
 
   let icon = $state('fluent:copy-24-regular');
@@ -31,6 +23,10 @@
     return () => clearInterval(interval);
   });
 </script>
+
+<svelte:head>
+  <link rel="preload" href="{assets}/media/hero-about.webp" as="image" fetchpriority="high">
+</svelte:head>
 
 <section>
   <header>

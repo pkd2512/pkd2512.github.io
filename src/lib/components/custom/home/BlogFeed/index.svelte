@@ -1,20 +1,21 @@
 <script>
-  import getBlogFeed from '$utils/getBlogFeed';
+  import { getContext } from 'svelte';
+  import { browser } from '$app/environment';
   import Container from '$lib/components/ui/Container/index.svelte';
   import LinkButton from '$lib/components/ui/LinkButton/index.svelte';
   import ReferralCard from '$lib/components/ui/ReferralCard/index.svelte';
   import Icon from '@iconify/svelte';
+  import getBlogFeed from '$utils/getBlogFeed';
 
-  /**
-   * @type {any[]}
-   */
-  let articles = $state([]);
+  let articles = $state(getContext('blogFeed') || []);
 
   $effect(() => {
-    (async () => {
-      // @ts-ignore
-      articles = await getBlogFeed();
-    })();
+    if (!browser) return;
+    getBlogFeed()
+      .then((items) => {
+        if (items?.length) articles = items;
+      })
+      .catch(() => {});
   });
 </script>
 

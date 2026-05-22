@@ -1,14 +1,12 @@
 <script>
   import { onMount } from 'svelte';
-  import { registerPageview as registerGAPageview } from '$utils/googleAnalytics';
-  import googleAnalytics from '$utils/googleAnalytics';
-
-  /** Register virtual pageviews when using client-side routing in multipage applications. */
-  export function registerPageview() {
-    registerGAPageview();
-  }
+  import { initGA } from '$utils/googleAnalytics';
 
   onMount(() => {
-    googleAnalytics();
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(initGA, { timeout: 3000 });
+    } else {
+      setTimeout(initGA, 3000);
+    }
   });
 </script>

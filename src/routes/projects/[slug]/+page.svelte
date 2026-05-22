@@ -23,6 +23,6 @@
 
 <Intro meta={data.meta} />
 
-<svelte:component this={data.content} />
+<data.content />
 
 <ProjectNav />

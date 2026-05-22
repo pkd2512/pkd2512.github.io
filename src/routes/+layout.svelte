@@ -5,12 +5,18 @@
   import Analytics from '$lib/components/ui/Analytics/index.svelte';
   import ProjectHero from '$lib/components/custom/projects/ProjectHero/index.svelte';
   import { page } from '$app/stores';
+  import { afterNavigate } from '$app/navigation';
+  import { registerPageview } from '$utils/googleAnalytics';
 
   import '$lib/styles/main.scss';
 
   let { data, children } = $props();
 
   let pageId = $derived($page.route.id);
+
+  afterNavigate(() => {
+    registerPageview();
+  });
 </script>
 
 <Analytics />

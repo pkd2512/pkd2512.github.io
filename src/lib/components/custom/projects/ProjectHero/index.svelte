@@ -30,6 +30,12 @@
   });
 </script>
 
+<svelte:head>
+  {#if meta?.intro}
+    <link rel="preload" href="{`${assets}/media/${meta.intro.img}`}" as="image" fetchpriority="high">
+  {/if}
+</svelte:head>
+
 <svelte:window bind:innerHeight="{windowHeight}" />
 
 {#if meta?.intro}

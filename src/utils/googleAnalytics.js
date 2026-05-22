@@ -1,13 +1,8 @@
-// Google property ID
 const GOOGLE_TAG_ID = 'G-DECCLNKCBR';
-
-// Google tag url
 const URL = `https://www.googletagmanager.com/gtag/js?id=${GOOGLE_TAG_ID}`;
 
 const attachScript = () => {
-  // If script is already attached, skip
   if (document.querySelector(`script[src="${URL}"]`)) return;
-  // ... else attach it.
   const e = document.createElement('script');
   const head = document.getElementsByTagName('head')[0];
   e.type = 'text/javascript';
@@ -16,10 +11,7 @@ const attachScript = () => {
   head.prepend(e);
 };
 
-/**
- * Attach gtag code to webpage
- */
-export default () => {
+export const initGA = () => {
   try {
     window.dataLayer = window.dataLayer || [];
     if (!window.gtag) {
@@ -28,7 +20,6 @@ export default () => {
         window.dataLayer.push(arguments);
       };
       window.gtag('js', new Date());
-      // config event registers a pageview by default
       window.gtag('config', GOOGLE_TAG_ID, {
         send_page_view: false,
       });
