@@ -4,6 +4,7 @@
   import Hamburger from './Hamburger.svelte';
   import scrollDirection from '$utils/scrollDirection';
   import { inview } from 'svelte-inview';
+  import { sendEvent } from '$utils/googleAnalytics';
   import { page } from '$app/stores';
   import { afterNavigate } from '$app/navigation';
   import resolveLinkTarget from '$utils/resolveLinkTarget';
@@ -49,7 +50,10 @@
   <div
     role="button"
     class="hamburger"
-    onclick="{() => (isOpen = !isOpen)}"
+    onclick="{() => {
+      isOpen = !isOpen;
+      sendEvent('navbar_toggle', { state: isOpen ? 'open' : 'closed' });
+    }}"
     onkeydown="{(e) => e.key === 'Enter' && (isOpen = !isOpen)}"
     tabindex="0"
   >

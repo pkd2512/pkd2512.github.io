@@ -48,3 +48,9 @@ export const registerPageview = () => {
     });
   }
 };
+
+export const sendEvent = (action, params) => {
+  if (typeof window === 'undefined' || !window.gtag) return;
+  if (['localhost', '127.0.0.1'].includes(window.location.hostname)) return;
+  gtag('event', action, params);
+};

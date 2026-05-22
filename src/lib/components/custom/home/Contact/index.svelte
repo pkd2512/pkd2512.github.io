@@ -5,6 +5,7 @@
 
   import Logo from '$lib/components/ui/Logo/index.svelte';
   import { copy } from 'svelte-copy';
+  import { sendEvent } from '$utils/googleAnalytics';
 
   // @ts-ignore
   import socialUrls from '/src/contents/data/socialurls.csv';
@@ -23,6 +24,7 @@
     copied = true;
     copymessage = 'Email copied!';
     icon = 'fluent:copy-24-filled';
+    sendEvent('email_copy');
   };
 
   $effect(() => {
