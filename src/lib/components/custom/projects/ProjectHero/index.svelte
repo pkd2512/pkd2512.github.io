@@ -5,27 +5,13 @@
 
   import { scaleLinear } from 'd3-scale';
 
-  /**
-   * @type {{ meta: { intro: { img: String; quote: String; }; } }}
-   */
   let { meta } = $props();
 
-  /**
-   * @type {number | undefined}
-   */
   let infoHeight = $state();
-
-  /**
-   * @type {number | undefined}
-   */
   let windowHeight = $state();
-
-  /**
-   * @type {number | undefined}
-   */
   let bottom = $state();
 
-  const makeParallax = (/** @type {number | undefined} */ pos) => {
+  const makeParallax = (pos) => {
     if (!infoHeight || !windowHeight) return 0;
     return scaleLinear()
       .clamp(true)
@@ -46,17 +32,19 @@
 
 <svelte:window bind:innerHeight="{windowHeight}" />
 
-<div class="img">
-  <ParallaxHero img="{assets}/media/{meta.intro.img}" />
-</div>
-
-<Container width="fluid">
-  <div class="anno" style="bottom:{bottom}px">
-    <aside bind:clientHeight="{infoHeight}">
-      {@html meta.intro.quote}
-    </aside>
+{#if meta?.intro}
+  <div class="img">
+    <ParallaxHero img="{`${assets}/media/${meta.intro.img}`}" />
   </div>
-</Container>
+
+  <Container width="fluid">
+    <div class="anno" style="bottom:{bottom}px">
+      <aside bind:clientHeight="{infoHeight}">
+        {@html meta.intro.quote}
+      </aside>
+    </div>
+  </Container>
+{/if}
 
 <style lang="scss">
   @import 'src/lib/styles/mixins/index';

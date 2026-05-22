@@ -7,38 +7,26 @@
   import { timeFormat } from 'd3-time-format';
   import slugify from '$utils/slugify';
 
-  // @ts-ignore
   marked.use(markedSmartypants());
 
-  /**
-   * @param content - List of items
-   * @type {any[]}
-   */
-  export let content = [];
+  let { content = [], title = '' } = $props();
 
-  /**
-   * @param title - Title of the list
-   */
-  export let title = '';
-
-  const formatDate = (/** @type {string | number | Date} */ date) => {
+  const formatDate = (date) => {
     if (!date) return;
     const d = new Date(date);
     const format = timeFormat('%b %Y');
-
     return format(d);
   };
 
-  // @ts-ignore
-  content.sort((a, b) => new Date(b.date) - new Date(a.date));
+  let sorted = $derived([...content].sort((a, b) => new Date(b.date) - new Date(a.date)));
 </script>
 
-{#if content.length > 0}
+{#if sorted.length > 0}
   <Container width="md">
     <div class="list-wrapper">
       <h2 id="{slugify(title)}">{title}</h2>
       <ul>
-        {#each content as item}
+        {#each sorted as item}
           <li class="list-item">
             <span class="topic">
               <strong

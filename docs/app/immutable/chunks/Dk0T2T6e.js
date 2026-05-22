@@ -1,1 +1,0 @@
-import"./yKg4UsYu.js";import{t as m,b as o,e as s}from"./BpqDw_J7.js";import{s as r}from"./D2h5l_aj.js";var i=s('<img loading="lazy" draggable="false"/>');function p(e,t){var a=i();m(()=>{r(a,"src",t.src),r(a,"alt",t.alt)}),o(e,a)}export{p as I};

@@ -1,13 +1,9 @@
 <script>
-  /**
-   * @param {string} width - xxs, xs, sm, md, lg, xl, xxl, fluid.
-   * Check media-sizes.scss for reference
-   */
-  let { width = '', ...restProps } = $props();
+  let { width = '', children, ...restProps } = $props();
 </script>
 
 <div {...restProps} class="{width ? `container-${width}` : 'container'}">
-  <slot />
+  {@render children()}
 </div>
 
 <style lang="scss">

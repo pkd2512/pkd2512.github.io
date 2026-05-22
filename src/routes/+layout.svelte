@@ -20,7 +20,7 @@
 {/if}
 
 {#if pageId && pageId === '/projects/[slug]'}
-  <ProjectHero meta={$page.data.meta} />
+  <ProjectHero meta={$page.data?.meta} />
 {/if}
 
 <Navbar />
