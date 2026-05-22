@@ -2,24 +2,12 @@
   import { scaleLinear } from 'd3-scale';
   import { onMount } from 'svelte';
 
-  /**
-   * @param {String} img
-   * url of background image
-   */
-  export let img = '';
+  let { img = '', children } = $props();
 
-  /**
-   * @type {number}
-   */
-  let windowHeight;
+  let windowHeight = $state(0);
+  let vPos = $state(10);
 
-  /**
-   * @param {String}
-   * background-y position
-   */
-  let vPos = 10;
-
-  const makeParallax = (/** @type {number | undefined} */ pos) => {
+  const makeParallax = (pos) => {
     return scaleLinear()
       .clamp(true)
       .domain([0, 0.9 * windowHeight])
@@ -28,15 +16,19 @@
   };
 
   onMount(() => {
-    window.addEventListener('scroll', () => {
+    const handleScroll = () => {
       vPos = makeParallax(window.scrollY);
-    });
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
   });
 </script>
 
-<svelte:window bind:innerHeight="{windowHeight}" />
+<svelte:window bind:innerHeight={windowHeight} />
 <div class="hero" style="--img: url({img}); --y:{vPos}%">
-  <slot />
+  {#if children}{@render children()}{/if}
 </div>
 
 <style lang="scss">

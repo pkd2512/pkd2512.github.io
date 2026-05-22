@@ -2,57 +2,49 @@
   import Container from '$lib/components/ui/Container/index.svelte';
   import ParallaxHero from '$lib/components/ui/ParallaxHero/index.svelte';
   import { assets } from '$app/paths';
-  import { onMount } from 'svelte';
 
   import { scaleLinear } from 'd3-scale';
 
-  /**
-   * @type {{ intro: { img: String; quote: String; }; }}
-   */
-  export let meta;
+  let { meta } = $props();
 
-  /**
-   * @type {number}
-   */
-  let infoHeight;
+  let infoHeight = $state();
+  let windowHeight = $state();
+  let bottom = $state();
 
-  /**
-   * @type {number}
-   */
-  let windowHeight;
-
-  /**
-   * @type {number}
-   */
-  let bottom;
-
-  const makeParallax = (/** @type {number | undefined} */ pos) => {
+  const makeParallax = (pos) => {
+    if (!infoHeight || !windowHeight) return 0;
     return scaleLinear()
       .clamp(true)
       .domain([infoHeight, 0.6 * windowHeight])
       .range([0, -infoHeight])(pos);
   };
 
-  onMount(() => {
-    window.addEventListener('scroll', () => {
+  $effect(() => {
+    const handleScroll = () => {
       bottom = makeParallax(window.scrollY);
-    });
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
   });
 </script>
 
 <svelte:window bind:innerHeight="{windowHeight}" />
 
-<div class="img">
-  <ParallaxHero img="{assets}/media/{meta.intro.img}" />
-</div>
-
-<Container width="fluid">
-  <div class="anno" style="bottom:{bottom}px">
-    <aside bind:clientHeight="{infoHeight}">
-      {@html meta.intro.quote}
-    </aside>
+{#if meta?.intro}
+  <div class="img">
+    <ParallaxHero img="{`${assets}/media/${meta.intro.img}`}" />
   </div>
-</Container>
+
+  <Container width="fluid">
+    <div class="anno" style="bottom:{bottom}px">
+      <aside bind:clientHeight="{infoHeight}">
+        {@html meta.intro.quote}
+      </aside>
+    </div>
+  </Container>
+{/if}
 
 <style lang="scss">
   @import 'src/lib/styles/mixins/index';

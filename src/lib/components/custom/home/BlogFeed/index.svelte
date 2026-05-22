@@ -1,6 +1,5 @@
 <script>
   import getBlogFeed from '$utils/getBlogFeed';
-  import { onMount } from 'svelte';
   import Container from '$lib/components/ui/Container/index.svelte';
   import LinkButton from '$lib/components/ui/LinkButton/index.svelte';
   import ReferralCard from '$lib/components/ui/ReferralCard/index.svelte';
@@ -9,11 +8,13 @@
   /**
    * @type {any[]}
    */
-  let articles = [];
+  let articles = $state([]);
 
-  onMount(async () => {
-    // @ts-ignore
-    articles = await getBlogFeed();
+  $effect(() => {
+    (async () => {
+      // @ts-ignore
+      articles = await getBlogFeed();
+    })();
   });
 </script>
 

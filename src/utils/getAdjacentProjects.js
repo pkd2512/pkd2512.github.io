@@ -1,6 +1,7 @@
 /**
- * @param {{title: String}} current - metadata for the page
- * @param {Object} projects - metadata of all projects
+ * @param {{title: string}} current - metadata for the page
+ * @param {{title: string}[]} projects - metadata of all projects
+ * @returns {{prev: {title: string}, next: {title: string}} | undefined}
  */
 
 export default (current, projects) => {

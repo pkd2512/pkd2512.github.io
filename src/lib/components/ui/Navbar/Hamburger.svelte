@@ -1,8 +1,5 @@
 <script>
-  /**
-   * @param {Boolean} close Is the menu open
-   */
-  export let open = true;
+  let { open = true } = $props();
 </script>
 
 <svg

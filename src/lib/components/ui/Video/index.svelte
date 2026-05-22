@@ -5,39 +5,33 @@
   /**
    * @param {string} id - The ID of the video.
    */
-  export let id;
-
   /**
    * @param {string} url - The URL of the video.
    */
-  export let url;
-
   /**
    * @param {string} poster - The URL of the video poster image.
    */
-  export let poster;
-
   /**
    * @param {string} alt - The alternative text for the video.
    */
-  export let alt = 'video';
-
   /**
    * @param {string} caption - The caption for the video.
    */
-  export let caption;
+  let { id, url, poster, alt = 'video', caption } = $props();
 
   let iconSize = 24;
 
-  let time = 0;
+  let time = $state(0);
   /**
-   * @type {number}
+   * @type {number | undefined}
    */
-  let duration;
-  let paused = true;
-  let showControls = true;
-  // @ts-ignore
-  $: progress = duration ? Number.parseFloat(time / duration).toFixed(3) : 0;
+  let duration = $state();
+  let paused = $state(true);
+  let showControls = $state(true);
+
+  let progress = $derived(
+    duration ? parseFloat((time / duration).toFixed(3)) : 0
+  );
 
   /**
    * @type {string | number | NodeJS.Timeout | undefined}
@@ -90,10 +84,13 @@
       playsinline
       autoplay
       controlslist="nodownload noremoteplayback"
-      on:mousemove="{handleMove}"
-      on:touchmove|preventDefault="{handleMove}"
-      on:mousedown="{handleMousedown}"
-      on:mouseup="{handleMouseup}"
+      onmousemove="{handleMove}"
+      ontouchmove="{(e) => {
+        e.preventDefault();
+        handleMove(e);
+      }}"
+      onmousedown="{handleMousedown}"
+      onmouseup="{handleMouseup}"
       bind:currentTime="{time}"
       bind:duration="{duration}"
       bind:paused="{paused}"

@@ -1,9 +1,9 @@
 import { defineConfig } from 'vitest/config';
 import dsv from '@rollup/plugin-dsv';
-import { importAssets } from 'svelte-preprocess-import-assets';
 import { sveltekit } from '@sveltejs/kit/vite';
 
 export default defineConfig({
+  // @ts-ignore
   plugins: [sveltekit(), dsv()],
   test: {
     include: ['src/**/*.{test,spec}.{js,ts}'],

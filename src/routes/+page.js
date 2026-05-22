@@ -3,8 +3,9 @@ import { error } from '@sveltejs/kit';
 /**
  * Loads the file contents from the file `[slug].md`
  */
-export async function load({ params }) {
+export async function load() {
   try {
+    // @ts-expect-error - .md imports are resolved by mdsvex at build time
     const page = await import(`../contents/home.md`);
 
     return {
@@ -12,6 +13,6 @@ export async function load({ params }) {
       meta: page.metadata,
     };
   } catch (e) {
-    error(404, `Could not find ${params.slug}`);
+    error(404, 'Could not find home.md');
   }
 }

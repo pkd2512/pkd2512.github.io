@@ -9,25 +9,27 @@
    * @param {String} hed
    * Title of the card
    */
-  export let hed = '';
-
   /**
    * @param {String} dek
    * Card description
    */
-  export let dek = '';
+  let { hed = '', dek = '' } = $props();
 
-  $: icon = 'fluent:copy-24-regular';
-  $: copied = false;
+  let icon = $state('fluent:copy-24-regular');
+  let copied = $state(false);
 
   const copyClick = (/** @type {any} */ e) => {
     copied = true;
     icon = 'fluent:copy-24-filled';
   };
 
-  setInterval(() => {
-    icon = 'fluent:copy-24-regular';
-  }, 3000);
+  $effect(() => {
+    const interval = setInterval(() => {
+      icon = 'fluent:copy-24-regular';
+    }, 3000);
+
+    return () => clearInterval(interval);
+  });
 </script>
 
 <section>
@@ -45,7 +47,7 @@
           <span
             class="icon"
             role="button"
-            on:click="{copyClick}"
+            onclick="{copyClick}"
             use:copy="{dek}"
           >
             <Icon

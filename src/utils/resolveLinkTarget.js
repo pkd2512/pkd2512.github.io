@@ -11,5 +11,7 @@ export default (link, host) => {
     const newHost = new URL(link).hostname;
 
     return isEqual(host, newHost) ? '' : '';
-  } catch (error) {}
+  } catch (error) {
+    return '';
+  }
 };

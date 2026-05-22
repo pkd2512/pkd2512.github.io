@@ -1,3 +1,6 @@
+/**
+ * @param {HTMLElement} node
+ */
 export default (node) => {
   let y = window.scrollY;
   let prevY = window.scrollY;

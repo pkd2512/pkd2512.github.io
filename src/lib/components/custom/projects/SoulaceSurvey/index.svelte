@@ -3,11 +3,11 @@
   import { assets } from '$app/paths';
   import Modal from '$lib/components/ui/Modal/index.svelte';
 
-  let showModal = false;
+  let showModal = $state(false);
 </script>
 
 <Container width="md" style="text-align:center;">
-  <button on:click="{() => (showModal = true)}"> Check out the survey </button>
+  <button onclick="{() => (showModal = true)}"> Check out the survey </button>
 
   <div class="survey">
     <Modal bind:showModal="{showModal}">

@@ -7,16 +7,16 @@
 
   import { assets } from '$app/paths';
 
-  let index = 0,
-    offset = 0,
-    progress = 0;
+  let index = $state(0);
+  let offset = $state(0);
+  let progress = $state(0);
 
-  $: activeChapter = places[index]?.key || '';
+  let activeChapter = $derived(places[index]?.key || '');
 
   /**
-   * @type {number}
+   * @type {number | undefined}
    */
-  let windowWidth;
+  let windowWidth = $state();
 </script>
 
 <svelte:window bind:innerWidth="{windowWidth}" />
@@ -25,7 +25,7 @@
   <Scroller
     top="{0}"
     bottom="{1}"
-    threshold="{windowWidth < 1440 ? 1 : 0.75}"
+    threshold="{windowWidth && windowWidth < 1440 ? 1 : 0.75}"
     query=".container-sm"
     bind:index="{index}"
     bind:offset="{offset}"

@@ -24,7 +24,6 @@ export default () => {
     window.dataLayer = window.dataLayer || [];
     if (!window.gtag) {
       attachScript();
-      /** @type {Gtag.Gtag} */
       window.gtag = function () {
         window.dataLayer.push(arguments);
       };

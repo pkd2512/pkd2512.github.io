@@ -1,6 +1,6 @@
 /**
- * @param {String} text - Content paragraph
- * @param {Integer} count - Word limit
+ * @param {string} text - Content paragraph
+ * @param {number} count - Word limit
  */
 export default (text, count) => {
   let words = text.trim().split(/\s+/);

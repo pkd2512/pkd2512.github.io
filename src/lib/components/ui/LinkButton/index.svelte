@@ -2,27 +2,26 @@
   /**
    * @param {String} url
    */
-  export let url = '#';
-
   /**
-   * @param {String} label
-   * Text to show
+   * @param {String} label - Text to show
    */
-  export let label = 'Read';
-
   /**
    * @param {String} target
    */
-  export let target = '';
-
   /**
    * @param {Boolean} solid
    */
-  export let solid = false;
+  let {
+    url = '#',
+    label = 'Read',
+    target = '',
+    solid = false,
+    ...restProps
+  } = $props();
 </script>
 
 <a
-  {...$$restProps}
+  {...restProps}
   rel="noreferrer"
   class:solid="{solid}"
   href="{url}"

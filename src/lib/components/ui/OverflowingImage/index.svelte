@@ -1,50 +1,23 @@
 <script>
   import Icon from '@iconify/svelte';
   import Container from '$lib/components/ui/Container/index.svelte';
-
-  /**
-   * @param url Path to the  image
-   * @type {String}
-   */
-  export let url;
-
-  /**
-   * @param alt AltText for the image
-   * @type {String}
-   */
-  export let alt;
-
-  /**
-   * @param caption Image caption
-   * @type {String}
-   */
-  export let caption;
-
-  /**
-   * @param overflow Amount of overflow
-   * @type {String}
-   */
-  export let maxWidth = '200%';
-
-  /**
-   * @param breakpoint Screenwidth below which image will overflow
-   * @type {Number}
-   */
-  export let breakpoint = 480;
-
-  /**
-   * @param shadow Whether to show image shadow
-   */
-  export let shadow = true;
-
   import { assets } from '$app/paths';
 
-  /**
-   * @type {Number}
-   */
-  let width;
+  let {
+    url,
+    alt,
+    caption,
+    maxWidth = '200%',
+    breakpoint = 480,
+    shadow = true,
+  } = $props();
 
-  $: showNudge = true;
+  /**
+   * @type {Number | undefined}
+   */
+  let width = $state();
+
+  let showNudge = $state(true);
 
   const handleScroll = (/** @type {any} */ e) => {
     showNudge = false;
@@ -54,7 +27,7 @@
 <svelte:window bind:innerWidth="{width}" />
 
 <div class="overflow-img">
-  {#if width < breakpoint && showNudge}
+  {#if width !== undefined && width < breakpoint && showNudge}
     <div class="nudge">
       <Icon
         icon="ph:hand-swipe-left-bold"
@@ -67,24 +40,25 @@
 
   <figure
     class:shadow="{shadow}"
-    style="overflow-x:{width < breakpoint ? 'scroll' : 'auto'}"
-    on:scroll="{handleScroll}"
+    style="overflow-x:{width !== undefined && width < breakpoint
+      ? 'scroll'
+      : 'auto'}"
+    onscroll="{handleScroll}"
   >
     <img
       src="{assets}/{url}"
       alt="{alt}"
       loading="lazy"
-      style="max-width:{width < breakpoint ? maxWidth : '100%'}"
+      style="max-width:{width !== undefined && width < breakpoint
+        ? maxWidth
+        : '100%'}"
     />
-
-    <figcaption></figcaption>
   </figure>
 
-  <!-- svelte-ignore a11y-structure -->
   <Container width="md" style="padding-inline: 0">
-    <figcaption>
+    <div class="caption">
       {@html caption}
-    </figcaption>
+    </div>
   </Container>
 </div>
 

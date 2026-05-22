@@ -8,9 +8,9 @@
 
   import '$lib/styles/main.scss';
 
-  export let data;
+  let { data, children } = $props();
 
-  $: pageId = $page.route.id;
+  let pageId = $derived($page.route.id);
 </script>
 
 <Analytics />
@@ -20,14 +20,14 @@
 {/if}
 
 {#if pageId && pageId === '/projects/[slug]'}
-  <ProjectHero meta="{$page.data.meta}" />
+  <ProjectHero meta={$page.data?.meta} />
 {/if}
 
 <Navbar />
 
 <main>
   <article>
-    <slot />
+    {@render children()}
   </article>
 </main>
 

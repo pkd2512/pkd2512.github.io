@@ -13,7 +13,7 @@
 
 <Container width="md">
   <section>
-    {#if $page.data.adjacent.next}
+    {#if $page.data.adjacent?.next}
       <h2>Read Next</h2>
       <!-- <LinkButton
         label="Read Next{arrowRight} {truncateText(

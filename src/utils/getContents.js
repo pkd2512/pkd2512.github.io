@@ -1,10 +1,8 @@
-import { json } from '@sveltejs/kit';
-
 /**
  * Fetches list and content of files from a folder.
  * Based on https://joyofcode.xyz/sveltekit-markdown-blog#posts-api-endpoint
- * @param {String} path - Path of the files `/src/contents/*.md`
- * @returns {JSON} List and Contents of parsed files
+ * @param {Record<string, {metadata: Record<string, any>}>} paths - Path of the files `/src/contents/*.md`
+ * @returns {Promise<any[]>} List and Contents of parsed files
  */
 export default async (paths) => {
   let _a;
