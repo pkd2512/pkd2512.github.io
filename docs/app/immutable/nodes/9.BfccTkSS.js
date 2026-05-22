@@ -1,1 +1,0 @@
-import"../chunks/yKg4UsYu.js";import"../chunks/69_IOA4Y.js";function o(t){window.location.href="https://prasantakrdutta.notion.site/Mapping-in-Datawrapper-1ad7996222248012875cc2e44b33c283"}export{o as component};
