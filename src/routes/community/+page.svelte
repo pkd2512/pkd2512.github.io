@@ -15,6 +15,7 @@
   description="{description}"
   keywords="{keywords}"
   image="{image}"
+  meta="{data.meta}"
 />
 
 <svelte:component this="{data.content}" />

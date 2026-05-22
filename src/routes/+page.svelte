@@ -14,6 +14,7 @@
   description="{description}"
   keywords="{keywords}"
   image="{image}"
+  meta="{data.meta}"
 />
 
 <data.content />

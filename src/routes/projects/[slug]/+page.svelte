@@ -12,16 +12,19 @@
     // @ts-ignore
     data.contents.filter((d) => d.type === 'project')
   );
+
+  console.log(data);
 </script>
 
 <MetaTags
-  title={data.meta.title}
-  description={data.meta.description}
-  keywords={data.meta.keywords}
-  image={data.meta.image}
+  title="{data.meta.title}"
+  description="{data.meta.description}"
+  keywords="{data.meta.keywords}"
+  image="{data.meta.image}"
+  meta="{data.meta}"
 />
 
-<Intro meta={data.meta} />
+<Intro meta="{data.meta}" />
 
 <data.content />
 

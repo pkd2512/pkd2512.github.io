@@ -16,7 +16,12 @@
   let featured = $derived(contents[0]);
 </script>
 
-<MetaTags title="Portfolio | Prasanta Kumar Dutta" />
+<MetaTags
+  title="Portfolio | Prasanta Kumar Dutta"
+  description="Award-winning portfolio of data visualization, information design, and visual journalism projects by Prasanta Kumar Dutta, an Information Experience Designer at Reuters."
+  image="share.webp"
+  meta={{ type: 'collection' }}
+/>
 
 <a class="featured" href="{base}/projects/{featured.slug}">
   <ProjectCard info="{featured}" />
