@@ -54,6 +54,7 @@
   <nav
     id="sitenav"
     class="up"
+    class:pin={pageId === '/' || pageId === '/colophone'}
     use:scrollDirection
     use:inview="{{ root: null, threshold: 1 }}"
     oninview_change="{(
