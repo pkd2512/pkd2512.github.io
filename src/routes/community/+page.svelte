@@ -7,15 +7,16 @@
    */
   let { data } = $props();
 
-  let { title, description, keywords, image } = data.meta;
+  let meta = $derived(data.meta);
+  let Page = $derived(data.content);
 </script>
 
 <MetaTags
-  title="{title}"
-  description="{description}"
-  keywords="{keywords}"
-  image="{image}"
-  meta="{data.meta}"
+  title={meta.title}
+  description={meta.description}
+  keywords={meta.keywords}
+  image={meta.image}
+  meta={data.meta}
 />
 
-<svelte:component this="{data.content}" />
+<Page />

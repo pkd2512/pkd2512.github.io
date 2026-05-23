@@ -1,6 +1,6 @@
 <script>
   import Container from '$lib/components/ui/Container/index.svelte';
-  import { assets } from '$app/paths';
+  import { asset } from '$app/paths';
 
   /**
    * @type {number | undefined}
@@ -13,12 +13,12 @@
 <Container width="sm">
   <div
     class="award"
-    bind:clientHeight="{height}"
+    bind:clientHeight={height}
     style="margin-block-start: -{0.35 * (height ?? 0)}px"
   >
-    <a href="{url}" target="">
+    <a href={url} target="">
       <img
-        src="{assets}/media/awards/{img}"
+        src={asset('/media/awards/' + img)}
         alt="Adobe Design Achievement Awards"
       />
       <div class="notes">

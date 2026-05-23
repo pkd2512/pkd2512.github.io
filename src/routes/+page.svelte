@@ -4,17 +4,17 @@
 
   let { data } = $props();
 
-  let { title, description, keywords, image } = data.meta;
-
-  setContext('blogFeed', data.blogFeed);
+  let meta = data.meta;
+  let blogFeed = data.blogFeed;
+  setContext('blogFeed', blogFeed);
 </script>
 
 <MetaTags
-  title="{title}"
-  description="{description}"
-  keywords="{keywords}"
-  image="{image}"
-  meta="{data.meta}"
+  title={meta.title}
+  description={meta.description}
+  keywords={meta.keywords}
+  image={meta.image}
+  meta={data.meta}
 />
 
 <data.content />

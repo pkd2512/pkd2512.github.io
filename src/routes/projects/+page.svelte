@@ -1,71 +1,17 @@
 <script>
   import MetaTags from '$lib/components/ui/MetaTags/index.svelte';
-  import ProjectList from '$lib/components/custom/projects/ProjectList/index.svelte';
-  import ProjectCard from '$lib/components/custom/projects/ProjectCard/index.svelte';
-  import { base, assets } from '$app/paths';
-  import ReferralCard from '$lib/components/ui/ReferralCard/index.svelte';
-  import Container from '$lib/components/ui/Container/index.svelte';
 
   let { data } = $props();
 
-  // @ts-ignore
-  let contents = $derived(data?.contents
-    .filter(/** @param {{type: string}} d */ (d) => d.type === 'project')
-    .sort(/** @param {{date: string}} a @param {{date: string}} b */ (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()));
-
-  let featured = $derived(contents[0]);
+  let meta = $derived(data.meta);
+  let Page = $derived(data.content);
 </script>
 
 <MetaTags
-  title="Portfolio | Prasanta Kumar Dutta"
-  description="Award-winning portfolio of data visualization, information design, and visual journalism projects by Prasanta Kumar Dutta, an Information Experience Designer at Reuters."
-  image="share.webp"
-  meta={{ type: 'collection' }}
+  title={meta.title}
+  description={meta.description}
+  image={meta.image}
+  meta={data.meta}
 />
 
-<a class="featured" href="{base}/projects/{featured.slug}">
-  <ProjectCard info="{featured}" />
-</a>
-
-<ProjectList posts="{contents.slice(1, 5)}" />
-
-<Container width="md" style="text-align: center;">
-  <ReferralCard
-    url="https://muckrack.com/pkddapacific"
-    image="{assets}/media/muckrack.webp"
-    title="Muckrack portfolio"
-    description="Visual journalism and data graphics projects"
-  />
-</Container>
-
-<ProjectList posts="{contents.slice(5)}" />
-
-<Container width="md" style="text-align: center;">
-  <ReferralCard
-    url="https://www.behance.net/pkddapacific"
-    image="{assets}/media/behance.webp"
-    title="Behance portfolio"
-    description="More design projects"
-  />
-</Container>
-
-<style lang="scss">
-  .featured {
-    text-decoration: none;
-
-    :global(.card) {
-      width: 100%;
-      max-height: 90lvh;
-      @media (max-width: 600px) {
-        max-height: 80lvh;
-      }
-    }
-
-    :global(.card .container-sm) {
-      max-height: 90lvh;
-      @media (max-width: 600px) {
-        max-height: 80lvh;
-      }
-    }
-  }
-</style>
+<Page />

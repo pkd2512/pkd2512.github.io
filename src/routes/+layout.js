@@ -7,9 +7,11 @@ import getContents from '$utils/getContents';
 injectSpeedInsights();
 
 export async function load() {
-  const paths = /** @type {Record<string, {metadata: Record<string, any>}>} */ (import.meta.glob('/src/contents/**/*.md', {
-    eager: true,
-  }));
+  const paths = /** @type {Record<string, {metadata: Record<string, any>}>} */ (
+    import.meta.glob('/src/contents/**/*.md', {
+      eager: true,
+    })
+  );
   const contents = await getContents(paths);
 
   const contentsByDate = contents.sort(

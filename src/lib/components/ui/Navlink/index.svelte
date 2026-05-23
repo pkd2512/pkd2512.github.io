@@ -8,7 +8,13 @@
   /**
    * @param {String} url
    */
-  let { disabled = false, active = false, url = '#', children, ...restProps } = $props();
+  let {
+    disabled = false,
+    active = false,
+    url = '#',
+    children,
+    ...restProps
+  } = $props();
 
   /**
    * @param {{ preventDefault: () => void; stopImmediatePropagation: () => void; }} e
@@ -24,11 +30,11 @@
 
 <a
   {...restProps}
-  href="{url}"
-  onclick="{handleClick}"
+  href={url}
+  onclick={handleClick}
   class="nav-link"
-  class:disabled="{disabled}"
-  class:active="{active}"
+  class:disabled
+  class:active
 >
   {@render children?.()}
 </a>

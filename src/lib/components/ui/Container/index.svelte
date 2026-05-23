@@ -2,7 +2,7 @@
   let { width = '', children, ...restProps } = $props();
 </script>
 
-<div {...restProps} class="{width ? `container-${width}` : 'container'}">
+<div {...restProps} class={width ? `container-${width}` : 'container'}>
   {@render children()}
 </div>
 

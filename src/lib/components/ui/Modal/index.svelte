@@ -29,17 +29,17 @@
 
 <!-- svelte-ignore a11y_click_events_have_key_events a11y_no_noninteractive_element_interactions -->
 <dialog
-  bind:this="{dialog}"
-  onclose="{() => (showModal = false)}"
-  onclick="{(e) => {
+  bind:this={dialog}
+  onclose={() => (showModal = false)}
+  onclick={(e) => {
     if (e.target === e.currentTarget) dialog?.close();
-  }}"
+  }}
 >
   <!-- svelte-ignore a11y_no_static_element_interactions -->
   <div
-    onclick="{(e) => {
+    onclick={(e) => {
       e.stopPropagation();
-    }}"
+    }}
   >
     {#if header}
       {@render header()}
@@ -48,7 +48,7 @@
     {@render children?.()}
 
     <!-- svelte-ignore a11y_autofocus -->
-    <button class="close" autofocus onclick="{() => dialog?.close()}">
+    <button class="close" autofocus onclick={() => dialog?.close()}>
       <Icon
         icon="iconamoon:close-duotone"
         width="36"

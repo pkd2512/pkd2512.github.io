@@ -4,7 +4,7 @@
   import Intro from '$lib/components/custom/home/HomeIntro/index.svelte';
   import Analytics from '$lib/components/ui/Analytics/index.svelte';
   import ProjectHero from '$lib/components/custom/projects/ProjectHero/index.svelte';
-  import { page } from '$app/stores';
+  import { page } from '$app/state';
   import { afterNavigate } from '$app/navigation';
   import { registerPageview } from '$utils/googleAnalytics';
 
@@ -12,7 +12,7 @@
 
   let { data, children } = $props();
 
-  let pageId = $derived($page.route.id);
+  let pageId = $derived(page.route.id);
 
   afterNavigate(() => {
     registerPageview();
@@ -29,7 +29,7 @@
 {/if}
 
 {#if pageId && pageId === '/projects/[slug]'}
-  <ProjectHero meta={$page.data?.meta} />
+  <ProjectHero meta={page.data?.meta} />
 {/if}
 
 <Navbar />

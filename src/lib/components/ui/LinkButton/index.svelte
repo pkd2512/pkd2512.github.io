@@ -20,13 +20,7 @@
   } = $props();
 </script>
 
-<a
-  {...restProps}
-  rel="noreferrer"
-  class:solid="{solid}"
-  href="{url}"
-  target="{target}"
->
+<a {...restProps} rel="noreferrer" class:solid href={url} {target}>
   {@html label}
 </a>
 

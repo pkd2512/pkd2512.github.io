@@ -2,9 +2,10 @@
   import Container from '$lib/components/ui/Container/index.svelte';
   import LinkButton from '$lib/components/ui/LinkButton/index.svelte';
   import ReferralCard from '$lib/components/ui/ReferralCard/index.svelte';
-  import { base, assets } from '$app/paths';
-  import { page } from '$app/stores';
+  import { asset, resolve } from '$app/paths';
   import truncateText from '$utils/truncateText';
+
+  let { adjacent } = $props();
 
   let arrowLeft = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><rect x="0" y="0" width="24" height="24" fill="none" stroke="none" /><path fill="currentColor" d="m4.431 12.822l13 9A1 1 0 0 0 19 21V3a1 1 0 0 0-1.569-.823l-13 9a1.003 1.003 0 0 0 0 1.645z"/></svg>`;
 
@@ -13,22 +14,22 @@
 
 <Container width="md">
   <section>
-    {#if $page.data.adjacent?.next}
+    {#if adjacent?.next}
       <h2>Read Next</h2>
       <!-- <LinkButton
         label="Read Next{arrowRight} {truncateText(
-          $page.data.adjacent.next.intro.hed,
+          adjacent.next.intro.hed,
           3
         )}"
         solid
-        url="{base}/projects/{$page.data.adjacent.next.slug}"
+        url={resolve('/projects/[slug]', { slug: adjacent.next.slug })}
       /> -->
       <ReferralCard
         target=""
-        url="{base}/projects/{$page.data.adjacent.next.slug}"
-        image="{assets}/media/share-images/{$page.data.adjacent.next.image}"
-        title="{$page.data.adjacent.next.intro.hed}"
-        description="{$page.data.adjacent.next.description}"
+        url={resolve('/projects/[slug]', { slug: adjacent.next.slug })}
+        image={asset('/media/share-images/' + adjacent.next.image)}
+        title={adjacent.next.intro.hed}
+        description={adjacent.next.description}
       />
     {/if}
   </section>

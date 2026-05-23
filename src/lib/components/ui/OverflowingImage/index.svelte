@@ -1,7 +1,7 @@
 <script>
   import Icon from '@iconify/svelte';
   import Container from '$lib/components/ui/Container/index.svelte';
-  import { assets } from '$app/paths';
+  import { asset } from '$app/paths';
 
   let {
     url,
@@ -24,7 +24,7 @@
   };
 </script>
 
-<svelte:window bind:innerWidth="{width}" />
+<svelte:window bind:innerWidth={width} />
 
 <div class="overflow-img">
   {#if width !== undefined && width < breakpoint && showNudge}
@@ -39,15 +39,15 @@
   {/if}
 
   <figure
-    class:shadow="{shadow}"
+    class:shadow
     style="overflow-x:{width !== undefined && width < breakpoint
       ? 'scroll'
       : 'auto'}"
-    onscroll="{handleScroll}"
+    onscroll={handleScroll}
   >
     <img
-      src="{assets}/{url}"
-      alt="{alt}"
+      src={asset('/' + url)}
+      {alt}
       loading="lazy"
       style="max-width:{width !== undefined && width < breakpoint
         ? maxWidth

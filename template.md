@@ -11,7 +11,6 @@ image: share.jpg
 published: true
 ---
 
-
 <!-- Components -->
 <script>
   import Container from '$lib/components/ui/Container/index.svelte';
@@ -19,11 +18,10 @@ published: true
 
 <Container width=sm>
 
-Proxima bellare te tractata Atrides exercet
--------------------------------------------
+## Proxima bellare te tractata Atrides exercet
 
 Lorem markdownum, aequent vocem dixit tamen quidem crimine in maris protinus
-moror *telluris* magno, marinae Latonae. Opaca tamquam ligari!
+moror _telluris_ magno, marinae Latonae. Opaca tamquam ligari!
 
 ![image](/media/page.png)
 

@@ -1,7 +1,7 @@
 <script>
   import Container from '$lib/components/ui/Container/index.svelte';
   import ParallaxHero from '$lib/components/ui/ParallaxHero/index.svelte';
-  import { assets } from '$app/paths';
+  import { asset } from '$app/paths';
 
   import { scaleLinear } from 'd3-scale';
 
@@ -32,20 +32,25 @@
 
 <svelte:head>
   {#if meta?.intro}
-    <link rel="preload" href="{`${assets}/media/${meta.intro.img}`}" as="image" fetchpriority="high">
+    <link
+      rel="preload"
+      href={asset('/media/' + meta.intro.img)}
+      as="image"
+      fetchpriority="high"
+    />
   {/if}
 </svelte:head>
 
-<svelte:window bind:innerHeight="{windowHeight}" />
+<svelte:window bind:innerHeight={windowHeight} />
 
 {#if meta?.intro}
   <div class="img">
-    <ParallaxHero img="{`${assets}/media/${meta.intro.img}`}" />
+    <ParallaxHero img={asset('/media/' + meta.intro.img)} />
   </div>
 
   <Container width="fluid">
     <div class="anno" style="bottom:{bottom}px">
-      <aside bind:clientHeight="{infoHeight}">
+      <aside bind:clientHeight={infoHeight}>
         {@html meta.intro.quote}
       </aside>
     </div>

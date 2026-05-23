@@ -6,26 +6,27 @@
 
   let { data } = $props();
 
-  // @ts-ignore
-  data.adjacent = getAdjacentProjects(
-    data.meta,
-    // @ts-ignore
-    data.contents.filter((d) => d.type === 'project')
-  );
+  let meta = $derived(data.meta);
+  let Page = $derived(data.content);
 
-  console.log(data);
+  let adjacent = $derived(
+    getAdjacentProjects(
+      data.meta,
+      data.contents.filter((d) => d.type === 'project')
+    )
+  );
 </script>
 
 <MetaTags
-  title="{data.meta.title}"
-  description="{data.meta.description}"
-  keywords="{data.meta.keywords}"
-  image="{data.meta.image}"
-  meta="{data.meta}"
+  title={meta.title}
+  description={meta.description}
+  keywords={meta.keywords}
+  image={meta.image}
+  {meta}
 />
 
-<Intro meta="{data.meta}" />
+<Intro meta={data.meta} />
 
-<data.content />
+<Page />
 
-<ProjectNav />
+<ProjectNav {adjacent} />

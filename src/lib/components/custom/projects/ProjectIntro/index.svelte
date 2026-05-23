@@ -5,7 +5,7 @@
   /**
    * @type {number}
    */
-  let infoHeight;
+  let infoHeight = $state(0);
 
   /**
    * @type {{ meta: { intro: { hed: any; dek?: any; img?: any; client?: any; url?: any; duration?: any; }; } }}
@@ -16,7 +16,7 @@
 <section id="hero">
   <Container width="md">
     <header style="height: {Math.round(infoHeight * 1.5)}px;">
-      <div class="text" bind:clientHeight="{infoHeight}">
+      <div class="text" bind:clientHeight={infoHeight}>
         <h1>{@html meta.intro.hed}</h1>
         <p>
           {@html meta.intro.dek}
@@ -33,11 +33,11 @@
           {#if meta.intro?.url}
             {@const internal = meta.intro.url.includes('#')}
             <span title="link">
-              <a href="{meta.intro.url}">
+              <a href={meta.intro.url}>
                 <Icon
-                  icon="{internal
+                  icon={internal
                     ? 'mdi:file-document-box-multiple-outline'
-                    : 'mdi:open-in-new'}"
+                    : 'mdi:open-in-new'}
                   width="24"
                   height="24"
                 />View project

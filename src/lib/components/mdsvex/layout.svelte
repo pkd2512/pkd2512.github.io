@@ -1,4 +1,4 @@
-<script context="module">
+<script module>
   import img from '$lib/components/ui/Image/index.svelte';
 
   /**

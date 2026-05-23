@@ -1,5 +1,5 @@
 <script>
-  import { page } from '$app/stores';
+  import { page } from '$app/state';
 
   let {
     title = 'Prasanta Kumar Dutta',
@@ -9,7 +9,7 @@
     meta = null,
   } = $props();
 
-  let pageUrl = $derived($page.url);
+  let pageUrl = $derived(page.url);
   let canonicalUrl = $derived(
     ('https://prasantakrdutta.com' + pageUrl.pathname).replace(
       /index\.html/,
@@ -204,23 +204,23 @@
 <svelte:head>
   {#key canonicalUrl}
     <title>{title}</title>
-    <meta name="description" content="{description}" />
-    <meta name="keywords" content="{keywords}" />
-    <link rel="canonical" href="{canonicalUrl}" />
+    <meta name="description" content={description} />
+    <meta name="keywords" content={keywords} />
+    <link rel="canonical" href={canonicalUrl} />
 
-    <meta property="og:url" content="{canonicalUrl}" />
+    <meta property="og:url" content={canonicalUrl} />
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="en_IN" />
-    <meta property="og:title" content="{title}" itemprop="name" />
+    <meta property="og:title" content={title} itemprop="name" />
     <meta
       property="og:description"
-      content="{description}"
+      content={description}
       itemprop="description"
     />
     <meta
       property="og:image"
       name="image"
-      content="{imageUrl}"
+      content={imageUrl}
       itemprop="image"
     />
     <meta property="og:site_name" content="Prasanta Kumar Dutta" />
@@ -228,10 +228,10 @@
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:site" content="@Da_Pacific" />
     <meta name="twitter:creator" content="@Da_Pacific" />
-    <meta name="twitter:title" content="{title}" />
-    <meta name="twitter:description" content="{description}" />
-    <meta name="twitter:url" content="{canonicalUrl}" />
-    <meta name="twitter:image" content="{imageUrl}" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:url" content={canonicalUrl} />
+    <meta name="twitter:image" content={imageUrl} />
 
     {#each schemas as schema}
       {@html `<${'script'} type="application/ld+json">${JSON.stringify(

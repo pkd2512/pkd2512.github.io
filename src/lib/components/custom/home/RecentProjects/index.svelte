@@ -3,14 +3,14 @@
   import { fade } from 'svelte/transition';
   import LinkButton from '$lib/components/ui/LinkButton/index.svelte';
   import Icon from '@iconify/svelte';
-  import checkAbsoluteUrl from '$utils/checkAbsoluteUrl';
-  import { page } from '$app/stores';
-  import { base, assets } from '$app/paths';
+  import { page } from '$app/state';
+  import { asset } from '$app/paths';
+  import resolveLinkUrl from '$utils/resolveLinkUrl';
   // @ts-ignore
   import Scroller from '@sveltejs/svelte-scroller';
 
   let data = $derived(
-    $page.data.contents
+    page.data.contents
       .filter((/** @type {{ type: string; }} */ d) => d.type === 'project')
       .slice(0, 3)
       // @ts-ignore
@@ -24,26 +24,28 @@
 
 <svelte:head>
   {#each data as d}
-    <link rel="preload" as="image" href="{assets}/media/{d.intro.img}" />
+    <link rel="preload" as="image" href={asset('/media/' + d.intro.img)} />
   {/each}
 </svelte:head>
 
 <section id="recent-projects">
   <Scroller
-    top="{0}"
-    bottom="{1}"
-    threshold="{0.75}"
+    top={0}
+    bottom={1}
+    threshold={0.75}
     query=".container-sm"
-    bind:index="{index}"
-    bind:offset="{offset}"
-    bind:progress="{progress}"
+    bind:index
+    bind:offset
+    bind:progress
   >
     <div slot="background">
       {#key index}
         <div
-          in:fade="{{ duration: 250 }}"
+          in:fade={{ duration: 250 }}
           class="img"
-          style="background-image:url({assets}/media/{data[index].intro.img})"
+          style={'background-image:url(' +
+            asset('/media/' + data[index].intro.img) +
+            ')'}
         ></div>
       {/key}
     </div>
@@ -60,10 +62,8 @@
                 {#each project.links as link}
                   <div class="link">
                     <LinkButton
-                      url="{checkAbsoluteUrl(link.url)
-                        ? link.url
-                        : `${base}/${link.url}`}"
-                      label="{link.label}"
+                      url={resolveLinkUrl(link.url)}
+                      label={link.label}
                       target=""
                     />
                   </div>
@@ -81,7 +81,7 @@
       <Icon icon="icon-park-solid:more-app" />
     </div>
 
-    <LinkButton solid="{true}" url="projects/" label="Show more work" />
+    <LinkButton solid={true} url="projects/" label="Show more work" />
   </div>
 </section>
 

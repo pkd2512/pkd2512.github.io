@@ -29,14 +29,14 @@
         .toString()
         .match(/<img[^>]+src="([^">]+)"/)[1]}
       <ReferralCard
-        url="{article.link}"
-        image="{thumbnail ||
-          'https://cdn-images-1.medium.com/max/357/1*O7E1vMVWGStXv8TLKqR3Gw@2x.png'}"
-        title="{article.title}"
-        description="{article.description.slice(
+        url={article.link}
+        image={thumbnail ||
+          'https://cdn-images-1.medium.com/max/357/1*O7E1vMVWGStXv8TLKqR3Gw@2x.png'}
+        title={article.title}
+        description={article.description.slice(
           start,
           end - start < 120 ? end : start + 120
-        )}"
+        )}
       />
     {/each}
   </div>

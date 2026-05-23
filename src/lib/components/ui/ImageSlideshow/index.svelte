@@ -1,7 +1,7 @@
 <script>
   import Icon from '@iconify/svelte';
   import Container from '$lib/components/ui/Container/index.svelte';
-  import { assets } from '$app/paths';
+  import { asset } from '$app/paths';
 
   let { images = [] } = $props();
 
@@ -21,7 +21,7 @@
   id="screens"
   style="display:flex; justify-content:center; align-items:stretch;"
 >
-  <div class="icon prev" on:click="{handlePrev}">
+  <div class="icon prev" onclick={handlePrev}>
     {#if index > 0}
       <Icon
         icon="pajamas:chevron-lg-left"
@@ -32,12 +32,12 @@
     {/if}
   </div>
   <img
-    src="{assets}/media/projects/soulace/screens/{images[index]}"
+    src={asset('/media/projects/soulace/screens/' + images[index])}
     alt="Mockup of a screen of the app"
     loading="lazy"
     draggable="false"
   />
-  <div class="icon next" on:click="{handleNext}">
+  <div class="icon next" onclick={handleNext}>
     {#if index < images.length - 1}
       <Icon
         icon="pajamas:chevron-lg-right"

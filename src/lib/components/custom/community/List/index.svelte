@@ -18,13 +18,15 @@
     return format(d);
   };
 
-  let sorted = $derived([...content].sort((a, b) => new Date(b.date) - new Date(a.date)));
+  let sorted = $derived(
+    [...content].sort((a, b) => new Date(b.date) - new Date(a.date))
+  );
 </script>
 
 {#if sorted.length > 0}
   <Container width="md">
     <div class="list-wrapper">
-      <h2 id="{slugify(title)}">{title}</h2>
+      <h2 id={slugify(title)}>{title}</h2>
       <ul>
         {#each sorted as item}
           <li class="list-item">
@@ -32,7 +34,7 @@
               <strong
                 >{@html marked.parse(item.place)}
                 {#if item.link}
-                  <NavLink target="" url="{item.link}"
+                  <NavLink target="" url={item.link}
                     ><Icon
                       width="22"
                       height="22"

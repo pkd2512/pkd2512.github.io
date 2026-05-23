@@ -1,25 +1,20 @@
 <script>
   import Container from '$lib/components/ui/Container/index.svelte';
   import ProjectCard from '$lib/components/custom/projects/ProjectCard/index.svelte';
-  import { base } from '$app/paths';
+  import { resolve } from '$app/paths';
 
   /**
    * @type {{ posts: any[] }}
    */
   let { posts } = $props();
-
-  /**
-   * @type {Number}
-   */
-  let windowWidth;
 </script>
 
 <Container width="fluid">
   <ul class="posts">
     {#each posts as post}
       <li class="post">
-        <a href="{base}/projects/{post.slug}">
-          <ProjectCard info="{post}" />
+        <a href={resolve('/projects/[slug]', { slug: post.slug })}>
+          <ProjectCard info={post} />
         </a>
       </li>
     {/each}

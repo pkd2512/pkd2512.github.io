@@ -1,23 +1,23 @@
 <script>
   import Container from '$lib/components/ui/Container/index.svelte';
-  import { assets } from '$app/paths';
+  import { asset } from '$app/paths';
   import Modal from '$lib/components/ui/Modal/index.svelte';
 
   let showModal = $state(false);
 </script>
 
 <Container width="md" style="text-align:center;">
-  <button onclick="{() => (showModal = true)}"> Check out the survey </button>
+  <button onclick={() => (showModal = true)}> Check out the survey </button>
 
   <div class="survey">
-    <Modal bind:showModal="{showModal}">
+    <Modal bind:showModal>
       <Container width="md" id="survey">
         <p>
           The questionnaire has two parts — Experience of dealing with death and
           Views on Death-care service. If the answer to the first question is
           'NO', then the respondent skips to Section 3 of the survey.
         </p>
-        <img src="{assets}/media/projects/soulace/survey.webp" alt="" />
+        <img src={asset('/media/projects/soulace/survey.webp')} alt="" />
       </Container>
     </Modal>
   </div>

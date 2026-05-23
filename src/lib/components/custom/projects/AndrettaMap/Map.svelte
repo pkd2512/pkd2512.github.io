@@ -157,7 +157,9 @@
     },
   };
 
-  const chapters = $derived(windowWidth < 768 ? mobileChapters : desktopChapters);
+  const chapters = $derived(
+    windowWidth < 768 ? mobileChapters : desktopChapters
+  );
 
   // Animate flight path opening
 
@@ -280,9 +282,9 @@
   });
 </script>
 
-<svelte:window bind:innerWidth="{windowWidth}" />
+<svelte:window bind:innerWidth={windowWidth} />
 
-<div class="map" bind:this="{mapContainer}"></div>
+<div class="map" bind:this={mapContainer}></div>
 
 <style lang="scss">
   @import 'src/lib/styles/mixins/fullHeight';

@@ -215,6 +215,7 @@ Also, these service providers do not deal with how the person handles official w
     </figcaption>
 
     </figure>
+
   </div>
 
 </Container>
@@ -229,15 +230,15 @@ Also, these service providers do not deal with how the person handles official w
 The service is envisioned to simplify the complete scenario related to handling the death of a loved one.
 Informing people, arranging for immediate family care (if needed), doctor related formalities.
 
-* Arranging for funeral and related matters.
+- Arranging for funeral and related matters.
 
-* Handle accidental, police, legal or medical issues.
+- Handle accidental, police, legal or medical issues.
 
-* Financial consulting, easy managing of insurance claims, pension, and handling of bank accounts etc.
+- Financial consulting, easy managing of insurance claims, pension, and handling of bank accounts etc.
 
-* Keep track of documents online and easy application process for every stakeholder interaction and an efficient feedback system to keep the user informed at every stage of the process.
+- Keep track of documents online and easy application process for every stakeholder interaction and an efficient feedback system to keep the user informed at every stage of the process.
 
-* Users can later opt to answer queries from other people, to help them out when they are in a similar situation.
+- Users can later opt to answer queries from other people, to help them out when they are in a similar situation.
 
 The system involves numerous stakeholders, including government agencies, that will need to come together to provide the various services required. In this project I have focussed on the end-user to lay out a general framework for the system and designed the interface that the user will need to avail the services.
 
@@ -295,17 +296,17 @@ From this it was evident that the problem needed to be addressed in two segments
 
 Now that I had a fair understanding of the problem, it was necessary to look into the current state of the death-care services in India. For this purpose, I did a competitive analysis of some prominent service providers in India.
 
-* *Kashi Moksha Incorporation*, a funeral service, managed by a priest operating out of Varanasi.
+- _Kashi Moksha Incorporation_, a funeral service, managed by a priest operating out of Varanasi.
 
-* *Moksha-Sibil*, an online portal for Hindu final rites from Ahmedabad.
+- _Moksha-Sibil_, an online portal for Hindu final rites from Ahmedabad.
 
-* *Anthyesti*, providing funeral services in Kolkata.
+- _Anthyesti_, providing funeral services in Kolkata.
 
-* *Swargadwara*, an Odisha based start-up that supports families in post-death rituals.
+- _Swargadwara_, an Odisha based start-up that supports families in post-death rituals.
 
-* *Indian Funeral*, run by a coffin-maker family from Mumbai that provides last-rites services.
+- _Indian Funeral_, run by a coffin-maker family from Mumbai that provides last-rites services.
 
-* Repatriation service providers like *VMEDO* and *Sanjeevini*.
+- Repatriation service providers like _VMEDO_ and _Sanjeevini_.
 
 ### Understanding the bereaved
 
@@ -347,13 +348,13 @@ I focussed on designing the user-interface that will be used by the bereaved as 
 
 ### Creating an identity for the service
 
-It was time that I gave a name to this service and delved a bit into graphic design. I decided to call the service, **soulace** — *your companion in the face of distress helping you deal with the loss of your loved one*.
+It was time that I gave a name to this service and delved a bit into graphic design. I decided to call the service, **soulace** — _your companion in the face of distress helping you deal with the loss of your loved one_.
 
     ![Two words soul + solace](/media/projects/soulace/soulace.webp)
 
 The next task was choosing a colour palette. Even though, black and red are usually associated with danger and death, such bold colours would alarm and distress the bereaved. I wanted to use hues that could create a sense of consolation and emotional strength in the difficult times and complement the mourning. I chose flowers used in funerals for colour reference as they are a visual expression of love, sympathy, and respect, as well as a means of lending support and sharing the burden of grief.
 
-The lily is the flower most commonly associated with funeral services as they symbolize the innocence that has been restored to the soul of the departed. The marigold is a commonly used flower in Hindu funerals. It is also known as *flor de muerto* (flower of death) and is used extensively in Mexico during the *El Día de los Muertos*, a festival to remember and honour the departed.
+The lily is the flower most commonly associated with funeral services as they symbolize the innocence that has been restored to the soul of the departed. The marigold is a commonly used flower in Hindu funerals. It is also known as _flor de muerto_ (flower of death) and is used extensively in Mexico during the _El Día de los Muertos_, a festival to remember and honour the departed.
 
   <OverflowImage breakpoint=480 maxWidth='100%' shadow="{false}" url='media/projects/soulace/flower.webp' alt="Image of lily and marigold." caption="A purple Lily (left) and Marigold (right). Purple is associated with spirituality and mourning."/>
 
@@ -391,15 +392,15 @@ I decided to go with Proxima Nova, a geometric sans-serif font by Mark Simonson,
 > Proxima Nova is a font people can easily connect with, probably because of the qualities I put into the font — the proportions, the spacing, the overall look and feel. I tried to make the shapes of the letters simple and clear. It doesn’t have a lot of fussy details or mannerisms. Maybe it has to do with the open, circular forms, which perhaps give it a “friendly” appearance, especially in the lowercase.
 > <cite> — Mark Simonson
 
-  ![Sample of typeface Proxima Nova](/media/projects/soulace/type.webp)
+![Sample of typeface Proxima Nova](/media/projects/soulace/type.webp)
 
-  ![Explorations of the wordmark soulace](/media/projects/soulace/logoexp.webp)
+![Explorations of the wordmark soulace](/media/projects/soulace/logoexp.webp)
 
   <Container width='sm' style="margin-block-start: var(--space-l)">
 
-  ![Outline view of the logo showing dimensions and measurements.](/media/projects/soulace/logo-outline.webp)
+![Outline view of the logo showing dimensions and measurements.](/media/projects/soulace/logo-outline.webp)
 
-  ![Final soulace logo at different sizes](/media/projects/soulace/logo-full.webp)
+![Final soulace logo at different sizes](/media/projects/soulace/logo-full.webp)
 
   </Container>
 
@@ -412,15 +413,15 @@ The service will be presented to the user through an assistive-agentive Progress
 
 So, why a Progressive Web App (PWA) for soulace?
 
-* Unlike other apps, the requirement of soulace will probably be a few times during one's lifetime. When it happens, it is best to not make the user go through the hassle of searching, downloading and installing the app before the services can be availed.
+- Unlike other apps, the requirement of soulace will probably be a few times during one's lifetime. When it happens, it is best to not make the user go through the hassle of searching, downloading and installing the app before the services can be availed.
 
-* PWAs can be used for both web use as well as mobile use, thus removing the need for creating and maintaining multiple website and apps.
+- PWAs can be used for both web use as well as mobile use, thus removing the need for creating and maintaining multiple website and apps.
 
-* PWAs can access native mobile features including GPS, push notifications and camera. On a mobile device, it provides an experience similar to a native app (can be 'installed', added to Home-screen and used in full-screen mode without a browser shell).
+- PWAs can access native mobile features including GPS, push notifications and camera. On a mobile device, it provides an experience similar to a native app (can be 'installed', added to Home-screen and used in full-screen mode without a browser shell).
 
-* It has a low friction in terms of distribution and discoverability. The user doesn’t need to download updates every time some new bug is fixed and rolled out by the developers.
+- It has a low friction in terms of distribution and discoverability. The user doesn’t need to download updates every time some new bug is fixed and rolled out by the developers.
 
-* PWAs by nature are very fast thanks to caching information in the browser and app. It performs well even with poor internet connection. Even if a user has no internet connection, the PWA can still send background updates and push notifications to the user.
+- PWAs by nature are very fast thanks to caching information in the browser and app. It performs well even with poor internet connection. Even if a user has no internet connection, the PWA can still send background updates and push notifications to the user.
 
 One of the preliminary ideas was to have a voice-UI that assists the user. However, given the emotional condition of the user, is was not prudent to expect them to talk to a device or learn how to use the app. What was required was an interface that would give the user the perception of control and support, while handling the assistive tasks in the background.
 

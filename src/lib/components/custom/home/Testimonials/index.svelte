@@ -12,13 +12,13 @@
 
 <Container id="mentoring" width="lg">
   <Splide
-    options="{{
+    options={{
       rewind: true,
       autoplay: true,
       type: 'loop',
       padding: '0',
       pagination: false,
-    }}"
+    }}
     aria-label="My Favorite Images"
   >
     {#each testimonials as { content, name, credentials }}
@@ -40,7 +40,7 @@
       label="Book a session"
       target=""
       url="https://topmate.io/prasanta_kumar_dutta"
-      solid="{true}"
+      solid={true}
     />
   </div>
 </Container>

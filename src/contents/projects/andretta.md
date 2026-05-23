@@ -79,7 +79,7 @@ The town has derived its name from the local word 'palum', meaning lots of water
 
 The concept of pottery as an art form was introduced to India in 1952 by Padma Shri Sardar Gurcharan Singh, fondly known as 'Daddyji'' with the establishment of "Delhi Blue Pottery". Slipware is pottery identified by its primary decorating process where slip is placed onto the leather-hard clay body surface before firing by dipping, painting or splashing. Slip is an aqueous suspension of a clay body, which is a mixture of clays and other minerals such as quartz, feldspar and mica.
 
-As the wave of urbanisation swept over Delhi, with the repercussions of political unrest, the pottery was shifted to Andretta, a village 13 km from Palampur, in 1984. The responsibility had passed on to *Daddyji*'s son, Mansimran ‘*Mini*' Singh, and his wife Mary Singh.
+As the wave of urbanisation swept over Delhi, with the repercussions of political unrest, the pottery was shifted to Andretta, a village 13 km from Palampur, in 1984. The responsibility had passed on to _Daddyji_'s son, Mansimran ‘_Mini_' Singh, and his wife Mary Singh.
 Today, the place not only is the hub of slipware pottery but also serves as a training centre for people interested in learning the craft of studio pottery.
 
 ## The Idea

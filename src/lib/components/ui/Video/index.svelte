@@ -1,6 +1,6 @@
 <script>
   import Icon from '@iconify/svelte';
-  import { assets } from '$app/paths';
+  import { asset } from '$app/paths';
 
   /**
    * @param {string} id - The ID of the video.
@@ -19,7 +19,7 @@
    */
   let { id, url, poster, alt = 'video', caption } = $props();
 
-  let iconSize = 24;
+  let iconSize = $state(24);
 
   let time = $state(0);
   /**
@@ -79,26 +79,26 @@
 </script>
 
 <figure>
-  <div class="wrapper" id="{id}">
+  <div class="wrapper" {id}>
     <video
       playsinline
       autoplay
       controlslist="nodownload noremoteplayback"
-      onmousemove="{handleMove}"
-      ontouchmove="{(e) => {
+      onmousemove={handleMove}
+      ontouchmove={(e) => {
         e.preventDefault();
         handleMove(e);
-      }}"
-      onmousedown="{handleMousedown}"
-      onmouseup="{handleMouseup}"
-      bind:currentTime="{time}"
-      bind:duration="{duration}"
-      bind:paused="{paused}"
-      src="{assets}/{url}"
-      poster="{assets}/{poster}"
+      }}
+      onmousedown={handleMousedown}
+      onmouseup={handleMouseup}
+      bind:currentTime={time}
+      bind:duration
+      bind:paused
+      src={asset('/' + url)}
+      poster={asset('/' + poster)}
     >
       <track kind="captions" />
-      <meta itemprop="description" content="{alt}" />
+      <meta itemprop="description" content={alt} />
     </video>
 
     <div
@@ -111,18 +111,18 @@
       {#if paused}
         <Icon
           icon="mdi:play-circle-outline"
-          width="{iconSize}"
-          height="{iconSize}"
+          width={iconSize}
+          height={iconSize}
         />
       {:else}
         <Icon
           icon="mdi:motion-pause-outline"
-          width="{iconSize}"
-          height="{iconSize}"
+          width={iconSize}
+          height={iconSize}
         />
       {/if}
 
-      <progress value="{time / duration || 0}"></progress>
+      <progress value={time / duration || 0}></progress>
     </div>
   </div>
   {#if caption}

@@ -1,25 +1,33 @@
 <script>
   import Container from '$lib/components/ui/Container/index.svelte';
-  import { page } from '$app/stores';
-  import { assets } from '$app/paths';
+  import { page } from '$app/state';
+  import { asset } from '$app/paths';
 
-  const { hed, dek, img } = $page.data.meta.intro;
+  let intro = $derived(page.data.meta.intro);
 </script>
 
 <svelte:head>
-  <link rel="preload" href="{assets}/media/{img}" as="image" fetchpriority="high">
+  <link
+    rel="preload"
+    href={asset('/media/' + intro.img)}
+    as="image"
+    fetchpriority="high"
+  />
 </svelte:head>
 
 <section id="hero">
   <Container width="xl">
     <header>
       <div class="text">
-        <h1>{@html hed}</h1>
+        <h1>{@html intro.hed}</h1>
         <p>
-          {@html dek}
+          {@html intro.dek}
         </p>
       </div>
-      <div class="img" style="background-image:url({assets}/media/{img})"></div>
+      <div
+        class="img"
+        style={'background-image:url(' + asset('/media/' + intro.img) + ')'}
+      ></div>
     </header>
   </Container>
 </section>

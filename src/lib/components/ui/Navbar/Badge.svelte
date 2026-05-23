@@ -39,8 +39,8 @@
           ? `&nbsp;&bull;&nbsp;`
           : `&numsp;&bull;&numsp;`
         : mobile
-        ? `${c}`
-        : `${c}&hairsp;`
+          ? `${c}`
+          : `${c}&hairsp;`
     );
   };
 
@@ -84,18 +84,18 @@
   });
 </script>
 
-<svelte:window bind:scrollY="{scrollY}" bind:innerHeight="{windowHeight}" />
+<svelte:window bind:scrollY bind:innerHeight={windowHeight} />
 
 <div
   class="badge"
   aria-hidden="true"
-  bind:this="{badgeEl}"
+  bind:this={badgeEl}
   style="--angle:{getRotation(scrollY)}deg; width: {size}; height: {size}"
 >
   <div class="logo">
-    <Logo size="{mobile ? '3rem' : '3.75rem'}" colour="var(--white)" />
+    <Logo size={mobile ? '3rem' : '3.75rem'} colour="var(--white)" />
   </div>
-  <div class="text" bind:this="{circleTextEl}">Designer;Developer;Dreamer;</div>
+  <div class="text" bind:this={circleTextEl}>Designer;Developer;Dreamer;</div>
 </div>
 
 <style lang="scss">

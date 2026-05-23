@@ -48,10 +48,10 @@ I design data-driven visual narratives that help transform information to knowle
 
 ## Towards dataviz literacy
 
-I love to talk about design and data visualisation.
+I love to <LinkButton label='talk' url='https://youtube.com/playlist?list=PLDs9PQJU9iKYFO7VPsaqwhrmFwVUAvtWN&si=Y6-PBmDNPAv-zjZ8' /> about design and data visualisation.
 Over the years, I have instructed design students on data representation, geovisualisation and data storytelling at eminent institutes across India like the National Institute of Design and JK Lakshmipat University. <LinkButton label='See all talks and workshops' url='community/' />
 
-<YouTubeEmbed videoId="LAro9nJhCvM" title="YouTube video of ProApp workshop on Data and Design by Prasanta" />
+<YouTubeEmbed videoId="ngjkqqjW5kY" title="Video of Prasanta talking about Understanding Perception-Driven Data Visualisation at VizChitra 2025" />
 
 </Container>
 
@@ -69,7 +69,7 @@ I dabble in creative coding and generative art, mainly as a means to explore the
 
 <figcaption>
 
-<em>Ideas | Thoughts | Actions.</em>  This interactive sketch was created using p5.js as a part of Inktober 2021 explorations on <LinkButton label='Openprocessing'  url='https://openprocessing.org/user/66773' />. Move around the canvas to find spots of turbulence or&nbsp;calm.
+<em>Ideas | Thoughts | Actions.</em> This interactive sketch was created using p5.js as a part of Inktober 2021 explorations on <LinkButton label='Openprocessing'  url='https://openprocessing.org/user/66773' />. Move around the canvas to find spots of turbulence or&nbsp;calm.
 
 </figcaption>
 

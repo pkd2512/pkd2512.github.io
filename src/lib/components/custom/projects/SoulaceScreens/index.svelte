@@ -4,16 +4,16 @@
   import Modal from '$lib/components/ui/Modal/index.svelte';
   import ImageSlideshow from '$lib/components/ui/ImageSlideshow/index.svelte';
 
-  let images = range(33).map((i) => `${i + 1}.webp`);
+  const images = range(33).map((i) => `${i + 1}.webp`);
   let showModal = $state(false);
 </script>
 
 <Container style="text-align:center;">
-  <button onclick="{() => (showModal = true)}"> Show screens </button>
+  <button onclick={() => (showModal = true)}> Show screens </button>
 
   <div class="screens">
-    <Modal bind:showModal="{showModal}">
-      <ImageSlideshow images="{images}" />
+    <Modal bind:showModal>
+      <ImageSlideshow {images} />
     </Modal>
   </div>
 </Container>

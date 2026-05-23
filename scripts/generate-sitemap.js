@@ -1,4 +1,10 @@
-import { readFileSync, writeFileSync, readdirSync, statSync, existsSync } from 'fs';
+import {
+  readFileSync,
+  writeFileSync,
+  readdirSync,
+  statSync,
+  existsSync,
+} from 'fs';
 import { join, relative } from 'path';
 import { fileURLToPath } from 'url';
 import { SitemapStream, streamToPromise } from 'sitemap';
@@ -32,22 +38,36 @@ function parseFrontmatter(filePath) {
     const m = raw.match(/^---\s*\n([\s\S]*?)\n---/);
     if (!m) return {};
     const fm = {};
-    let key = null, arr = null;
+    let key = null,
+      arr = null;
     for (const line of m[1].split('\n')) {
       const am = line.match(/^\s*-\s+(.+)/);
       const km = line.match(/^(\w+):\s*(.*)/);
-      if (am && key && arr !== null) { arr.push(am[1].replace(/['"]/g, '')); continue; }
+      if (am && key && arr !== null) {
+        arr.push(am[1].replace(/['"]/g, ''));
+        continue;
+      }
       if (km) {
-        key = km[1]; arr = null;
+        key = km[1];
+        arr = null;
         let v = km[2].trim();
-        if (v === 'true') v = true; else if (v === 'false') v = false;
-        else if ((v.startsWith("'") && v.endsWith("'")) || (v.startsWith('"') && v.endsWith('"'))) v = v.slice(1, -1);
-        if (key === 'categories') { fm[key] = []; arr = fm[key]; }
-        else fm[key] = v;
+        if (v === 'true') v = true;
+        else if (v === 'false') v = false;
+        else if (
+          (v.startsWith("'") && v.endsWith("'")) ||
+          (v.startsWith('"') && v.endsWith('"'))
+        )
+          v = v.slice(1, -1);
+        if (key === 'categories') {
+          fm[key] = [];
+          arr = fm[key];
+        } else fm[key] = v;
       }
     }
     return fm;
-  } catch { return {}; }
+  } catch {
+    return {};
+  }
 }
 
 function getDateFor(urlPath) {
@@ -84,7 +104,7 @@ function changefreqFor(url) {
 }
 
 async function main() {
-  const files = walkDir(DOCS).filter(f => f.endsWith('.html'));
+  const files = walkDir(DOCS).filter((f) => f.endsWith('.html'));
 
   const stream = new SitemapStream({ hostname: DOMAIN });
 
@@ -102,9 +122,10 @@ async function main() {
       continue;
     }
 
-    if (EXCLUDE.some(r => r.test(url))) continue;
+    if (EXCLUDE.some((r) => r.test(url))) continue;
 
-    const lastmod = getDateFor(url) || statSync(file).mtime.toISOString().split('T')[0];
+    const lastmod =
+      getDateFor(url) || statSync(file).mtime.toISOString().split('T')[0];
 
     stream.write({
       url,

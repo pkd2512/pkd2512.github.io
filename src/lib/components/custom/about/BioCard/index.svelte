@@ -3,7 +3,7 @@
   import ParallaxHero from '$lib/components/ui/ParallaxHero/index.svelte';
   import Icon from '@iconify/svelte';
   import { copy } from 'svelte-copy';
-  import { assets } from '$app/paths';
+  import { asset } from '$app/paths';
 
   let { hed = '', dek = '' } = $props();
 
@@ -25,33 +25,28 @@
 </script>
 
 <svelte:head>
-  <link rel="preload" href="{assets}/media/hero-about.webp" as="image" fetchpriority="high">
+  <link
+    rel="preload"
+    href={asset('/media/hero-about.webp')}
+    as="image"
+    fetchpriority="high"
+  />
 </svelte:head>
 
 <section>
   <header>
-    <ParallaxHero img="{assets}/media/hero-about.webp" />
+    <ParallaxHero img={asset('/media/hero-about.webp')} />
 
     <Container width="md">
       <div class="card">
         <!-- <div class="img">
-          <img src="{assets}/media/Prasanta_KrDutta.jpg" alt="" />
+          <img src={asset('/media/Prasanta_KrDutta.jpg')} alt="" />
         </div> -->
         <div class="body">
           <h1>{hed}</h1>
           <p>{@html dek}</p>
-          <span
-            class="icon"
-            role="button"
-            onclick="{copyClick}"
-            use:copy="{dek}"
-          >
-            <Icon
-              width="22"
-              height="22"
-              icon="{icon}"
-              color="var(--purple-soft)"
-            />
+          <span class="icon" role="button" onclick={copyClick} use:copy={dek}>
+            <Icon width="22" height="22" {icon} color="var(--purple-soft)" />
           </span>
         </div>
       </div>

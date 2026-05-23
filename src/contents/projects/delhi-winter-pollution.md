@@ -128,7 +128,7 @@ We were familiar with the most common causes that the increased air pollution we
 
 <figure>
 
-  ![A word cloud of some causes identified - factories, smoke, motor vehicles, dust, crop fires, aerosols, particulate pollutants, weather conditions, smog, haze, fog, slow winds.](/media/projects/delhi-winter-pollution/causes.webp)
+![A word cloud of some causes identified - factories, smoke, motor vehicles, dust, crop fires, aerosols, particulate pollutants, weather conditions, smog, haze, fog, slow winds.](/media/projects/delhi-winter-pollution/causes.webp)
 
   <figcaption>
   After extensive secondary research, we were able to narrow down major elements of the system that contribute to the air quality in the region.
@@ -140,12 +140,12 @@ We were familiar with the most common causes that the increased air pollution we
 
 The timing of the project, when it started — September 2018, was quite appropriate to study the air quality crisis in Delhi thoroughly as it could be substantiated with data from coming months. We, a team comprising <LinkButton label='Rajshree Deshmukh'  url='https://www.linkedin.com/in/rajshree-deshmukh/' />, <LinkButton label='Gurman Bhatia'  url='https://www.linkedin.com/in/gurmanbhatia/' /> and <LinkButton label='Simon Scarr'  url='https://www.linkedin.com/in/simon-scarr/' /> began ideating on project angles which can be summarised as --
 
-* Elaborate the reasons behind the air quality crisis using explainer graphic using 2017 evidence, and a primer of what may happen in 2018. <LinkButton label='See Project'  url='https://www.reuters.com/graphics/INDIA-POLLUTION/010080SY1KE/' />
+- Elaborate the reasons behind the air quality crisis using explainer graphic using 2017 evidence, and a primer of what may happen in 2018. <LinkButton label='See Project'  url='https://www.reuters.com/graphics/INDIA-POLLUTION/010080SY1KE/' />
 
-* Show qualitatively/quantitatively the impact of Diwali firecrackers, stubble burning and the meteorological factors on air pollution. <LinkButton label='See Project'  url='https://www.reuters.com/graphics/INDIA-POLLUTION/010081VR3BW/' />
+- Show qualitatively/quantitatively the impact of Diwali firecrackers, stubble burning and the meteorological factors on air pollution. <LinkButton label='See Project'  url='https://www.reuters.com/graphics/INDIA-POLLUTION/010081VR3BW/' />
 
-* Show visually, how bad Delhi’s air can get in winter.
-Get photos/videos; do some experiment to see the particulate pollutants. <LinkButton label='See Project'  url='https://www.reuters.com/graphics/INDIA-POLLUTION/01008173281/' />
+- Show visually, how bad Delhi’s air can get in winter.
+  Get photos/videos; do some experiment to see the particulate pollutants. <LinkButton label='See Project'  url='https://www.reuters.com/graphics/INDIA-POLLUTION/01008173281/' />
 
 ### Making air quality maps
 
@@ -155,7 +155,7 @@ Using monthly data of Aerosol Optical Thickness and Visible Infrared Imaging Rad
 
   <figure>
 
-  ![A panel of two maps for March and October 2017 showing the air quality as grey smoke. Location of fires are shown as red dots. The direction of wind is marked using arrows around Delhi.](/media/projects/delhi-winter-pollution/map-2.webp)
+![A panel of two maps for March and October 2017 showing the air quality as grey smoke. Location of fires are shown as red dots. The direction of wind is marked using arrows around Delhi.](/media/projects/delhi-winter-pollution/map-2.webp)
 
   <figcaption>
   The final maps were exported and styled in Adobe Illustrator. Annotations were added to add context for the readers. Multiple versions of the layout were designed to account for responsive design of the webpage using ai2html.
@@ -165,7 +165,7 @@ Using monthly data of Aerosol Optical Thickness and Visible Infrared Imaging Rad
 
   <figure>
 
-  ![A satellite image showing Punjab, Haryana and Delhi covered by a white smoky haze. Red dots are overlaid on it to show location of stubble burning fires detected by satellite.](/media/projects/delhi-winter-pollution/map-3.webp)
+![A satellite image showing Punjab, Haryana and Delhi covered by a white smoky haze. Red dots are overlaid on it to show location of stubble burning fires detected by satellite.](/media/projects/delhi-winter-pollution/map-3.webp)
 
   <figcaption>
   In order to further establish the presence of multitude of fires in the Punjab region in the month of October as seen from VIIRS fire data, I analysed satellite images from NASA Worldview for traces of smoke and fumes that correspond to fire the spots detected.
@@ -177,7 +177,7 @@ Using monthly data of Aerosol Optical Thickness and Visible Infrared Imaging Rad
 
 <Container width="md" style="text-align:center; margin-block-end:var(--space-l)">
 
-  <ReferralCard
+<ReferralCard
     url="https://www.reuters.com/graphics/INDIA-POLLUTION/010080SY1KE/"
     image="https://fingfx.thomsonreuters.com/gfx/rngs/INDIA-POLLUTION/010080SY1KE/images/share-card.png"
     title="Preparing to choke"
@@ -196,7 +196,7 @@ Using PM2.5 concentrations data at Continuous Air Quality Monitoring Stations (C
 
   <figure>
 
-  ![A heatmap of square cells ranging from light to dark blues show air quality in different regions of Delhi from 5-9 November, 2018 .](/media/projects/delhi-winter-pollution/heatmap-1.webp)
+![A heatmap of square cells ranging from light to dark blues show air quality in different regions of Delhi from 5-9 November, 2018 .](/media/projects/delhi-winter-pollution/heatmap-1.webp)
 
   <figcaption>
   Certain patterns emerge from the PM2.5 data for the Diwali period in 2018 — poor air on Nov. 5 due to stubble burning fires, followed by relatively clean air the next day and extremely high levels of PM2.5 on Diwali night, which breaks the sensors at most stations.
@@ -208,7 +208,7 @@ Using the heat map as a starting point, the time period of observations was expa
 
   <figure>
 
-  ![Variations of the colour scale used in the heatmap.](/media/projects/delhi-winter-pollution/heatmap-2.webp)
+![Variations of the colour scale used in the heatmap.](/media/projects/delhi-winter-pollution/heatmap-2.webp)
 
   <figcaption>
   The colour scale took quite a few rounds of iterations to resemble the various categories in terms of health impacts of PM2.5 concentrations to add meaning and context to the heatmap. In order to effectively highlight the upper end using reds and purples the ramp was created using HCL (Hue-Chroma-Luminance) colour-interpolation in d3.js.
@@ -226,7 +226,7 @@ Using the heat map as a starting point, the time period of observations was expa
 
 <Container width="md" style="text-align:center; margin-block-end:var(--space-l)">
 
-  <ReferralCard
+<ReferralCard
     url="https://www.reuters.com/graphics/INDIA-POLLUTION/010081VR3BW/"
     image="https://www.reuters.com/graphics/INDIA-POLLUTION/010081VR3BW/images/share-card.png"
     title="Palette of Pollution"

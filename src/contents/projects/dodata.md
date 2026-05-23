@@ -15,17 +15,15 @@ categories:
   - UI Design
   - Visual Identity
 
-
-links: 
+links:
   - type: doc
     url: projects/dodata/
     label: 🗒️ Read more
 
 intro:
-
   hed: DoData
 
-  dek: "Even though excellent nuggets of knowledge are freely available on the internet, many individuals, especially the underprivileged, do not have access to it. To address the situation, DoData was envisaged — as a not-for-profit organization, whose main objective is to enable the donation of data (internet) for the needy. I worked on the User Interface Design of the mobile app for DoData during my internship at Rupeelog in the summer of 2017."
+  dek: 'Even though excellent nuggets of knowledge are freely available on the internet, many individuals, especially the underprivileged, do not have access to it. To address the situation, DoData was envisaged — as a not-for-profit organization, whose main objective is to enable the donation of data (internet) for the needy. I worked on the User Interface Design of the mobile app for DoData during my internship at Rupeelog in the summer of 2017.'
 
   img: projects/dodata/hero.webp
 
@@ -159,6 +157,7 @@ What was needed was a channel that could bridge the following hurdles —
     </figcaption>
 
     </figure>
+
   </div>
 
 ## The Solution
@@ -186,19 +185,19 @@ I associated keywords with the project and began sketching out ideas that involv
 
  <figure class=shadow>
 
-  ![Photo of pencil sketches on paper showing logo ideas](/media/projects/dodata/logo1.webp)
+![Photo of pencil sketches on paper showing logo ideas](/media/projects/dodata/logo1.webp)
 
   </figure>
 
  <figure class=shadow>
 
-  ![Photo of pencil sketches on paper showing logo ideas](/media/projects/dodata/logo2.webp)
+![Photo of pencil sketches on paper showing logo ideas](/media/projects/dodata/logo2.webp)
 
   </figure>
 
  <figure class=shadow>
 
-  ![Photo of pencil sketches on paper showing logo ideas](/media/projects/dodata/logo3.webp)
+![Photo of pencil sketches on paper showing logo ideas](/media/projects/dodata/logo3.webp)
 
   <figcaption>
   Sketching out initial logo ideas for DoData, before moving on to digital drawings in Adobe Illustrator.
@@ -210,7 +209,7 @@ The idea was to integrate the gesture of giving with care with the symbol for th
 
  <figure>
 
-  ![Digital grayscale renders of nine different variations of logo ideas](/media/projects/dodata/logo.webp)
+![Digital grayscale renders of nine different variations of logo ideas](/media/projects/dodata/logo.webp)
 
   </figure>
 
@@ -218,7 +217,7 @@ The folks at Rupeelog decided to go with the bottom right shape. It is simple an
 
  <figure>
 
-  ![The logo and one showing the construction lines](/media/projects/dodata/logofinal.webp)
+![The logo and one showing the construction lines](/media/projects/dodata/logofinal.webp)
 
   </figure>
 
@@ -228,7 +227,7 @@ I wanted colours that could express growth, prosperity and happiness along with 
 
  <figure>
 
-  ![The logo with different colour variations](/media/projects/dodata/logocolour.webp)
+![The logo with different colour variations](/media/projects/dodata/logocolour.webp)
 
   </figure>
 
@@ -268,7 +267,7 @@ Now that the logo symbol was finalized, I had to work on finding a suitable type
 
  <figure>
 
-  ![The logo with different font variations reading DoData](/media/projects/dodata/logotype.webp)
+![The logo with different font variations reading DoData](/media/projects/dodata/logotype.webp)
 
   </figure>
 
@@ -276,13 +275,13 @@ I settled with Bree-Serif for the logotype because of its cheerful and friendly 
 
  <figure>
 
-  ![Typeface sample of Bree Serif](/media/projects/dodata/type.webp)
+![Typeface sample of Bree Serif](/media/projects/dodata/type.webp)
 
   </figure>
 
    <figure>
 
-  ![A mock-up of a mobile phone showing the DoData logo](/media/projects/dodata/splash.webp)
+![A mock-up of a mobile phone showing the DoData logo](/media/projects/dodata/splash.webp)
 
   </figure>
 
@@ -316,6 +315,7 @@ I wanted to keep the UI as close to a standard Android app so that it is intuiti
     </figcaption>
 
     </figure>
+
   </div>
 
   <div class="ui-img">
@@ -338,6 +338,7 @@ I wanted to keep the UI as close to a standard Android app so that it is intuiti
     </figcaption>
 
     </figure>
+
   </div>
 
 The dashboard contains the content categorized by the sources, specific to the current user. If a single account is used by an entire family, the account admin can add family members, and they can access their content by simply switching the user from the menu.
@@ -352,6 +353,7 @@ The dashboard contains the content categorized by the sources, specific to the c
     </figcaption>
 
     </figure>
+
   </div>
 
 The card-grid layout is preferred here as it gives an overview of content categories, without the user having to scroll much. This has an advantage over accordion lists when the number of items is large.
@@ -366,6 +368,7 @@ The card-grid layout is preferred here as it gives an overview of content catego
     </figcaption>
 
     </figure>
+
   </div>
 
 The banner acts as placeholder for advertisements and promotional content from the Government or other sources. It can help instil preferred values (like Nationalism, Cleanliness) in the consumer.
@@ -384,6 +387,7 @@ Keeping track of data usage is just a swipe away. It can help users use their ba
     </figcaption>
 
     </figure>
+
   </div>
 
 ### Designing the icons

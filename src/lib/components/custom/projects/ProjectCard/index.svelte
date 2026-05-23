@@ -1,7 +1,7 @@
 <script>
   import Container from '$lib/components/ui/Container/index.svelte';
   import truncateText from '$utils/truncateText';
-  import { assets } from '$app/paths';
+  import { asset } from '$app/paths';
 
   /**
    * @type {{ info: { image: any; intro: { hed: any; }; description: any; categories: any; } }}
@@ -16,21 +16,23 @@
   /**
    * @type {number}
    */
-  let cardHeight;
+  let cardHeight = $state();
 </script>
 
 <div
   class="card"
   data-sveltekit-preload-code
-  bind:clientHeight="{cardHeight}"
+  bind:clientHeight={cardHeight}
   style="--ch:{cardHeight}px; --ih:{infoHeight}px"
 >
   <div
     class="img"
-    style="background-image: url('{assets}/media/share-images/{info.image}');"
+    style={"background-image: url('" +
+      asset('/media/share-images/' + info.image) +
+      "');"}
   ></div>
   <Container width="sm" style="position:relative;">
-    <div class="body" bind:clientHeight="{infoHeight}">
+    <div class="body" bind:clientHeight={infoHeight}>
       <p class="hed">{@html info.intro.hed}</p>
       <p class="dek">{@html info.description}</p>
       <div class="tags">

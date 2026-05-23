@@ -5,7 +5,7 @@
   import scrollDirection from '$utils/scrollDirection';
   import { inview } from 'svelte-inview';
   import { sendEvent } from '$utils/googleAnalytics';
-  import { page } from '$app/stores';
+  import { page } from '$app/state';
   import { afterNavigate } from '$app/navigation';
   import resolveLinkTarget from '$utils/resolveLinkTarget';
 
@@ -17,30 +17,30 @@
     isOpen = false;
   });
 
-  let pageId = $derived($page.route.id);
-  let pageHash = $derived($page.url.hash);
+  let pageId = $derived(page.route.id);
+  let pageHash = $derived(page.url.hash);
   let home = $derived(links.filter((/** @type {any} */ d) => d.url === '/')[0]);
 </script>
 
 <nav
   id="sitenav-mobile"
   class="up"
-  class:open="{isOpen}"
+  class:open={isOpen}
   use:scrollDirection
-  use:inview="{{ root: null, threshold: 1 }}"
-  oninview_change="{(
+  use:inview={{ root: null, threshold: 1 }}
+  oninview_change={(
     /** @type {{ detail: { node: { classList: { toggle: (arg0: string, arg1: boolean) => void; }; }; inView: any; }; }} */ e
   ) => {
     window.scrollY > -1 &&
       e.detail.node.classList.toggle('pin', !e.detail.inView);
-  }}"
+  }}
 >
   <div class="home">
     <NavLink
       style="color: var(--white);"
-      target="{resolveLinkTarget(home.url, $page.url.hostname)}"
+      target={resolveLinkTarget(home.url, page.url.hostname)}
       url="/"
-      active="{pageId === '/' && pageHash === ''}"
+      active={pageId === '/' && pageHash === ''}
     >
       <span class="sr-only">Home</span>
       <Badge mobile />
@@ -50,27 +50,27 @@
   <div
     role="button"
     class="hamburger"
-    onclick="{() => {
+    onclick={() => {
       isOpen = !isOpen;
       sendEvent('navbar_toggle', { state: isOpen ? 'open' : 'closed' });
-    }}"
-    onkeydown="{(e) => e.key === 'Enter' && (isOpen = !isOpen)}"
+    }}
+    onkeydown={(e) => e.key === 'Enter' && (isOpen = !isOpen)}
     tabindex="0"
   >
-    <Hamburger open="{isOpen}" />
+    <Hamburger open={isOpen} />
   </div>
 
-  <ul class:open="{isOpen}">
+  <ul class:open={isOpen}>
     {#if isOpen}
       {#each links as link, i (link.name)}
         {#if link.url !== '/'}
           <li style="animation-delay:{(i + 0.5) * 0.1}s;" class="nav-item">
             <NavLink
               style="color: var(--white);"
-              target="{resolveLinkTarget(link.url, $page.url.hostname)}"
-              url="{link.url}"
-              active="{pageId?.includes(link.url) ||
-                pageHash?.includes(link.name.toLowerCase())}"
+              target={resolveLinkTarget(link.url, page.url.hostname)}
+              url={link.url}
+              active={pageId?.includes(link.url) ||
+                pageHash?.includes(link.name.toLowerCase())}
             >
               <span>{link.name}</span>
             </NavLink>
@@ -91,7 +91,9 @@
   nav {
     margin-top: -1px;
     margin-bottom: var(--space-3xl);
-    transition: transform 0.35s ease-out, max-width 0.15s ease-out;
+    transition:
+      transform 0.35s ease-out,
+      max-width 0.15s ease-out;
     z-index: var(--layer-important);
     background-color: var(--purple-soft);
     box-shadow: var(--shadow-3), var(--shadow-5);

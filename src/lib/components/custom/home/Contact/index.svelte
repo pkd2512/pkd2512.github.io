@@ -49,12 +49,12 @@
         <div
           class="email"
           role="button"
-          onclick="{copyEmailClick}"
-          use:copy="{email.url}"
+          onclick={copyEmailClick}
+          use:copy={email.url}
         >
           <span class="id">{email.url}</span>
-          <span class="copy" class:copied="{copied}">
-            <Icon icon="{icon}" />
+          <span class="copy" class:copied>
+            <Icon {icon} />
             <span>{copymessage}</span>
           </span>
         </div>
@@ -70,12 +70,8 @@
         <div class="icons">
           {#each socialUrls as sosh}
             {#if sosh.name !== 'Email'}
-              <NavLink
-                url="{sosh.url}"
-                title="{sosh.name}"
-                target="{sosh.target}"
-              >
-                <Icon icon="{sosh.icon}" />
+              <NavLink url={sosh.url} title={sosh.name} target={sosh.target}>
+                <Icon icon={sosh.icon} />
               </NavLink>
             {/if}
           {/each}

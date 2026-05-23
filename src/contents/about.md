@@ -19,6 +19,7 @@ intro:
 
 published: true
 ---
+
 <script>
   import Container from '$lib/components/ui/Container/index.svelte';
   import LinkButton from '$lib/components/ui/LinkButton/index.svelte';
@@ -35,10 +36,10 @@ published: true
 
 At <LinkButton  label='Reuters' url='https://www.reuters.com/authors/prasanta-kumar-dutta/' />, I work mainly with the Europe desk covering breaking news as well as graphics-driven stories. My work typically involves a combination of research and data analysis, data gathering, ideating visuals, making maps and charts, and putting them all together on a responsive webpage.
 
-I combine my knowledge of designing interfaces with my love for coding (HTML/CSS/JS).  I have extensively used D3 to develop interactive dataviz along with other libraries for canvas-based graphics. For data analysis, I mainly rely on Excel, Observable Notebooks and a pinch of Python when required. I also
+I combine my knowledge of designing interfaces with my love for coding (HTML/CSS/JS). I have extensively used D3 to develop interactive dataviz along with other libraries for canvas-based graphics. For data analysis, I mainly rely on Excel, Observable Notebooks and a pinch of Python when required. I also
 enjoy working with spatial datasets and a big part of my work needs me to make maps from raw datasets using tools like QGIS. For design, I mainly use Adobe Illustrator and Figma, along with other photo and video tools in the suite.
 
-My work has been recognised with <LinkButton  label='numerous awards' url='https://www.linkedin.com/in/pkddapacific/details/honors/' />  including the Webby, Society for News Design and Reuters Journalists of the Year Awards.
+My work has been recognised with <LinkButton  label='numerous awards' url='https://www.linkedin.com/in/pkddapacific/details/honors/' /> including the Webby, Society for News Design and Reuters Journalists of the Year Awards.
 
 <div style=text-align:center;>
 <ReferralCard url="https://datajournalism.com/read/blog/best-data-journalism-projects-2021#vaccination-tracker-reuters" image="https://s3.eu-central-1.amazonaws.com/datajournalismcom/long-reads/best-data-journalism-projects-2021/roundup2021-2.jpg" title="Data journalism roundup 2021" description="Featuring the Reuters COVID-19 vaccination tracker"

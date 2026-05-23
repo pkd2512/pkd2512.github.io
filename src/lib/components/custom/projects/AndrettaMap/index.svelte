@@ -4,7 +4,7 @@
   import Container from '$lib/components/ui/Container/index.svelte';
   import places from './places';
 
-  import { assets } from '$app/paths';
+  import { asset } from '$app/paths';
   import { onMount } from 'svelte';
 
   let index = $state(0);
@@ -22,28 +22,28 @@
   });
 </script>
 
-<svelte:window bind:innerWidth="{windowWidth}" />
+<svelte:window bind:innerWidth={windowWidth} />
 
 <section id="travels">
   <Scroller
-    top="{0}"
-    bottom="{1}"
-    threshold="{windowWidth && windowWidth < 1440 ? 1 : 0.75}"
+    top={0}
+    bottom={1}
+    threshold={windowWidth && windowWidth < 1440 ? 1 : 0.75}
     query=".container-sm"
-    bind:index="{index}"
-    bind:offset="{offset}"
-    bind:progress="{progress}"
+    bind:index
+    bind:offset
+    bind:progress
   >
     <div slot="background">
       {#if Map}
-        <Map bind:activeChapter="{activeChapter}" />
+        <Map bind:activeChapter />
       {/if}
     </div>
 
     <div slot="foreground">
       {#each places as place, i}
         <div class="slide {index === i ? 'visible' : 'invisible'}">
-          <Container width="sm" id="{place.key}">
+          <Container width="sm" id={place.key}>
             {#if place.hed}
               <div class="h4">{place.hed}</div>
             {/if}
@@ -55,8 +55,8 @@
             {#if place.img}
               <figure>
                 <img
-                  src="{assets}/media/projects/andretta/{place.img}"
-                  alt="{place.alt}"
+                  src={asset('/media/projects/andretta/' + place.img)}
+                  alt={place.alt}
                 />
                 <figcaption>{place.caption}</figcaption>
               </figure>

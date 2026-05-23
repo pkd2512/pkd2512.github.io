@@ -15,9 +15,9 @@
 <NavLink
   data-card-type="referral-card"
   target=""
-  url="{url}"
+  {url}
   rel="noreferrer"
-  disabled="{url === '' ? true : false}"
+  disabled={url === '' ? true : false}
 >
   <div class="preview-card">
     <div class="image" style="background-image:url({image})"></div>

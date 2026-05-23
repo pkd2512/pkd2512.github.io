@@ -46,8 +46,8 @@
         target="_blank"
         label="Montserrat"
         url="https://www.fontshare.com/fonts/montserrat"
-      /> for the title, served via Fontshare. The layout is designed to be fluid
-      based on a typography and spacing scale generated using
+      /> for the title, served via Fontshare. The layout is designed to be fluid based
+      on a typography and spacing scale generated using
       <LinkButton
         target="_blank"
         label="Utopia"

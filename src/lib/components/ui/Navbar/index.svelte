@@ -1,7 +1,7 @@
 <script>
   import Container from '$lib/components/ui/Container/index.svelte';
   import NavLink from '$lib/components/ui/Navlink/index.svelte';
-  import { page } from '$app/stores';
+  import { page } from '$app/state';
   import resolveLinkTarget from '$utils/resolveLinkTarget';
   import Badge from './Badge.svelte';
 
@@ -13,8 +13,8 @@
   // @ts-ignore
   import navlinks from '/src/contents/data/navlinks.csv';
 
-  let pageId = $derived($page.route.id);
-  let pageHash = $derived($page.url.hash);
+  let pageId = $derived(page.route.id);
+  let pageHash = $derived(page.url.hash);
 
   // Change blog and contact to external links for other pages
   let links = $derived(
@@ -48,7 +48,7 @@
 
 <header>
   <!-- Mobile nav -->
-  <NavMobile links="{links}" />
+  <NavMobile {links} />
 
   <!-- Desktop nav -->
   <nav
@@ -56,13 +56,13 @@
     class="up"
     class:pin={pageId === '/' || pageId === '/colophone'}
     use:scrollDirection
-    use:inview="{{ root: null, threshold: 1 }}"
-    oninview_change="{(
+    use:inview={{ root: null, threshold: 1 }}
+    oninview_change={(
       /** @type {{ detail: { node: { classList: { toggle: (arg0: string, arg1: boolean) => void; }; }; inView: any; }; }} */ e
     ) => {
       window.scrollY > -1 &&
         e.detail.node.classList.toggle('pin', !e.detail.inView);
-    }}"
+    }}
   >
     <Container width="lg">
       <ul>
@@ -71,9 +71,9 @@
             <li class="nav-item badge">
               <NavLink
                 style="color: var(--white);"
-                target="{resolveLinkTarget(link.url, $page.url.hostname)}"
+                target={resolveLinkTarget(link.url, page.url.hostname)}
                 url="/"
-                active="{pageId === '/' && pageHash === ''}"
+                active={pageId === '/' && pageHash === ''}
               >
                 <span class="sr-only">Home</span>
                 <Badge />
@@ -83,10 +83,10 @@
             <li class="nav-item">
               <NavLink
                 style="color: var(--white);"
-                target="{resolveLinkTarget(link.url, $page.url.hostname)}"
-                url="{link.url}"
-                active="{pageId?.includes(link.url) ||
-                  pageHash?.includes(link.name.toLowerCase())}"
+                target={resolveLinkTarget(link.url, page.url.hostname)}
+                url={link.url}
+                active={pageId?.includes(link.url) ||
+                  pageHash?.includes(link.name.toLowerCase())}
               >
                 <span>{link.name}</span>
               </NavLink>
@@ -130,7 +130,9 @@
   nav {
     margin-top: -1px;
     margin-bottom: var(--space-3xl);
-    transition: transform 0.35s ease, max-width 0.15s ease;
+    transition:
+      transform 0.35s ease,
+      max-width 0.15s ease;
     z-index: var(--layer-important);
     background-color: var(--purple-soft);
     position: relative;

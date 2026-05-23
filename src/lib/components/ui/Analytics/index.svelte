@@ -26,7 +26,10 @@
         return;
       }
 
-      if (url.pathname.startsWith('/projects/') && url.pathname !== '/projects/') {
+      if (
+        url.pathname.startsWith('/projects/') &&
+        url.pathname !== '/projects/'
+      ) {
         const slug = url.pathname.replace('/projects/', '').replace(/\/$/, '');
         sendEvent('select_content', {
           content_type: 'project',
@@ -47,7 +50,8 @@
   };
 
   const handleScroll = () => {
-    const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const scrollHeight =
+      document.documentElement.scrollHeight - window.innerHeight;
     if (scrollHeight <= 0) return;
 
     const scrolled = (window.scrollY / scrollHeight) * 100;

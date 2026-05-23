@@ -10,7 +10,7 @@
   height="36"
   viewBox="0 0 48 34.3"
   fill="var(--white-soft)"
-  class:open="{open}"
+  class:open
 >
   <path
     id="top"
