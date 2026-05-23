@@ -1,5 +1,5 @@
-@import './fullHeight';
-@import './iframeResponsive';
-@import './screenReaderOnly';
-@import './sectionTitle';
-@import './shadows';
+@forward './fullHeight';
+@forward './iframeResponsive';
+@forward './screenReaderOnly';
+@forward './sectionTitle';
+@forward './shadows';

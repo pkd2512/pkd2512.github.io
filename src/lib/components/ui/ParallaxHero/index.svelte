@@ -32,7 +32,7 @@
 </div>
 
 <style lang="scss">
-  @import 'src/lib/styles/mixins/fullHeight';
+  @use 'src/lib/styles/mixins/fullHeight' as *;
   .hero {
     width: 100%;
     margin-inline: auto;

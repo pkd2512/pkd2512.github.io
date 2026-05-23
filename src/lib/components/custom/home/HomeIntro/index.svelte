@@ -33,8 +33,8 @@
 </section>
 
 <style lang="scss">
-  @import 'src/lib/styles/mixins/fullHeight';
-  @import 'src/lib/styles/mixins/shadows';
+  @use 'src/lib/styles/mixins/fullHeight' as *;
+  @use 'src/lib/styles/mixins/shadows' as *;
 
   #hero {
     background-color: var(--purple-soft);

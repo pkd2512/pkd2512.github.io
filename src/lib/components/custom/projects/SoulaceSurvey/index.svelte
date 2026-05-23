@@ -24,7 +24,7 @@
 </Container>
 
 <style lang="scss">
-  @import 'src/lib/styles/mixins/';
+  @use 'src/lib/styles/mixins' as *;
   button {
     margin: var(--space-s) auto;
   }

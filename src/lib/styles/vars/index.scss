@@ -1,40 +1,11 @@
-/* 
-  -------------------------------
-  CSS vars from openprops
-  https://open-props.style/
-  -------------------------------
-*/
+@use './media-sizes.scss';
+@use '/node_modules/open-props/src/props.aspects.css' as *;
+@use '/node_modules/open-props/src/props.zindex.css' as *;
+@use '/node_modules/open-props/src/props.shadows.css' as *;
+@use '/node_modules/open-props/src/props.masks.edges.css' as *;
+@use './spacing.scss';
+@use './colours.scss';
+@use './typography.scss';
 
-/* MEDIA TYPE AND BREAKPOINT */
-@import './media-sizes.scss';
-
-/* ASPECT RATIOS */
-@import '/node_modules/open-props/src/props.aspects.css';
-
-/* ANIMATION */
-// @import '/node_modules/open-props/src/props.easing.css';
-// @import '/node_modules/open-props/src/props.animations.css';
-
-/* Z-INDEX */
-@import '/node_modules/open-props/src/props.zindex.css';
-
-/* SHADOWS */
-@import '/node_modules/open-props/src/props.shadows.css';
-
-/* MASKS */
-@import '/node_modules/open-props/src/props.masks.edges.css';
-
-/* 
-  -------------------------------
-  Locally defined props
-  -------------------------------
-*/
-
-/* UTILITY VARS */
-@import './spacing.scss';
-
-/* COLOURS */
-@import './colours.scss';
-
-/* TEXT */
-@import './typography.scss';
+// @use '/node_modules/open-props/src/props.easing.css' as *;
+// @use '/node_modules/open-props/src/props.animations.css' as *;

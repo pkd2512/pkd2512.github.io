@@ -55,8 +55,8 @@
 </section>
 
 <style lang="scss">
-  @import 'src/lib/styles/mixins/screenReaderOnly';
-  @import 'src/lib/styles/mixins/fullHeight';
+  @use 'src/lib/styles/mixins/screenReaderOnly' as *;
+  @use 'src/lib/styles/mixins/fullHeight' as *;
 
   .card {
     display: flex;

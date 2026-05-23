@@ -99,8 +99,8 @@
 </header>
 
 <style lang="scss">
-  @import 'src/lib/styles/mixins/_shadows';
-  @import 'src/lib/styles/mixins/_screenReaderOnly';
+  @use 'src/lib/styles/mixins/shadows' as *;
+  @use 'src/lib/styles/mixins/screenReaderOnly' as *;
 
   header {
     display: contents;

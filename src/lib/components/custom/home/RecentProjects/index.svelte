@@ -86,7 +86,7 @@
 </section>
 
 <style lang="scss">
-  @import 'src/lib/styles/mixins/fullHeight';
+  @use 'src/lib/styles/mixins/fullHeight' as *;
 
   #recent-projects {
     margin-bottom: var(--space-2xl-3xl);

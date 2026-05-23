@@ -36,7 +36,7 @@
 </Container>
 
 <style lang="scss">
-  @import 'src/lib/styles/mixins/sectionTitle';
+  @use 'src/lib/styles/mixins/sectionTitle' as *;
   h2 {
     @include sectionTitle;
   }

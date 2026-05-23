@@ -56,7 +56,7 @@ intro:
 </script>
 
 <style lang='scss'>
-  @import 'src/lib/styles/mixins/index';
+  @use 'src/lib/styles/mixins' as *;
 
 </style>
 

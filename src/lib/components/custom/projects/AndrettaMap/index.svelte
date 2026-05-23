@@ -69,7 +69,7 @@
 </section>
 
 <style lang="scss">
-  @import 'src/lib/styles/mixins/fullHeight';
+  @use 'src/lib/styles/mixins/fullHeight' as *;
 
   #travels {
     margin-block-end: var(--space-xl);

@@ -99,7 +99,7 @@
 </div>
 
 <style lang="scss">
-  @import 'src/lib/styles/mixins/_shadows';
+  @use 'src/lib/styles/mixins/shadows' as *;
   .badge {
     pointer-events: none;
     aspect-ratio: var(--ratio-square);

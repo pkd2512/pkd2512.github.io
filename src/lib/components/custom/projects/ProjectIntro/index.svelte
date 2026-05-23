@@ -51,7 +51,7 @@
 </section>
 
 <style lang="scss">
-  @import 'src/lib/styles/mixins/index';
+  @use 'src/lib/styles/mixins' as *;
 
   #hero {
     margin-top: calc(-1.5 * var(--space-3xl));

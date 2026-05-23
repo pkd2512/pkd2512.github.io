@@ -287,7 +287,7 @@
 <div class="map" bind:this={mapContainer}></div>
 
 <style lang="scss">
-  @import 'src/lib/styles/mixins/fullHeight';
+  @use 'src/lib/styles/mixins/fullHeight' as *;
 
   .map {
     @include fullheight(1);
