@@ -5,7 +5,7 @@
   /**
    * Contents of the page from the md file.
    */
-  export let data;
+  let { data } = $props();
 
   let { title, description, keywords, image } = data.meta;
 </script>
@@ -15,6 +15,7 @@
   description="{description}"
   keywords="{keywords}"
   image="{image}"
+  meta="{data.meta}"
 />
 
 <svelte:component this="{data.content}" />

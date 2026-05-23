@@ -3,19 +3,15 @@
   import Container from '$lib/components/ui/Container/index.svelte';
   import { assets } from '$app/paths';
 
-  /**
-   * @type {string | any[]}
-   * List of image urls
-   */
-  export let images = [];
+  let { images = [] } = $props();
 
-  $: index = 0;
+  let index = $state(0);
 
-  const handlePrev = (/** @type {any} */ e) => {
+  const handlePrev = () => {
     if (index === 0) return;
     index = index > 0 ? index - 1 : images.length - 1;
   };
-  const handleNext = (/** @type {any} */ e) => {
+  const handleNext = () => {
     if (index === images.length - 1) return;
     index = index < images.length - 1 ? index + 1 : 0;
   };

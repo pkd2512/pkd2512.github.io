@@ -2,21 +2,24 @@
   // @ts-ignore
   import Scroller from '@sveltejs/svelte-scroller';
   import Container from '$lib/components/ui/Container/index.svelte';
-  import Map from './Map.svelte';
   import places from './places';
 
   import { assets } from '$app/paths';
+  import { onMount } from 'svelte';
 
-  let index = 0,
-    offset = 0,
-    progress = 0;
+  let index = $state(0);
+  let offset = $state(0);
+  let progress = $state(0);
 
-  $: activeChapter = places[index]?.key || '';
+  let activeChapter = $derived(places[index]?.key || '');
 
-  /**
-   * @type {number}
-   */
-  let windowWidth;
+  let windowWidth = $state();
+  let Map = $state(null);
+
+  onMount(async () => {
+    const mod = await import('./Map.svelte');
+    Map = mod.default;
+  });
 </script>
 
 <svelte:window bind:innerWidth="{windowWidth}" />
@@ -25,14 +28,16 @@
   <Scroller
     top="{0}"
     bottom="{1}"
-    threshold="{windowWidth < 1440 ? 1 : 0.75}"
+    threshold="{windowWidth && windowWidth < 1440 ? 1 : 0.75}"
     query=".container-sm"
     bind:index="{index}"
     bind:offset="{offset}"
     bind:progress="{progress}"
   >
     <div slot="background">
-      <Map bind:activeChapter="{activeChapter}" />
+      {#if Map}
+        <Map bind:activeChapter="{activeChapter}" />
+      {/if}
     </div>
 
     <div slot="foreground">

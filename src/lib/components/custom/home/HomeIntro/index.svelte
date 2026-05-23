@@ -6,6 +6,10 @@
   const { hed, dek, img } = $page.data.meta.intro;
 </script>
 
+<svelte:head>
+  <link rel="preload" href="{assets}/media/{img}" as="image" fetchpriority="high">
+</svelte:head>
+
 <section id="hero">
   <Container width="xl">
     <header>

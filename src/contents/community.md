@@ -25,12 +25,17 @@ published: true
   import List from '$lib/components/custom/community/List/index.svelte';
   import ParallaxHero from '$lib/components/ui/ParallaxHero/index.svelte';
   import ReferralCard from '$lib/components/ui/ReferralCard/index.svelte';
+  import { assets } from '$app/paths';
 
   import talks from '/src/contents/data/talks.csv';
   import teachings from '/src/contents/data/teachings.csv';
   import resources from '/src/contents/data/resources.csv';
   import mentions from '/src/contents/data/mentions.csv';
 </script>
+
+<svelte:head>
+  <link rel="preload" href="{assets}/media/hero-community.webp" as="image" fetchpriority="high">
+</svelte:head>
 
 <ParallaxHero img='/media/hero-community.webp'/>
 

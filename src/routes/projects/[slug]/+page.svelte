@@ -4,16 +4,16 @@
   import getAdjacentProjects from '$utils/getAdjacentProjects.js';
   import ProjectNav from '$lib/components/custom/projects/ProjectNav/index.svelte';
 
-  export let data;
+  let { data } = $props();
 
-  $: if (data) {
+  // @ts-ignore
+  data.adjacent = getAdjacentProjects(
+    data.meta,
     // @ts-ignore
-    data['adjacent'] = getAdjacentProjects(
-      data.meta,
-      // @ts-ignore
-      data.contents.filter((d) => d.type === 'project')
-    );
-  }
+    data.contents.filter((d) => d.type === 'project')
+  );
+
+  console.log(data);
 </script>
 
 <MetaTags
@@ -21,10 +21,11 @@
   description="{data.meta.description}"
   keywords="{data.meta.keywords}"
   image="{data.meta.image}"
+  meta="{data.meta}"
 />
 
 <Intro meta="{data.meta}" />
 
-<svelte:component this="{data.content}" />
+<data.content />
 
 <ProjectNav />

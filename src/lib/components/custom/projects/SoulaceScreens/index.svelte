@@ -5,11 +5,11 @@
   import ImageSlideshow from '$lib/components/ui/ImageSlideshow/index.svelte';
 
   let images = range(33).map((i) => `${i + 1}.webp`);
-  let showModal = false;
+  let showModal = $state(false);
 </script>
 
 <Container style="text-align:center;">
-  <button on:click="{() => (showModal = true)}"> Show screens </button>
+  <button onclick="{() => (showModal = true)}"> Show screens </button>
 
   <div class="screens">
     <Modal bind:showModal="{showModal}">

@@ -1,19 +1,21 @@
 <script>
-  import getBlogFeed from '$utils/getBlogFeed';
-  import { onMount } from 'svelte';
+  import { getContext } from 'svelte';
+  import { browser } from '$app/environment';
   import Container from '$lib/components/ui/Container/index.svelte';
   import LinkButton from '$lib/components/ui/LinkButton/index.svelte';
   import ReferralCard from '$lib/components/ui/ReferralCard/index.svelte';
   import Icon from '@iconify/svelte';
+  import getBlogFeed from '$utils/getBlogFeed';
 
-  /**
-   * @type {any[]}
-   */
-  let articles = [];
+  let articles = $state(getContext('blogFeed') || []);
 
-  onMount(async () => {
-    // @ts-ignore
-    articles = await getBlogFeed();
+  $effect(() => {
+    if (!browser) return;
+    getBlogFeed()
+      .then((items) => {
+        if (items?.length) articles = items;
+      })
+      .catch(() => {});
   });
 </script>
 
@@ -42,12 +44,7 @@
     <div class="icon">
       <Icon icon="zondicons:news-paper" />
     </div>
-    <LinkButton
-      solid
-      url="https://medium.com/diarium-da-pacific"
-      target=""
-      label="Show all posts"
-    />
+    <LinkButton solid url="/blog" target="" label="Show all posts" />
   </div>
 </Container>
 

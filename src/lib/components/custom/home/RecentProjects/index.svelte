@@ -9,15 +9,17 @@
   // @ts-ignore
   import Scroller from '@sveltejs/svelte-scroller';
 
-  $: data = $page.data.contents
-    .filter((/** @type {{ type: string; }} */ d) => d.type === 'project')
-    .slice(0, 3)
-    // @ts-ignore
-    .sort((a, b) => new Date(b.date) - new Date(a.date));
+  let data = $derived(
+    $page.data.contents
+      .filter((/** @type {{ type: string; }} */ d) => d.type === 'project')
+      .slice(0, 3)
+      // @ts-ignore
+      .sort((a, b) => new Date(b.date) - new Date(a.date))
+  );
 
-  let index = 0,
-    offset = 0,
-    progress = 0;
+  let index = $state(0);
+  let offset = $state(0);
+  let progress = $state(0);
 </script>
 
 <svelte:head>

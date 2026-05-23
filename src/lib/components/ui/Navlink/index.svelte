@@ -2,17 +2,13 @@
   /**
    * @param {Boolean} disabled
    */
-  export let disabled = false;
-
   /**
    * @param {Boolean} active - Show active link on navbar
    */
-  export let active = false;
-
   /**
    * @param {String} url
    */
-  export let url = '#';
+  let { disabled = false, active = false, url = '#', children, ...restProps } = $props();
 
   /**
    * @param {{ preventDefault: () => void; stopImmediatePropagation: () => void; }} e
@@ -27,14 +23,14 @@
 </script>
 
 <a
-  {...$$restProps}
+  {...restProps}
   href="{url}"
-  on:click="{handleClick}"
+  onclick="{handleClick}"
   class="nav-link"
   class:disabled="{disabled}"
   class:active="{active}"
 >
-  <slot />
+  {@render children?.()}
 </a>
 
 <style lang="scss">

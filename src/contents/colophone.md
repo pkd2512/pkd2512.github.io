@@ -25,6 +25,6 @@ published: true
   import Colophone from '$lib/components/custom/home/Colophone/index.svelte';
 </script>
 
-<div style="padding-block-start: calc(1.5 * var(--space-3xl);">
+<div style="padding-block-start: calc(1.5 * var(--space-3xl));">
   <Colophone />
 </div>

@@ -2,16 +2,14 @@
   /**
    * @param {String} colour - Fill colour of the logo
    */
-  export let colour = 'var(--purple-soft)';
-
   /**
    * @param {String} size - Dimension as 'px' or 'rem'
    */
-  export let size = '2rem';
+  let { colour = 'var(--purple-soft)', size = '2rem', ...restProps } = $props();
 </script>
 
 <svg
-  {...$$restProps}
+  {...restProps}
   id="logo"
   width="{size}"
   height="{size}"

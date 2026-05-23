@@ -8,9 +8,9 @@
   let infoHeight;
 
   /**
-   * @type {{ intro: { hed: any; dek?: any; img?: any; client?: any; url?: any; duration?: any; }; }}
+   * @type {{ meta: { intro: { hed: any; dek?: any; img?: any; client?: any; url?: any; duration?: any; }; } }}
    */
-  export let meta;
+  let { meta } = $props();
 </script>
 
 <section id="hero">

@@ -6,17 +6,22 @@
   import ReferralCard from '$lib/components/ui/ReferralCard/index.svelte';
   import Container from '$lib/components/ui/Container/index.svelte';
 
-  export let data;
+  let { data } = $props();
 
   // @ts-ignore
-  $: contents = data?.contents
-    .filter((d) => d.type === 'project') // @ts-ignore
-    .sort((a, b) => new Date(b.date) - new Date(a.date));
+  let contents = $derived(data?.contents
+    .filter(/** @param {{type: string}} d */ (d) => d.type === 'project')
+    .sort(/** @param {{date: string}} a @param {{date: string}} b */ (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()));
 
-  $: featured = contents[0];
+  let featured = $derived(contents[0]);
 </script>
 
-<MetaTags title="Portfolio | Prasanta Kumar Dutta" />
+<MetaTags
+  title="Portfolio | Prasanta Kumar Dutta"
+  description="Award-winning portfolio of data visualization, information design, and visual journalism projects by Prasanta Kumar Dutta, an Information Experience Designer at Reuters."
+  image="share.webp"
+  meta={{ type: 'collection' }}
+/>
 
 <a class="featured" href="{base}/projects/{featured.slug}">
   <ProjectCard info="{featured}" />

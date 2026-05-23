@@ -1,1 +1,0 @@
-export const env={"PUBLIC_MAPBOX_TOKEN":"pk.eyJ1IjoicGtkZGFwYWNpZmljIiwiYSI6ImNqZmk5eWdiMTJjMnMyeXBrbmJtMmx2cWgifQ.igtXLvbNt1qUSGJao6_qlw"}

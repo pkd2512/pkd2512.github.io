@@ -3,31 +3,18 @@
   import { assets } from '$app/paths';
 
   /**
-   * @type {number}
+   * @type {number | undefined}
    */
-  let height;
+  let height = $state();
 
-  /**
-   * @type {String}
-   */
-  export let img = '';
-
-  /**
-   * @type {String}
-   */
-  export let notes = '';
-
-  /**
-   * @type {String}
-   */
-  export let url = '';
+  let { img = '', notes = '', url = '' } = $props();
 </script>
 
 <Container width="sm">
   <div
     class="award"
     bind:clientHeight="{height}"
-    style="margin-block-start: -{0.35 * height}px"
+    style="margin-block-start: -{0.35 * (height ?? 0)}px"
   >
     <a href="{url}" target="">
       <img

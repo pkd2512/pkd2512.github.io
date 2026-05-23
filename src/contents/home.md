@@ -29,6 +29,7 @@ published: true
   import Testimonials from '$lib/components/custom/home/Testimonials/index.svelte';
   import BlogFeed from '$lib/components/custom/home/BlogFeed/index.svelte';
   import Shop from '$lib/components/custom/home/Shop/index.svelte';
+  import YouTubeEmbed from '$lib/components/ui/YouTubeEmbed/index.svelte';
 </script>
 
 <RecentProjects />
@@ -50,7 +51,7 @@ I design data-driven visual narratives that help transform information to knowle
 I love to talk about design and data visualisation.
 Over the years, I have instructed design students on data representation, geovisualisation and data storytelling at eminent institutes across India like the National Institute of Design and JK Lakshmipat University. <LinkButton label='See all talks and workshops' url='community/' />
 
-<iframe loading="lazy" width="100%" style="aspect-ratio: var(--ratio-widescreen);" src="https://www.youtube-nocookie.com/embed/LAro9nJhCvM?controls=1" title="YouTube video of ProApp workshop on Data and Design by Prasanta" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+<YouTubeEmbed videoId="LAro9nJhCvM" title="YouTube video of ProApp workshop on Data and Design by Prasanta" />
 
 </Container>
 

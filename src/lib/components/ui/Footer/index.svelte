@@ -12,8 +12,6 @@
   )[0];
 
   const year = new Date().getFullYear();
-
-  let showModal = false;
 </script>
 
 <div style="margin-top: var(--space-xl)">

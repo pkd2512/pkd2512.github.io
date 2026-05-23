@@ -13,44 +13,37 @@
   // @ts-ignore
   import navlinks from '/src/contents/data/navlinks.csv';
 
-  let links = navlinks;
-  $: pageId = $page.route.id;
-  $: pageHash = $page.url.hash;
+  let pageId = $derived($page.route.id);
+  let pageHash = $derived($page.url.hash);
 
   // Change blog and contact to external links for other pages
-  $: if (pageId !== '/') {
-    // @ts-ignore
-    links = links.map(({ url, name, ...rest }) => {
-      let newUrl = url;
-      switch (name) {
-        case 'Blog':
-          newUrl = 'https://medium.com/diarium-da-pacific';
-
-          break;
-
-        default:
-          break;
-      }
-
-      return { url: newUrl, name, ...rest };
-    });
-  } else {
-    // @ts-ignore
-    links = links.map(({ url, name, ...rest }) => {
-      let newUrl = url;
-      switch (name) {
-        case 'Blog':
-          newUrl = '/#blog';
-
-          break;
-
-        default:
-          break;
-      }
-
-      return { url: newUrl, name, ...rest };
-    });
-  }
+  let links = $derived(
+    pageId !== '/'
+      ? // @ts-ignore
+        navlinks.map(({ url, name, ...rest }) => {
+          let newUrl = url;
+          switch (name) {
+            case 'Blog':
+              newUrl = '/blog';
+              break;
+            default:
+              break;
+          }
+          return { url: newUrl, name, ...rest };
+        })
+      : // @ts-ignore
+        navlinks.map(({ url, name, ...rest }) => {
+          let newUrl = url;
+          switch (name) {
+            case 'Blog':
+              newUrl = '/#blog';
+              break;
+            default:
+              break;
+          }
+          return { url: newUrl, name, ...rest };
+        })
+  );
 </script>
 
 <header>
@@ -61,9 +54,10 @@
   <nav
     id="sitenav"
     class="up"
+    class:pin={pageId === '/' || pageId === '/colophone'}
     use:scrollDirection
     use:inview="{{ root: null, threshold: 1 }}"
-    on:inview_change="{(
+    oninview_change="{(
       /** @type {{ detail: { node: { classList: { toggle: (arg0: string, arg1: boolean) => void; }; }; inView: any; }; }} */ e
     ) => {
       window.scrollY > -1 &&

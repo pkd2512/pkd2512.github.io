@@ -4,10 +4,9 @@
   import { base } from '$app/paths';
 
   /**
-   * @param posts - list of projects and metadata
-   * @type {any[]}
+   * @type {{ posts: any[] }}
    */
-  export let posts;
+  let { posts } = $props();
 
   /**
    * @type {Number}

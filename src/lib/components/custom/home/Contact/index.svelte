@@ -5,6 +5,7 @@
 
   import Logo from '$lib/components/ui/Logo/index.svelte';
   import { copy } from 'svelte-copy';
+  import { sendEvent } from '$utils/googleAnalytics';
 
   // @ts-ignore
   import socialUrls from '/src/contents/data/socialurls.csv';
@@ -15,20 +16,25 @@
 
   const year = new Date().getFullYear();
 
-  $: icon = 'fluent:copy-24-regular';
-  $: copymessage = 'Click to copy';
-  $: copied = false;
+  let icon = $state('fluent:copy-24-regular');
+  let copymessage = $state('Click to copy');
+  let copied = $state(false);
 
   const copyEmailClick = (/** @type {any} */ e) => {
     copied = true;
     copymessage = 'Email copied!';
     icon = 'fluent:copy-24-filled';
+    sendEvent('email_copy');
   };
 
-  setInterval(() => {
-    icon = 'fluent:copy-24-regular';
-    copymessage = 'Click to copy';
-  }, 3000);
+  $effect(() => {
+    const interval = setInterval(() => {
+      icon = 'fluent:copy-24-regular';
+      copymessage = 'Click to copy';
+    }, 3000);
+
+    return () => clearInterval(interval);
+  });
 </script>
 
 <section id="contact">
@@ -43,7 +49,7 @@
         <div
           class="email"
           role="button"
-          on:click="{copyEmailClick}"
+          onclick="{copyEmailClick}"
           use:copy="{email.url}"
         >
           <span class="id">{email.url}</span>

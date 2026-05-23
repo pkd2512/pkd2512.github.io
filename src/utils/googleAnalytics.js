@@ -1,35 +1,26 @@
-// Google property ID
 const GOOGLE_TAG_ID = 'G-DECCLNKCBR';
-
-// Google tag url
 const URL = `https://www.googletagmanager.com/gtag/js?id=${GOOGLE_TAG_ID}`;
 
+let previousPage = '';
+
 const attachScript = () => {
-  // If script is already attached, skip
   if (document.querySelector(`script[src="${URL}"]`)) return;
-  // ... else attach it.
   const e = document.createElement('script');
-  const head = document.getElementsByTagName('head')[0];
   e.type = 'text/javascript';
   e.async = true;
   e.src = URL;
-  head.prepend(e);
+  document.head.append(e);
 };
 
-/**
- * Attach gtag code to webpage
- */
-export default () => {
+export const initGA = () => {
   try {
     window.dataLayer = window.dataLayer || [];
     if (!window.gtag) {
       attachScript();
-      /** @type {Gtag.Gtag} */
       window.gtag = function () {
         window.dataLayer.push(arguments);
       };
       window.gtag('js', new Date());
-      // config event registers a pageview by default
       window.gtag('config', GOOGLE_TAG_ID, {
         send_page_view: false,
       });
@@ -44,12 +35,22 @@ export const registerPageview = () => {
   if (typeof window === 'undefined' || !window.gtag) return;
 
   if (!['localhost', '127.0.0.1'].includes(window.location.hostname)) {
-    window.gtag('event', 'page_view', {
-      page_location: window.location.origin + window.location.pathname,
-      page_title: document?.title,
-      language: window?.navigator?.language,
-      user_agent: window.navigator.userAgent,
-      device: window.devicePixelRatio,
+    const page_location = window.location.origin + window.location.pathname;
+    const page_title = document?.title || '';
+    const page_referrer = previousPage || document.referrer || undefined;
+    previousPage = page_location;
+
+    gtag('config', GOOGLE_TAG_ID, {
+      page_title,
+      page_path: window.location.pathname,
+      page_location,
+      page_referrer,
     });
   }
+};
+
+export const sendEvent = (action, params) => {
+  if (typeof window === 'undefined' || !window.gtag) return;
+  if (['localhost', '127.0.0.1'].includes(window.location.hostname)) return;
+  gtag('event', action, params);
 };

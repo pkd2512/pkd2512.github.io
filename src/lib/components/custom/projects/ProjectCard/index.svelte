@@ -4,15 +4,14 @@
   import { assets } from '$app/paths';
 
   /**
-   * @param info - contents for the card
-   * @type {{ image: any; intro: { hed: any; }; description: any; categories: any; }}
+   * @type {{ info: { image: any; intro: { hed: any; }; description: any; categories: any; } }}
    */
-  export let info;
+  let { info } = $props();
 
   /**
    * @type {number}
    */
-  let infoHeight;
+  let infoHeight = $state(0);
 
   /**
    * @type {number}

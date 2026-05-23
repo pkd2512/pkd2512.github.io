@@ -2,11 +2,10 @@
   /**
    * @type {any}
    */
-  export let src;
   /**
    * @type {any}
    */
-  export let alt;
+  let { src, alt } = $props();
 </script>
 
 <img src="{src}" alt="{alt}" loading="lazy" draggable="false" />
