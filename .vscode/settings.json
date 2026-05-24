@@ -16,12 +16,17 @@
   },
   "editor.formatOnSave": true,
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": "explicit"
+    "source.fixAll.eslint": "explicit",
+    "source.fixAll.stylelint": "explicit"
   },
   "eslint.validate": ["javascript", "svelte"],
+  "stylelint.validate": ["css", "scss"],
   "svelte.enable-ts-plugin": true,
   "svelte.language-server.runtime": "",
-  "prettier.documentSelectors": ["**/*.svelte"],
+  "prettier.documentSelectors": ["**/*.svelte", "**/*.scss"],
+  "scss.lint.unknownAtRules": "ignore",
+  "scss.lint.emptyRules": "ignore",
+  "scss.scannerDepth": 5,
   "files.associations": {
     "*.css": "postcss"
   }

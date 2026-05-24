@@ -54,9 +54,10 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 4px;
+    border-radius: 0.5rem !important;
     overflow: hidden;
     max-width: none;
     border: none !important;
+    background-color: transparent;
   }
 </style>

@@ -9,3 +9,9 @@
 </script>
 
 <img {src} {alt} loading="lazy" draggable="false" />
+
+<style>
+  img {
+    border-radius: 0.5rem;
+  }
+</style>

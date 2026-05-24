@@ -24,10 +24,9 @@
   <div class="icon prev" onclick={handlePrev}>
     {#if index > 0}
       <Icon
-        icon="pajamas:chevron-lg-left"
-        style="color:var(--purple-soft)"
-        width="36"
-        height="36"
+        icon="pajamas:chevron-left"
+        height="var(--font-size-2)"
+        style="color: var(--purple-soft)"
       />
     {/if}
   </div>
@@ -40,10 +39,9 @@
   <div class="icon next" onclick={handleNext}>
     {#if index < images.length - 1}
       <Icon
-        icon="pajamas:chevron-lg-right"
-        style="color:var(--purple-soft)"
-        width="36"
-        height="36"
+        icon="pajamas:chevron-right"
+        height="var(--font-size-2)"
+        style="color: var(--purple-soft)"
       />
     {/if}
   </div>

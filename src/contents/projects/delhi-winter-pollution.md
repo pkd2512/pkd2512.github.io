@@ -255,6 +255,6 @@ The high-resolution images may take a while to load upon zoom, depending upon yo
 
 <Container width="md">
 
-The project was also featured on <LinkButton label='Lines of Inquiry'  url='https://issuu.com/strangerobot/docs/loi_nid_ebook/94' />, the Annual Design Show at the National Institute of Design, Ahmedabad, India in March 2020.
+The project was also featured on <LinkButton label='Lines of Inquiry'  url='https://www.scribd.com/document/664184751/Lines-of-Inquiry-2020#page=55' />, the Annual Design Show at the National Institute of Design, Ahmedabad, India in March 2020.
 
 </Container>

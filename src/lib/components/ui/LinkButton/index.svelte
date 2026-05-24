@@ -45,7 +45,7 @@
       padding-block: var(--space-xs);
       padding-inline: var(--space-s);
       color: var(--white);
-      border-radius: 0.125rem;
+      border-radius: 10rem;
       max-width: fit-content;
       margin-inline: auto;
     }

@@ -139,7 +139,7 @@
       background-color: var(--white);
       margin-block-start: 50lvh;
       padding: var(--space-s-m) var(--space-m-l);
-      border-radius: 0.25rem;
+      border-radius: 0.5rem;
       box-shadow: var(--shadow-2);
       display: flex;
       flex-flow: column;

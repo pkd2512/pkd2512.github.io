@@ -24,7 +24,7 @@
 </script>
 
 {#if sorted.length > 0}
-  <Container width="md">
+  <Container width="fluid">
     <div class="list-wrapper">
       <h2 id={slugify(title)}>{title}</h2>
       <ul>
@@ -74,13 +74,23 @@
 
   ul {
     padding: 0;
-    display: flex;
-    flex-direction: column;
+    margin-block: var(--space-m);
+    column-count: 2;
+    column-gap: var(--space-l);
+
+    @media (--md-n-below) {
+      column-count: 1;
+    }
   }
 
   li {
     list-style: none;
-    margin-block: var(--space-2xs);
+    margin-block-end: var(--space-m);
+    break-inside: avoid;
+
+    @media (--md-n-below) {
+      margin-block-end: var(--space-s);
+    }
   }
 
   .date {
