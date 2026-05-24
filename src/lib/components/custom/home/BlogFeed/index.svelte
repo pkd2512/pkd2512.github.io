@@ -30,11 +30,9 @@
     if (!cardsEl || !loopArticles.length) return;
     const target = cardsEl.children[1];
     if (!target) return;
-    target.scrollIntoView({
-      behavior: 'instant',
-      inline: 'center',
-      block: 'nearest',
-    });
+    const cardWidth = target.clientWidth;
+    const gap = parseFloat(getComputedStyle(cardsEl).gap) || 0;
+    cardsEl.scrollTo({ left: cardWidth + gap, behavior: 'instant' });
   });
 
   function scrollCards(dir) {
