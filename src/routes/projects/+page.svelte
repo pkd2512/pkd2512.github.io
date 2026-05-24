@@ -14,4 +14,19 @@
   meta={data.meta}
 />
 
+<header class="sr-only-heading">
+  <h1>{meta.title}</h1>
+  <p>{meta.description}</p>
+</header>
+
 <Page />
+
+<style lang="scss">
+  @use 'src/lib/styles/mixins/screenReaderOnly' as *;
+
+  .sr-only-heading {
+    h1, p {
+      @include screenReaderOnly;
+    }
+  }
+</style>

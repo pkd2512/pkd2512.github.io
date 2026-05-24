@@ -84,6 +84,17 @@
           'Award-winning Information Experience Designer, crafting visual stories with data at Reuters.',
         publisher: { '@type': 'Person', '@id': baseUrl + '/#person' },
         inLanguage: 'en-IN',
+        potentialAction: [
+          {
+            '@type': 'SearchAction',
+            target: {
+              '@type': 'EntryPoint',
+              urlTemplate:
+                baseUrl + '/?q={search_term_string}',
+            },
+            'query-input': 'required name=search_term_string',
+          },
+        ],
       });
     }
 
@@ -108,8 +119,8 @@
       ...(isProject && meta
         ? {
             headline: meta.intro?.hed || title,
-            datePublished: meta.date || undefined,
-            dateModified: meta.date || undefined,
+            datePublished: new Date(meta.date).toISOString() || undefined,
+            dateModified: new Date(meta.date).toISOString() || undefined,
             author: { '@type': 'Person', '@id': baseUrl + '/#person' },
             publisher: { '@type': 'Person', '@id': baseUrl + '/#person' },
             articleSection: meta.categories?.join(', ') || undefined,

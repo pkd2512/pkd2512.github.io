@@ -13,7 +13,7 @@ type: page
 intro:
   hed: Prasanta Kumar Dutta
 
-  dek: Prasanta Kumar Dutta is an Information Experience Designer from India, working at the intersection of design, coding, and journalism at Reuters. With a background in engineering and design, he crafts data-driven pieces that help narrate important stories visually. Several of his work has been recognized with numerous awards. He also teaches and talks about data visualization, narrative cartography, and design at eminent institutes across&nbsp;India.
+  dek: Prasanta Kumar Dutta is an award-winning Information Experience Designer from India, working at the intersection of design, code, and journalism at Reuters. With a background in engineering and design, he crafts data-driven pieces that visually narrate important stories and solve problems in an aesthetically engaging way. Outside the newsroom, Prasanta writes and performs poetry and comedy, and dabbles in generative art, photography, and zine-making. He co-hosts a creative coding meetup in London that brings together artists, technologists, and enthusiasts. He also teaches and speaks on data visualisation, design, and narrative cartography at leading institutions across&nbsp;India.
 
   img: hero.webp
 
