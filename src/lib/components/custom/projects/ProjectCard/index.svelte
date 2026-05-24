@@ -109,7 +109,7 @@
     background-color: var(--white);
     padding: var(--space-s-m) var(--space-m-l);
     margin-bottom: var(--space-l);
-    border-radius: 0.25rem;
+    border-radius: 0.5rem;
     box-shadow: var(--shadow-3);
     display: flex;
     flex-flow: column;

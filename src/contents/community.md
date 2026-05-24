@@ -55,18 +55,16 @@ published: true
 
  </Container>
 
-<div style="max-width: calc(0.85 * var(--md)); margin: auto;">
-
+<Container width=lg>
 <List title='Interviews and Features' content={mentions}/>
-
 <List title='Talks and Workshops' content={talks}/>
-
 <List title='In the classroom' content={teachings}/>
-
-</div>
+</Container>
 
 <Container width=md style="text-align: center;">
 <ReferralCard  url="https://medium.com/diarium-da-pacific/showcasing-brilliance-2fe5fa976b5b" image="/media/teachings.webp" title="Showcasing Brilliance" description="A curation of data visualisation projects from my students"/>
 </Container>
 
+<Container width=lg>
 <List title='Resources and Tools' content={resources}/>
+</Container>

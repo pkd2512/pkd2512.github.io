@@ -63,36 +63,63 @@ Over the years, I have instructed design students on data representation, geovis
 
 I dabble in creative coding and generative art, mainly as a means to explore the beauty of mathematics, some of which are documented on my <LinkButton label='blog' url='https://medium.com/diarium-da-pacific'  /> and <LinkButton label='Instagram' url='https://www.instagram.com/thebongartista/'  />.
 
-<figure>
+I love to make <LinkButton label='zines and prints' url='https://www.instagram.com/p/DOeVJNXjcX-/'  /> of my work. Get in touch if you'd like to buy a print or commission a piece.
 
-<iframe loading="lazy" title="Interactive p5 sketch" frameborder="0" src="https://openprocessing.org/sketch/1051968/embed/" width="100%" style="aspect-ratio: var(--ratio-square);"></iframe>
+</Container>
 
+<Container  width=xl>
+<figure class='two-column'>
+<iframe loading="lazy" title="Interactive p5 sketch: Ideas | Thoughts | Actions" aria-label="Interactive visualization: Move your mouse to create flowing patterns that shift between turbulent and calm states" frameborder="0" src="https://openprocessing.org/sketch/1051968/embed/" width="100%" height="550px" style=" border-radius:0.5rem; overflow:hidden;"></iframe>
 <figcaption>
-
 <em>Ideas | Thoughts | Actions.</em> This interactive sketch was created using p5.js as a part of Inktober 2021 explorations on <LinkButton label='Openprocessing'  url='https://openprocessing.org/user/66773' />. Move around the canvas to find spots of turbulence or&nbsp;calm.
-
 </figcaption>
-
 </figure>
+</Container>
 
-<Shop />
+<!-- <Shop /> -->
 
 <br />
+<Container  width=md>
+
+I also co-host <LinkButton label='Creative Coding Crafts Space'  url='https://www.instagram.com/p/DNKVWp3M8IG/' /> -- a London-based and online community dedicated to making space for creativity - physical space, head space, collaboration space. We try to meet monthly to explore tools, ideas, and experiments that live at the intersection of code and art.
 
 Over the years, I have also created a collection of stock photographs that have been viewed more than 11M times. Available for download on <LinkButton label='Unsplash' url='https://unsplash.com/@pkddapacific'  />, <LinkButton label='Pexels' url='https://www.pexels.com/@pkddapacific/'  /> and <LinkButton label='Noun Project' url='https://thenounproject.com/creator/prasanta/?tab=photos'  />.
+</Container>
 
-<figure>
+<Container  width=lg>
+<figure class='two-column'>
 
 ![A close up view of a mask of Goddess Durga being hand-painted](https://images.pexels.com/photos/190589/pexels-photo-190589.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1)
 
 <figcaption>
-
 <em>A close up view of a mask of Goddess Durga being hand-painted.</em> This photo, taken in 2016, has been downloaded nearly 20k times and have been featured on <LinkButton label='CNN'  url='https://sponsorcontent.cnn.com/edition/2018/more-to-incredible-india/' /> and <LinkButton label='Times Travel'  url='https://timesofindia.indiatimes.com/travel/destinations/what-makes-bengals-durga-puja-special/photostory/86833303.cms' />.
-
 </figcaption>
-
 </figure>
+</Container>
+
+<br />
+<Container  width=md>
+
+## Poetry and Performing arts
+
+As a storyteller I use different mediums to tell different stories. I write and perform Urdu/Hindi poetry at open mics and literary events, along with occasional standup-comedy at the <LinkButton label='Bakwaas Comedy Club' url='https://www.instagram.com/p/DQXBzvzCGER/'  />, <LinkButton label='Tape-a-Tale' url='https://www.instagram.com/p/DV8ZMFnjAub/'  /> and <LinkButton label='Art-a-Wish' url='https://www.instagram.com/p/DXbxx58CA2F/'  />.
+
+I am also part of <LinkButton label='Dakshinayan UK' url='https://www.londonpuja.co.uk/dakshinayan-uk-2/'  /> -- a London-based music group that performs Rabindranath Tagore's compositions along with other traditional Indian music and dance performances.
+
+Drop me a line on <LinkButton label='Instagram ' url='https://www.instagram.com/pkd_da_pacific/' /> if you would like me to perform at your event or hear more about my poetry and music.
 
 </Container>
 
 <BlogFeed/>
+
+<style lang=scss>
+  .two-column {
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    gap: var(--space-s);
+
+    @media (--md-n-below) {
+      display: block;
+    }
+  }
+</style>

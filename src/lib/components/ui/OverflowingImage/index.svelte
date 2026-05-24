@@ -75,8 +75,12 @@
       &.shadow {
         box-shadow: var(--shadow-2);
         border: 1px solid var(--gray-soft);
+        border-radius: 0.5rem;
       }
     }
+  }
+  img {
+    border-radius: 0.5rem;
   }
 
   .nudge {
