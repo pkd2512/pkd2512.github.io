@@ -61,14 +61,19 @@
   onMount(() => {
     makeCircleText();
 
+    let prevWidth = window.innerWidth;
+
     const onResize = () => {
+      const w = window.innerWidth;
+      if (w === prevWidth) return;
+      prevWidth = w;
+
       // @ts-ignore
       circleText.destroy();
       makeCircleText();
     };
 
-    if (window)
-      window.addEventListener('resize', onResize);
+    if (window) window.addEventListener('resize', onResize);
 
     return () => {
       window.removeEventListener('resize', onResize);
