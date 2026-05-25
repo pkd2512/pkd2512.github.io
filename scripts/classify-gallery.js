@@ -10,13 +10,26 @@ const STATIC_MEDIA = resolve(ROOT, 'static', 'media');
 const DATA = resolve(ROOT, 'src', 'contents', 'data');
 
 const GRAPHIC_TYPES = ['chart', 'map', 'photo', 'illustration', 'other'];
+const CATEGORY_KEYWORDS = [
+  { cat: 'covid-19', words: ['covid', 'coronavirus', 'vaccin', 'pandemic'] },
+  { cat: 'conflict', words: ['war', 'conflict', 'invasion', 'military', 'attack', 'rebel', 'protest', 'riot', 'battle', 'drone'] },
+  { cat: 'natural-disaster', words: ['earthquake', 'flood', 'cyclone', 'wildfire', 'hurricane', 'tsunami', 'disaster', 'locust'] },
+  { cat: 'environment', words: ['climate', 'pollution', 'emission', 'fossil', 'renewable', 'environment', 'permafrost', 'plastic'] },
+  { cat: 'politics', words: ['election', 'parliament', 'vote', 'brexit', 'president', 'government', 'party', 'annex'] },
+  { cat: 'economy', words: ['economy', 'trade', 'export', 'market', 'currency', 'inflation', 'gdp', 'sterling', 'valuation'] },
+  { cat: 'science', words: ['space', 'moon', 'lunar', 'nasa', 'rocket', 'satellite', 'chandrayaan', 'moonshot'] },
+  { cat: 'sports', words: ['tour de france', 'fifa', 'world cup', 'tennis', 'football', 'sport', 'olympics', 'grand slam'] },
+  { cat: 'health', words: ['health', 'hospital', 'disease', 'outbreak', 'infection', 'death', 'mortality'] },
+  { cat: 'energy', words: ['oil', 'gas', 'energy', 'petrol', 'mining', 'mineral', 'refining', 'petrochemical'] },
+  { cat: 'society', words: ['migration', 'refugee', 'population', 'exodus', 'abortion', 'gender', 'race', 'racism'] },
+];
 
 // ── CSV helpers ──────────────────────────────────────────────────
 
 function csvParse(text) {
   const rows = [];
   const lines = text.split('\n').filter(Boolean);
-  if (lines.length === 0) return rows;
+  if (lines.length === 0) return [[], []];
   const header = parseLine(lines[0]);
   for (let i = 1; i < lines.length; i++) {
     const vals = parseLine(lines[i]);
@@ -64,10 +77,15 @@ function toCsv(rows) {
   return lines.join('\n') + '\n';
 }
 
+function ensureColumn(rows, col, defaultValue = '') {
+  for (const r of rows) {
+    if (!(col in r)) r[col] = defaultValue;
+  }
+}
+
 // ── Image resolution ─────────────────────────────────────────────
 
 function resolveImagePath(url) {
-  // Supports: $media/…, /media/…, or bare relative (e.g. projects/…)
   let clean = url;
   if (clean.startsWith('$media/')) clean = clean.slice(7);
   else if (clean.startsWith('/media/')) clean = clean.slice(7);
@@ -84,7 +102,19 @@ function resolveImagePath(url) {
   return null;
 }
 
-// ── Sharp heuristic classifier ───────────────────────────────────
+// ── Filename-based category ──────────────────────────────────────
+
+function classifyFromFilename(title) {
+  const lower = title.toLowerCase();
+  for (const { cat, words } of CATEGORY_KEYWORDS) {
+    for (const w of words) {
+      if (lower.includes(w)) return cat;
+    }
+  }
+  return '';
+}
+
+// ── Sharp heuristic classifier (graphic_type only) ───────────────
 
 async function classifySharp(imagePath) {
   try {
@@ -94,21 +124,16 @@ async function classifySharp(imagePath) {
     if (!width || !height) return 'other';
 
     const aspect = width / height;
-    const totalPixels = width * height;
 
-    // Resize to a small sample for analysis
     const sample = await img
       .resize(64, 64, { fit: 'fill' })
       .raw()
       .toBuffer();
 
-    // Analyze pixel data
     const pixels = [];
-    for (let i = 0; i < sample.length; i += 3) {
+    for (let i = 0; i < sample.length; i += 3)
       pixels.push({ r: sample[i], g: sample[i + 1], b: sample[i + 2] });
-    }
 
-    // Count unique colors (quantized)
     const colorSet = new Set();
     for (const p of pixels) {
       const qr = Math.round(p.r / 32) * 32;
@@ -118,7 +143,6 @@ async function classifySharp(imagePath) {
     }
     const uniqueColors = colorSet.size;
 
-    // Calculate saturation statistics
     let satSum = 0;
     let satSumSq = 0;
     for (const p of pixels) {
@@ -129,92 +153,45 @@ async function classifySharp(imagePath) {
       satSumSq += sat * sat;
     }
     const n = pixels.length;
-    const meanSat = satSum / n;
-    const satVariance = satSumSq / n - meanSat * meanSat;
+    const satVariance = satSumSq / n - (satSum / n) * (satSum / n);
 
-    // White/light background detection
-    const lightThreshold = 220;
-    const lightPixels = pixels.filter(p => p.r > lightThreshold && p.g > lightThreshold && p.b > lightThreshold);
+    const lightPixels = pixels.filter(p => p.r > 220 && p.g > 220 && p.b > 220);
     const lightRatio = lightPixels.length / n;
 
-    // Green and blue dominance (for maps)
     const greenBlue = pixels.filter(p => p.g > 100 && p.b > 100 && p.r < p.g && p.r < p.b);
     const gbRatio = greenBlue.length / n;
 
-    // Edge density via convolution
     const edgeBuffer = await img
       .resize(128, 128, { fit: 'fill' })
       .greyscale()
-      .convolve({
-        width: 3,
-        height: 3,
-        kernel: [-1, -1, -1, -1, 8, -1, -1, -1, -1],
-      })
+      .convolve({ width: 3, height: 3, kernel: [-1, -1, -1, -1, 8, -1, -1, -1, -1] })
       .raw()
       .toBuffer();
 
     let edgePixels = 0;
-    for (let i = 0; i < edgeBuffer.length; i++) {
+    for (let i = 0; i < edgeBuffer.length; i++)
       if (edgeBuffer[i] > 80) edgePixels++;
-    }
     const edgeRatio = edgePixels / edgeBuffer.length;
 
-    // ── Classification logic ──
-
-    const isWide = aspect > 1.2;
-    const isTall = aspect < 0.8;
-
-    // Chart: white/light bg, many edges (text/lines), moderate unique colors
-    if (lightRatio > 0.3 && edgeRatio > 0.08 && uniqueColors > 30) {
-      return 'chart';
-    }
-
-    // Map: green-blue dominant, wide, moderate edges
-    if (gbRatio > 0.15 && isWide && edgeRatio > 0.05) {
-      return 'map';
-    }
-
-    // Map: also if very wide with moderate edges and not too many unique colors
-    if (aspect > 1.5 && edgeRatio > 0.04 && uniqueColors > 20 && uniqueColors < 120) {
-      return 'map';
-    }
-
-    // Illustration: very few unique colors, flat saturation
-    if (uniqueColors < 30 && satVariance < 0.02) {
-      return 'illustration';
-    }
-
-    // Photo: high saturation variance, low light ratio, high unique colors
-    if (satVariance > 0.08 && uniqueColors > 80 && lightRatio < 0.3) {
-      return 'photo';
-    }
-
-    // Photo: also high color diversity with natural gradients
-    if (uniqueColors > 100 && satVariance > 0.05) {
-      return 'photo';
-    }
-
-    // Chart fallback: lots of edges (text-heavy)
-    if (edgeRatio > 0.12) {
-      return 'chart';
-    }
-
-    // Map fallback: very wide
-    if (aspect > 1.8) {
-      return 'map';
-    }
-
+    if (lightRatio > 0.3 && edgeRatio > 0.08 && uniqueColors > 30) return 'chart';
+    if (gbRatio > 0.15 && aspect > 1.2 && edgeRatio > 0.05) return 'map';
+    if (aspect > 1.5 && edgeRatio > 0.04 && uniqueColors > 20 && uniqueColors < 120) return 'map';
+    if (uniqueColors < 30 && satVariance < 0.02) return 'illustration';
+    if (satVariance > 0.08 && uniqueColors > 80 && lightRatio < 0.3) return 'photo';
+    if (uniqueColors > 100 && satVariance > 0.05) return 'photo';
+    if (edgeRatio > 0.12) return 'chart';
+    if (aspect > 1.8) return 'map';
     return 'other';
   } catch {
     return 'other';
   }
 }
 
-// ── Ollama AI classifier ─────────────────────────────────────────
+// ── Ollama AI (graphic_type + category + alt) ────────────────────
 
 const OLLAMA_URL = 'http://localhost:11434/api/generate';
 
-async function classifyOllama(imagePath) {
+async function analyzeOllama(imagePath) {
   try {
     const imageBuffer = readFileSync(imagePath);
     const base64 = imageBuffer.toString('base64');
@@ -224,7 +201,7 @@ async function classifyOllama(imagePath) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         model: 'llava',
-        prompt: 'Is this image a chart, map, photo, illustration, or other? Reply with one word only.',
+        prompt: 'Write alt text for this image (max 12 words). Then classify it. Reply exactly as:\nalt=<description>\ntype=[chart|map|photo|illustration|other]\ncategory=[covid-19|conflict|natural-disaster|environment|politics|economy|science|sports|health|energy|society|misc]',
         images: [base64],
         stream: false,
       }),
@@ -233,12 +210,30 @@ async function classifyOllama(imagePath) {
     if (!response.ok) return null;
 
     const data = await response.json();
-    const text = data.response?.trim().toLowerCase() || '';
-    const matched = GRAPHIC_TYPES.find(t => text.includes(t));
-    return matched || 'other';
+    const text = data.response?.trim() || '';
+
+    const altMatch = text.match(/alt\s*=\s*(.+)/i);
+    const typeMatch = text.match(/type\s*[=:]\s*(\w+)/i);
+    const catMatch = text.match(/category\s*[=:]\s*([\w-]+)/i);
+
+    const graphicType = typeMatch && GRAPHIC_TYPES.includes(typeMatch[1].toLowerCase())
+      ? typeMatch[1].toLowerCase() : 'other';
+    const category = catMatch && catMatch[1].toLowerCase() !== 'misc' ? catMatch[1].toLowerCase() : '';
+    const alt = altMatch ? altMatch[1].trim().replace(/^["']|["']$/g, '') : '';
+
+    return { graphicType, category, alt };
   } catch {
     return null;
   }
+}
+
+// ── Alt text fallback ────────────────────────────────────────────
+
+function altFromEntry(entry, graphicType) {
+  const t = entry.title || entry.id || 'image';
+  const g = graphicType || 'graphic';
+  const clean = t.replace(/[-_]/g, ' ').replace(/\s+/g, ' ').trim();
+  return `A ${g} showing ${clean}`;
 }
 
 // ── Check Ollama availability ────────────────────────────────────
@@ -253,7 +248,6 @@ async function checkOllama() {
       p.log.warn('Ollama running but no models found. Run: ollama pull llava');
       return false;
     }
-    // Check if llava or similar vision model exists
     const hasVision = models.some(m => /llava|llama.*vision|bakllava|moondream/.test(m));
     if (!hasVision) {
       p.log.warn('No vision model detected. Run: ollama pull llava');
@@ -285,14 +279,8 @@ async function selectCsv() {
   return pick;
 }
 
-async function selectBackend() {
-  const useAi = await p.confirm({
-    message: 'Use Ollama AI for classification? (more accurate, requires ollama running)',
-    activeLabel: 'Yes (Ollama)',
-    inactiveLabel: 'No (sharp heuristic)',
-  });
-  if (p.isCancel(useAi)) return null;
-  return useAi;
+function needsClassify(row, field) {
+  return !row[field] || row[field] === 'dataviz';
 }
 
 async function main() {
@@ -308,52 +296,90 @@ async function main() {
     process.exit(1);
   }
 
-  if (!header.includes('graphic_type')) {
-    p.log.error("CSV missing 'graphic_type' column");
+  const hasType = header.includes('graphic_type');
+  const hasCat = header.includes('category');
+  const hasAlt = header.includes('alt');
+
+  if (!hasType && !hasCat && !hasAlt) {
+    p.log.error("CSV has none of: 'graphic_type', 'category', 'alt'");
     process.exit(1);
   }
 
   const mode = await p.select({
     message: 'How to handle existing values?',
     options: [
-      { value: 'fill', label: 'Fill missing only', hint: 'leave existing graphic_type and category as-is' },
+      { value: 'fill', label: 'Fill missing only', hint: 'leave existing values as-is' },
       { value: 'overwrite', label: 'Overwrite all', hint: 're-classify every entry' },
     ],
   });
   if (p.isCancel(mode)) { p.cancel(); process.exit(0); }
 
+  const doAlt = await p.confirm({
+    message: 'Generate alt text for images?',
+    activeLabel: 'Yes',
+    inactiveLabel: 'No',
+  });
+  if (p.isCancel(doAlt)) { p.cancel(); process.exit(0); }
+
   const toClassify = mode === 'overwrite'
     ? rows
-    : rows.filter(r => !r.graphic_type || r.graphic_type === 'dataviz');
+    : rows.filter(r => {
+        if (hasType && needsClassify(r, 'graphic_type')) return true;
+        if (hasCat && needsClassify(r, 'category')) return true;
+        if (doAlt && hasAlt && needsClassify(r, 'alt')) return true;
+        return false;
+      });
 
   if (toClassify.length === 0) {
-    p.log.info('All entries already have a specific graphic_type');
+    p.log.info('All entries already have values');
     process.exit(0);
   }
 
-  p.log.info(`${toClassify.length} / ${rows.length} entries to classify`);
+  p.log.info(`${toClassify.length} / ${rows.length} entries to process`);
 
-  const useAi = await selectBackend();
-  if (useAi === null) process.exit(0);
+  // Only show AI prompt if there's actual image analysis needed (type/category)
+  const needsImage = toClassify.some(r =>
+    (hasType && (mode === 'overwrite' || needsClassify(r, 'graphic_type'))) ||
+    (hasCat && (mode === 'overwrite' || needsClassify(r, 'category')))
+  );
 
+  let useAi = false;
   let ollamaOk = false;
-  if (useAi) {
-    const s = p.spinner();
-    s.start('Checking Ollama...');
-    ollamaOk = await checkOllama();
-    s.stop(ollamaOk ? 'Ollama ready' : 'Ollama not available');
 
-    if (!ollamaOk) {
-      const proceed = await p.confirm({
-        message: 'Ollama not available. Fall back to sharp heuristic?',
-        activeLabel: 'Yes',
-        inactiveLabel: 'No, cancel',
-      });
-      if (p.isCancel(proceed) || !proceed) { p.cancel(); process.exit(0); }
+  if (needsImage || doAlt) {
+    const aiChoice = await p.confirm({
+      message: 'Use Ollama AI?' + (doAlt ? ' (recommended for good alt text)' : ''),
+      activeLabel: 'Yes (Ollama)',
+      inactiveLabel: 'No (heuristic)',
+    });
+    if (p.isCancel(aiChoice)) { p.cancel(); process.exit(0); }
+    useAi = aiChoice;
+
+    if (useAi) {
+      const s = p.spinner();
+      s.start('Checking Ollama...');
+      ollamaOk = await checkOllama();
+      s.stop(ollamaOk ? 'Ollama ready' : 'Ollama not available');
+
+      if (!ollamaOk) {
+        const proceed = await p.confirm({
+          message: 'Ollama not available. Fall back to heuristic?',
+          activeLabel: 'Yes',
+          inactiveLabel: 'No, cancel',
+        });
+        if (p.isCancel(proceed) || !proceed) { p.cancel(); process.exit(0); }
+      }
     }
   }
 
-  const results = { chart: 0, map: 0, photo: 0, illustration: 0, other: 0, failed: 0 };
+  // Ensure alt column exists
+  if (doAlt && !hasAlt) {
+    ensureColumn(rows, 'alt');
+  }
+
+  const typeResults = { chart: 0, map: 0, photo: 0, illustration: 0, other: 0, failed: 0 };
+  const catResults = {};
+  let altCount = 0;
   const prog = p.progress();
   prog.start(toClassify.length, toClassify.length);
 
@@ -362,41 +388,72 @@ async function main() {
     const imgPath = resolveImagePath(entry.url);
     prog.message(`[${i + 1}/${toClassify.length}] ${entry.id}`);
 
-    if (!imgPath) {
-      results.failed++;
-      p.log.warn(`Image not found: ${entry.url}`);
-      prog.advance();
-      continue;
-    }
+    const needType = hasType && (mode === 'overwrite' || needsClassify(entry, 'graphic_type'));
+    const needCat = hasCat && (mode === 'overwrite' || needsClassify(entry, 'category'));
+    const needAlt = doAlt && (mode === 'overwrite' || needsClassify(entry, 'alt'));
 
-    let type;
     if (useAi && ollamaOk) {
-      type = await classifyOllama(imgPath);
-      if (!type) {
-        p.log.warn(`Ollama failed for ${entry.id}, skipping`);
-        results.failed++;
+      if (!imgPath) {
+        p.log.warn(`Image not found: ${entry.url}`);
+        typeResults.failed++;
         prog.advance();
         continue;
       }
-    } else {
-      type = await classifySharp(imgPath);
-    }
 
-    entry.graphic_type = type;
-    results[type]++;
+      const result = await analyzeOllama(imgPath);
+      if (!result) {
+        p.log.warn(`Ollama failed for ${entry.id}, skipping`);
+        typeResults.failed++;
+        prog.advance();
+        continue;
+      }
+
+      if (needType) {
+        entry.graphic_type = result.graphicType;
+        typeResults[result.graphicType]++;
+      }
+      if (needCat) {
+        const cat = result.category || classifyFromFilename(entry.title || entry.id);
+        entry.category = cat || 'misc';
+        catResults[entry.category] = (catResults[entry.category] || 0) + 1;
+      }
+      if (needAlt) {
+        entry.alt = result.alt || altFromEntry(entry, result.graphicType);
+        altCount++;
+      }
+    } else {
+      let gtype = '';
+      if (needType) {
+        gtype = imgPath ? await classifySharp(imgPath) : 'other';
+        entry.graphic_type = gtype;
+        typeResults[gtype]++;
+      }
+      if (needCat) {
+        const cat = classifyFromFilename(entry.title || entry.id) || 'misc';
+        entry.category = cat;
+        catResults[cat] = (catResults[cat] || 0) + 1;
+      }
+      if (needAlt) {
+        gtype = gtype || entry.graphic_type || 'other';
+        entry.alt = altFromEntry(entry, gtype);
+        altCount++;
+      }
+    }
     prog.advance();
   }
 
   prog.stop(`Done — ${toClassify.length} processed`);
 
-  // Summary
-  const summary = Object.entries(results)
-    .filter(([, v]) => v > 0)
-    .map(([k, v]) => `${k}: ${v}`)
-    .join(' · ');
-  p.log.info(summary);
+  if (hasType) {
+    const s = Object.entries(typeResults).filter(([, v]) => v > 0).map(([k, v]) => `${k}: ${v}`).join(' · ');
+    p.log.info(`Types: ${s}`);
+  }
+  if (hasCat) {
+    const s = Object.entries(catResults).filter(([, v]) => v > 0).sort((a, b) => b[1] - a[1]).map(([k, v]) => `${k}: ${v}`).join(' · ');
+    p.log.info(`Categories: ${s}`);
+  }
+  if (doAlt) p.log.info(`Alt text generated: ${altCount}`);
 
-  // Save
   writeFileSync(csvPath, toCsv(rows));
   p.outro(`Updated ${csvFile}`);
 }
