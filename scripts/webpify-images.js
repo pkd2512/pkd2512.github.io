@@ -9,6 +9,7 @@ import * as p from '@clack/prompts';
 const __dirname = fileURLToPath(new URL('.', import.meta.url));
 const ROOT = resolve(__dirname, '..');
 const STATIC = resolve(ROOT, 'static');
+const STATIC_MEDIA = resolve(STATIC, 'media');
 const SRC = resolve(ROOT, 'src');
 const LOGS = resolve(ROOT, 'script-logs');
 const LOG_FILE = join(LOGS, 'webpify.log');
@@ -72,11 +73,13 @@ function logBlock(title, lines) {
 async function runConvert(force) {
   const t0 = Date.now();
   const ts = new Date().toISOString().replace('T', ' ').slice(0, 19);
+  const scanDir = await promptScanDir('convert');
+  if (!scanDir) process.exit(0);
 
   const s = p.spinner();
   s.start('Scanning images...');
 
-  const allFiles = walkDir(STATIC);
+  const allFiles = walkDir(scanDir);
   const images = allFiles.filter(f => IMAGE_EXTS.includes(extname(f).toLowerCase()));
   const existingWebps = allFiles.filter(f => f.endsWith('.webp')).length;
 
@@ -84,10 +87,11 @@ async function runConvert(force) {
     ? images
     : images.filter(f => !existsSync(f.replace(extname(f).toLowerCase(), '.webp')));
 
-  s.stop(`Found ${images.length} images · ${existingWebps} existing webp · ${needConvert.length} to convert`);
+  const label = scanDir === STATIC ? 'static/' : relative(STATIC, scanDir);
+  s.stop(`${label}: ${images.length} images · ${existingWebps} existing webp · ${needConvert.length} to convert`);
 
   const logLines = [
-    `WebP conversion  ·  ${ts}  ·  mode: ${force ? 'force' : 'missing'}`,
+    `WebP conversion  ·  ${ts}  ·  mode: ${force ? 'force' : 'missing'}  ·  dir: ${label}`,
     `Source images: ${images.length}  |  Existing .webp: ${existingWebps}  |  To convert: ${needConvert.length}`,
   ];
 
@@ -227,11 +231,13 @@ function findRefLines(webPath, files) {
 async function runCheck() {
   const t0 = Date.now();
   const ts = new Date().toISOString().replace('T', ' ').slice(0, 19);
+  const scanDir = await promptScanDir('check');
+  if (!scanDir) process.exit(0);
 
   const s = p.spinner();
   s.start('Scanning source files...');
 
-  const allStatic = walkDir(STATIC);
+  const allStatic = walkDir(scanDir);
   const staticImages = allStatic.filter(f => ALL_IMAGE_EXTS.includes(extname(f).toLowerCase()));
 
   const srcFiles = walkDir(SRC).filter(f =>
@@ -239,7 +245,8 @@ async function runCheck() {
   );
 
   const refs = gatherRefs(srcFiles);
-  s.stop(`Scanned ${staticImages.length} images, ${srcFiles.length} source files`);
+  const label = scanDir === STATIC ? 'static/' : relative(STATIC, scanDir);
+  s.stop(`${label}: ${staticImages.length} images, ${srcFiles.length} source files`);
 
   const staticMap = new Map();
   for (const f of staticImages)
@@ -314,6 +321,75 @@ async function runCheck() {
   if (jpegPngUnreferenced.length > 0) {
     p.log.info(`JPEG/PNG not referenced: ${jpegPngUnreferenced.length} files can be removed`);
   }
+}
+
+// ── Directory prompt ────────────────────────────────────────────
+
+async function promptScanDir(forWhat) {
+  // Start by listing subdirs of static/media/
+  const topDirs = readdirSync(STATIC_MEDIA, { withFileTypes: true })
+    .filter(e => e.isDirectory() && !e.name.startsWith('.'))
+    .map(e => e.name)
+    .sort();
+
+  const options = [
+    { value: '__all_static__', label: 'Entire static/', hint: 'all images' },
+    ...topDirs.map(d => ({ value: d, label: d, hint: 'static/media/' + d })),
+    { value: '__custom__', label: 'Custom subdirectory' },
+  ];
+
+  const pick = await p.select({
+    message: `Which directory to ${forWhat}?`,
+    options,
+  });
+  if (p.isCancel(pick)) return null;
+
+  if (pick === '__all_static__') return STATIC;
+  if (pick === '__custom__') {
+    const custom = await p.text({
+      message: 'Path relative to static/',
+      placeholder: 'e.g., media/textures',
+      validate: (v) => {
+        if (!v) return 'Required';
+        const fp = join(STATIC, v);
+        if (!existsSync(fp)) return `Not found: static/${v}`;
+        return;
+      },
+    });
+    if (p.isCancel(custom)) return null;
+    return join(STATIC, custom);
+  }
+
+  return drillInto(join(STATIC_MEDIA, pick), forWhat);
+}
+
+async function drillInto(dir, forWhat) {
+  const entries = readdirSync(dir, { withFileTypes: true });
+  const subdirs = entries.filter(e => e.isDirectory() && !e.name.startsWith('.')).map(e => e.name).sort();
+  const hasImages = entries.some(e => e.isFile() && IMAGE_EXTS.includes(extname(e.name).toLowerCase()));
+
+  const label = relative(STATIC, dir);
+
+  // Leaf: no subdirs, just use it
+  if (subdirs.length === 0) return dir;
+
+  // Has subdirs — ask what to do
+  const options = [];
+  if (hasImages) {
+    options.push({ value: '__all__', label: `All images in ${label}`, hint: 'scan this dir too' });
+  }
+  for (const sd of subdirs) {
+    options.push({ value: sd, label: sd, hint: join(label, sd) });
+  }
+
+  const pick = await p.select({
+    message: `${label} has subdirectories. Scan all or pick one?`,
+    options,
+  });
+  if (p.isCancel(pick)) return null;
+
+  if (pick === '__all__') return dir;
+  return drillInto(join(dir, pick), forWhat);
 }
 
 // ── Main CLI ─────────────────────────────────────────────────────
