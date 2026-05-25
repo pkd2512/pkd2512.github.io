@@ -9,6 +9,10 @@
   let articles = $state(getContext('blogFeed') || []);
   let cardsEl = $state(null);
   let paused = $state(false);
+  const MEDIA_BREAKPOINT = '768px';
+  let isMobile = $state(
+    browser && window.matchMedia(`(width < ${MEDIA_BREAKPOINT})`).matches
+  );
   let articlesToShow = $derived(articles.slice(0, 3));
   let loopArticles = $derived(
     articlesToShow.length
@@ -18,15 +22,15 @@
 
   $effect(() => {
     if (!browser) return;
-    getBlogFeed()
-      .then((items) => {
-        if (items?.length) articles = items;
-      })
-      .catch(() => {});
+    const mq = window.matchMedia(`(width < ${MEDIA_BREAKPOINT})`);
+    isMobile = mq.matches;
+    const handler = (e) => (isMobile = e.matches);
+    mq.addEventListener('change', handler);
+    return () => mq.removeEventListener('change', handler);
   });
 
   $effect(() => {
-    if (!cardsEl || !loopArticles.length) return;
+    if (!cardsEl || !loopArticles.length || isMobile) return;
     const target = cardsEl.children[1];
     if (!target) return;
     const cardWidth = target.clientWidth;
@@ -41,17 +45,6 @@
     const gap = parseFloat(getComputedStyle(el).gap) || 0;
     el.scrollBy({ left: (cardWidth + gap) * dir, behavior: 'smooth' });
   }
-
-  let isMobile = $state(false);
-
-  $effect(() => {
-    if (!browser) return;
-    const mq = window.matchMedia('(width < 480px)');
-    isMobile = mq.matches;
-    const handler = (e) => (isMobile = e.matches);
-    mq.addEventListener('change', handler);
-    return () => mq.removeEventListener('change', handler);
-  });
 
   $effect(() => {
     if (!browser || isMobile || !cardsEl) return;
@@ -72,7 +65,7 @@
   });
 </script>
 
-<Container id="blog" width="lg">
+<Container id="blog" width={isMobile ? 'fluid' : 'lg'}>
   <h2 class="title">Latest from the blog</h2>
   <div class="cards-wrap">
     <button
@@ -92,7 +85,7 @@
       onmouseenter={() => (paused = true)}
       onmouseleave={() => (paused = false)}
     >
-      {#each loopArticles as article, i}
+      {#each isMobile ? articlesToShow : loopArticles as article}
         {@const start = article.description.indexOf('<h4>') + 4}
         {@const end = article.description.indexOf('</h4>')}
         {@const thumbnail = article.description
@@ -154,6 +147,10 @@
         background: var(--white-soft);
         border-radius: 50%;
       }
+
+      @media (--md-n-below) {
+        display: none;
+      }
     }
     .prev {
       left: calc(-1 * var(--space-m));
@@ -167,6 +164,7 @@
 
   .cards {
     min-width: 300px;
+    padding-inline: var(--space-s);
     display: flex;
     flex-flow: row;
     gap: var(--space-m);
@@ -193,9 +191,12 @@
     :global(> *) {
       scroll-snap-align: center;
     }
-    @media (--sm-n-below) {
+    @media (--md-n-below) {
       mask-image: none;
       -webkit-mask-image: none;
+    }
+    @media (--sm-n-below) {
+      gap: var(--space-xs);
     }
   }
 </style>
