@@ -2,7 +2,6 @@
   import { getContext } from 'svelte';
   import { browser } from '$app/environment';
   import Container from '$lib/components/ui/Container/index.svelte';
-  import LinkButton from '$lib/components/ui/LinkButton/index.svelte';
   import ReferralCard from '$lib/components/ui/ReferralCard/index.svelte';
   import Icon from '@iconify/svelte';
   import getBlogFeed from '$utils/getBlogFeed';
@@ -10,6 +9,10 @@
   let articles = $state(getContext('blogFeed') || []);
   let cardsEl = $state(null);
   let paused = $state(false);
+  const MEDIA_BREAKPOINT = '768px';
+  let isMobile = $state(
+    browser && window.matchMedia(`(width < ${MEDIA_BREAKPOINT})`).matches
+  );
   let articlesToShow = $derived(articles.slice(0, 3));
   let loopArticles = $derived(
     articlesToShow.length
@@ -19,22 +22,20 @@
 
   $effect(() => {
     if (!browser) return;
-    getBlogFeed()
-      .then((items) => {
-        if (items?.length) articles = items;
-      })
-      .catch(() => {});
+    const mq = window.matchMedia(`(width < ${MEDIA_BREAKPOINT})`);
+    isMobile = mq.matches;
+    const handler = (e) => (isMobile = e.matches);
+    mq.addEventListener('change', handler);
+    return () => mq.removeEventListener('change', handler);
   });
 
   $effect(() => {
-    if (!cardsEl || !loopArticles.length) return;
+    if (!cardsEl || !loopArticles.length || isMobile) return;
     const target = cardsEl.children[1];
     if (!target) return;
-    target.scrollIntoView({
-      behavior: 'instant',
-      inline: 'center',
-      block: 'nearest',
-    });
+    const cardWidth = target.clientWidth;
+    const gap = parseFloat(getComputedStyle(cardsEl).gap) || 0;
+    cardsEl.scrollTo({ left: cardWidth + gap, behavior: 'instant' });
   });
 
   function scrollCards(dir) {
@@ -46,6 +47,7 @@
   }
 
   $effect(() => {
+    if (!browser || isMobile || !cardsEl) return;
     const el = cardsEl;
     const cardWidth = el.children[0]?.clientWidth ?? 0;
     const gap = parseFloat(getComputedStyle(el).gap) || 0;
@@ -59,13 +61,11 @@
       el.scrollBy({ left: step, behavior: 'smooth' });
     }, 3000);
 
-    return () => {
-      clearInterval(interval);
-    };
+    return () => clearInterval(interval);
   });
 </script>
 
-<Container id="blog" width="lg">
+<Container id="blog" width={isMobile ? 'fluid' : 'lg'}>
   <h2 class="title">Latest from the blog</h2>
   <div class="cards-wrap">
     <button
@@ -85,7 +85,7 @@
       onmouseenter={() => (paused = true)}
       onmouseleave={() => (paused = false)}
     >
-      {#each loopArticles as article, i}
+      {#each isMobile ? articlesToShow : loopArticles as article}
         {@const start = article.description.indexOf('<h4>') + 4}
         {@const end = article.description.indexOf('</h4>')}
         {@const thumbnail = article.description
@@ -111,12 +111,6 @@
       />
     </button>
   </div>
-  <!-- <div class="bloglink">
-    <div class="icon">
-      <Icon icon="zondicons:news-paper" />
-    </div>
-    <LinkButton solid url="/blog" target="" label="Show all posts" />
-  </div> -->
 </Container>
 
 <style lang="scss">
@@ -125,6 +119,7 @@
     #blog {
       margin-block: var(--space-2xl-3xl);
       margin-inline: auto;
+      overflow-x: hidden;
     }
   }
 
@@ -147,13 +142,14 @@
       color: var(--purple);
       height: 100%;
       padding-inline: var(--space-s);
-      @media (--sm-n-below) {
-        display: none;
-      }
 
       :global(svg) {
         background: var(--white-soft);
         border-radius: 50%;
+      }
+
+      @media (--md-n-below) {
+        display: none;
       }
     }
     .prev {
@@ -168,6 +164,7 @@
 
   .cards {
     min-width: 300px;
+    padding-inline: var(--space-s);
     display: flex;
     flex-flow: row;
     gap: var(--space-m);
@@ -194,26 +191,12 @@
     :global(> *) {
       scroll-snap-align: center;
     }
-    @media (--sm-n-below) {
-      // flex-flow: column;
-      // gap: 0;
-      // overflow-x: visible;
-      // scroll-snap-type: none;
+    @media (--md-n-below) {
       mask-image: none;
       -webkit-mask-image: none;
     }
-  }
-
-  .bloglink {
-    text-align: center;
-    .icon {
-      margin-block: var(--space-2xs);
-      font-size: var(--font-size-1);
-      :global {
-        path {
-          fill: var(--purple);
-        }
-      }
+    @media (--sm-n-below) {
+      gap: var(--space-s);
     }
   }
 </style>

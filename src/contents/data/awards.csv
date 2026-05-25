@@ -1,9 +1,10 @@
-id,img,url,alt
-snd,snd.webp,https://snd.org/best-of-design-competitions/snd44-annual-creative-competition-results/,Society for News Design Awards
-reuters,reuters.webp,https://www.reutersagency.com/en/about/journalists-of-the-year-awards/,Reuters Journalists of the Year Awards
-webby,webby.webp,https://winners.webbyawards.com/2021/websites-and-mobile-sites/features-design/technical-achievement/174760/covid-tracker,Webby Awards
-iib,iib.webp,https://www.informationisbeautifulawards.com/showcase,Information is Beautiful Awards
-lapress,la-pc.webp,https://lapressclub.org/naej/,Los Angeles Press Club’s National Entertainment Journalism Awards
-whitman,whitman.webp,https://opcofamerica.org/Awardarchive/the-whitman-bassow-award-2023/,18 The Whitman Bassow Award 2023
-fcc,fcc.webp,https://www.youtube.com/watch?v=z2eIfTX-6Jw,Kalinga FCC Awards for excellence in Journalism
-adobe,adobe.webp,https://www.adobeawards.com/the-gallery?y=2018&liveproject=20188973,Adobe Design Achievement Awards
+id,img,url,alt,archive_url
+snd,snd.webp,https://snd.org/best-of-design-competitions/snd44-annual-creative-competition-results/,Society for News Design Awards,
+reuters,reuters.webp,https://www.reutersagency.com/en/about/journalists-of-the-year-awards/,Reuters Journalists of the Year Awards,
+webby,webby.webp,https://winners.webbyawards.com/2021/websites-and-mobile-sites/features-design/technical-achievement/174760/covid-tracker,Webby Awards,http://web.archive.org/web/20260122111718/https://winners.webbyawards.com/2021/websites-and-mobile-sites/features-design/technical-achievement/174760/covid-tracker
+iib,iib.webp,https://www.informationisbeautifulawards.com/showcase,Information is Beautiful Awards,
+lapress,la-pc.webp,https://lapressclub.org/naej/,Los Angeles Press Club’s National Entertainment Journalism Awards,
+whitman,whitman.webp,https://opcofamerica.org/Awardarchive/the-whitman-bassow-award-2023/,18 The Whitman Bassow Award 2023,http://web.archive.org/web/20260215071544/https://opcofamerica.org/Awardarchive/the-whitman-bassow-award-2023/
+fcc,fcc.webp,https://www.youtube.com/watch?v=z2eIfTX-6Jw,Kalinga FCC Awards for excellence in Journalism,http://web.archive.org/web/20251229105404/https://www.youtube.com/watch?v=z2eIfTX-6Jw
+adobe,adobe.webp,https://www.adobeawards.com/the-gallery?y=2018&liveproject=20188973,Adobe Design Achievement Awards,http://web.archive.org/web/20260219054847/https://www.adobeawards.com/the-gallery?y=2018&liveproject=20188973
+sigma,sigma.webp,https://www.sigmaawards.org/from-toxic-supply-chains-in-africa-to-baltic-sabotage-to-stolen-children-in-syria-10-data-projects-win-2026-sigma-awards/#:~:text=How%20Iran%20Moves%20Sanctioned%20Oil%20Around%20the%20World,The Sigma Awards,http://web.archive.org/web/20260525013514/https://www.sigmaawards.org/from-toxic-supply-chains-in-africa-to-baltic-sabotage-to-stolen-children-in-syria-10-data-projects-win-2026-sigma-awards/#:~:text=How%20Iran%20Moves%20Sanctioned%20Oil%20Around%20the%20World

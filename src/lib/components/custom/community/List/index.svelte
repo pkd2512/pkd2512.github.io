@@ -33,8 +33,8 @@
             <span class="topic">
               <strong
                 >{@html marked.parse(item.place)}
-                {#if item.link}
-                  <NavLink target="" url={item.link}
+                {#if item.archive_url || item.url}
+                  <NavLink target="" url={item.archive_url || item.url}
                     ><Icon
                       width="22"
                       height="22"

@@ -6,6 +6,8 @@
     "dev": "vite dev --open",
     "build": "rm -rf docs && vite build",
     "postbuild": "node scripts/generate-sitemap.js",
+    "webpify": "node scripts/webpify-images.js",
+    "archive-urls": "node scripts/archive-urls.js",
     "preview": "vite preview",
     "check": "svelte-kit sync && svelte-check --tsconfig ./jsconfig.json",
     "check:watch": "svelte-kit sync && svelte-check --tsconfig ./jsconfig.json --watch",
@@ -74,7 +76,9 @@
   },
   "type": "module",
   "dependencies": {
+    "@clack/prompts": "^1.4.0",
     "@vercel/speed-insights": "^2.0.0",
+    "archive-url": "1.1.1",
     "mapbox-gl": "^3.5.1",
     "sharp": "^0.33.5",
     "svelte-intersection-observer": "^0.10.0"

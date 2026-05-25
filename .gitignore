@@ -18,7 +18,7 @@ node_modules
 .envrc
 
 # Logs
-*.log
+/logs
 yarn-error.log
 yarn-debug.log
 
