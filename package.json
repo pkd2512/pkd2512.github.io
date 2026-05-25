@@ -11,6 +11,7 @@
     "webpify": "node scripts/webpify-images.js",
     "media:manifest": "node scripts/generate-media-manifest.js",
     "archive-urls": "node scripts/archive-urls.js",
+    "gallery": "node scripts/generate-gallery.js",
     "sync:data": "node scripts/sync-data-from-sheet.js",
     "preview": "vite preview",
     "check": "svelte-kit sync && svelte-check --tsconfig ./jsconfig.json",
