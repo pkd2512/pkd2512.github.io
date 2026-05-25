@@ -2,7 +2,6 @@
   import { getContext } from 'svelte';
   import { browser } from '$app/environment';
   import Container from '$lib/components/ui/Container/index.svelte';
-  import LinkButton from '$lib/components/ui/LinkButton/index.svelte';
   import ReferralCard from '$lib/components/ui/ReferralCard/index.svelte';
   import Icon from '@iconify/svelte';
   import getBlogFeed from '$utils/getBlogFeed';
@@ -43,7 +42,19 @@
     el.scrollBy({ left: (cardWidth + gap) * dir, behavior: 'smooth' });
   }
 
+  let isMobile = $state(false);
+
   $effect(() => {
+    if (!browser) return;
+    const mq = window.matchMedia('(width < 480px)');
+    isMobile = mq.matches;
+    const handler = (e) => (isMobile = e.matches);
+    mq.addEventListener('change', handler);
+    return () => mq.removeEventListener('change', handler);
+  });
+
+  $effect(() => {
+    if (!browser || isMobile || !cardsEl) return;
     const el = cardsEl;
     const cardWidth = el.children[0]?.clientWidth ?? 0;
     const gap = parseFloat(getComputedStyle(el).gap) || 0;
@@ -57,9 +68,7 @@
       el.scrollBy({ left: step, behavior: 'smooth' });
     }, 3000);
 
-    return () => {
-      clearInterval(interval);
-    };
+    return () => clearInterval(interval);
   });
 </script>
 
@@ -109,12 +118,6 @@
       />
     </button>
   </div>
-  <!-- <div class="bloglink">
-    <div class="icon">
-      <Icon icon="zondicons:news-paper" />
-    </div>
-    <LinkButton solid url="/blog" target="" label="Show all posts" />
-  </div> -->
 </Container>
 
 <style lang="scss">
@@ -123,6 +126,7 @@
     #blog {
       margin-block: var(--space-2xl-3xl);
       margin-inline: auto;
+      overflow-x: hidden;
     }
   }
 
@@ -145,9 +149,6 @@
       color: var(--purple);
       height: 100%;
       padding-inline: var(--space-s);
-      @media (--sm-n-below) {
-        display: none;
-      }
 
       :global(svg) {
         background: var(--white-soft);
@@ -193,25 +194,8 @@
       scroll-snap-align: center;
     }
     @media (--sm-n-below) {
-      // flex-flow: column;
-      // gap: 0;
-      // overflow-x: visible;
-      // scroll-snap-type: none;
       mask-image: none;
       -webkit-mask-image: none;
-    }
-  }
-
-  .bloglink {
-    text-align: center;
-    .icon {
-      margin-block: var(--space-2xs);
-      font-size: var(--font-size-1);
-      :global {
-        path {
-          fill: var(--purple);
-        }
-      }
     }
   }
 </style>
