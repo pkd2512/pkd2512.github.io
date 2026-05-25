@@ -1,19 +1,36 @@
-import { appendFileSync, existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'fs';
+import * as p from '@clack/prompts';
+
+import {
+  appendFileSync,
+  existsSync,
+  mkdirSync,
+  readFileSync,
+  readdirSync,
+  writeFileSync,
+} from 'fs';
 import { basename, extname, join, resolve } from 'path';
+
 import { fileURLToPath } from 'url';
 import slugify from 'slugify';
-import * as p from '@clack/prompts';
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url));
 const ROOT = resolve(__dirname, '..');
 const STATIC_MEDIA = resolve(ROOT, 'static', 'media');
-const DATA = resolve(ROOT, 'data');
+const DATA = resolve(ROOT, 'src/contents/data');
 const LOGS = resolve(ROOT, 'script-logs');
 const LOG_FILE = join(LOGS, 'gallery.log');
 
 const WEBP_ONLY = new Set(['.webp']);
 const ALL_IMAGE_EXTS = new Set([
-  '.jpg', '.jpeg', '.png', '.gif', '.webp', '.svg', '.bmp', '.tiff', '.tif',
+  '.jpg',
+  '.jpeg',
+  '.png',
+  '.gif',
+  '.webp',
+  '.svg',
+  '.bmp',
+  '.tiff',
+  '.tif',
 ]);
 
 const COLUMNS = ['id', 'title', 'url', 'ref_url', 'graphic_type', 'category'];
@@ -26,7 +43,9 @@ function ensureLogs() {
 
 function logLine(msg) {
   const ts = new Date().toISOString().replace('T', ' ').slice(0, 19);
-  try { appendFileSync(LOG_FILE, `[${ts}] ${msg}\n`); } catch {}
+  try {
+    appendFileSync(LOG_FILE, `[${ts}] ${msg}\n`);
+  } catch {}
 }
 
 // ── CSV helpers ──────────────────────────────────────────────────
@@ -40,7 +59,9 @@ function csvParse(text) {
     const vals = parseLine(lines[i]);
     if (vals.length === 0) continue;
     const row = {};
-    header.forEach((h, j) => { row[h] = vals[j] || ''; });
+    header.forEach((h, j) => {
+      row[h] = vals[j] || '';
+    });
     rows.push(row);
   }
   return rows;
@@ -53,13 +74,23 @@ function parseLine(line) {
   for (let i = 0; i < line.length; i++) {
     const c = line[i];
     if (inQ) {
-      if (c === '"' && line[i + 1] === '"') { cur += '"'; i++; }
-      else if (c === '"') { inQ = false; }
-      else { cur += c; }
+      if (c === '"' && line[i + 1] === '"') {
+        cur += '"';
+        i++;
+      } else if (c === '"') {
+        inQ = false;
+      } else {
+        cur += c;
+      }
     } else {
-      if (c === '"') { inQ = true; }
-      else if (c === ',') { vals.push(cur); cur = ''; }
-      else { cur += c; }
+      if (c === '"') {
+        inQ = true;
+      } else if (c === ',') {
+        vals.push(cur);
+        cur = '';
+      } else {
+        cur += c;
+      }
     }
   }
   vals.push(cur);
@@ -86,13 +117,17 @@ function toCsv(rows) {
 
 function getWebpFiles(dirPath) {
   return readdirSync(dirPath)
-    .filter(f => WEBP_ONLY.has(extname(f).toLowerCase()))
+    .filter((f) => WEBP_ONLY.has(extname(f).toLowerCase()))
     .sort();
 }
 
 function getNonWebpFiles(dirPath) {
   return readdirSync(dirPath)
-    .filter(f => ALL_IMAGE_EXTS.has(extname(f).toLowerCase()) && !WEBP_ONLY.has(extname(f).toLowerCase()))
+    .filter(
+      (f) =>
+        ALL_IMAGE_EXTS.has(extname(f).toLowerCase()) &&
+        !WEBP_ONLY.has(extname(f).toLowerCase())
+    )
     .sort();
 }
 
@@ -102,11 +137,38 @@ function makeEntry(file, dirInput, defaults) {
   return {
     id: slugify(name, { lower: true, strict: true }),
     title: name,
-    url: `/media/${dirInput.replace(/\\/g, '/')}/${file}`,
+    url: `${dirInput.replace(/\\/g, '/')}/${file}`,
     ref_url: defaults.refUrl || '',
     graphic_type: defaults.graphicType || '',
     category: defaults.category || '',
   };
+}
+
+// ── Graphic type helper ─────────────────────────────────────────
+
+async function promptGraphicType(message, skipLabel) {
+  const pick = await p.select({
+    message,
+    options: [
+      { value: '', label: skipLabel },
+      { value: 'chart', label: 'Chart' },
+      { value: 'map', label: 'Map' },
+      { value: 'illustration', label: 'Illustration' },
+      { value: 'photo', label: 'Photo' },
+      { value: 'dataviz', label: 'Dataviz' },
+      { value: '__other__', label: 'Other' },
+    ],
+  });
+  if (p.isCancel(pick)) return null;
+  if (pick !== '__other__') return pick;
+
+  const custom = await p.text({
+    message: 'Specify graphic type',
+    placeholder: 'e.g., diagram, screenshot, ...',
+    validate: (v) => (v ? undefined : 'Required'),
+  });
+  if (p.isCancel(custom)) return null;
+  return custom;
 }
 
 // ── Prompt helpers ───────────────────────────────────────────────
@@ -118,18 +180,8 @@ async function promptDefaults() {
   });
   if (p.isCancel(refUrl)) return null;
 
-  const graphicType = await p.select({
-    message: 'Graphic type',
-    options: [
-      { value: '', label: '(none)' },
-      { value: 'chart', label: 'Chart' },
-      { value: 'map', label: 'Map' },
-      { value: 'illustration', label: 'Illustration' },
-      { value: 'photo', label: 'Photo' },
-      { value: 'other', label: 'Other' },
-    ],
-  });
-  if (p.isCancel(graphicType)) return null;
+  const graphicType = await promptGraphicType('Graphic type', '(none)');
+  if (graphicType === null) return null;
 
   const category = await p.text({
     message: 'Category',
@@ -141,7 +193,7 @@ async function promptDefaults() {
 }
 
 function getExistingUrls(rows) {
-  return new Set(rows.map(r => r.url));
+  return new Set(rows.map((r) => r.url));
 }
 
 async function fillMissingFields(entries) {
@@ -154,7 +206,9 @@ async function fillMissingFields(entries) {
     if (!e.category) missing.push('category');
     if (missing.length === 0) continue;
 
-    p.log.step(`[${i + 1}/${entries.length}] ${e.id} — missing: ${missing.join(', ')}`);
+    p.log.step(
+      `[${i + 1}/${entries.length}] ${e.id} — missing: ${missing.join(', ')}`
+    );
     const fill = await p.confirm({
       message: `Fill missing fields for "${e.title}"?`,
       activeLabel: 'Yes',
@@ -169,22 +223,15 @@ async function fillMissingFields(entries) {
       e.ref_url = val;
     }
     if (!e.graphic_type) {
-      const val = await p.select({
-        message: 'graphic_type',
-        options: [
-          { value: '', label: '(none)' },
-          { value: 'chart', label: 'Chart' },
-          { value: 'map', label: 'Map' },
-          { value: 'illustration', label: 'Illustration' },
-          { value: 'photo', label: 'Photo' },
-          { value: 'other', label: 'Other' },
-        ],
-      });
-      if (p.isCancel(val)) return null;
+      const val = await promptGraphicType('graphic_type', '(none)');
+      if (val === null) return null;
       e.graphic_type = val;
     }
     if (!e.category) {
-      const val = await p.text({ message: 'category', initialValue: e.category });
+      const val = await p.text({
+        message: 'category',
+        initialValue: e.category,
+      });
       if (p.isCancel(val)) return null;
       e.category = val;
     }
@@ -202,18 +249,11 @@ async function fillAllShared(entries) {
   });
   if (p.isCancel(refUrl)) return null;
 
-  const graphicType = await p.select({
-    message: 'Graphic type for all empty entries',
-    options: [
-      { value: '', label: '(skip)' },
-      { value: 'chart', label: 'Chart' },
-      { value: 'map', label: 'Map' },
-      { value: 'illustration', label: 'Illustration' },
-      { value: 'photo', label: 'Photo' },
-      { value: 'other', label: 'Other' },
-    ],
-  });
-  if (p.isCancel(graphicType)) return null;
+  const graphicType = await promptGraphicType(
+    'Graphic type for all empty entries',
+    '(skip)'
+  );
+  if (graphicType === null) return null;
 
   const category = await p.text({
     message: 'Category for all empty entries',
@@ -223,9 +263,18 @@ async function fillAllShared(entries) {
 
   let count = 0;
   for (const e of entries) {
-    if (!e.ref_url && refUrl) { e.ref_url = refUrl; count++; }
-    if (!e.graphic_type && graphicType) { e.graphic_type = graphicType; count++; }
-    if (!e.category && category) { e.category = category; count++; }
+    if (!e.ref_url && refUrl) {
+      e.ref_url = refUrl;
+      count++;
+    }
+    if (!e.graphic_type && graphicType) {
+      e.graphic_type = graphicType;
+      count++;
+    }
+    if (!e.category && category) {
+      e.category = category;
+      count++;
+    }
   }
   return count > 0;
 }
@@ -234,8 +283,8 @@ async function fillAllShared(entries) {
 
 async function generateEntries(imageFiles, dirInput, existingRows) {
   const existingUrls = getExistingUrls(existingRows);
-  const missing = imageFiles.filter(f => {
-    const url = `/media/${dirInput.replace(/\\/g, '/')}/${f}`;
+  const missing = imageFiles.filter((f) => {
+    const url = `${dirInput.replace(/\\/g, '/')}/${f}`;
     return !existingUrls.has(url);
   });
 
@@ -248,14 +297,14 @@ async function generateEntries(imageFiles, dirInput, existingRows) {
   const defaults = await promptDefaults();
   if (!defaults) return null;
 
-  const newEntries = missing.map(f => makeEntry(f, dirInput, defaults));
+  const newEntries = missing.map((f) => makeEntry(f, dirInput, defaults));
   return [...existingRows, ...newEntries];
 }
 
 async function regenerateAll(imageFiles, dirInput) {
   const defaults = await promptDefaults();
   if (!defaults) return null;
-  return imageFiles.map(f => makeEntry(f, dirInput, defaults));
+  return imageFiles.map((f) => makeEntry(f, dirInput, defaults));
 }
 
 // ── Main ─────────────────────────────────────────────────────────
@@ -271,18 +320,23 @@ async function main() {
       if (!v) return 'Required';
       const fp = join(STATIC_MEDIA, v);
       if (!existsSync(fp)) return `Directory not found: static/media/${v}`;
-      if (!readdirSync(fp).some(f => WEBP_ONLY.has(extname(f).toLowerCase())))
+      if (!readdirSync(fp).some((f) => WEBP_ONLY.has(extname(f).toLowerCase())))
         return 'No .webp files found in this directory';
     },
   });
-  if (p.isCancel(dirInput)) { p.cancel(); process.exit(0); }
+  if (p.isCancel(dirInput)) {
+    p.cancel();
+    process.exit(0);
+  }
 
   const dirPath = join(STATIC_MEDIA, dirInput);
   const webpFiles = getWebpFiles(dirPath);
   const nonWebp = getNonWebpFiles(dirPath);
 
   if (nonWebp.length > 0) {
-    p.log.warn(`Found ${nonWebp.length} non-webp image(s) — only .webp files will be processed`);
+    p.log.warn(
+      `Found ${nonWebp.length} non-webp image(s) — only .webp files will be processed`
+    );
     logLine(`WARN: ${dirInput} — ${nonWebp.length} non-webp images skipped`);
   }
 
@@ -296,18 +350,26 @@ async function main() {
 
   if (existsSync(outFile)) {
     const existing = csvParse(readFileSync(outFile, 'utf-8'));
-    p.log.warn(`CSV exists at data/${outName}.csv (${existing.length} entries)`);
+    p.log.warn(
+      `CSV exists at data/${outName}.csv (${existing.length} entries)`
+    );
 
     const chosen = await p.select({
       message: 'What to do?',
       options: [
         { value: 'add-missing', label: 'Add missing images only' },
         { value: 'overwrite', label: 'Overwrite all entries' },
-        { value: 'fill-fields', label: 'Fill empty fields on existing entries' },
+        {
+          value: 'fill-fields',
+          label: 'Fill empty fields on existing entries',
+        },
         { value: 'cancel', label: 'Cancel' },
       ],
     });
-    if (p.isCancel(chosen) || chosen === 'cancel') { p.cancel(); process.exit(0); }
+    if (p.isCancel(chosen) || chosen === 'cancel') {
+      p.cancel();
+      process.exit(0);
+    }
 
     if (chosen === 'add-missing') {
       const result = await generateEntries(webpFiles, dirInput, existing);
@@ -327,7 +389,10 @@ async function main() {
           { value: 'shared', label: 'Apply shared values to all empty fields' },
         ],
       });
-      if (p.isCancel(mode)) { p.cancel(); process.exit(0); }
+      if (p.isCancel(mode)) {
+        p.cancel();
+        process.exit(0);
+      }
 
       let changed;
       if (mode === 'one-by-one') {
@@ -340,7 +405,9 @@ async function main() {
       if (changed) {
         writeFileSync(outFile, toCsv(existing));
         p.outro(`Updated data/${outName}.csv`);
-        logLine(`${dirInput} — filled empty fields (${mode}), ${existing.length} entries`);
+        logLine(
+          `${dirInput} — filled empty fields (${mode}), ${existing.length} entries`
+        );
       } else {
         p.log.info('No changes made.');
         logLine(`${dirInput} — no empty fields to fill`);
@@ -356,10 +423,14 @@ async function main() {
 
   writeFileSync(outFile, toCsv(entries));
   p.outro(`Wrote ${entries.length} entries → data/${outName}.csv`);
-  logLine(`${dirInput} — ${action}, ${entries.length} entries → data/${outName}.csv`);
+  logLine(
+    `${dirInput} — ${action}, ${entries.length} entries → data/${outName}.csv`
+  );
 
   // Offer to fill missing fields after generation
-  const hasEmpty = entries.some(e => !e.ref_url || !e.graphic_type || !e.category);
+  const hasEmpty = entries.some(
+    (e) => !e.ref_url || !e.graphic_type || !e.category
+  );
   if (hasEmpty) {
     const doFill = await p.confirm({
       message: 'Some entries have empty fields. Fill them now?',
@@ -376,7 +447,10 @@ async function main() {
           { value: 'shared', label: 'Apply shared values to all' },
         ],
       });
-      if (p.isCancel(mode)) { p.cancel(); process.exit(0); }
+      if (p.isCancel(mode)) {
+        p.cancel();
+        process.exit(0);
+      }
 
       let changed;
       if (mode === 'one-by-one') {
