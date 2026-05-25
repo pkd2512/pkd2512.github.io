@@ -45,13 +45,13 @@
   };
 
   const makeCircleText = () => {
-    // generate circular text
     circleText = new CircleType(circleTextEl, makeText);
 
-    circleText.dir(1).forceWidth();
+    const badgeRect = badgeEl.getBoundingClientRect();
+    const radius = (Math.min(badgeRect.width, badgeRect.height) / 2) * 0.75;
 
-    // generate circle rotation scale
-    // @ts-ignore
+    circleText.dir(1).forceWidth(true).radius(radius);
+
     getRotation = scaleLinear()
       .domain([0, windowHeight * 0.8])
       .range([0, 360])
@@ -61,17 +61,17 @@
   onMount(() => {
     makeCircleText();
 
+    const onResize = () => {
+      // @ts-ignore
+      circleText.destroy();
+      makeCircleText();
+    };
+
     if (window)
-      window.addEventListener('resize', () => {
-        // @ts-ignore
-        circleText.refresh();
-      });
+      window.addEventListener('resize', onResize);
 
     return () => {
-      window.removeEventListener('resize', () => {
-        // @ts-ignore
-        circleText.refresh();
-      });
+      window.removeEventListener('resize', onResize);
     };
   });
 

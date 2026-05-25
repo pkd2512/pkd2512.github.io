@@ -196,7 +196,7 @@
       -webkit-mask-image: none;
     }
     @media (--sm-n-below) {
-      gap: var(--space-xs);
+      gap: var(--space-s);
     }
   }
 </style>
