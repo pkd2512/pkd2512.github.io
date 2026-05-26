@@ -2,6 +2,7 @@ import * as p from '@clack/prompts';
 
 import {
   appendFileSync,
+  copyFileSync,
   existsSync,
   mkdirSync,
   readFileSync,
@@ -9,6 +10,7 @@ import {
   writeFileSync,
 } from 'fs';
 import { basename, extname, join, resolve } from 'path';
+import { csvFormat, csvParse } from 'd3-dsv';
 
 import { fileURLToPath } from 'url';
 import slugify from 'slugify';
@@ -33,7 +35,29 @@ const ALL_IMAGE_EXTS = new Set([
   '.tif',
 ]);
 
-const COLUMNS = ['id', 'title', 'url', 'ref_url', 'graphic_type', 'category'];
+const BASE_COLUMNS = [
+  'id',
+  'title',
+  'url',
+  'ref_url',
+  'graphic_type',
+  'category',
+  'alt',
+];
+
+function getAllColumns(rows) {
+  const seen = new Set(BASE_COLUMNS);
+  const extra = [];
+  for (const row of rows) {
+    for (const key of Object.keys(row)) {
+      if (!seen.has(key)) {
+        seen.add(key);
+        extra.push(key);
+      }
+    }
+  }
+  return [...BASE_COLUMNS, ...extra];
+}
 
 // ── Logging ───────────────────────────────────────────────────────
 
@@ -48,69 +72,13 @@ function logLine(msg) {
   } catch {}
 }
 
-// ── CSV helpers ──────────────────────────────────────────────────
+// ── Backup ────────────────────────────────────────────────────────
 
-function csvParse(text) {
-  const rows = [];
-  const lines = text.split('\n').filter(Boolean);
-  if (lines.length === 0) return rows;
-  const header = parseLine(lines[0]);
-  for (let i = 1; i < lines.length; i++) {
-    const vals = parseLine(lines[i]);
-    if (vals.length === 0) continue;
-    const row = {};
-    header.forEach((h, j) => {
-      row[h] = vals[j] || '';
-    });
-    rows.push(row);
-  }
-  return rows;
-}
-
-function parseLine(line) {
-  const vals = [];
-  let cur = '';
-  let inQ = false;
-  for (let i = 0; i < line.length; i++) {
-    const c = line[i];
-    if (inQ) {
-      if (c === '"' && line[i + 1] === '"') {
-        cur += '"';
-        i++;
-      } else if (c === '"') {
-        inQ = false;
-      } else {
-        cur += c;
-      }
-    } else {
-      if (c === '"') {
-        inQ = true;
-      } else if (c === ',') {
-        vals.push(cur);
-        cur = '';
-      } else {
-        cur += c;
-      }
-    }
-  }
-  vals.push(cur);
-  return vals;
-}
-
-function csvEscape(val) {
-  const s = String(val);
-  if (s.includes(',') || s.includes('"') || s.includes('\n')) {
-    return '"' + s.replace(/"/g, '""') + '"';
-  }
-  return s;
-}
-
-function toCsv(rows) {
-  const lines = [COLUMNS.map(csvEscape).join(',')];
-  for (const row of rows) {
-    lines.push(COLUMNS.map((k) => csvEscape(row[k] ?? '')).join(','));
-  }
-  return lines.join('\n') + '\n';
+function backupCsv(filePath) {
+  if (!existsSync(filePath)) return null;
+  const bak = filePath + '.bak';
+  copyFileSync(filePath, bak);
+  return bak;
 }
 
 // ── Image helpers ────────────────────────────────────────────────
@@ -141,6 +109,7 @@ function makeEntry(file, dirInput, defaults) {
     ref_url: defaults.refUrl || '',
     graphic_type: defaults.graphicType || '',
     category: defaults.category || '',
+    alt: '',
   };
 }
 
@@ -195,6 +164,8 @@ async function promptDefaults() {
 function getExistingUrls(rows) {
   return new Set(rows.map((r) => r.url));
 }
+
+// ── Fill missing fields ──────────────────────────────────────────
 
 async function fillMissingFields(entries) {
   let changed = false;
@@ -279,32 +250,399 @@ async function fillAllShared(entries) {
   return count > 0;
 }
 
-// ── Mode: generate new entries ───────────────────────────────────
+// ── Mode: Merge (smart add-missing + renames + orphans) ─────────
 
-async function generateEntries(imageFiles, dirInput, existingRows) {
+async function mergeEntries(imageFiles, dirInput, existingRows) {
   const existingUrls = getExistingUrls(existingRows);
-  const missing = imageFiles.filter((f) => {
-    const url = `${dirInput.replace(/\\/g, '/')}/${f}`;
-    return !existingUrls.has(url);
-  });
+  const existingIdMap = new Map(existingRows.map((r) => [r.id, r]));
+  const normalizedDir = dirInput.replace(/\\/g, '/');
 
-  if (missing.length === 0) {
-    p.log.info('All images already have entries in the CSV.');
-    return existingRows;
+  const missingFiles = [];
+  const potentialRenames = [];
+
+  for (const file of imageFiles) {
+    const url = `${normalizedDir}/${file}`;
+    if (existingUrls.has(url)) continue;
+
+    const ext = extname(file);
+    const name = file.slice(0, -ext.length);
+    const slug = slugify(name, { lower: true, strict: true });
+
+    if (existingIdMap.has(slug)) {
+      potentialRenames.push({ file, slug, newUrl: url });
+    } else {
+      missingFiles.push(file);
+    }
   }
 
-  p.log.info(`${missing.length} new image(s) to add`);
-  const defaults = await promptDefaults();
-  if (!defaults) return null;
+  const fileUrls = new Set(imageFiles.map((f) => `${normalizedDir}/${f}`));
+  const orphans = existingRows.filter((r) => !fileUrls.has(r.url));
 
-  const newEntries = missing.map((f) => makeEntry(f, dirInput, defaults));
-  return [...existingRows, ...newEntries];
+  const summary = [];
+  if (missingFiles.length) summary.push(`${missingFiles.length} new`);
+  if (potentialRenames.length)
+    summary.push(`${potentialRenames.length} renames`);
+  if (orphans.length) summary.push(`${orphans.length} orphans`);
+
+  if (summary.length === 0) {
+    p.log.info('Everything is already in sync — no changes needed.');
+    return { entries: existingRows, changed: false };
+  }
+
+  p.log.info(`Merge summary: ${summary.join(', ')}`);
+
+  let entries = [...existingRows];
+
+  if (orphans.length > 0) {
+    p.log.warn(`${orphans.length} CSV entrie(s) have no matching file:`);
+    orphans.forEach((o) => p.log.warn(`  • ${o.url} (${o.id})`));
+    const removeOrphans = await p.confirm({
+      message: 'Remove orphaned entries from CSV?',
+      activeLabel: 'Remove',
+      inactiveLabel: 'Keep',
+    });
+    if (p.isCancel(removeOrphans)) return null;
+    if (removeOrphans) {
+      const orphanUrls = new Set(orphans.map((o) => o.url));
+      entries = entries.filter((e) => !orphanUrls.has(e.url));
+    }
+  }
+
+  for (const { file, slug, newUrl } of potentialRenames) {
+    const existing = existingIdMap.get(slug);
+    p.log.step(`Possible rename: "${existing.url}" → "${newUrl}"`);
+    const action = await p.select({
+      message: `What to do with "${existing.title}"?`,
+      options: [
+        { value: 'update', label: 'Update to new filename' },
+        { value: 'skip', label: 'Skip (keep existing entry)' },
+        { value: 'add-new', label: 'Add as new entry (keep both)' },
+      ],
+    });
+    if (p.isCancel(action)) return null;
+
+    if (action === 'update') {
+      const row = entries.find((r) => r.id === slug);
+      if (row) {
+        const ext = extname(file);
+        const name = file.slice(0, -ext.length);
+        row.url = newUrl;
+        row.title = name;
+      }
+    } else if (action === 'add-new') {
+      const entry = makeEntry(file, dirInput, {
+        refUrl: '',
+        graphicType: '',
+        category: '',
+      });
+      entries.push(entry);
+    }
+  }
+
+  if (missingFiles.length > 0) {
+    p.log.info(`${missingFiles.length} new image(s) to add`);
+    const defaults = await promptDefaults();
+    if (!defaults) return null;
+    const newEntries = missingFiles.map((f) =>
+      makeEntry(f, dirInput, defaults)
+    );
+    entries = [...entries, ...newEntries];
+  }
+
+  return { entries, changed: true };
 }
+
+// ── Mode: Update field ──────────────────────────────────────────
+
+async function updateFieldMode(entries) {
+  const field = await p.select({
+    message: 'Which field to update?',
+    options: [
+      { value: 'ref_url', label: 'ref_url' },
+      { value: 'graphic_type', label: 'graphic_type' },
+      { value: 'category', label: 'category' },
+    ],
+  });
+  if (p.isCancel(field)) return null;
+
+  const scope = await p.select({
+    message: 'Scope?',
+    options: [
+      { value: 'all', label: 'All entries' },
+      { value: 'empty', label: 'Only empty entries' },
+      { value: 'regex', label: 'Match by regex on id/title' },
+    ],
+  });
+  if (p.isCancel(scope)) return null;
+
+  let selected = [];
+  if (scope === 'all') {
+    selected = entries;
+  } else if (scope === 'empty') {
+    selected = entries.filter((e) => !e[field]);
+  } else if (scope === 'regex') {
+    const pattern = await p.text({
+      message: 'Regex pattern to match against id or title',
+      placeholder: 'e.g., covid|pandemic',
+      validate: (v) => {
+        if (!v) return 'Required';
+        try {
+          new RegExp(v, 'i');
+          return undefined;
+        } catch {
+          return 'Invalid regex';
+        }
+      },
+    });
+    if (p.isCancel(pattern)) return null;
+    const re = new RegExp(pattern, 'i');
+    selected = entries.filter((e) => re.test(e.id) || re.test(e.title));
+    p.log.info(`${selected.length} entrie(s) matched`);
+  }
+
+  if (selected.length === 0) {
+    p.log.info('No entries match the selected scope.');
+    return false;
+  }
+
+  const applyMode = await p.select({
+    message: 'Apply how?',
+    options: [
+      { value: 'bulk', label: 'Same value for all selected (overwrite)' },
+      { value: 'append', label: 'Append to existing values' },
+      { value: 'one-by-one', label: 'Prompt per entry' },
+    ],
+  });
+  if (p.isCancel(applyMode)) return null;
+
+  const SEP = ', ';
+
+  function applyValue(e, value) {
+    if (applyMode === 'append' && value) {
+      const cur = e[field];
+      const appended = cur ? `${cur}${SEP}${value}` : value;
+      if (e[field] !== appended) {
+        e[field] = appended;
+        return true;
+      }
+      return false;
+    }
+    if (e[field] !== value) {
+      e[field] = value;
+      return true;
+    }
+    return false;
+  }
+
+  let changed = false;
+  if (applyMode === 'bulk' || applyMode === 'append') {
+    let value;
+    if (field === 'graphic_type') {
+      const label =
+        applyMode === 'append'
+          ? `Append graphic_type for ${selected.length} entrie(s)`
+          : `Set graphic_type for ${selected.length} entrie(s)`;
+      value = await promptGraphicType(label, '(clear)');
+      if (value === null) return null;
+    } else {
+      const label =
+        applyMode === 'append'
+          ? `Value to append to ${field}`
+          : `Set ${field} for ${selected.length} entrie(s)`;
+      value = await p.text({
+        message: label,
+        placeholder:
+          applyMode === 'append'
+            ? 'e.g., health'
+            : 'Value (leave empty to clear)',
+      });
+      if (p.isCancel(value)) return null;
+    }
+    for (const e of selected) {
+      if (applyValue(e, value)) changed = true;
+    }
+    if (changed) p.log.info(`Updated ${field} on ${selected.length} entrie(s)`);
+  } else {
+    for (let i = 0; i < selected.length; i++) {
+      const e = selected[i];
+      p.log.step(
+        `[${i + 1}/${selected.length}] ${e.id} (current: ${e[field] || '(empty)'})`
+      );
+      let value;
+      if (field === 'graphic_type') {
+        value = await promptGraphicType(
+          `graphic_type for "${e.title}"`,
+          '(keep)'
+        );
+        if (value === null) return null;
+      } else {
+        value = await p.text({
+          message: `${field} for "${e.title}"`,
+          initialValue: e[field],
+        });
+        if (p.isCancel(value)) return null;
+      }
+      if (applyValue(e, value)) changed = true;
+    }
+  }
+  return changed;
+}
+
+// ── Mode: Add column ───────────────────────────────────────────
+
+async function addColumnMode(entries) {
+  const name = await p.text({
+    message: 'New column name',
+    placeholder: 'e.g., alt',
+    validate: (v) => {
+      if (!v) return 'Required';
+      if (BASE_COLUMNS.includes(v))
+        return `Column "${v}" is already a base column`;
+      return undefined;
+    },
+  });
+  if (p.isCancel(name)) return null;
+
+  const alreadyExists = entries.some((e) => name in e);
+  if (alreadyExists) {
+    p.log.warn(
+      `Column "${name}" already exists on some entries — values will be preserved`
+    );
+  }
+
+  const defaultValue = await p.text({
+    message: `Default value for "${name}"`,
+    placeholder: '(leave empty)',
+  });
+  if (p.isCancel(defaultValue)) return null;
+
+  let changed = false;
+  for (const e of entries) {
+    if (!(name in e)) {
+      e[name] = defaultValue;
+      changed = true;
+    }
+  }
+
+  if (changed) {
+    p.log.info(`Added column "${name}" to ${entries.length} entrie(s)`);
+  } else {
+    p.log.info(
+      `Column "${name}" already present on all entries — no changes needed`
+    );
+  }
+  return changed;
+}
+
+// ── Mode: Regenerate all ────────────────────────────────────────
 
 async function regenerateAll(imageFiles, dirInput) {
   const defaults = await promptDefaults();
   if (!defaults) return null;
   return imageFiles.map((f) => makeEntry(f, dirInput, defaults));
+}
+
+// ── Dry-run diff preview ────────────────────────────────────────
+
+function showDiffPreview(oldRows, newRows) {
+  const oldUrls = new Set(oldRows.map((r) => r.url));
+  const newUrls = new Set(newRows.map((r) => r.url));
+
+  const added = newRows.filter((r) => !oldUrls.has(r.url));
+  const removed = oldRows.filter((r) => !newUrls.has(r.url));
+
+  const cols = getAllColumns(newRows);
+  const oldMap = new Map(oldRows.map((r) => [r.url, r]));
+  const modified = newRows.filter((r) => {
+    if (!oldUrls.has(r.url)) return false;
+    const o = oldMap.get(r.url);
+    return cols.some((k) => o[k] !== r[k]);
+  });
+
+  p.log.info('─'.repeat(40));
+  p.log.info('Dry-run preview:');
+  if (added.length) p.log.info(`  + ${added.length} new`);
+  if (removed.length) p.log.info(`  - ${removed.length} removed`);
+  if (modified.length) p.log.info(`  ~ ${modified.length} modified`);
+  if (!added.length && !removed.length && !modified.length)
+    p.log.info('  No changes');
+  p.log.info('─'.repeat(40));
+  return { added, removed, modified };
+}
+
+// ── Confirm & write ────────────────────────────────────────────
+
+async function confirmAndWrite(outFile, rows, oldRows, action) {
+  if (oldRows) {
+    const { added, removed, modified } = showDiffPreview(oldRows, rows);
+    if (!added.length && !removed.length && !modified.length) {
+      p.log.info('No changes to write.');
+      return false;
+    }
+  }
+
+  if (oldRows) {
+    const proceed = await p.confirm({
+      message: 'Write changes to CSV?',
+      activeLabel: 'Write',
+      inactiveLabel: 'Cancel',
+    });
+    if (p.isCancel(proceed) || !proceed) {
+      p.log.info('Cancelled — no changes written.');
+      p.cancel();
+      return false;
+    }
+  }
+
+  const csv = csvFormat(rows, getAllColumns(rows));
+  const bak = backupCsv(outFile);
+  writeFileSync(outFile, csv);
+  const bakMsg = bak ? ` (backup: ${basename(bak)})` : '';
+  p.outro(`Wrote ${rows.length} entries → data/${basename(outFile)}${bakMsg}`);
+  logLine(`${basename(outFile)} — ${action}, ${rows.length} entries`);
+  return true;
+}
+
+// ── Post-generation: fill empty fields ─────────────────────────
+
+async function postFillEntries(entries, outFile) {
+  const hasEmpty = entries.some(
+    (e) => !e.ref_url || !e.graphic_type || !e.category
+  );
+  if (!hasEmpty) return;
+
+  const doFill = await p.confirm({
+    message: 'Some entries have empty fields. Fill them now?',
+    activeLabel: 'Yes',
+    inactiveLabel: 'No',
+  });
+  if (p.isCancel(doFill)) return;
+  if (!doFill) return;
+
+  const mode = await p.select({
+    message: 'Fill mode',
+    options: [
+      { value: 'one-by-one', label: 'One by one' },
+      { value: 'shared', label: 'Apply shared values to all' },
+    ],
+  });
+  if (p.isCancel(mode)) return;
+
+  let changed;
+  if (mode === 'one-by-one') {
+    changed = await fillMissingFields(entries);
+  } else {
+    changed = await fillAllShared(entries);
+  }
+  if (changed === null) return;
+
+  if (changed) {
+    const csv = csvFormat(entries, getAllColumns(entries));
+    backupCsv(outFile);
+    writeFileSync(outFile, csv);
+    logLine(`${basename(outFile)} — post-fill empty fields (${mode})`);
+  }
+  p.outro(`Updated data/${basename(outFile)}`);
 }
 
 // ── Main ─────────────────────────────────────────────────────────
@@ -342,11 +680,10 @@ async function main() {
 
   const outName = basename(dirInput) || 'gallery';
   const outFile = join(DATA, `${outName}.csv`);
-
   if (!existsSync(DATA)) mkdirSync(DATA, { recursive: true });
 
   let entries = [];
-  let action = 'generated';
+  let previousEntries = null;
 
   if (existsSync(outFile)) {
     const existing = csvParse(readFileSync(outFile, 'utf-8'));
@@ -357,12 +694,20 @@ async function main() {
     const chosen = await p.select({
       message: 'What to do?',
       options: [
-        { value: 'add-missing', label: 'Add missing images only' },
-        { value: 'overwrite', label: 'Overwrite all entries' },
+        {
+          value: 'merge',
+          label: 'Merge — add new, detect renames, warn orphans',
+        },
+        { value: 'overwrite', label: 'Overwrite all entries from scratch' },
         {
           value: 'fill-fields',
           label: 'Fill empty fields on existing entries',
         },
+        {
+          value: 'update-field',
+          label: 'Update a specific field across entries',
+        },
+        { value: 'add-column', label: 'Add a new column to all entries' },
         { value: 'cancel', label: 'Cancel' },
       ],
     });
@@ -371,16 +716,21 @@ async function main() {
       process.exit(0);
     }
 
-    if (chosen === 'add-missing') {
-      const result = await generateEntries(webpFiles, dirInput, existing);
+    if (chosen === 'merge') {
+      const result = await mergeEntries(webpFiles, dirInput, existing);
       if (!result) process.exit(0);
-      entries = result;
-      action = `add-missing (${entries.length - existing.length} new)`;
+      if (!result.changed) return;
+      entries = result.entries;
+      previousEntries = existing;
+      await confirmAndWrite(outFile, entries, previousEntries, 'merge');
+      await postFillEntries(entries, outFile);
     } else if (chosen === 'overwrite') {
       const result = await regenerateAll(webpFiles, dirInput);
       if (!result) process.exit(0);
       entries = result;
-      action = 'overwrite';
+      previousEntries = existing;
+      await confirmAndWrite(outFile, entries, previousEntries, 'overwrite');
+      await postFillEntries(entries, outFile);
     } else if (chosen === 'fill-fields') {
       const mode = await p.select({
         message: 'Fill mode',
@@ -389,10 +739,7 @@ async function main() {
           { value: 'shared', label: 'Apply shared values to all empty fields' },
         ],
       });
-      if (p.isCancel(mode)) {
-        p.cancel();
-        process.exit(0);
-      }
+      if (p.isCancel(mode)) process.exit(0);
 
       let changed;
       if (mode === 'one-by-one') {
@@ -403,14 +750,30 @@ async function main() {
       if (changed === null) process.exit(0);
 
       if (changed) {
-        writeFileSync(outFile, toCsv(existing));
-        p.outro(`Updated data/${outName}.csv`);
-        logLine(
-          `${dirInput} — filled empty fields (${mode}), ${existing.length} entries`
-        );
+        await confirmAndWrite(outFile, existing, null, `fill-fields (${mode})`);
       } else {
         p.log.info('No changes made.');
         logLine(`${dirInput} — no empty fields to fill`);
+      }
+      return;
+    } else if (chosen === 'update-field') {
+      const changed = await updateFieldMode(existing);
+      if (changed === null) process.exit(0);
+
+      if (changed) {
+        await confirmAndWrite(outFile, existing, null, 'update-field');
+      } else {
+        p.log.info('No changes made.');
+      }
+      return;
+    } else if (chosen === 'add-column') {
+      const changed = await addColumnMode(existing);
+      if (changed === null) process.exit(0);
+
+      if (changed) {
+        await confirmAndWrite(outFile, existing, null, 'add-column');
+      } else {
+        p.log.info('No changes made.');
       }
       return;
     }
@@ -418,54 +781,8 @@ async function main() {
     const result = await regenerateAll(webpFiles, dirInput);
     if (!result) process.exit(0);
     entries = result;
-    action = 'fresh';
-  }
-
-  writeFileSync(outFile, toCsv(entries));
-  p.outro(`Wrote ${entries.length} entries → data/${outName}.csv`);
-  logLine(
-    `${dirInput} — ${action}, ${entries.length} entries → data/${outName}.csv`
-  );
-
-  // Offer to fill missing fields after generation
-  const hasEmpty = entries.some(
-    (e) => !e.ref_url || !e.graphic_type || !e.category
-  );
-  if (hasEmpty) {
-    const doFill = await p.confirm({
-      message: 'Some entries have empty fields. Fill them now?',
-      activeLabel: 'Yes',
-      inactiveLabel: 'No',
-    });
-    if (p.isCancel(doFill)) process.exit(0);
-
-    if (doFill) {
-      const mode = await p.select({
-        message: 'Fill mode',
-        options: [
-          { value: 'one-by-one', label: 'One by one' },
-          { value: 'shared', label: 'Apply shared values to all' },
-        ],
-      });
-      if (p.isCancel(mode)) {
-        p.cancel();
-        process.exit(0);
-      }
-
-      let changed;
-      if (mode === 'one-by-one') {
-        changed = await fillMissingFields(entries);
-      } else {
-        changed = await fillAllShared(entries);
-      }
-      if (changed === null) process.exit(0);
-
-      if (changed) {
-        writeFileSync(outFile, toCsv(entries));
-        logLine(`${dirInput} — post-fill empty fields (${mode})`);
-      }
-      p.outro(`Updated data/${outName}.csv`);
-    }
+    await confirmAndWrite(outFile, entries, null, 'fresh');
+    await postFillEntries(entries, outFile);
   }
 }
 
