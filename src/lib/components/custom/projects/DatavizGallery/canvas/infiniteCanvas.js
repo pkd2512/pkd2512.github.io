@@ -13,17 +13,6 @@ export function hash32(s) {
 }
 
 /**
- * Wrap a coordinate so it stays in [-W/2, W/2].
- * @param {number} v
- * @param {number} W
- * @returns {number}
- */
-export function wrap(v, W) {
-  if (W <= 0) return 0;
-  return (((v % W) + W) % W) - W / 2;
-}
-
-/**
  * Mulberry32 PRNG.
  * @param {number} seed
  * @returns {() => number}
@@ -40,52 +29,121 @@ function mulberry32(seed) {
 }
 
 /**
- * Masonry layout using shortest-column filling.
- * Tile width is fixed, heights are passed in (from actual image aspect ratios).
- * Returns { x0, y0, w, h, url, ref_url, title, rot }.
- *
- * @param {Array<{url:string, ref_url?:string, title?:string}>} items
- * @param {number[]} heights  actual pixel height for each tile (computed from image aspect ratio)
- * @param {number} tileW   column width in px
- * @param {number} gap     gap in px
- * @param {string} seed    stable seed
- * @returns {Array<{x0:number, y0:number, w:number, h:number, url:string, ref_url:string, title:string, rot:number}>}
+ * Build a 256-element permutation table from a seed string.
+ * @param {string} seed
+ * @returns {Uint8Array}
  */
-export function layoutMasonry(items, heights, tileW, gap, seed) {
-  if (!items?.length) return [];
-
-  const cols = Math.max(1, Math.floor((2500 + gap) / (tileW + gap)));
-  const prng = mulberry32(hash32(seed));
-
-  const colHeights = new Array(cols).fill(0);
-  const result = [];
-
-  for (let i = 0; i < items.length; i++) {
-    const item = items[i];
-    const h = heights[i] || 200;
-
-    let minCol = 0;
-    for (let c = 1; c < cols; c++) {
-      if (colHeights[c] < colHeights[minCol]) minCol = c;
-    }
-
-    const x0 = minCol * (tileW + gap) + (prng() - 0.5) * gap * 0.5;
-    const y0 = colHeights[minCol] + (prng() - 0.5) * gap * 0.3;
-    const rot = (prng() * 2 - 1) * 2;
-
-    result.push({
-      x0,
-      y0,
-      w: tileW,
-      h,
-      url: '/media/' + item.url,
-      ref_url: item.ref_url || '',
-      title: item.title || '',
-      rot,
-    });
-
-    colHeights[minCol] = y0 + h + gap;
+function permTable(seed) {
+  const rng = mulberry32(hash32(seed));
+  const arr = Uint8Array.from({ length: 256 }, (_, i) => i);
+  for (let i = 255; i > 0; i--) {
+    const j = Math.floor(rng() * (i + 1));
+    const t = arr[i];
+    arr[i] = arr[j];
+    arr[j] = t;
   }
+  return arr;
+}
 
-  return result;
+/** Fade curve for Perlin noise */
+function fade(t) {
+  return t * t * t * (t * (t * 6 - 15) + 10);
+}
+
+/** Linear interpolation */
+function lerp(a, b, t) {
+  return a + t * (b - a);
+}
+
+/** Gradient dot product for Perlin noise */
+function grad(hash, x, y) {
+  const h = hash & 3;
+  const u = h < 2 ? x : y;
+  const v = h < 2 ? y : x;
+  return ((h & 1) === 0 ? u : -u) + ((h & 2) === 0 ? v : -v);
+}
+
+/**
+ * 2D Perlin noise. Returns values roughly in [-1, 1].
+ * @param {number} x
+ * @param {number} y
+ * @param {Uint8Array} perm - 512-element permutation table (two copies stacked)
+ * @returns {number}
+ */
+function perlin2D(x, y, perm) {
+  const X = Math.floor(x) & 255;
+  const Y = Math.floor(y) & 255;
+  const xf = x - Math.floor(x);
+  const yf = y - Math.floor(y);
+  const u = fade(xf);
+  const v = fade(yf);
+  const aa = perm[perm[X] + Y];
+  const ab = perm[perm[X] + Y + 1];
+  const ba = perm[perm[X + 1] + Y];
+  const bb = perm[perm[X + 1] + Y + 1];
+  return lerp(
+    lerp(grad(aa, xf, yf), grad(ba, xf - 1, yf), u),
+    lerp(grad(ab, xf, yf - 1), grad(bb, xf - 1, yf - 1), u),
+    v
+  );
+}
+
+/** Frame width in px */
+export const FRAME_W = 280;
+/** Gap between tiles in px */
+export const GAP = 30;
+/** Span precision for CSS grid-row: span calc(...) */
+export const PRECISION = 10;
+/** World width for the grid container */
+export const WORLD_W = 2500;
+
+/**
+ * Perlin-noise jitter offsets for a tile.
+ * Returns rotation (deg), dx (px), dy (px) — smoothly varying across tiles.
+ * @param {number} index
+ * @param {Uint8Array} perm
+ * @returns {{ rot: number, dx: number, dy: number }}
+ */
+export function tileJitter(index, perm) {
+  const x = index * 0.5;
+  const rot = perlin2D(x, 0, perm) * 2;
+  const dx = perlin2D(x, 100, perm) * GAP * 0.5;
+  const dy = perlin2D(x, 200, perm) * GAP * 0.3;
+  return { rot, dx, dy };
+}
+
+/**
+ * Generate the permutation table for a project seed.
+ * @param {string} seed
+ * @returns {Uint8Array}
+ */
+export function makePerm(seed) {
+  const p = permTable(seed);
+  const perm = new Uint8Array(512);
+  for (let i = 0; i < 512; i++) perm[i] = p[i & 255];
+  return perm;
+}
+
+/**
+ * Generate inline style string for a masonry tile.
+ * Sets aspect-ratio CSS variables and Perlin-noise jitter (rotation + position).
+ * @param {{aspect?:number}} item
+ * @param {string} seed
+ * @param {number} index
+ * @param {Uint8Array} perm
+ * @returns {string}
+ */
+export function tileStyle(item, seed, index, perm) {
+  const w = item.aspect ? Math.round(item.aspect * 1000) : 1;
+  const h = 1000;
+  const { rot, dx, dy } = tileJitter(index, perm);
+  return `--w: ${w}; --h: ${h}; transform: rotate(${rot}deg) translate(${dx}px, ${dy}px);`;
+}
+
+/**
+ * Inline styles for the masonry inner container (CSS Grid).
+ * @returns {string}
+ */
+export function masonryContainerStyle() {
+  return `display: grid; clip-path: margin-box; margin: calc(-1 * ${GAP}px / 2); grid-template-columns: repeat(auto-fill, minmax(${FRAME_W}px, 1fr)); width: ${WORLD_W}px;`;
 }

@@ -1,62 +1,62 @@
-/**
- * Generate 50x50 thumbnails for gallery images.
- *
- * Reads every .webp in static/media/projects/dataviz-gallery/ and writes a
- * cover-cropped 50x50 thumbnail to static/media/projects/dataviz-gallery/thumbs/.
- *
- * Idempotent: skips thumbs that already exist and are newer than the source.
- * Pass --force to regenerate.
- */
-import {
-  appendFileSync,
-  existsSync,
-  mkdirSync,
-  readdirSync,
-  statSync,
-} from 'fs';
+import { existsSync, mkdirSync, readdirSync, statSync } from 'fs';
 import { extname, join, relative, resolve } from 'path';
-
 import { fileURLToPath } from 'url';
 import sharp from 'sharp';
+import { select, text, isCancel, cancel, outro, spinner } from '@clack/prompts';
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url));
 const ROOT = resolve(__dirname, '..');
-const STATIC_MEDIA = resolve(ROOT, 'static', 'media');
-const SRC_DIR = resolve(STATIC_MEDIA, 'projects', 'dataviz-gallery');
-const OUT_DIR = resolve(SRC_DIR, 'thumbs');
-const LOGS = resolve(ROOT, 'script-logs');
-const LOG_FILE = join(LOGS, 'thumbnails.log');
-
-const SIZE = 50;
-const QUALITY = 60;
-const force = process.argv.includes('--force');
-
-function ensureDir(d) {
-  if (!existsSync(d)) mkdirSync(d, { recursive: true });
-}
-
-function logLine(msg) {
-  const ts = new Date().toISOString().replace('T', ' ').slice(0, 19);
-  try {
-    appendFileSync(LOG_FILE, `[${ts}] ${msg}\n`);
-  } catch {}
-}
+const MEDIA_ROOT = resolve(ROOT, 'static', 'media', 'projects');
 
 async function main() {
-  ensureDir(LOGS);
-  if (!existsSync(SRC_DIR)) {
-    console.error(`Source not found: ${SRC_DIR}`);
+  const dirs = readdirSync(MEDIA_ROOT)
+    .filter((d) => {
+      const p = join(MEDIA_ROOT, d);
+      return statSync(p).isDirectory();
+    })
+    .sort();
+
+  if (!dirs.length) {
+    cancel('No project media folders found under static/media/projects/');
     process.exit(1);
   }
-  ensureDir(OUT_DIR);
+
+  const folder = await select({
+    message: 'Which media folder?',
+    options: dirs.map((d) => ({ label: d, value: d })),
+  });
+  if (isCancel(folder)) { cancel('Cancelled'); process.exit(0); }
+
+  const sizeStr = await text({
+    message: 'Output width in pixels (height auto)?',
+    placeholder: '300',
+    validate: (v) => {
+      const n = parseInt(v, 10);
+      if (isNaN(n) || n < 1) return 'Enter a positive number';
+    },
+  });
+  if (isCancel(sizeStr)) { cancel('Cancelled'); process.exit(0); }
+
+  const SIZE = parseInt(sizeStr, 10);
+  const QUALITY = 60;
+  const SRC_DIR = join(MEDIA_ROOT, folder);
+  const OUT_DIR = join(SRC_DIR, `thumbs_${SIZE}`);
+
+  if (!existsSync(OUT_DIR)) mkdirSync(OUT_DIR, { recursive: true });
 
   const files = readdirSync(SRC_DIR)
     .filter((f) => extname(f).toLowerCase() === '.webp')
     .sort();
 
-  console.log(
-    `Found ${files.length} source images in ${relative(ROOT, SRC_DIR)}`
-  );
+  if (!files.length) {
+    cancel(`No images found in ${relative(ROOT, SRC_DIR)}`);
+    process.exit(0);
+  }
+
+  outro(`Found ${files.length} images → ${relative(ROOT, OUT_DIR)}/`);
+
+  const spin = spinner();
+  spin.start('Generating thumbnails');
 
   let made = 0;
   let skipped = 0;
@@ -67,7 +67,7 @@ async function main() {
     const src = join(SRC_DIR, file);
     const out = join(OUT_DIR, file);
 
-    if (!force && existsSync(out)) {
+    if (existsSync(out)) {
       const sStat = statSync(src);
       const oStat = statSync(out);
       if (oStat.mtimeMs >= sStat.mtimeMs) {
@@ -78,26 +78,20 @@ async function main() {
 
     try {
       await sharp(src)
-        .resize(SIZE, SIZE, { fit: 'cover', position: 'center' })
+        .resize({ width: SIZE })
         .webp({ quality: QUALITY, effort: 4 })
         .toFile(out);
       made++;
-      process.stdout.write(`\r  generating ${i + 1}/${files.length}`);
+      spin.message(`${made + skipped}/${files.length} — ${file}`);
     } catch (err) {
       failed++;
-      logLine(`FAIL ${file} — ${err.message}`);
     }
   }
 
-  if (files.length) process.stdout.write('\n');
-
-  const summary = `Done — ${made} generated · ${skipped} skipped · ${failed} failed`;
-  console.log(summary);
-  logLine(summary);
+  spin.stop(`Done — ${made} generated · ${skipped} skipped · ${failed} failed`);
 }
 
 main().catch((err) => {
   console.error(err);
-  logLine(`FATAL: ${err.message}`);
   process.exit(1);
 });
