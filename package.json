@@ -11,6 +11,7 @@
     "generate-gallery": "node scripts/generate-gallery.js",
     "classify-gallery": "node scripts/classify-gallery.js",
     "count-gallery": "node scripts/count-gallery.js",
+    "generate-thumbnails": "node scripts/generate-thumbnails.js",
     "new-page": "node scripts/new-page.js",
     "preview": "vite preview",
     "check": "svelte-kit sync && svelte-check --tsconfig ./jsconfig.json",
@@ -82,6 +83,7 @@
   "dependencies": {
     "@clack/prompts": "^1.4.0",
     "@google/genai": "^2.6.0",
+    "@masonry-grid/svelte": "^1.1.1",
     "@vercel/speed-insights": "^2.0.0",
     "archive-url": "1.1.1",
     "d3-delaunay": "^6.0.4",

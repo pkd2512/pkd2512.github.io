@@ -1,7 +1,15 @@
 import * as p from '@clack/prompts';
 
-import { existsSync, mkdirSync, readFileSync, readdirSync, statSync, writeFileSync } from 'fs';
 import { basename, dirname, join, resolve } from 'path';
+import {
+  existsSync,
+  mkdirSync,
+  readFileSync,
+  readdirSync,
+  statSync,
+  writeFileSync,
+} from 'fs';
+
 import { csvParse } from 'd3-dsv';
 import { fileURLToPath } from 'url';
 import sharp from 'sharp';
@@ -71,9 +79,7 @@ function count(rows, col, split) {
       map.get(val).indices.push(i);
     }
   }
-  return Array.from(map.values()).sort(
-    (a, b) => b.value - a.value,
-  );
+  return Array.from(map.values()).sort((a, b) => b.value - a.value);
 }
 
 /**
@@ -125,7 +131,7 @@ function fmt(s) {
 
 async function main() {
   const isPrecompute = process.argv.includes('--precompute');
-  const args = process.argv.slice(2).filter(a => !a.startsWith('--'));
+  const args = process.argv.slice(2).filter((a) => !a.startsWith('--'));
 
   // ── pick CSV ────────────────────────────────────────────
   const csvFiles = findFiles('src/contents/data', '.csv');
@@ -136,7 +142,7 @@ async function main() {
 
   let csvPath;
   if (args[0]) {
-    const match = csvFiles.find(f => f.endsWith(args[0]));
+    const match = csvFiles.find((f) => f.endsWith(args[0]));
     csvPath = match || csvFiles[0];
   } else {
     csvPath = await p.select({
@@ -162,14 +168,16 @@ async function main() {
       const meta = await sharp(filePath).metadata();
       row.w = meta.width;
       row.h = meta.height;
+      row.aspect = meta.width / meta.height;
     } catch (e) {
       row.w = 0;
       row.h = 0;
+      row.aspect = 0;
     }
   }
 
   const allCols = (rows.columns || Object.keys(rows[0] || {})).filter(
-    (c) => c && c !== 'id',
+    (c) => c && c !== 'id'
   );
 
   if (isPrecompute) {
@@ -179,7 +187,7 @@ async function main() {
     /** @type {string[]} */
     let chosen;
     if (args[1]) {
-      chosen = args[1].split(',').filter(c => allCols.includes(c));
+      chosen = args[1].split(',').filter((c) => allCols.includes(c));
     }
     if (!chosen || !chosen.length) {
       chosen = await p.multiselect({
@@ -198,7 +206,7 @@ async function main() {
     const skipMulti = args[1] !== undefined;
     for (const col of chosen) {
       const multi = skipMulti
-        ? (col === 'category' || col === 'tags')
+        ? col === 'category' || col === 'tags'
         : await p.confirm({
             message: `Does "${fmt(col)}" contain comma-separated values (tags)?`,
             activeLabel: 'Yes',
@@ -219,7 +227,7 @@ async function main() {
     }
     let compDir;
     if (args[2]) {
-      const match = components.find(c => c.endsWith(args[2]));
+      const match = components.find((c) => c.endsWith(args[2]));
       compDir = match ? resolve(ROOT, match) : resolve(ROOT, components[0]);
     } else {
       compDir = await p.select({
@@ -246,11 +254,11 @@ async function main() {
 
     const total = rows.length;
     p.log.info(
-      `Wrote ${chosen.length} columns → ${outFile.replace(ROOT, '').slice(1)}`,
+      `Wrote ${chosen.length} columns → ${outFile.replace(ROOT, '').slice(1)}`
     );
     for (const [col, vals] of Object.entries(data)) {
       p.log.info(
-        `  ${col.padEnd(18)} ${String(vals.length).padStart(2)} unique values  (${total} rows)`,
+        `  ${col.padEnd(18)} ${String(vals.length).padStart(2)} unique values  (${total} rows)`
       );
     }
     p.outro('Done');
@@ -294,7 +302,7 @@ async function main() {
 
     const maxLen = Math.max(
       ...sorted.map((d) => d.name.length),
-      fmt(col).length,
+      fmt(col).length
     );
     p.log.info(` ${fmt(col).padEnd(maxLen)}  Count  Pct     Distribution`);
     p.log.info('─'.repeat(maxLen + 34));
@@ -303,7 +311,7 @@ async function main() {
       const barLen = Math.round((d.value / sorted[0].value) * 20);
       const bar = '█'.repeat(barLen);
       p.log.info(
-        ` ${d.name.padEnd(maxLen)}  ${String(d.value).padStart(3)} (${pct.padStart(4)}%)  ${bar}`,
+        ` ${d.name.padEnd(maxLen)}  ${String(d.value).padStart(3)} (${pct.padStart(4)}%)  ${bar}`
       );
     }
   }
@@ -332,7 +340,9 @@ async function main() {
     mkdirSync(dirname(outFile), { recursive: true });
   const { code } = precomputeAll(rows, picked, multiCols);
   writeFileSync(outFile, code, 'utf-8');
-  p.log.info(`\nWrote precomputed file → ${outFile.replace(ROOT, '').slice(1)}`);
+  p.log.info(
+    `\nWrote precomputed file → ${outFile.replace(ROOT, '').slice(1)}`
+  );
 
   p.outro(`Counted by ${picked.length} column(s)`);
 }

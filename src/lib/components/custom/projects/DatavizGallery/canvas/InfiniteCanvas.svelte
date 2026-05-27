@@ -1,6 +1,14 @@
 <script>
   import { onMount } from 'svelte';
-  import { layoutMasonry, wrap } from './infiniteCanvas.js';
+  import {
+    FRAME_W,
+    GAP,
+    PRECISION,
+    WORLD_W,
+    tileStyle,
+    masonryContainerStyle,
+    makePerm,
+  } from './infiniteCanvas.js';
   import gsap from 'gsap';
   import { Draggable } from 'gsap/Draggable';
   import { InertiaPlugin } from 'gsap/InertiaPlugin';
@@ -9,7 +17,7 @@
 
   /**
    * @type {{
-   *   items: Array<{url:string, ref_url?:string, title?:string, w:number, h:number}>,
+   *   items: Array<{url:string, ref_url?:string, title?:string, aspect:number}>,
    *   title?: string,
    *   originRect: DOMRect | null,
    *   onclose: () => void
@@ -17,23 +25,7 @@
    */
   let { items = [], title = '', originRect = null, onclose } = $props();
 
-  const TILE_W = 280;
-  const GAP = 30;
-  const WORLD_W = 2500;
-
-  let heights = $derived(
-    items.map((item) =>
-      item.w && item.h ? Math.round((TILE_W * item.h) / item.w) : 200
-    )
-  );
-
-  let layout = $derived(
-    layoutMasonry(items, heights, TILE_W, GAP, 'canvas:' + title)
-  );
-
-  let maxExtent = $derived(
-    Math.max(...layout.map((t) => t.y0 + t.h + GAP), 1200)
-  );
+  let perm = $derived(makePerm(title));
 
   /** @type {HTMLDivElement | undefined} */
   let stageEl;
@@ -46,31 +38,11 @@
 
   gsap.ticker.lagSmoothing(0);
 
-  const wrapW = WORLD_W + TILE_W;
-
-  function applyWrap() {
-    if (!stageEl) return;
-    const sx = Number(gsap.getProperty(stageEl, 'x'));
-    const sy = Number(gsap.getProperty(stageEl, 'y'));
-    const tiles = /** @type {NodeListOf<HTMLElement>} */ (
-      stageEl.querySelectorAll('[data-tile]')
-    );
-    const wrapH = maxExtent + 400;
-    for (const t of tiles) {
-      const x0 = parseFloat(t.getAttribute('data-x0') || '0');
-      const y0 = parseFloat(t.getAttribute('data-y0') || '0');
-      const rot = t.getAttribute('data-rot') || '0';
-      const tx = wrap(x0 + sx, wrapW);
-      const ty = wrap(y0 + sy, wrapH);
-      t.style.transform = `translate(${tx}px, ${ty}px) rotate(${rot}deg)`;
-    }
+  function tileUrl(url) {
+    if (!url) return '';
+    const i = url.lastIndexOf('/');
+    return '/media/' + url.slice(0, i) + '/thumbs_600/' + url.slice(i + 1);
   }
-
-  $effect(() => {
-    if (layout.length && stageEl) {
-      applyWrap();
-    }
-  });
 
   onMount(() => {
     ready = true;
@@ -106,23 +78,15 @@
       );
     }
 
-    applyWrap();
-
     const draggable = Draggable.create(stageEl, {
       type: 'x,y',
       inertia: true,
       edgeResistance: 0,
-      onDrag: applyWrap,
-      onThrowUpdate: applyWrap,
       onClick: function (/** @type {MouseEvent} */ e) {
-        const tile = /** @type {HTMLElement} */ (e.target).closest(
-          '[data-tile]'
-        );
+        const tile = /** @type {HTMLElement} */ (e.target).closest('.tile');
         if (!tile) return;
-        const refUrl = /** @type {string} */ (
-          tile.getAttribute('data-ref-url')
-        );
-        const url = /** @type {string} */ (tile.getAttribute('data-url'));
+        const refUrl = tile.getAttribute('data-ref-url');
+        const url = tile.getAttribute('data-url');
         const href = refUrl || url;
         if (href) window.open(href, '_blank', 'noopener');
       },
@@ -137,7 +101,6 @@
         duration: 0.6,
         ease: 'power3.out',
         overwrite: 'auto',
-        onUpdate: applyWrap,
       });
     }
     overlayEl.addEventListener('wheel', onWheel, { passive: false });
@@ -167,7 +130,6 @@
           duration: 0.3,
           ease: 'power2.out',
           overwrite: 'auto',
-          onUpdate: applyWrap,
         });
         break;
       case 'ArrowRight':
@@ -177,7 +139,6 @@
           duration: 0.3,
           ease: 'power2.out',
           overwrite: 'auto',
-          onUpdate: applyWrap,
         });
         break;
       case 'ArrowUp':
@@ -187,7 +148,6 @@
           duration: 0.3,
           ease: 'power2.out',
           overwrite: 'auto',
-          onUpdate: applyWrap,
         });
         break;
       case 'ArrowDown':
@@ -197,29 +157,21 @@
           duration: 0.3,
           ease: 'power2.out',
           overwrite: 'auto',
-          onUpdate: applyWrap,
         });
         break;
     }
   }
 
   let closing = false;
-
   function close() {
     if (closing) return;
     closing = true;
-
     if (ghostEl && originRect) {
       ghostEl.style.display = '';
       gsap.set(ghostEl, { opacity: 1 });
       gsap.fromTo(
         ghostEl,
-        {
-          x: 0,
-          y: 0,
-          width: '100vw',
-          height: '100vh',
-        },
+        { x: 0, y: 0, width: '100vw', height: '100vh' },
         {
           x: originRect.x,
           y: originRect.y,
@@ -227,9 +179,7 @@
           height: originRect.height,
           duration: 0.35,
           ease: 'power3.in',
-          onComplete: () => {
-            onclose?.();
-          },
+          onComplete: () => onclose?.(),
         }
       );
     } else {
@@ -250,33 +200,35 @@
   <div class="ghost" bind:this={ghostEl}></div>
 
   <div class="canvas-content" class:ready>
-    <button class="close-btn" onclick={close} aria-label="Close gallery">
-      &times;
-    </button>
-
+    <button class="close-btn" onclick={close} aria-label="Close gallery"
+      >&times;</button
+    >
     <h2 class="canvas-title">{title}</h2>
 
-    <div class="stage" bind:this={stageEl}>
-      {#each layout as item, i}
-        <div
-          class="tile"
-          data-tile
-          data-x0={item.x0}
-          data-y0={item.y0}
-          data-rot={item.rot}
-          data-url={item.url}
-          data-ref-url={item.ref_url}
-          style="width: {item.w}px; height: {item.h}px;"
-        >
-          <img
-            src={item.url}
-            alt={item.title}
-            loading="lazy"
-            decoding="async"
-          />
-          <span class="tile-title">{item.title}</span>
-        </div>
-      {/each}
+    <div
+      class="stage"
+      bind:this={stageEl}
+      style="--frame-width: {FRAME_W}px; --gap: {GAP}px; --precision: {PRECISION};"
+    >
+      <div class="masonry-inner" style={masonryContainerStyle()}>
+        {#each items as item, i}
+          <div
+            class="tile"
+            style={tileStyle(item, title, i, perm)}
+            data-url={tileUrl(item.url)}
+            data-ref-url={item.ref_url || ''}
+          >
+            <div class="tile-inner">
+              <img
+                src={tileUrl(item.url)}
+                alt={item.title}
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+          </div>
+        {/each}
+      </div>
     </div>
   </div>
 </div>
@@ -356,8 +308,6 @@
     position: absolute;
     top: 0;
     left: 0;
-    width: 100vw;
-    height: 100vh;
     will-change: transform;
     user-select: none;
     cursor: grab;
@@ -368,16 +318,36 @@
     }
   }
 
+  .masonry-inner {
+    display: grid;
+    clip-path: margin-box;
+    margin: calc(-1 * var(--gap, 0) / 2);
+    grid-template-columns: repeat(auto-fill, minmax(var(--frame-width), 1fr));
+    width: 2500px;
+  }
+
   .tile {
-    position: absolute;
-    left: 0;
-    top: 0;
-    cursor: pointer;
-    overflow: hidden;
-    border-radius: 4px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-    transition: box-shadow 0.15s;
-    will-change: transform;
+    --w: 1;
+    --h: 1;
+    aspect-ratio: var(--w) / var(--h);
+    width: 100%;
+    height: 100%;
+    position: relative;
+    grid-row: span calc(var(--h) / var(--w) * var(--precision, 10));
+
+    .tile-inner {
+      position: absolute;
+      inset: calc(var(--gap, 0) / 2);
+      overflow: hidden;
+      border-radius: 4px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+      transition: box-shadow 0.15s;
+      cursor: zoom-in;
+      padding: var(--space-3xs);
+      &:hover {
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+      }
+    }
 
     img {
       width: 100%;
@@ -385,36 +355,5 @@
       display: block;
       pointer-events: none;
     }
-
-    &:hover {
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
-
-      .tile-title {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-  }
-
-  .tile-title {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    padding: 0.35rem 0.5rem;
-    background: linear-gradient(transparent, rgba(0, 0, 0, 0.75));
-    color: #fff;
-    font-size: 0.75rem;
-    font-family: var(--font-sans, sans-serif);
-    line-height: 1.2;
-    opacity: 0;
-    transform: translateY(8px);
-    transition:
-      opacity 0.2s,
-      transform 0.2s;
-    pointer-events: none;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
   }
 </style>
