@@ -49,7 +49,7 @@
 
   const total = getAllRows().length;
 
-  let layout = $state('treemap');
+  let layout = $state('voronoi');
 </script>
 
 <Container width="fluid">
@@ -63,7 +63,7 @@
           selected = '';
         }}
       />
-      <div class="layout-toggle" role="radiogroup">
+      <!-- <div class="layout-toggle" role="radiogroup">
         <button
           role="radio"
           aria-checked={layout === 'treemap'}
@@ -80,25 +80,27 @@
         >
           ⬡ Voronoi
         </button>
-      </div>
+      </div> -->
     </div>
-    {#if layout === 'treemap'}
-      <Treemap
-        {counts}
-        {selected}
-        onselect={(name) => {
-          selected = selected === name ? '' : name;
-        }}
-      />
-    {:else}
-      <Voronoi
-        {counts}
-        {selected}
-        onselect={(name) => {
-          selected = selected === name ? '' : name;
-        }}
-      />
-    {/if}
+    <div class="chart-overlap">
+      {#if layout === 'treemap'}
+        <Treemap
+          {counts}
+          {selected}
+          onselect={(name) => {
+            selected = selected === name ? '' : name;
+          }}
+        />
+      {:else}
+        <Voronoi
+          {counts}
+          {selected}
+          onselect={(name) => {
+            selected = selected === name ? '' : name;
+          }}
+        />
+      {/if}
+    </div>
     <p class="caption">
       {counts.length}
       {activeDef.label.toLowerCase()} &middot; {total} graphics total
@@ -125,6 +127,11 @@
     display: flex;
     flex-direction: column;
     min-height: calc(100vh - 10rem);
+    position: relative;
+    // Lift the whole gallery up so the chart extends *behind* the hero;
+    // toolbar gets its own higher z-index below so it sits ON the hero.
+    margin-top: clamp(-12rem, -10vw, -4rem);
+    z-index: 5; // above the hero's stacking context
 
     .toolbar {
       display: flex;
@@ -134,6 +141,18 @@
       gap: var(--space-xs);
       margin-bottom: var(--space-xs);
       flex-shrink: 0;
+      // Force the toolbar to paint above everything, including the hero
+      // it now visually overlaps.
+      position: relative;
+      z-index: 10;
+    }
+
+    // Wrapper around the chart only — keeps it growing/flexing as before.
+    .chart-overlap {
+      display: flex;
+      flex-direction: column;
+      flex: 1 1 auto;
+      min-height: 0;
     }
 
     .layout-toggle {
