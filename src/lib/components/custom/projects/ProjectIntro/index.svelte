@@ -22,14 +22,18 @@
           {@html meta.intro.dek}
         </p>
         <p class="meta">
-          <span title="client">
-            <Icon icon="mdi:company" width="24" height="24" />{@html meta.intro
-              .client}
-          </span>
-          <span title="duration">
-            <Icon icon="mdi:calendar" width="24" height="24" />{@html meta.intro
-              .duration}
-          </span>
+          {#if meta.intro?.client}
+            <span title="client">
+              <Icon icon="mdi:company" width="24" height="24" />{@html meta
+                .intro.client}
+            </span>
+          {/if}
+          {#if meta.intro?.duration}
+            <span title="duration">
+              <Icon icon="mdi:calendar" width="24" height="24" />{@html meta
+                .intro.duration}
+            </span>
+          {/if}
           {#if meta.intro?.url}
             {@const internal = meta.intro.url.includes('#')}
             <span title="link">

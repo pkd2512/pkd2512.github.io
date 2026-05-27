@@ -7,6 +7,8 @@
    * @type {{ posts: any[] }}
    */
   let { posts } = $props();
+
+  $inspect(posts);
 </script>
 
 <Container width="fluid">
