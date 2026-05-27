@@ -43,6 +43,6 @@ intro:
 </script>
 
 <Gallery groupers="{[
-  { key: 'graphic_type', label: 'Type', multi: false },
   { key: 'category', label: 'Topic', multi: true },
+  { key: 'graphic_type', label: 'Type', multi: false },
 ]}" />
