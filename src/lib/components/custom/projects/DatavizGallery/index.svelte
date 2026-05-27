@@ -2,6 +2,7 @@
   import Container from '$lib/components/ui/Container/index.svelte';
   import ColumnPicker from './ColumnPicker.svelte';
   import Treemap from './Treemap.svelte';
+  import Voronoi from './Voronoi.svelte';
   // @ts-ignore
   import { getCounts, getGroup, getAllRows } from './dataviz-gallery-counts.js';
   // @ts-ignore
@@ -47,25 +48,57 @@
   );
 
   const total = getAllRows().length;
+
+  let layout = $state('treemap');
 </script>
 
-<Container width="lg">
+<Container width="fluid">
   <section class="gallery-treemap">
-    <ColumnPicker
-      {groupers}
-      {active}
-      onchange={(k) => {
-        active = k;
-        selected = '';
-      }}
-    />
-    <Treemap
-      {counts}
-      {selected}
-      onselect={(name) => {
-        selected = selected === name ? '' : name;
-      }}
-    />
+    <div class="toolbar">
+      <ColumnPicker
+        {groupers}
+        {active}
+        onchange={(k) => {
+          active = k;
+          selected = '';
+        }}
+      />
+      <div class="layout-toggle" role="radiogroup">
+        <button
+          role="radio"
+          aria-checked={layout === 'treemap'}
+          class:active={layout === 'treemap'}
+          onclick={() => (layout = 'treemap')}
+        >
+          ▦ Treemap
+        </button>
+        <button
+          role="radio"
+          aria-checked={layout === 'voronoi'}
+          class:active={layout === 'voronoi'}
+          onclick={() => (layout = 'voronoi')}
+        >
+          ⬡ Voronoi
+        </button>
+      </div>
+    </div>
+    {#if layout === 'treemap'}
+      <Treemap
+        {counts}
+        {selected}
+        onselect={(name) => {
+          selected = selected === name ? '' : name;
+        }}
+      />
+    {:else}
+      <Voronoi
+        {counts}
+        {selected}
+        onselect={(name) => {
+          selected = selected === name ? '' : name;
+        }}
+      />
+    {/if}
     <p class="caption">
       {counts.length}
       {activeDef.label.toLowerCase()} &middot; {total} graphics total
@@ -93,6 +126,46 @@
     flex-direction: column;
     min-height: calc(100vh - 10rem);
 
+    .toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: var(--space-xs);
+      margin-bottom: var(--space-xs);
+      flex-shrink: 0;
+    }
+
+    .layout-toggle {
+      display: flex;
+      border-radius: 6px;
+      overflow: hidden;
+      border: 1px solid var(--purple-soft, #41295a);
+
+      button {
+        background: transparent;
+        border: none;
+        padding: 0.35rem 0.75rem;
+        cursor: pointer;
+        font-size: var(--font-size--1);
+        color: var(--purple-soft, #41295a);
+        transition: background 0.15s;
+
+        &.active {
+          background: var(--purple-soft, #41295a);
+          color: white;
+        }
+
+        &:not(.active):hover {
+          background: color-mix(
+            in srgb,
+            var(--purple-soft, #41295a) 10%,
+            transparent
+          );
+        }
+      }
+    }
+
     .caption {
       text-align: center;
       font-size: var(--font-size-0);
@@ -101,7 +174,6 @@
       font-style: italic;
       flex-shrink: 0;
     }
-
   }
 
   .gallery-items {

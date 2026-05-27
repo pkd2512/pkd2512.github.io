@@ -47,7 +47,9 @@
     return stratify().id((d) => d.id).parentId((d) => d.parentId)(data).sum((d) => d.value);
   }
 
-  /** @type {Array<{name: string, value: number, left: number, top: number, pwidth: number, pheight: number, color: string}>} */
+  let totalVal = $derived(counts.reduce((s, d) => s + d.value, 0));
+
+  /** @type {Array<{name: string, value: number, pct: string, left: number, top: number, pwidth: number, pheight: number, color: string}>} */
   let cells = $derived.by(() => {
     if (!w || !h) return [];
     const root = buildTree(tabular);
@@ -56,6 +58,7 @@
     return root.leaves().map((/** @type {any} */ leaf, /** @type {number} */ i) => ({
       name: leaf.data.id,
       value: leaf.value,
+      pct: ((counts.find((c) => c.name === leaf.data.id)?.value || 0) / totalVal * 100).toFixed(1),
       left: (leaf.x0 / w) * 100,
       top: (leaf.y0 / h) * 100,
       pwidth: ((leaf.x1 - leaf.x0) / w) * 100,
@@ -82,7 +85,7 @@
       onkeydown={(e) => e.key === 'Enter' && onselect?.(cell.name)}
     >
       <span class="cell-label">{cell.name}</span>
-      <span class="cell-value">{cell.value}</span>
+      <span class="cell-value">{cell.pct}%</span>
     </div>
   {/each}
 </div>

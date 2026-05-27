@@ -84,6 +84,7 @@
     "@google/genai": "^2.6.0",
     "@vercel/speed-insights": "^2.0.0",
     "archive-url": "1.1.1",
+    "d3-delaunay": "^6.0.4",
     "d3-dsv": "^3.0.1",
     "d3-hierarchy": "^3.1.2",
     "dotenv": "^17.4.2",
