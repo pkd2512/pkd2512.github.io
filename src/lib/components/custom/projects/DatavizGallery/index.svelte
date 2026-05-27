@@ -3,6 +3,7 @@
   import ColumnPicker from './ui/ColumnPicker.svelte';
   import Treemap from './charts/Treemap.svelte';
   import Voronoi from './charts/Voronoi.svelte';
+  import InfiniteCanvas from './canvas/InfiniteCanvas.svelte';
   // eslint-disable-next-line no-unused-vars
   import GalleryList from './ui/GalleryList.svelte';
   // @ts-ignore
@@ -52,6 +53,12 @@
   let selectedItems = $derived(
     selected ? getGroup(active, selected)?.items || [] : []
   );
+
+  /** @type {string | null} */
+  let expandedGroup = $state(null);
+
+  /** @type {DOMRect | null} */
+  let originRect = $state(null);
 
   /**
    * Resolve thumbnail URLs for the items in one group. CSV stores
@@ -125,8 +132,13 @@
           {counts}
           {selected}
           getThumbs={thumbsFor}
-          onselect={(name) => {
-            selected = selected === name ? '' : name;
+          onselect={(name, rect) => {
+            if (rect && selected === name) {
+              expandedGroup = name;
+              originRect = rect;
+            } else {
+              selected = selected === name ? '' : name;
+            }
           }}
         />
       {/if}
@@ -145,6 +157,18 @@
   {/if}
   -->
 </Container>
+
+{#if expandedGroup && originRect}
+  <InfiniteCanvas
+    items={getGroup(active, expandedGroup)?.items || []}
+    title={expandedGroup}
+    {originRect}
+    onclose={() => {
+      expandedGroup = null;
+      originRect = null;
+    }}
+  />
+{/if}
 
 <style lang="scss">
   .gallery-treemap {
