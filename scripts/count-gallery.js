@@ -4,6 +4,7 @@ import { existsSync, mkdirSync, readFileSync, readdirSync, statSync, writeFileSy
 import { basename, dirname, join, resolve } from 'path';
 import { csvParse } from 'd3-dsv';
 import { fileURLToPath } from 'url';
+import sharp from 'sharp';
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url));
 const ROOT = resolve(__dirname, '..');
@@ -153,6 +154,20 @@ async function main() {
 
   const raw = readFileSync(resolve(ROOT, csvPath), 'utf-8');
   const rows = csvParse(raw);
+
+  // Measure all images to embed w/h for placeholder blocks
+  for (const row of rows) {
+    const filePath = resolve(ROOT, 'static', 'media', row.url);
+    try {
+      const meta = await sharp(filePath).metadata();
+      row.w = meta.width;
+      row.h = meta.height;
+    } catch (e) {
+      row.w = 0;
+      row.h = 0;
+    }
+  }
+
   const allCols = (rows.columns || Object.keys(rows[0] || {})).filter(
     (c) => c && c !== 'id',
   );
@@ -221,7 +236,7 @@ async function main() {
     }
 
     const csvName = basename(csvPath, '.csv');
-    const outFile = resolve(compDir, `${csvName}-counts.js`);
+    const outFile = resolve(compDir, 'data', `${csvName}-counts.js`);
 
     if (!existsSync(dirname(outFile)))
       mkdirSync(dirname(outFile), { recursive: true });
@@ -312,7 +327,7 @@ async function main() {
   }
 
   const csvName = basename(csvPath, '.csv');
-  const outFile = resolve(compDir, `${csvName}-counts.js`);
+  const outFile = resolve(compDir, 'data', `${csvName}-counts.js`);
   if (!existsSync(dirname(outFile)))
     mkdirSync(dirname(outFile), { recursive: true });
   const { code } = precomputeAll(rows, picked, multiCols);

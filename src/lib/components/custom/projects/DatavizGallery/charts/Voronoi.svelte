@@ -41,7 +41,7 @@
    *   counts: Array<{name: string, value: number}>,
    *   palette?: string[],
    *   selected?: string,
-   *   onselect?: (name: string) => void,
+   *   onselect?: (name: string, rect?: DOMRect) => void,
    *   getThumbs?: (name: string) => string[]
    * }}
    */
@@ -764,7 +764,7 @@
             role="button"
             tabindex="0"
             aria-label={`${cell.name}: ${cell.value} (${cell.pct}%)`}
-            onclick={() => onselect?.(cell.name)}
+            onclick={(e) => onselect?.(cell.name, e.currentTarget.getBoundingClientRect())}
             onkeydown={(e) => e.key === 'Enter' && onselect?.(cell.name)}
           >
             <title>{cell.name} — {cell.value} ({cell.pct}%)</title>
