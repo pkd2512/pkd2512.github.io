@@ -112,3 +112,25 @@
     Total: 62.5MB → 13.9MB (77.8% saved)
 ════════════════════════════════════════════════════════════
 
++ media\projects\dataviz-gallery\hero.jpg  238.9KB → 121.0KB  (49.4% saved)
+
+════════════════════════════════════════════════════════════
+  WebP conversion
+────────────────────────────────────────────────────────────
+    WebP conversion  ·  2026-05-26 23:26:53  ·  mode: missing  ·  dir: media\projects\dataviz-gallery
+    Source images: 105  |  Existing .webp: 104  |  To convert: 1
+    1 converted, 0 failed, 0 skipped  ·  5.3s
+    Total: 238.9KB → 121.0KB (49.4% saved)
+════════════════════════════════════════════════════════════
+
++ media\projects\dataviz-gallery\hero.jpg  236.6KB → 121.3KB  (48.8% saved)
+
+════════════════════════════════════════════════════════════
+  WebP conversion
+────────────────────────────────────────────────────────────
+    WebP conversion  ·  2026-05-26 23:30:57  ·  mode: missing  ·  dir: media\projects\dataviz-gallery
+    Source images: 105  |  Existing .webp: 104  |  To convert: 1
+    1 converted, 0 failed, 0 skipped  ·  6.7s
+    Total: 236.6KB → 121.3KB (48.8% saved)
+════════════════════════════════════════════════════════════
+
