@@ -1,10 +1,16 @@
 <script>
   import Container from '$lib/components/ui/Container/index.svelte';
-  import ColumnPicker from './ColumnPicker.svelte';
-  import Treemap from './Treemap.svelte';
-  import Voronoi from './Voronoi.svelte';
+  import ColumnPicker from './ui/ColumnPicker.svelte';
+  import Treemap from './charts/Treemap.svelte';
+  import Voronoi from './charts/Voronoi.svelte';
+  // eslint-disable-next-line no-unused-vars
+  import GalleryList from './ui/GalleryList.svelte';
   // @ts-ignore
-  import { getCounts, getGroup, getAllRows } from './dataviz-gallery-counts.js';
+  import {
+    getCounts,
+    getGroup,
+    getAllRows,
+  } from './data/dataviz-gallery-counts.js';
   // @ts-ignore
   import csvcols from '$contents/data/dataviz-gallery.csv';
 
@@ -46,6 +52,29 @@
   let selectedItems = $derived(
     selected ? getGroup(active, selected)?.items || [] : []
   );
+
+  /**
+   * Resolve thumbnail URLs for the items in one group. CSV stores
+   * `projects/dataviz-gallery/<file>`, but the static assets live at
+   * `static/media/projects/dataviz-gallery/thumbs/<file>` — so we
+   * prepend `media/` and insert `thumbs/` before the filename.
+   *
+   * The Voronoi component renders one static collage *per group*,
+   * each filling the SVG canvas and clipped by its polygon.
+   *
+   * @param {string} name
+   * @returns {string[]}
+   */
+  function thumbsFor(name) {
+    if (!name) return [];
+    const items = getGroup(active, name)?.items || [];
+    return items.map((/** @type {{url:string}} */ it) =>
+      ('media/' + it.url).replace(
+        /^(media\/projects\/dataviz-gallery)\/([^/]+)$/,
+        '$1/thumbs/$2'
+      )
+    );
+  }
 
   const total = getAllRows().length;
 
@@ -95,6 +124,7 @@
         <Voronoi
           {counts}
           {selected}
+          getThumbs={thumbsFor}
           onselect={(name) => {
             selected = selected === name ? '' : name;
           }}
@@ -106,19 +136,14 @@
       {activeDef.label.toLowerCase()} &middot; {total} graphics total
     </p>
   </section>
+  <!--
+    Old bottom grid — kept around for reference, replaced by the
+    upcoming infinite-canvas overlay (see GalleryList.svelte).
+
   {#if selectedItems.length}
-    <div class="gallery-items">
-      <h3>{selected}</h3>
-      <div class="gallery-grid">
-        {#each selectedItems as item}
-          <a href="/{item.url}" class="gallery-card">
-            <img src="/{item.url}" alt={item.alt} loading="lazy" />
-            <span class="card-label">{item.title}</span>
-          </a>
-        {/each}
-      </div>
-    </div>
+    <GalleryList title={selected} items={selectedItems} />
   {/if}
+  -->
 </Container>
 
 <style lang="scss">

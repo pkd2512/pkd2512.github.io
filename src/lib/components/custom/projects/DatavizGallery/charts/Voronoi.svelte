@@ -2,6 +2,7 @@
   import { hierarchy } from 'd3-hierarchy';
   import { voronoiTreemap } from 'd3-voronoi-treemap';
   import { weightedVoronoi } from 'd3-weighted-voronoi';
+  import CollageBackground from '../collage/CollageBackground.svelte';
 
   // ==========================================================
   // CONFIG (tweak freely)
@@ -40,7 +41,8 @@
    *   counts: Array<{name: string, value: number}>,
    *   palette?: string[],
    *   selected?: string,
-   *   onselect?: (name: string) => void
+   *   onselect?: (name: string) => void,
+   *   getThumbs?: (name: string) => string[]
    * }}
    */
   let {
@@ -64,7 +66,56 @@
     ],
     selected = '',
     onselect,
+    getThumbs,
   } = $props();
+
+  /**
+   * Sanitise a cell name into a safe SVG id fragment.
+   * @param {string} s
+   */
+  function slugId(s) {
+    return String(s)
+      .replace(/[^a-z0-9]+/gi, '-')
+      .toLowerCase();
+  }
+
+  /** Extra pixels around each cell's bbox when sizing its image patch.
+   *  A small margin keeps the white backdrop from showing through at
+   *  the polygon edge as the cell morphs/wobbles. */
+  const COLLAGE_MARGIN = 12;
+
+  /**
+   * Axis-aligned bounding box of a polygon, expanded by `COLLAGE_MARGIN`
+   * and clamped to the canvas. Used to size each cell's image patch.
+   *
+   * @param {[number,number][]} polygon
+   * @param {number} W
+   * @param {number} H
+   */
+  function polyPatch(polygon, W, H) {
+    let minX = Infinity,
+      minY = Infinity,
+      maxX = -Infinity,
+      maxY = -Infinity;
+    for (const [px, py] of polygon) {
+      if (px < minX) minX = px;
+      if (py < minY) minY = py;
+      if (px > maxX) maxX = px;
+      if (py > maxY) maxY = py;
+    }
+    const x0 = Math.max(0, Math.floor(minX - COLLAGE_MARGIN));
+    const y0 = Math.max(0, Math.floor(minY - COLLAGE_MARGIN));
+    const x1 = Math.min(W, Math.ceil(maxX + COLLAGE_MARGIN));
+    const y1 = Math.min(H, Math.ceil(maxY + COLLAGE_MARGIN));
+    return { x: x0, y: y0, w: Math.max(1, x1 - x0), h: Math.max(1, y1 - y0) };
+  }
+
+  // Collage tile constants live in ./cellCollage.js so the math is
+  // testable on its own. Vignette tints the cell over the collage.
+  /** Vignette opacity at the centre (0 = clear window, 1 = solid color). */
+  const VIGNETTE_INNER = 0;
+  /** Vignette opacity at the polygon edge. */
+  const VIGNETTE_OUTER = 1;
 
   /** @type {number} */
   let w = $state(0);
@@ -268,7 +319,7 @@
       return [];
     }
 
-    /** @type {Array<{name:string,value:number,pct:string,polygon:[number,number][],cx:number,cy:number,area:number,color:string}>} */
+    /** @type {Array<{name:string,value:number,pct:string,polygon:[number,number][],cx:number,cy:number,area:number,color:string,colorIdx:number}>} */
     const out = new Array(data.length);
     for (const p of polys) {
       const site = p && p.site;
@@ -295,6 +346,7 @@
         cy,
         area,
         color: palette[idx % palette.length],
+        colorIdx: idx % palette.length,
       };
     }
     return out.filter(Boolean);
@@ -338,29 +390,30 @@
   }
 
   /**
-   * Build an SVG path string for a cell, morphing each polygon vertex
-   * from a point on a circle (of equal area, centred on the cell's
-   * centroid) at b=0 to the true polygon vertex at b=1.
+   * Build an SVG path string for a cell, growing it uniformly from its
+   * own centroid. At b=0 every vertex collapses to `(cx, cy)` (a point),
+   * at b=1 it sits at the true polygon vertex.
    *
-   * @param {{polygon:[number,number][], cx:number, cy:number, area:number}} cell
+   * Crucially this is just a scale-about-centroid transform expressed as
+   * raw coordinates — so we can use the resulting path as both the cell
+   * outline AND as a `<clipPath>`. The underlying image bed sees the
+   * polygon "grow" out of the centroid while staying perfectly still.
+   *
+   * @param {{polygon:[number,number][], cx:number, cy:number}} cell
    * @param {number} b  morph progress in [0, 1]
    */
   function cellPath(cell, b) {
-    const { polygon, cx, cy, area } = cell;
+    const { polygon, cx, cy } = cell;
     if (b >= 1) return polyToPath(polygon);
-    const n = polygon.length;
-    const r = Math.sqrt(Math.max(area, 0) / Math.PI);
+    if (b <= 0) {
+      // A zero-size dot at the centroid — keeps the path valid while
+      // contributing no visible area.
+      return `M${cx.toFixed(1)},${cy.toFixed(1)}Z`;
+    }
     let d = 'M';
-    for (let i = 0; i < n; i++) {
-      const px = polygon[i][0];
-      const py = polygon[i][1];
-      // Use the vertex's *index* angle for the circle target — this gives
-      // an evenly-spaced circle even if the polygon vertices aren't.
-      const ang = (i / n) * Math.PI * 2 - Math.PI / 2;
-      const cxp = cx + Math.cos(ang) * r;
-      const cyp = cy + Math.sin(ang) * r;
-      const x = cxp + (px - cxp) * b;
-      const y = cyp + (py - cyp) * b;
+    for (let i = 0; i < polygon.length; i++) {
+      const x = cx + (polygon[i][0] - cx) * b;
+      const y = cy + (polygon[i][1] - cy) * b;
       if (i > 0) d += 'L';
       d += x.toFixed(1) + ',' + y.toFixed(1);
     }
@@ -453,6 +506,13 @@
   /** Per-cell birth scale 0..1 keyed by cell name. */
   let birth = $state(/** @type {Record<string, number>} */ ({}));
 
+  /** Per-cell *final* polygon patch, computed once from the converged
+   *  voronoi snapshot. Stays fixed across the entire morph timeline so
+   *  the image bed never reflows. Keyed by cell.name. */
+  let finalPatch = $state(
+    /** @type {Record<string, {x:number, y:number, w:number, h:number}>} */ ({})
+  );
+
   let debouncedW = $state(0);
   let debouncedH = $state(0);
 
@@ -514,6 +574,23 @@
     // 1. Capture all snapshots up front.
     const snaps = buildSnapshots(data, W, H);
     if (!snaps.length) return;
+
+    // 1b. Compute the *converged* cells once. Their polygon patches are
+    //     used as the image-bed rectangles for every frame — keeping
+    //     the collage layout perfectly still as cells morph above it.
+    const finalCellsLayout = buildCells(
+      data,
+      snaps[snaps.length - 1],
+      W,
+      H,
+      tv
+    );
+    /** @type {Record<string, {x:number, y:number, w:number, h:number}>} */
+    const nextPatch = {};
+    for (const c of finalCellsLayout) {
+      nextPatch[c.name] = polyPatch(c.polygon, W, H);
+    }
+    finalPatch = nextPatch;
 
     // 1a. Initialise the first frame *synchronously* with birth=0 so the
     //     cells visibly start as circles before the first RAF callback.
@@ -607,26 +684,91 @@
       viewBox="0 0 {debouncedW} {debouncedH}"
       preserveAspectRatio="xMidYMid meet"
     >
+      <defs>
+        <!-- Single shared radial vignette: every cell uses the same
+             `--purple` tint, so 15 duplicated gradients were collapsed
+             into one. `objectBoundingBox` units mean the percentages
+             refer to each cell's own bbox.
+             • End circle (cx/cy/r) defines where the gradient hits 100%
+             • Focal point (fx/fy) is where 0% starts — top-left here,
+               giving a soft diagonal "spotlight" effect. -->
+        <radialGradient
+          id="cellvig"
+          cx="50%"
+          cy="50%"
+          r="75%"
+          fx="50%"
+          fy="50%"
+        >
+          <stop offset="50%" class="vig-stop" stop-opacity={VIGNETTE_INNER}
+          ></stop>
+          <stop
+            offset="85%"
+            class="vig-stop"
+            stop-opacity={VIGNETTE_OUTER * 0.45}
+          ></stop>
+          <stop offset="100%" class="vig-stop" stop-opacity={VIGNETTE_OUTER}
+          ></stop>
+        </radialGradient>
+      </defs>
+
+      <!-- Per-cell clip paths. The clip uses the cell's *morphed* shape
+           (circle at b=0 → polygon at b=1) so the collage underneath
+           stays perfectly still — only the porthole opening grows. -->
+      {#if getThumbs}
+        <defs>
+          {#each cells as cell (cell.name + '-clip')}
+            {@const b = birth[cell.name] ?? 0}
+            <clipPath id="cellclip-{slugId(cell.name)}">
+              <path d={cellPath(cell, b)}></path>
+            </clipPath>
+          {/each}
+        </defs>
+      {/if}
+
+      <!-- One static collage per cell. The image bed is only rendered
+           inside the cell's bounding box (padded by COLLAGE_MARGIN) —
+           tiles stay small and we don't render across the whole canvas.
+           The clip-path on top still confines what's actually visible. -->
+      <g class="collages">
+        {#each cells as cell (cell.name + '-bg')}
+          {@const thumbs = getThumbs ? getThumbs(cell.name) : []}
+          {@const patch = finalPatch[cell.name]}
+          {#if thumbs.length && patch}
+            <g clip-path="url(#cellclip-{slugId(cell.name)})">
+              <CollageBackground
+                x={patch.x}
+                y={patch.y}
+                width={patch.w}
+                height={patch.h}
+                {thumbs}
+                seed={'bed:' + cell.name}
+              />
+            </g>
+          {/if}
+        {/each}
+      </g>
+
       <g class="cells">
         {#each cells as cell (cell.name)}
           {@const b = birth[cell.name] ?? 0}
-          <g
-            transform="translate({cell.cx} {cell.cy}) scale({b}) translate({-cell.cx} {-cell.cy})"
+          {@const hasCollage = getThumbs
+            ? getThumbs(cell.name).length > 0
+            : false}
+          <path
+            class="voronoi-cell"
+            class:selected={cell.name === selected}
+            class:tinted={hasCollage}
+            d={cellPath(cell, b)}
+            fill={hasCollage ? 'url(#cellvig)' : cell.color}
+            role="button"
+            tabindex="0"
+            aria-label={`${cell.name}: ${cell.value} (${cell.pct}%)`}
+            onclick={() => onselect?.(cell.name)}
+            onkeydown={(e) => e.key === 'Enter' && onselect?.(cell.name)}
           >
-            <path
-              class="voronoi-cell"
-              class:selected={cell.name === selected}
-              d={polyToPath(cell.polygon)}
-              fill={cell.color}
-              role="button"
-              tabindex="0"
-              aria-label={`${cell.name}: ${cell.value} (${cell.pct}%)`}
-              onclick={() => onselect?.(cell.name)}
-              onkeydown={(e) => e.key === 'Enter' && onselect?.(cell.name)}
-            >
-              <title>{cell.name} — {cell.value} ({cell.pct}%)</title>
-            </path>
-          </g>
+            <title>{cell.name} — {cell.value} ({cell.pct}%)</title>
+          </path>
         {/each}
       </g>
 
@@ -670,6 +812,7 @@
     overflow: hidden;
     position: relative;
     contain: layout paint;
+    background-color: var(--purple-soft);
 
     svg {
       display: block;
@@ -678,15 +821,24 @@
     }
   }
 
+  // SVG `stop-color` attributes do not evaluate CSS variables, so we
+  // set the color via a CSS rule on the stops instead. This way the
+  // vignette inherits `--purple` from the theme automatically.
+  :global(.vig-stop) {
+    stop-color: var(--purple-soft);
+  }
+
   .voronoi-cell {
     cursor: pointer;
     outline: none;
-    transition: filter 0.15s ease;
+    transition:
+      filter 0.15s ease,
+      fill-opacity 0.3s ease;
     shape-rendering: geometricPrecision;
     // Hairline same-color stroke fills the sub-pixel gaps between
     // adjacent cells that otherwise appear due to anti-aliasing.
-    stroke: currentColor;
-    stroke-width: 1.25;
+    stroke: var(--purple-soft);
+    stroke-width: 3;
     stroke-linejoin: round;
     vector-effect: non-scaling-stroke;
 
@@ -704,11 +856,12 @@
 
   // Make the path stroke inherit the fill color so anti-alias gaps disappear.
   .cells :global(path.voronoi-cell) {
-    color: inherit;
+    color: transparent;
+    fill: transparent;
   }
 
   .cells :global(path.voronoi-cell:not(.selected)) {
-    stroke: var(--cell-color, inherit);
+    stroke: var(#fff, inherit);
   }
 
   .cell-label,
