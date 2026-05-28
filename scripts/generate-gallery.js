@@ -7,6 +7,7 @@ import {
   mkdirSync,
   readFileSync,
   readdirSync,
+  statSync,
   writeFileSync,
 } from 'fs';
 import { basename, extname, join, resolve } from 'path';
@@ -99,13 +100,58 @@ function getNonWebpFiles(dirPath) {
     .sort();
 }
 
-function makeEntry(file, dirInput, defaults) {
+/**
+ * Resolve the source-images directory for a project.
+ *
+ * New layout: `<project>/images/` holds the originals.
+ * Legacy layout: originals lived directly in `<project>/`.
+ *
+ * We prefer `<project>/images/` when present; otherwise we fall back
+ * to the project root and warn the caller (the URL produced will not
+ * include the `/images/` segment in that case, so downstream consumers
+ * keep working).
+ *
+ * Returns `{ srcDir, urlPrefix }` where `urlPrefix` is what should be
+ * embedded into CSV `url` values (relative to `static/media/`).
+ */
+function resolveImageLayout(projectDir, dirInput) {
+  const normalizedDir = dirInput.replace(/\\/g, '/');
+  const imagesDir = join(projectDir, 'images');
+  if (existsSync(imagesDir) && statSync(imagesDir).isDirectory()) {
+    return {
+      srcDir: imagesDir,
+      urlPrefix: `${normalizedDir}/images`,
+      hasImagesSubdir: true,
+    };
+  }
+  return {
+    srcDir: projectDir,
+    urlPrefix: normalizedDir,
+    hasImagesSubdir: false,
+  };
+}
+
+/**
+ * Build a single CSV row from an image file on disk.
+ *
+ * The on-disk filename is preserved in `title` (so a human can still
+ * cross-reference the source), but the public `url` is composed from
+ * the slugified id + the original extension under the project's
+ * canonical URL prefix (e.g. `<dir>/images/<slug><ext>`).
+ *
+ * NOTE: the file on disk must eventually be renamed to match the
+ * slugified URL (or a build step has to copy it). The merge step
+ * compares CSV URLs against `<urlPrefix>/<slug><ext>`, so renaming
+ * files to the slug form makes future re-runs no-ops.
+ */
+function makeEntry(file, urlPrefix, defaults) {
   const ext = extname(file);
   const name = file.slice(0, -ext.length);
+  const slug = slugify(name, { lower: true, strict: true });
   return {
-    id: slugify(name, { lower: true, strict: true }),
+    id: slug,
     title: name,
-    url: `${dirInput.replace(/\\/g, '/')}/${file}`,
+    url: `${urlPrefix}/${slug}${ext}`,
     ref_url: defaults.refUrl || '',
     graphic_type: defaults.graphicType || '',
     category: defaults.category || '',
@@ -252,30 +298,37 @@ async function fillAllShared(entries) {
 
 // ── Mode: Merge (smart add-missing + renames + orphans) ─────────
 
-async function mergeEntries(imageFiles, dirInput, existingRows) {
+async function mergeEntries(imageFiles, urlPrefix, existingRows) {
   const existingUrls = getExistingUrls(existingRows);
   const existingIdMap = new Map(existingRows.map((r) => [r.id, r]));
-  const normalizedDir = dirInput.replace(/\\/g, '/');
+
+  // URLs are derived from the slugified id, not the raw filename, so
+  // build a slug-form URL per on-disk file to compare against the CSV.
+  const fileMeta = imageFiles.map((file) => {
+    const ext = extname(file);
+    const name = file.slice(0, -ext.length);
+    const slug = slugify(name, { lower: true, strict: true });
+    return {
+      file,
+      slug,
+      ext,
+      url: `${urlPrefix}/${slug}${ext}`,
+    };
+  });
 
   const missingFiles = [];
   const potentialRenames = [];
 
-  for (const file of imageFiles) {
-    const url = `${normalizedDir}/${file}`;
-    if (existingUrls.has(url)) continue;
-
-    const ext = extname(file);
-    const name = file.slice(0, -ext.length);
-    const slug = slugify(name, { lower: true, strict: true });
-
-    if (existingIdMap.has(slug)) {
-      potentialRenames.push({ file, slug, newUrl: url });
+  for (const m of fileMeta) {
+    if (existingUrls.has(m.url)) continue;
+    if (existingIdMap.has(m.slug)) {
+      potentialRenames.push({ file: m.file, slug: m.slug, newUrl: m.url });
     } else {
-      missingFiles.push(file);
+      missingFiles.push(m.file);
     }
   }
 
-  const fileUrls = new Set(imageFiles.map((f) => `${normalizedDir}/${f}`));
+  const fileUrls = new Set(fileMeta.map((m) => m.url));
   const orphans = existingRows.filter((r) => !fileUrls.has(r.url));
 
   const summary = [];
@@ -330,7 +383,7 @@ async function mergeEntries(imageFiles, dirInput, existingRows) {
         row.title = name;
       }
     } else if (action === 'add-new') {
-      const entry = makeEntry(file, dirInput, {
+      const entry = makeEntry(file, urlPrefix, {
         refUrl: '',
         graphicType: '',
         category: '',
@@ -344,7 +397,7 @@ async function mergeEntries(imageFiles, dirInput, existingRows) {
     const defaults = await promptDefaults();
     if (!defaults) return null;
     const newEntries = missingFiles.map((f) =>
-      makeEntry(f, dirInput, defaults)
+      makeEntry(f, urlPrefix, defaults)
     );
     entries = [...entries, ...newEntries];
   }
@@ -536,10 +589,203 @@ async function addColumnMode(entries) {
 
 // ── Mode: Regenerate all ────────────────────────────────────────
 
-async function regenerateAll(imageFiles, dirInput) {
+async function regenerateAll(imageFiles, urlPrefix) {
   const defaults = await promptDefaults();
   if (!defaults) return null;
-  return imageFiles.map((f) => makeEntry(f, dirInput, defaults));
+  return imageFiles.map((f) => makeEntry(f, urlPrefix, defaults));
+}
+
+// ── Mode: Regenerate URLs / ref_urls ────────────────────────────
+//
+// Bulk update `url` or `ref_url` across many entries. Three actions:
+//
+//   • set      — overwrite all selected entries with a single value
+//                (useful for `ref_url` when many tiles share a source).
+//   • replace  — substring or regex find-and-replace within existing
+//                values (useful when a media folder is renamed and
+//                every `url` needs its prefix swapped).
+//   • rebuild  — only for `url`: re-derive from the entry's existing
+//                filename plus a new directory prefix.
+//                e.g.  `old/foo.webp` → `<new-dir>/foo.webp`.
+//
+// Filename for `rebuild` is taken from the last path segment of the
+// current `url`, so it works even if the file isn't currently on disk.
+
+async function regenerateUrlsMode(entries) {
+  const field = await p.select({
+    message: 'Which field to regenerate?',
+    options: [
+      { value: 'url', label: 'url (image path under /media/)' },
+      { value: 'ref_url', label: 'ref_url (external source link)' },
+    ],
+  });
+  if (p.isCancel(field)) return null;
+
+  const action = await p.select({
+    message: 'Action',
+    options: [
+      { value: 'set', label: 'Set all selected entries to a single value' },
+      {
+        value: 'replace',
+        label: 'Find & replace within existing values (substring or regex)',
+      },
+      ...(field === 'url'
+        ? [
+            {
+              value: 'rebuild',
+              label: 'Rebuild from filename + new directory prefix',
+            },
+          ]
+        : []),
+    ],
+  });
+  if (p.isCancel(action)) return null;
+
+  // ── Scope ────────────────────────────────────────────────────
+  const scope = await p.select({
+    message: 'Scope',
+    options: [
+      { value: 'all', label: 'All entries' },
+      { value: 'empty', label: 'Only entries with empty value' },
+      { value: 'regex', label: 'Match by regex on id/title/url' },
+    ],
+  });
+  if (p.isCancel(scope)) return null;
+
+  let selected = [];
+  if (scope === 'all') {
+    selected = entries;
+  } else if (scope === 'empty') {
+    selected = entries.filter((e) => !e[field]);
+  } else {
+    const pattern = await p.text({
+      message: 'Regex pattern (matched against id, title, or url)',
+      placeholder: 'e.g., covid|pandemic',
+      validate: (v) => {
+        if (!v) return 'Required';
+        try {
+          new RegExp(v, 'i');
+          return undefined;
+        } catch {
+          return 'Invalid regex';
+        }
+      },
+    });
+    if (p.isCancel(pattern)) return null;
+    const re = new RegExp(pattern, 'i');
+    selected = entries.filter(
+      (e) => re.test(e.id) || re.test(e.title) || re.test(e.url)
+    );
+  }
+
+  p.log.info(`${selected.length} entrie(s) selected`);
+  if (selected.length === 0) return false;
+
+  // ── Apply action ─────────────────────────────────────────────
+  let changed = 0;
+
+  if (action === 'set') {
+    const value = await p.text({
+      message: `New ${field} for ${selected.length} entrie(s)`,
+      placeholder:
+        field === 'url'
+          ? 'e.g., projects/foo/bar.webp'
+          : 'https://... (leave empty to clear)',
+    });
+    if (p.isCancel(value)) return null;
+    for (const e of selected) {
+      if (e[field] !== value) {
+        e[field] = value;
+        changed++;
+      }
+    }
+  } else if (action === 'replace') {
+    const useRegex = await p.confirm({
+      message: 'Treat pattern as regex? (otherwise plain substring)',
+      activeLabel: 'Regex',
+      inactiveLabel: 'Substring',
+    });
+    if (p.isCancel(useRegex)) return null;
+
+    const find = await p.text({
+      message: useRegex ? 'Regex to find' : 'Substring to find',
+      placeholder: useRegex
+        ? 'e.g., ^projects/old-name/'
+        : 'e.g., projects/old-name/',
+      validate: (v) => {
+        if (!v) return 'Required';
+        if (useRegex) {
+          try {
+            new RegExp(v);
+          } catch {
+            return 'Invalid regex';
+          }
+        }
+        return undefined;
+      },
+    });
+    if (p.isCancel(find)) return null;
+
+    const replace = await p.text({
+      message: 'Replace with',
+      placeholder: 'e.g., projects/new-name/',
+    });
+    if (p.isCancel(replace)) return null;
+
+    const re = useRegex ? new RegExp(find, 'g') : null;
+    let matched = 0;
+    for (const e of selected) {
+      const cur = e[field] || '';
+      let next;
+      if (useRegex && re) {
+        if (!re.test(cur)) continue;
+        re.lastIndex = 0;
+        next = cur.replace(re, replace);
+      } else {
+        if (!cur.includes(find)) continue;
+        next = cur.split(find).join(replace);
+      }
+      matched++;
+      if (next !== cur) {
+        e[field] = next;
+        changed++;
+      }
+    }
+    p.log.info(`${matched} entrie(s) matched the pattern`);
+  } else if (action === 'rebuild') {
+    // url rebuild: compose `<new-dir>/<id><ext>` for each entry, where
+    // `<ext>` is preserved from the current url (defaults to `.webp`
+    // if the current url is empty or extension-less). The entry `id`
+    // is already slugified, so this produces the canonical slug-form
+    // URL the rest of the pipeline expects.
+    const newDir = await p.text({
+      message:
+        'New directory prefix (relative to static/media/, no leading/trailing slash)',
+      placeholder: 'e.g., projects/dataviz-gallery',
+      validate: (v) => (v ? undefined : 'Required'),
+    });
+    if (p.isCancel(newDir)) return null;
+    const normalized = newDir.replace(/\\/g, '/').replace(/^\/+|\/+$/g, '');
+
+    for (const e of selected) {
+      if (!e.id) continue;
+      const cur = e[field] || '';
+      const curExt = extname(cur);
+      const ext = curExt || '.webp';
+      const next = `${normalized}/${e.id}${ext}`;
+      if (next !== cur) {
+        e[field] = next;
+        changed++;
+      }
+    }
+  }
+
+  if (changed > 0) {
+    p.log.info(`Updated ${field} on ${changed} entrie(s)`);
+  } else {
+    p.log.info('No values were changed.');
+  }
+  return changed > 0;
 }
 
 // ── Dry-run diff preview ────────────────────────────────────────
@@ -652,14 +898,24 @@ async function main() {
   p.intro('Gallery CSV generator');
 
   const dirInput = await p.text({
-    message: 'Directory path relative to static/media/',
+    message: 'Project directory relative to static/media/',
     placeholder: 'e.g., projects/dataviz-gallery',
     validate: (v) => {
       if (!v) return 'Required';
       const fp = join(STATIC_MEDIA, v);
       if (!existsSync(fp)) return `Directory not found: static/media/${v}`;
-      if (!readdirSync(fp).some((f) => WEBP_ONLY.has(extname(f).toLowerCase())))
-        return 'No .webp files found in this directory';
+      // Accept either layout: `<project>/images/*.webp` (new) or
+      // `<project>/*.webp` (legacy) — we'll resolve which after.
+      const imagesDir = join(fp, 'images');
+      const candidate = existsSync(imagesDir) ? imagesDir : fp;
+      if (
+        !readdirSync(candidate).some((f) =>
+          WEBP_ONLY.has(extname(f).toLowerCase())
+        )
+      )
+        return existsSync(imagesDir)
+          ? 'No .webp files found in this directory’s `images/` subfolder'
+          : 'No .webp files found in this directory';
     },
   });
   if (p.isCancel(dirInput)) {
@@ -668,8 +924,22 @@ async function main() {
   }
 
   const dirPath = join(STATIC_MEDIA, dirInput);
-  const webpFiles = getWebpFiles(dirPath);
-  const nonWebp = getNonWebpFiles(dirPath);
+  // Originals live in `<project>/images/` (preferred) or `<project>/`
+  // (legacy fallback). `urlPrefix` is what gets embedded into CSV
+  // `url` values so the gallery component can resolve them correctly.
+  const { srcDir, urlPrefix, hasImagesSubdir } = resolveImageLayout(
+    dirPath,
+    dirInput
+  );
+  if (!hasImagesSubdir) {
+    p.log.warn(
+      'No `images/` subfolder — reading originals from the project root (legacy layout). ' +
+        'Move them into `images/` to adopt the new layout.'
+    );
+  }
+
+  const webpFiles = getWebpFiles(srcDir);
+  const nonWebp = getNonWebpFiles(srcDir);
 
   if (nonWebp.length > 0) {
     p.log.warn(
@@ -708,6 +978,10 @@ async function main() {
           label: 'Update a specific field across entries',
         },
         { value: 'add-column', label: 'Add a new column to all entries' },
+        {
+          value: 'regenerate-urls',
+          label: 'Regenerate url / ref_url (bulk set, replace, or rebuild)',
+        },
         { value: 'cancel', label: 'Cancel' },
       ],
     });
@@ -717,7 +991,7 @@ async function main() {
     }
 
     if (chosen === 'merge') {
-      const result = await mergeEntries(webpFiles, dirInput, existing);
+      const result = await mergeEntries(webpFiles, urlPrefix, existing);
       if (!result) process.exit(0);
       if (!result.changed) return;
       entries = result.entries;
@@ -725,7 +999,7 @@ async function main() {
       await confirmAndWrite(outFile, entries, previousEntries, 'merge');
       await postFillEntries(entries, outFile);
     } else if (chosen === 'overwrite') {
-      const result = await regenerateAll(webpFiles, dirInput);
+      const result = await regenerateAll(webpFiles, urlPrefix);
       if (!result) process.exit(0);
       entries = result;
       previousEntries = existing;
@@ -776,9 +1050,19 @@ async function main() {
         p.log.info('No changes made.');
       }
       return;
+    } else if (chosen === 'regenerate-urls') {
+      const changed = await regenerateUrlsMode(existing);
+      if (changed === null) process.exit(0);
+
+      if (changed) {
+        await confirmAndWrite(outFile, existing, null, 'regenerate-urls');
+      } else {
+        p.log.info('No changes made.');
+      }
+      return;
     }
   } else {
-    const result = await regenerateAll(webpFiles, dirInput);
+    const result = await regenerateAll(webpFiles, urlPrefix);
     if (!result) process.exit(0);
     entries = result;
     await confirmAndWrite(outFile, entries, null, 'fresh');

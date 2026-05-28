@@ -1,10 +1,18 @@
+import * as p from '@clack/prompts';
+
 import {
-  appendFileSync, existsSync, mkdirSync, readdirSync, readFileSync, statSync,
+  appendFileSync,
+  existsSync,
+  mkdirSync,
+  readFileSync,
+  readdirSync,
+  statSync,
 } from 'fs';
-import { extname, join, relative, resolve } from 'path';
+import { basename, dirname, extname, join, relative, resolve } from 'path';
+
 import { fileURLToPath } from 'url';
 import sharp from 'sharp';
-import * as p from '@clack/prompts';
+import slugify from 'slugify';
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url));
 const ROOT = resolve(__dirname, '..');
@@ -20,9 +28,19 @@ if (!existsSync(LOGS)) mkdirSync(LOGS, { recursive: true });
 
 const IMAGE_EXTS = ['.jpg', '.jpeg', '.png', '.gif', '.tiff', '.tif', '.bmp'];
 const ALL_IMAGE_EXTS = [...IMAGE_EXTS, '.webp', '.svg'];
-const SKIP_DIRS = new Set(['node_modules', '.git', '.svelte-kit', 'build', 'docs', 'package', '.vscode']);
+const SKIP_DIRS = new Set([
+  'node_modules',
+  '.git',
+  '.svelte-kit',
+  'build',
+  'docs',
+  'package',
+  '.vscode',
+]);
 
-function sep(ch = '─') { return ch.repeat(60); }
+function sep(ch = '─') {
+  return ch.repeat(60);
+}
 
 function fmtBytes(b) {
   if (b < 1024) return b + 'B';
@@ -42,35 +60,80 @@ function walkDir(dir) {
 }
 
 function readText(fp) {
-  try { return readFileSync(fp, 'utf-8'); } catch { return ''; }
+  try {
+    return readFileSync(fp, 'utf-8');
+  } catch {
+    return '';
+  }
 }
 
 // ── Logging (console + file) ─────────────────────────────────────
 
 function log(msg) {
   p.log.message(msg);
-  try { appendFileSync(LOG_FILE, msg + '\n'); } catch {}
+  try {
+    appendFileSync(LOG_FILE, msg + '\n');
+  } catch {}
 }
 
 function logRaw(msg) {
-  try { appendFileSync(LOG_FILE, msg + '\n'); } catch {}
+  try {
+    appendFileSync(LOG_FILE, msg + '\n');
+  } catch {}
 }
 
 function logBlock(title, lines) {
   const h = `  ${title}`;
-  const b = lines.map(l => `    ${l}`);
+  const b = lines.map((l) => `    ${l}`);
   logRaw('');
   logRaw(sep('═'));
   logRaw(h);
   logRaw(sep('─'));
-  b.forEach(l => logRaw(l));
+  b.forEach((l) => logRaw(l));
   logRaw(sep('═'));
   logRaw('');
 }
 
 // ── Convert images ───────────────────────────────────────────────
 
-async function runConvert(force) {
+/**
+ * Pick the output path for a converted image. With `slug: true` the
+ * basename is slugified (lower-case, hyphenated, ASCII-only) so the
+ * resulting filenames are URL-safe; otherwise the original basename is
+ * preserved, just with the extension swapped to `.webp`.
+ *
+ * Collisions after slugification (rare — e.g. two files differing only
+ * in punctuation) are disambiguated with a `-2`, `-3`, … suffix.
+ *
+ * @param {string} file       Absolute path of the source image
+ * @param {boolean} slug      Whether to slugify the basename
+ * @param {Set<string>} taken Out-paths already chosen in this run
+ */
+function pickOutPath(file, slug, taken) {
+  const ext = extname(file).toLowerCase();
+  const dir = dirname(file);
+  const name = basename(file, ext);
+  const base = slug
+    ? slugify(name, { lower: true, strict: true }) || name
+    : name;
+
+  let candidate = join(dir, `${base}.webp`);
+  let n = 2;
+  while (taken.has(candidate) || existsSync(candidate)) {
+    // Only de-dupe within this run, or when we'd clobber an *existing
+    // different file*. We deliberately allow `existsSync` to be true
+    // for the un-suffixed candidate if it was chosen in a previous run
+    // (so reconversion overwrites in place) — but if multiple source
+    // files map to the same slug, we must add a suffix to avoid losing
+    // one of them.
+    if (!taken.has(candidate)) break;
+    candidate = join(dir, `${base}-${n}.webp`);
+    n++;
+  }
+  return candidate;
+}
+
+async function runConvert(force, slug) {
   const t0 = Date.now();
   const ts = new Date().toISOString().replace('T', ' ').slice(0, 19);
   const scanDir = await promptScanDir('convert');
@@ -80,58 +143,86 @@ async function runConvert(force) {
   s.start('Scanning images...');
 
   const allFiles = walkDir(scanDir);
-  const images = allFiles.filter(f => IMAGE_EXTS.includes(extname(f).toLowerCase()));
-  const existingWebps = allFiles.filter(f => f.endsWith('.webp')).length;
+  const images = allFiles.filter((f) =>
+    IMAGE_EXTS.includes(extname(f).toLowerCase())
+  );
+  const existingWebps = allFiles.filter((f) => f.endsWith('.webp')).length;
 
-  const needConvert = force
-    ? images
-    : images.filter(f => !existsSync(f.replace(extname(f).toLowerCase(), '.webp')));
+  // Pre-compute output paths so we can skip the "already converted"
+  // ones and know up-front how much work there is — important when
+  // slugifying because the output filename differs from the input.
+  /** @type {Set<string>} */
+  const taken = new Set();
+  /** @type {Array<{src:string,out:string}>} */
+  const jobs = [];
+  for (const file of images) {
+    const out = pickOutPath(file, slug, taken);
+    taken.add(out);
+    if (!force && existsSync(out)) continue;
+    jobs.push({ src: file, out });
+  }
 
   const label = scanDir === STATIC ? 'static/' : relative(STATIC, scanDir);
-  s.stop(`${label}: ${images.length} images · ${existingWebps} existing webp · ${needConvert.length} to convert`);
+  s.stop(
+    `${label}: ${images.length} images · ${existingWebps} existing webp · ` +
+      `${jobs.length} to convert${slug ? ' (slugifying names)' : ''}`
+  );
 
   const logLines = [
-    `WebP conversion  ·  ${ts}  ·  mode: ${force ? 'force' : 'missing'}  ·  dir: ${label}`,
-    `Source images: ${images.length}  |  Existing .webp: ${existingWebps}  |  To convert: ${needConvert.length}`,
+    `WebP conversion  ·  ${ts}  ·  mode: ${force ? 'force' : 'missing'}  ·  ` +
+      `names: ${slug ? 'slug' : 'original'}  ·  dir: ${label}`,
+    `Source images: ${images.length}  |  Existing .webp: ${existingWebps}  |  ` +
+      `To convert: ${jobs.length}`,
   ];
 
-  if (needConvert.length === 0) {
-    log('✓ All images already have corresponding .webp files (use --force to reconvert).');
+  if (jobs.length === 0) {
+    log(
+      '✓ All images already have corresponding .webp files (use --force to reconvert).'
+    );
     logBlock('WebP conversion', logLines);
     return;
   }
 
   const prog = p.progress();
-  prog.start(needConvert.length, needConvert.length);
+  prog.start(jobs.length, jobs.length);
   let converted = 0;
   let failed = 0;
   let totalSrc = 0;
   let totalOut = 0;
 
-  for (let i = 0; i < needConvert.length; i++) {
-    prog.message(`Converting ${i + 1}/${needConvert.length}`);
-    const file = needConvert[i];
-    const ext = extname(file).toLowerCase();
-    const outPath = file.replace(ext, '.webp');
+  for (let i = 0; i < jobs.length; i++) {
+    prog.message(`Converting ${i + 1}/${jobs.length}`);
+    const { src, out } = jobs[i];
     let srcStat;
-    try { srcStat = statSync(file); } catch { continue; }
-
-    const rel = relative(STATIC, file);
     try {
-      const img = sharp(file);
-      const metadata = await img.metadata();
-      await img.webp({ quality: metadata.quality || 80, effort: 4 }).toFile(outPath);
+      srcStat = statSync(src);
+    } catch {
+      continue;
+    }
 
-      const outSize = statSync(outPath).size;
+    const relSrc = relative(STATIC, src);
+    const relOut = relative(STATIC, out);
+    try {
+      const img = sharp(src);
+      const metadata = await img.metadata();
+      await img
+        .webp({ quality: metadata.quality || 80, effort: 4 })
+        .toFile(out);
+
+      const outSize = statSync(out).size;
       const srcSize = srcStat.size;
       const saved = ((1 - outSize / srcSize) * 100).toFixed(1);
-      const line = `+ ${rel}  ${fmtBytes(srcSize)} → ${fmtBytes(outSize)}  (${saved}% saved)`;
+      const renamed =
+        relSrc !== relOut.replace(/\.webp$/, extname(relSrc).toLowerCase())
+          ? `  ⇢ ${relOut}`
+          : '';
+      const line = `+ ${relSrc}${renamed}  ${fmtBytes(srcSize)} → ${fmtBytes(outSize)}  (${saved}% saved)`;
       logRaw(line);
       converted++;
       totalSrc += srcSize;
       totalOut += outSize;
     } catch (err) {
-      logRaw(`✗ ${rel}  ${err.message}`);
+      logRaw(`✗ ${relSrc}  ${err.message}`);
       failed++;
     }
     prog.advance();
@@ -140,10 +231,13 @@ async function runConvert(force) {
   prog.stop(`Converted ${converted}, failed ${failed}`);
 
   const elapsed = ((Date.now() - t0) / 1000).toFixed(1);
-  const summary = converted > 0
-    ? `Total: ${fmtBytes(totalSrc)} → ${fmtBytes(totalOut)} (${((1 - totalOut / totalSrc) * 100).toFixed(1)}% saved)`
-    : '';
-  logLines.push(`${converted} converted, ${failed} failed, ${needConvert.length - converted - failed} skipped  ·  ${elapsed}s`);
+  const summary =
+    converted > 0
+      ? `Total: ${fmtBytes(totalSrc)} → ${fmtBytes(totalOut)} (${((1 - totalOut / totalSrc) * 100).toFixed(1)}% saved)`
+      : '';
+  logLines.push(
+    `${converted} converted, ${failed} failed, ${jobs.length - converted - failed} skipped  ·  ${elapsed}s`
+  );
   if (summary) logLines.push(summary);
   logBlock('WebP conversion', logLines);
 }
@@ -175,10 +269,16 @@ function gatherRefs(srcFiles) {
         refs.add('media/share-images/' + v);
     }
 
-    for (const m of content.matchAll(/(?:^|,|\s|['"`]|>)([\w@\-]+\.(?:webp|png|jpg|jpeg|gif|svg))\b/g))
+    for (const m of content.matchAll(
+      /(?:^|,|\s|['"`]|>)([\w@\-]+\.(?:webp|png|jpg|jpeg|gif|svg))\b/g
+    ))
       refs.add(m[1]);
 
-    if (content.includes('soulace') && content.includes('screens') && content.includes('.webp'))
+    if (
+      content.includes('soulace') &&
+      content.includes('screens') &&
+      content.includes('.webp')
+    )
       dynamicDirs.set('media/projects/soulace/screens', true);
   }
 
@@ -200,7 +300,12 @@ function isReferenced(webPath, refs) {
   const filename = webPath.split('/').pop();
   if (refs.has(filename)) return true;
   for (const r of refs) {
-    if (webPath === r || webPath.startsWith(r + '/') || r.startsWith(webPath + '/') || webPath.endsWith('/' + r))
+    if (
+      webPath === r ||
+      webPath.startsWith(r + '/') ||
+      r.startsWith(webPath + '/') ||
+      webPath.endsWith('/' + r)
+    )
       return true;
   }
   return false;
@@ -238,15 +343,29 @@ async function runCheck() {
   s.start('Scanning source files...');
 
   const allStatic = walkDir(scanDir);
-  const staticImages = allStatic.filter(f => ALL_IMAGE_EXTS.includes(extname(f).toLowerCase()));
+  const staticImages = allStatic.filter((f) =>
+    ALL_IMAGE_EXTS.includes(extname(f).toLowerCase())
+  );
 
-  const srcFiles = walkDir(SRC).filter(f =>
-    ['.svelte', '.md', '.js', '.ts', '.html', '.css', '.scss', '.csv', '.json'].includes(extname(f).toLowerCase()),
+  const srcFiles = walkDir(SRC).filter((f) =>
+    [
+      '.svelte',
+      '.md',
+      '.js',
+      '.ts',
+      '.html',
+      '.css',
+      '.scss',
+      '.csv',
+      '.json',
+    ].includes(extname(f).toLowerCase())
   );
 
   const refs = gatherRefs(srcFiles);
   const label = scanDir === STATIC ? 'static/' : relative(STATIC, scanDir);
-  s.stop(`${label}: ${staticImages.length} images, ${srcFiles.length} source files`);
+  s.stop(
+    `${label}: ${staticImages.length} images, ${srcFiles.length} source files`
+  );
 
   const staticMap = new Map();
   for (const f of staticImages)
@@ -273,14 +392,17 @@ async function runCheck() {
 
   logLines.push('');
   if (jpegPngReferenced.length > 0) {
-    logLines.push(`⚠ JPEG/PNG still referenced from code (${jpegPngReferenced.length}):`);
+    logLines.push(
+      `⚠ JPEG/PNG still referenced from code (${jpegPngReferenced.length}):`
+    );
     for (const u of jpegPngReferenced) {
       const lines = findRefLines(u.webPath, srcFiles);
       const size = statSync(u.fullPath).size;
       logLines.push(`  ${u.webPath}  (${fmtBytes(size)})`);
       for (const [file, line] of lines.slice(0, 2))
         logLines.push(`    → ${file}:${line}`);
-      if (lines.length > 2) logLines.push(`    → … and ${lines.length - 2} more`);
+      if (lines.length > 2)
+        logLines.push(`    → … and ${lines.length - 2} more`);
       logLines.push('');
     }
   } else {
@@ -289,7 +411,9 @@ async function runCheck() {
   }
 
   if (jpegPngUnreferenced.length > 0) {
-    logLines.push(`JPEG/PNG not referenced (${jpegPngUnreferenced.length}) — can be removed:`);
+    logLines.push(
+      `JPEG/PNG not referenced (${jpegPngUnreferenced.length}) — can be removed:`
+    );
     for (const u of jpegPngUnreferenced) {
       const size = statSync(u.fullPath).size;
       logLines.push(`  ${u.webPath}  (${fmtBytes(size)})`);
@@ -298,7 +422,9 @@ async function runCheck() {
   }
 
   if (otherUnreferenced.length > 0) {
-    logLines.push(`Other (webp/gif/svg) not referenced (${otherUnreferenced.length}):`);
+    logLines.push(
+      `Other (webp/gif/svg) not referenced (${otherUnreferenced.length}):`
+    );
     for (const u of otherUnreferenced) {
       const size = statSync(u.fullPath).size;
       logLines.push(`  ${u.webPath}  (${fmtBytes(size)})`);
@@ -311,15 +437,17 @@ async function runCheck() {
   // Also print key findings to console
   if (jpegPngReferenced.length > 0) {
     p.note(
-      jpegPngReferenced.map(u => `  ${u.webPath}`).join('\n'),
-      `⚠ JPEG/PNG still referenced (${jpegPngReferenced.length})`,
+      jpegPngReferenced.map((u) => `  ${u.webPath}`).join('\n'),
+      `⚠ JPEG/PNG still referenced (${jpegPngReferenced.length})`
     );
   } else {
     p.log.success('✓ No JPEG/PNG referenced — all images use webp in source.');
   }
 
   if (jpegPngUnreferenced.length > 0) {
-    p.log.info(`JPEG/PNG not referenced: ${jpegPngUnreferenced.length} files can be removed`);
+    p.log.info(
+      `JPEG/PNG not referenced: ${jpegPngUnreferenced.length} files can be removed`
+    );
   }
 }
 
@@ -328,13 +456,13 @@ async function runCheck() {
 async function promptScanDir(forWhat) {
   // Start by listing subdirs of static/media/
   const topDirs = readdirSync(STATIC_MEDIA, { withFileTypes: true })
-    .filter(e => e.isDirectory() && !e.name.startsWith('.'))
-    .map(e => e.name)
+    .filter((e) => e.isDirectory() && !e.name.startsWith('.'))
+    .map((e) => e.name)
     .sort();
 
   const options = [
     { value: '__all_static__', label: 'Entire static/', hint: 'all images' },
-    ...topDirs.map(d => ({ value: d, label: d, hint: 'static/media/' + d })),
+    ...topDirs.map((d) => ({ value: d, label: d, hint: 'static/media/' + d })),
     { value: '__custom__', label: 'Custom subdirectory' },
   ];
 
@@ -365,8 +493,13 @@ async function promptScanDir(forWhat) {
 
 async function drillInto(dir, forWhat) {
   const entries = readdirSync(dir, { withFileTypes: true });
-  const subdirs = entries.filter(e => e.isDirectory() && !e.name.startsWith('.')).map(e => e.name).sort();
-  const hasImages = entries.some(e => e.isFile() && IMAGE_EXTS.includes(extname(e.name).toLowerCase()));
+  const subdirs = entries
+    .filter((e) => e.isDirectory() && !e.name.startsWith('.'))
+    .map((e) => e.name)
+    .sort();
+  const hasImages = entries.some(
+    (e) => e.isFile() && IMAGE_EXTS.includes(extname(e.name).toLowerCase())
+  );
 
   const label = relative(STATIC, dir);
 
@@ -376,7 +509,11 @@ async function drillInto(dir, forWhat) {
   // Has subdirs — ask what to do
   const options = [];
   if (hasImages) {
-    options.push({ value: '__all__', label: `All images in ${label}`, hint: 'scan this dir too' });
+    options.push({
+      value: '__all__',
+      label: `All images in ${label}`,
+      hint: 'scan this dir too',
+    });
   }
   for (const sd of subdirs) {
     options.push({ value: sd, label: sd, hint: join(label, sd) });
@@ -397,7 +534,10 @@ async function drillInto(dir, forWhat) {
 async function main() {
   p.intro('⚡ webpify');
 
-  const hasFlags = process.argv.includes('--force') || process.argv.includes('--check') || process.argv.includes('--convert');
+  const hasFlags =
+    process.argv.includes('--force') ||
+    process.argv.includes('--check') ||
+    process.argv.includes('--convert');
 
   if (hasFlags) {
     // Non-interactive mode
@@ -405,34 +545,72 @@ async function main() {
       await runCheck();
     } else {
       const force = process.argv.includes('--force');
-      await runConvert(force);
+      // `--slug` opts into slugified output filenames (URL-safe).
+      // Default stays at original filenames so existing references
+      // don't break unless explicitly asked.
+      const slug = process.argv.includes('--slug');
+      await runConvert(force, slug);
     }
   } else {
     // Interactive mode with clack prompts
     const action = await p.select({
       message: 'What do you want to do?',
       options: [
-        { value: 'convert', label: 'Convert images', hint: 'jpg/png/gif → webp' },
-        { value: 'check', label: 'Check references', hint: 'find unused & non-webp references' },
+        {
+          value: 'convert',
+          label: 'Convert images',
+          hint: 'jpg/png/gif → webp',
+        },
+        {
+          value: 'check',
+          label: 'Check references',
+          hint: 'find unused & non-webp references',
+        },
         { value: 'both', label: 'Do both', hint: 'convert then check' },
       ],
     });
 
     let force = false;
+    let slug = false;
     if (action === 'convert' || action === 'both') {
       force = await p.confirm({
         message: 'Force reconvert all images?',
         activeLabel: 'Yes (overwrite existing .webp)',
         inactiveLabel: 'No (only convert missing)',
       });
+      if (p.isCancel(force)) {
+        p.cancel();
+        process.exit(0);
+      }
+
+      const naming = await p.select({
+        message: 'Output filenames',
+        options: [
+          {
+            value: 'original',
+            label: 'Keep original filename',
+            hint: 'e.g. "My Cool Chart.webp"',
+          },
+          {
+            value: 'slug',
+            label: 'Slugify (URL-safe, lower-case, hyphenated)',
+            hint: 'e.g. "my-cool-chart.webp"',
+          },
+        ],
+      });
+      if (p.isCancel(naming)) {
+        p.cancel();
+        process.exit(0);
+      }
+      slug = naming === 'slug';
     }
 
     if (action === 'convert') {
-      await runConvert(force);
+      await runConvert(force, slug);
     } else if (action === 'check') {
       await runCheck();
     } else {
-      await runConvert(force);
+      await runConvert(force, slug);
       await runCheck();
     }
   }
@@ -440,9 +618,11 @@ async function main() {
   p.outro(`Done · log: ${relative(ROOT, LOG_FILE)}`);
 }
 
-main().catch(err => {
+main().catch((err) => {
   p.cancel('Script failed');
   console.error(err);
-  try { appendFileSync(LOG_FILE, `\nFATAL: ${err.message}\n`); } catch {}
+  try {
+    appendFileSync(LOG_FILE, `\nFATAL: ${err.message}\n`);
+  } catch {}
   process.exit(1);
 });

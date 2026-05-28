@@ -51,13 +51,21 @@
   const THUMB_WIDTHS = [300, 600];
 
   /**
-   * Build the URL for a thumbnail at a specific width. Path layout:
-   *   `<dir>/<file>` → `/media/<dir>/thumbs_<w>/<file>`
+   * Build the URL for a thumbnail at a specific width. CSV `url` values
+   * follow the canonical layout `<dir>/images/<slug>.<ext>`; thumbs
+   * live alongside the `images/` folder at `<dir>/thumbs_<w>/<slug>.<ext>`.
+   * So we just swap the `/images/` segment for the matching `/thumbs_<w>/`.
+   *
+   * Falls back to the previous behaviour (insert `/thumbs_<w>/` before
+   * the filename) for legacy CSV rows that still point at flat folders.
    * @param {string} url
    * @param {number} w
    */
   function thumbAt(url, w) {
     if (!url) return '';
+    if (url.includes('/images/')) {
+      return '/media/' + url.replace('/images/', `/thumbs_${w}/`);
+    }
     const i = url.lastIndexOf('/');
     return (
       '/media/' + url.slice(0, i) + '/thumbs_' + w + '/' + url.slice(i + 1)
@@ -65,12 +73,21 @@
   }
 
   /**
-   * Fallback single-size URL (used when `srcset` isn't honoured, and as
-   * the click-through href).
+   * Single-size fallback URL — used when `srcset` isn't honoured.
    * @param {string} url
    */
   function tileUrl(url) {
     return thumbAt(url, 600);
+  }
+
+  /**
+   * Click-through URL when an entry has no `ref_url`. Opens the
+   * full-resolution source image so users can see detail beyond the
+   * thumbnail.
+   * @param {string} url
+   */
+  function fullUrl(url) {
+    return url ? '/media/' + url : '';
   }
 
   // `sizes` describes how wide each <img> renders. Tiles are pinned to
@@ -88,7 +105,7 @@
       style: tileStyle(it, title, i, perm),
       thumb: tileUrl(it.url),
       srcset: THUMB_WIDTHS.map((w) => `${thumbAt(it.url, w)} ${w}w`).join(', '),
-      href: it.ref_url || tileUrl(it.url),
+      href: it.ref_url || fullUrl(it.url),
       alt: it.title || '',
       key: it.url + '#' + i,
     }))
