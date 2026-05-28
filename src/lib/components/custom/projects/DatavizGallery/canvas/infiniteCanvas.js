@@ -89,27 +89,28 @@ function perlin2D(x, y, perm) {
 }
 
 /** Frame width in px */
-export const FRAME_W = 280;
+export const FRAME_W = 500;
 /** Gap between tiles in px */
-export const GAP = 30;
+export const GAP = 100;
 /** Span precision for CSS grid-row: span calc(...) */
-export const PRECISION = 10;
+export const PRECISION = 100;
 /** World width for the grid container */
 export const WORLD_W = 2500;
 
 /**
  * Perlin-noise jitter offsets for a tile.
- * Returns rotation (deg), dx (px), dy (px) — smoothly varying across tiles.
+ * Returns rotation (deg), position offsets (px), and z-index — smoothly varying across tiles.
  * @param {number} index
  * @param {Uint8Array} perm
- * @returns {{ rot: number, dx: number, dy: number }}
+ * @returns {{ rot: number, dx: number, dy: number, z: number }}
  */
 export function tileJitter(index, perm) {
-  const x = index * 0.5;
+  const x = index * 0.15;
   const rot = perlin2D(x, 0, perm) * 2;
-  const dx = perlin2D(x, 100, perm) * GAP * 0.5;
-  const dy = perlin2D(x, 200, perm) * GAP * 0.3;
-  return { rot, dx, dy };
+  const dx = perlin2D(x, 200, perm) * 24;
+  const dy = perlin2D(x, 100, perm) * 12;
+  const z = Math.round(perlin2D(x, 300, perm) * 4);
+  return { rot, dx, dy, z };
 }
 
 /**
@@ -134,16 +135,30 @@ export function makePerm(seed) {
  * @returns {string}
  */
 export function tileStyle(item, seed, index, perm) {
-  const w = item.aspect ? Math.round(item.aspect * 1000) : 1;
+  const aspect = item.aspect || 1;
+  const span = Math.max(1, Math.round(PRECISION / aspect));
+  const corrected = (aspect * FRAME_W) / (FRAME_W - GAP + GAP * aspect);
+  const w = Math.round(corrected * 1000);
   const h = 1000;
-  const { rot, dx, dy } = tileJitter(index, perm);
-  return `--w: ${w}; --h: ${h}; transform: rotate(${rot}deg) translate(${dx}px, ${dy}px);`;
+  const { rot, dx, dy, z } = tileJitter(index, perm);
+  return `--w: ${w}; --h: ${h}; --span: ${span}; transform: rotate(${rot}deg) translate(${dx}px, ${dy}px); z-index: ${10 + z}; position: relative;`;
+}
+
+/**
+ * Calculate masonry container width for a roughly square grid.
+ * @param {number} itemCount
+ * @returns {number}
+ */
+export function calcMasonryWidth(itemCount) {
+  const cols = Math.max(1, Math.ceil(Math.sqrt(itemCount)));
+  return cols * FRAME_W + (cols - 1) * GAP;
 }
 
 /**
  * Inline styles for the masonry inner container (CSS Grid).
+ * @param {number} [width]
  * @returns {string}
  */
-export function masonryContainerStyle() {
-  return `display: grid; clip-path: margin-box; margin: calc(-1 * ${GAP}px / 2); grid-template-columns: repeat(auto-fill, minmax(${FRAME_W}px, 1fr)); width: ${WORLD_W}px;`;
+export function masonryContainerStyle(width = WORLD_W) {
+  return `display: grid; margin: calc(-1 * ${GAP}px / 2); grid-template-columns: repeat(auto-fill, minmax(${FRAME_W}px, 1fr)); width: ${width}px;`;
 }

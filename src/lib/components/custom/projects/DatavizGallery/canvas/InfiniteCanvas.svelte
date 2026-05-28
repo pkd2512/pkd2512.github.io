@@ -4,16 +4,18 @@
     FRAME_W,
     GAP,
     PRECISION,
-    WORLD_W,
     tileStyle,
     masonryContainerStyle,
     makePerm,
+    calcMasonryWidth,
   } from './infiniteCanvas.js';
   import gsap from 'gsap';
   import { Draggable } from 'gsap/Draggable';
   import { InertiaPlugin } from 'gsap/InertiaPlugin';
 
   gsap.registerPlugin(Draggable, InertiaPlugin);
+
+  const PADDING = 150;
 
   /**
    * @type {{
@@ -34,6 +36,14 @@
   /** @type {HTMLDivElement | undefined} */
   let ghostEl;
 
+  let contentWidth = $state(2500);
+  let _bounds = {
+    minX: -Infinity,
+    maxX: Infinity,
+    minY: -Infinity,
+    maxY: Infinity,
+  };
+
   let ready = $state(false);
 
   gsap.ticker.lagSmoothing(0);
@@ -45,6 +55,8 @@
   }
 
   onMount(() => {
+    contentWidth = calcMasonryWidth(items.length);
+
     ready = true;
 
     if (ghostEl && originRect) {
@@ -92,12 +104,36 @@
       },
     })[0];
 
+    requestAnimationFrame(() => {
+      if (!stageEl) return;
+      const masonryInner = /** @type {HTMLElement | null} */ (
+        stageEl.querySelector('.masonry-inner')
+      );
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+      const cw = contentWidth;
+      const ch = masonryInner ? masonryInner.scrollHeight : vh;
+      const maxX = PADDING;
+      const minX = -(cw - vw) - PADDING;
+      const maxY = PADDING;
+      const minY = -(ch - vh) - PADDING;
+      _bounds = {
+        minX: Math.min(minX, maxX),
+        maxX: Math.max(minX, maxX),
+        minY: Math.min(minY, maxY),
+        maxY: Math.max(minY, maxY),
+      };
+      draggable.applyBounds(_bounds);
+    });
+
     function onWheel(e) {
       if (!stageEl) return;
       e.preventDefault();
+      const curX = Number(gsap.getProperty(stageEl, 'x'));
+      const curY = Number(gsap.getProperty(stageEl, 'y'));
       gsap.to(stageEl, {
-        x: `+=${-e.deltaX}`,
-        y: `+=${-e.deltaY}`,
+        x: Math.max(_bounds.minX, Math.min(_bounds.maxX, curX - e.deltaX)),
+        y: Math.max(_bounds.minY, Math.min(_bounds.maxY, curY - e.deltaY)),
         duration: 0.6,
         ease: 'power3.out',
         overwrite: 'auto',
@@ -119,6 +155,9 @@
 
   function handleKeydown(e) {
     const STEP = 60;
+    if (!stageEl) return;
+    const curX = Number(gsap.getProperty(stageEl, 'x'));
+    const curY = Number(gsap.getProperty(stageEl, 'y'));
     switch (e.key) {
       case 'Escape':
         close();
@@ -126,7 +165,7 @@
       case 'ArrowLeft':
         e.preventDefault();
         gsap.to(stageEl, {
-          x: `+=${STEP}`,
+          x: Math.max(_bounds.minX, curX + STEP),
           duration: 0.3,
           ease: 'power2.out',
           overwrite: 'auto',
@@ -135,7 +174,7 @@
       case 'ArrowRight':
         e.preventDefault();
         gsap.to(stageEl, {
-          x: `+=-${STEP}`,
+          x: Math.min(_bounds.maxX, curX - STEP),
           duration: 0.3,
           ease: 'power2.out',
           overwrite: 'auto',
@@ -144,7 +183,7 @@
       case 'ArrowUp':
         e.preventDefault();
         gsap.to(stageEl, {
-          y: `+=${STEP}`,
+          y: Math.max(_bounds.minY, curY + STEP),
           duration: 0.3,
           ease: 'power2.out',
           overwrite: 'auto',
@@ -153,7 +192,7 @@
       case 'ArrowDown':
         e.preventDefault();
         gsap.to(stageEl, {
-          y: `+=-${STEP}`,
+          y: Math.min(_bounds.maxY, curY - STEP),
           duration: 0.3,
           ease: 'power2.out',
           overwrite: 'auto',
@@ -208,9 +247,10 @@
     <div
       class="stage"
       bind:this={stageEl}
-      style="--frame-width: {FRAME_W}px; --gap: {GAP}px; --precision: {PRECISION};"
+      style="--frame-width: {FRAME_W}px; --gap: {GAP}px; --precision: {PRECISION}; --row-h: {FRAME_W /
+        PRECISION}px;"
     >
-      <div class="masonry-inner" style={masonryContainerStyle()}>
+      <div class="masonry-inner" style={masonryContainerStyle(contentWidth)}>
         {#each items as item, i}
           <div
             class="tile"
@@ -319,11 +359,8 @@
   }
 
   .masonry-inner {
-    display: grid;
-    clip-path: margin-box;
-    margin: calc(-1 * var(--gap, 0) / 2);
-    grid-template-columns: repeat(auto-fill, minmax(var(--frame-width), 1fr));
-    width: 2500px;
+    grid-auto-rows: var(--row-h);
+    overflow: visible;
   }
 
   .tile {
@@ -331,27 +368,31 @@
     --h: 1;
     aspect-ratio: var(--w) / var(--h);
     width: 100%;
-    height: 100%;
-    position: relative;
-    grid-row: span calc(var(--h) / var(--w) * var(--precision, 10));
+    grid-row: span var(--span);
+    align-self: start;
 
     .tile-inner {
       position: absolute;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       inset: calc(var(--gap, 0) / 2);
       overflow: hidden;
       border-radius: 4px;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
       transition: box-shadow 0.15s;
       cursor: zoom-in;
-      padding: var(--space-3xs);
+      outline: 3px solid var(--purple-soft);
+      background-color: #fff;
       &:hover {
         box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
       }
     }
 
     img {
-      width: 100%;
-      height: 100%;
+      width: 95%;
+      height: auto;
+      object-fit: contain;
       display: block;
       pointer-events: none;
     }
