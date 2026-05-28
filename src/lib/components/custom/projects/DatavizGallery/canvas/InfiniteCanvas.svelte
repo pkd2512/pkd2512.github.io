@@ -1,21 +1,21 @@
 <script>
   import { onMount } from 'svelte';
   import {
-    FRAME_W,
-    GAP,
-    PRECISION,
     tileStyle,
     masonryContainerStyle,
     makePerm,
     calcMasonryWidth,
   } from './infiniteCanvas.js';
-  import gsap from 'gsap';
-  import { Draggable } from 'gsap/Draggable';
-  import { InertiaPlugin } from 'gsap/InertiaPlugin';
-
-  gsap.registerPlugin(Draggable, InertiaPlugin);
 
   const PADDING = 150;
+
+  /**
+   * Shared gsap reference. Populated by the dynamic import inside
+   * `onMount`, then re-used by handlers that fire after mount (keydown,
+   * close). Keeps us from leaking onto `window.gsap`.
+   * @type {any}
+   */
+  let gsap;
 
   /**
    * @type {{
@@ -27,7 +27,47 @@
    */
   let { items = [], title = '', originRect = null, onclose } = $props();
 
+  // Snapshot originRect into plain numbers so a layout shift in the
+  // page beneath us can't invalidate the live DOMRect mid-tween.
+  // `$derived` keeps the snapshot in sync if the parent ever swaps the
+  // rect (e.g. opening a different group without unmounting us).
+  let initialRect = $derived(
+    originRect
+      ? {
+          x: originRect.x,
+          y: originRect.y,
+          width: originRect.width,
+          height: originRect.height,
+        }
+      : null
+  );
+
   let perm = $derived(makePerm(title));
+
+  /**
+   * Resolve thumbnail URL once per item. Path layout:
+   *   `<dir>/<file>` → `/media/<dir>/thumbs_600/<file>`
+   * @param {string} url
+   */
+  function tileUrl(url) {
+    if (!url) return '';
+    const i = url.lastIndexOf('/');
+    return '/media/' + url.slice(0, i) + '/thumbs_600/' + url.slice(i + 1);
+  }
+
+  // Precompute the per-tile data (style string + thumbnail URL) once
+  // per `items`/`title`/`perm` change, so the `{#each}` block doesn't
+  // rebuild strings on every reactive tick.
+  let tiles = $derived(
+    items.map((it, i) => ({
+      item: it,
+      style: tileStyle(it, title, i, perm),
+      thumb: tileUrl(it.url),
+      href: it.ref_url || tileUrl(it.url),
+      alt: it.title || '',
+      key: it.url + '#' + i,
+    }))
+  );
 
   /** @type {HTMLDivElement | undefined} */
   let stageEl;
@@ -37,6 +77,8 @@
   let ghostEl;
 
   let contentWidth = $state(2500);
+
+  /** @type {{minX:number,maxX:number,minY:number,maxY:number}} */
   let _bounds = {
     minX: -Infinity,
     maxX: Infinity,
@@ -46,65 +88,42 @@
 
   let ready = $state(false);
 
-  gsap.ticker.lagSmoothing(0);
-
-  function tileUrl(url) {
-    if (!url) return '';
-    const i = url.lastIndexOf('/');
-    return '/media/' + url.slice(0, i) + '/thumbs_600/' + url.slice(i + 1);
-  }
-
   onMount(() => {
     contentWidth = calcMasonryWidth(items.length);
 
-    ready = true;
+    /** @type {any} */ let Draggable;
+    /** @type {any} */ let InertiaPlugin;
+    /** @type {any} */ let draggable;
+    /** @type {any} */ let xTo;
+    /** @type {any} */ let yTo;
 
-    if (ghostEl && originRect) {
-      gsap.fromTo(
-        ghostEl,
-        {
-          x: originRect.x,
-          y: originRect.y,
-          width: originRect.width,
-          height: originRect.height,
-          opacity: 1,
-        },
-        {
-          x: 0,
-          y: 0,
-          width: '100vw',
-          height: '100vh',
-          opacity: 1,
-          duration: 0.4,
-          ease: 'power3.out',
-          onComplete: () => {
-            gsap.to(ghostEl, {
-              opacity: 0,
-              duration: 0.15,
-              onComplete: () => {
-                ghostEl.style.display = 'none';
-              },
-            });
-          },
-        }
-      );
+    // Bounds-clamped target the wheel handler accumulates into.
+    let tx = 0;
+    let ty = 0;
+
+    /** @type {ResizeObserver | null} */
+    let resizeObs = null;
+    /** @type {IntersectionObserver | null} */
+    let imgObs = null;
+    let cancelled = false;
+
+    /** @param {WheelEvent} e */
+    function onWheel(e) {
+      if (!stageEl || !xTo) return;
+      e.preventDefault();
+      // Normalise wheel delta across browsers / input devices:
+      //   deltaMode 0 → pixels (trackpad)
+      //   deltaMode 1 → lines (Windows mouse wheel)
+      //   deltaMode 2 → pages (some legacy)
+      const mult =
+        e.deltaMode === 1 ? 16 : e.deltaMode === 2 ? window.innerHeight : 1;
+      tx = Math.max(_bounds.minX, Math.min(_bounds.maxX, tx - e.deltaX * mult));
+      ty = Math.max(_bounds.minY, Math.min(_bounds.maxY, ty - e.deltaY * mult));
+      xTo(tx);
+      yTo(ty);
     }
 
-    const draggable = Draggable.create(stageEl, {
-      type: 'x,y',
-      inertia: true,
-      edgeResistance: 0,
-      onClick: function (/** @type {MouseEvent} */ e) {
-        const tile = /** @type {HTMLElement} */ (e.target).closest('.tile');
-        if (!tile) return;
-        const refUrl = tile.getAttribute('data-ref-url');
-        const url = tile.getAttribute('data-url');
-        const href = refUrl || url;
-        if (href) window.open(href, '_blank', 'noopener');
-      },
-    })[0];
-
-    requestAnimationFrame(() => {
+    function recomputeBounds() {
       if (!stageEl) return;
       const masonryInner = /** @type {HTMLElement | null} */ (
         stageEl.querySelector('.masonry-inner')
@@ -123,99 +142,209 @@
         minY: Math.min(minY, maxY),
         maxY: Math.max(minY, maxY),
       };
-      draggable.applyBounds(_bounds);
-    });
-
-    function onWheel(e) {
-      if (!stageEl) return;
-      e.preventDefault();
-      const curX = Number(gsap.getProperty(stageEl, 'x'));
-      const curY = Number(gsap.getProperty(stageEl, 'y'));
-      gsap.to(stageEl, {
-        x: Math.max(_bounds.minX, Math.min(_bounds.maxX, curX - e.deltaX)),
-        y: Math.max(_bounds.minY, Math.min(_bounds.maxY, curY - e.deltaY)),
-        duration: 0.6,
-        ease: 'power3.out',
-        overwrite: 'auto',
-      });
+      // Re-clamp the current target so it doesn't sit outside new bounds.
+      tx = Math.max(_bounds.minX, Math.min(_bounds.maxX, tx));
+      ty = Math.max(_bounds.minY, Math.min(_bounds.maxY, ty));
+      if (draggable) draggable.applyBounds(_bounds);
     }
-    overlayEl.addEventListener('wheel', onWheel, { passive: false });
 
-    document.body.style.overflow = 'hidden';
-    overlayEl.focus();
+    (async () => {
+      // Dynamic-import gsap + plugins so the gallery JS only ships to
+      // users who actually open it. Also keeps SSR free of gsap's ESM
+      // pitfalls (its package.json doesn't declare `type: module`).
+      const [gsapMod, dragMod, inertiaMod] = await Promise.all([
+        import('gsap'),
+        import('gsap/Draggable'),
+        import('gsap/InertiaPlugin'),
+      ]);
+      if (cancelled) return;
+
+      gsap = gsapMod.default || gsapMod;
+      Draggable = dragMod.Draggable || dragMod.default;
+      InertiaPlugin = inertiaMod.InertiaPlugin || inertiaMod.default;
+      gsap.registerPlugin(Draggable, InertiaPlugin);
+
+      ready = true;
+
+      // Entrance ghost zoom (snapshot rect, autoAlpha for visibility).
+      if (ghostEl && initialRect) {
+        gsap.fromTo(
+          ghostEl,
+          {
+            x: initialRect.x,
+            y: initialRect.y,
+            width: initialRect.width,
+            height: initialRect.height,
+            autoAlpha: 1,
+          },
+          {
+            x: 0,
+            y: 0,
+            width: '100vw',
+            height: '100vh',
+            duration: 0.4,
+            ease: 'power3.out',
+            onComplete: () => {
+              gsap.to(ghostEl, { autoAlpha: 0, duration: 0.15 });
+            },
+          }
+        );
+      }
+
+      draggable = Draggable.create(stageEl, {
+        type: 'x,y',
+        inertia: true,
+        edgeResistance: 0,
+        onDragStart() {
+          stageEl?.classList.add('is-dragging');
+        },
+        onDragEnd() {
+          stageEl?.classList.remove('is-dragging');
+          // Keep our wheel target in sync with where inertia leaves us.
+          tx = Number(gsap.getProperty(stageEl, 'x'));
+          ty = Number(gsap.getProperty(stageEl, 'y'));
+        },
+        onThrowComplete() {
+          tx = Number(gsap.getProperty(stageEl, 'x'));
+          ty = Number(gsap.getProperty(stageEl, 'y'));
+        },
+        onClick(/** @type {MouseEvent} */ e) {
+          const tile = /** @type {HTMLElement} */ (e.target).closest('.tile');
+          if (!tile) return;
+          const href = tile.getAttribute('href');
+          if (href) window.open(href, '_blank', 'noopener');
+        },
+      })[0];
+
+      xTo = gsap.quickTo(stageEl, 'x', {
+        duration: 0.4,
+        ease: 'power3.out',
+      });
+      yTo = gsap.quickTo(stageEl, 'y', {
+        duration: 0.4,
+        ease: 'power3.out',
+      });
+
+      // Compute bounds after the next frame so masonry has laid out.
+      requestAnimationFrame(() => {
+        if (cancelled) return;
+        recomputeBounds();
+      });
+
+      // Recompute on resize / orientation change. ResizeObserver fires
+      // for the overlay itself, which is `position: fixed; inset: 0`.
+      if (typeof ResizeObserver !== 'undefined' && overlayEl) {
+        resizeObs = new ResizeObserver(() => recomputeBounds());
+        resizeObs.observe(overlayEl);
+      }
+
+      // Image deferral. Tile DOM nodes are cheap; the <img> payload is
+      // expensive. We attach `data-src` initially and only set `src`
+      // when the tile intersects (with a generous root margin so
+      // panning doesn't reveal blank tiles).
+      if (typeof IntersectionObserver !== 'undefined') {
+        imgObs = new IntersectionObserver(
+          (entries) => {
+            for (const e of entries) {
+              if (!e.isIntersecting) continue;
+              const img = /** @type {HTMLImageElement} */ (e.target);
+              const src = img.dataset.src;
+              if (src && !img.src) img.src = src;
+              imgObs?.unobserve(img);
+            }
+          },
+          { root: null, rootMargin: '200% 200%', threshold: 0 }
+        );
+        // Observe whatever images exist on the next frame (after Svelte
+        // has rendered the `{#each}`).
+        requestAnimationFrame(() => {
+          if (cancelled || !stageEl) return;
+          stageEl
+            .querySelectorAll('img[data-src]')
+            .forEach((/** @type {Element} */ img) => imgObs?.observe(img));
+        });
+      }
+
+      // Wheel + keyboard nav.
+      overlayEl?.addEventListener('wheel', onWheel, { passive: false });
+      document.body.style.overflow = 'hidden';
+      overlayEl?.focus();
+    })();
 
     return () => {
-      draggable.kill();
-      overlayEl.removeEventListener('wheel', onWheel);
-      gsap.killTweensOf(stageEl);
-      gsap.killTweensOf(ghostEl);
+      cancelled = true;
+      try {
+        draggable?.kill();
+      } catch (_) {
+        // ignore
+      }
+      overlayEl?.removeEventListener('wheel', onWheel);
+      resizeObs?.disconnect();
+      imgObs?.disconnect();
+      if (gsap && stageEl) gsap.killTweensOf(stageEl);
+      if (gsap && ghostEl) gsap.killTweensOf(ghostEl);
       document.body.style.overflow = '';
     };
   });
 
+  /** @param {KeyboardEvent} e */
   function handleKeydown(e) {
+    if (e.key === 'Escape') {
+      close();
+      return;
+    }
+    // Arrow keys only do anything once gsap has finished loading.
+    if (!gsap || !stageEl) return;
+
     const STEP = 60;
-    if (!stageEl) return;
     const curX = Number(gsap.getProperty(stageEl, 'x'));
     const curY = Number(gsap.getProperty(stageEl, 'y'));
+    let nx = curX;
+    let ny = curY;
+
     switch (e.key) {
-      case 'Escape':
-        close();
-        break;
       case 'ArrowLeft':
-        e.preventDefault();
-        gsap.to(stageEl, {
-          x: Math.max(_bounds.minX, curX + STEP),
-          duration: 0.3,
-          ease: 'power2.out',
-          overwrite: 'auto',
-        });
+        nx = Math.max(_bounds.minX, curX + STEP);
         break;
       case 'ArrowRight':
-        e.preventDefault();
-        gsap.to(stageEl, {
-          x: Math.min(_bounds.maxX, curX - STEP),
-          duration: 0.3,
-          ease: 'power2.out',
-          overwrite: 'auto',
-        });
+        nx = Math.min(_bounds.maxX, curX - STEP);
         break;
       case 'ArrowUp':
-        e.preventDefault();
-        gsap.to(stageEl, {
-          y: Math.max(_bounds.minY, curY + STEP),
-          duration: 0.3,
-          ease: 'power2.out',
-          overwrite: 'auto',
-        });
+        ny = Math.max(_bounds.minY, curY + STEP);
         break;
       case 'ArrowDown':
-        e.preventDefault();
-        gsap.to(stageEl, {
-          y: Math.min(_bounds.maxY, curY - STEP),
-          duration: 0.3,
-          ease: 'power2.out',
-          overwrite: 'auto',
-        });
+        ny = Math.min(_bounds.maxY, curY - STEP);
         break;
+      default:
+        return;
     }
+    e.preventDefault();
+    gsap.to(stageEl, {
+      x: nx,
+      y: ny,
+      duration: 0.3,
+      ease: 'power2.out',
+      overwrite: 'auto',
+    });
   }
 
   let closing = false;
   function close() {
     if (closing) return;
     closing = true;
-    if (ghostEl && originRect) {
-      ghostEl.style.display = '';
-      gsap.set(ghostEl, { opacity: 1 });
+    if (gsap && ghostEl && initialRect) {
+      // Cancel any in-flight ghost tween before starting the close tween
+      // — otherwise an interrupted entrance can race with the exit.
+      gsap.killTweensOf(ghostEl);
+      gsap.set(ghostEl, { autoAlpha: 1 });
       gsap.fromTo(
         ghostEl,
         { x: 0, y: 0, width: '100vw', height: '100vh' },
         {
-          x: originRect.x,
-          y: originRect.y,
-          width: originRect.width,
-          height: originRect.height,
+          x: initialRect.x,
+          y: initialRect.y,
+          width: initialRect.width,
+          height: initialRect.height,
           duration: 0.35,
           ease: 'power3.in',
           onComplete: () => onclose?.(),
@@ -244,29 +373,29 @@
     >
     <h2 class="canvas-title">{title}</h2>
 
-    <div
-      class="stage"
-      bind:this={stageEl}
-      style="--frame-width: {FRAME_W}px; --gap: {GAP}px; --precision: {PRECISION}; --row-h: {FRAME_W /
-        PRECISION}px;"
-    >
+    <div class="stage" bind:this={stageEl}>
       <div class="masonry-inner" style={masonryContainerStyle(contentWidth)}>
-        {#each items as item, i}
-          <div
+        {#each tiles as t (t.key)}
+          <a
             class="tile"
-            style={tileStyle(item, title, i, perm)}
-            data-url={tileUrl(item.url)}
-            data-ref-url={item.ref_url || ''}
+            style={t.style}
+            href={t.href}
+            target="_blank"
+            rel="noopener"
+            draggable="false"
+            aria-label={t.alt}
           >
-            <div class="tile-inner">
+            <span class="tile-inner">
               <img
-                src={tileUrl(item.url)}
-                alt={item.title}
-                loading="lazy"
+                data-src={t.thumb}
+                alt={t.alt}
                 decoding="async"
+                loading="lazy"
+                fetchpriority="low"
+                draggable="false"
               />
-            </div>
-          </div>
+            </span>
+          </a>
         {/each}
       </div>
     </div>
@@ -274,7 +403,15 @@
 </div>
 
 <style lang="scss">
+  // FRAME_W / GAP / PRECISION are module constants; expose them once
+  // via custom properties on the root of the overlay so per-tile inline
+  // styles don't need to repeat them.
   .infinite-canvas-overlay {
+    --frame-width: 500px;
+    --gap: 100px;
+    --precision: 100;
+    --row-h: 5px; // = frame-width / precision
+
     position: fixed;
     inset: 0;
     z-index: 1000;
@@ -291,6 +428,8 @@
     background: var(--purple-soft);
     pointer-events: none;
     border-radius: 4px;
+    opacity: 0;
+    visibility: hidden;
   }
 
   .canvas-content {
@@ -356,6 +495,19 @@
     &:active {
       cursor: grabbing;
     }
+
+    // `is-dragging` is toggled imperatively from JS (Draggable
+    // callbacks), so Svelte's CSS scoper doesn't see it in markup —
+    // hence `:global` to keep the selectors from being stripped.
+    &:global(.is-dragging) {
+      cursor: grabbing;
+    }
+
+    // Disable hover shadow transitions while actively dragging so the
+    // compositor doesn't repaint shadows under a moving transform.
+    &:global(.is-dragging) .tile-inner {
+      transition: none;
+    }
   }
 
   .masonry-inner {
@@ -370,6 +522,15 @@
     width: 100%;
     grid-row: span var(--span);
     align-self: start;
+    text-decoration: none;
+    color: inherit;
+    display: block;
+
+    // content-visibility skips rendering work for tiles offscreen; the
+    // intrinsic size keeps the masonry grid from collapsing while the
+    // tile is "hidden".
+    content-visibility: auto;
+    contain-intrinsic-size: var(--frame-width) var(--frame-width);
 
     .tile-inner {
       position: absolute;
@@ -390,8 +551,10 @@
     }
 
     img {
-      width: 95%;
+      width: 100%;
       height: auto;
+      padding: 2.5%;
+      box-sizing: border-box;
       object-fit: contain;
       display: block;
       pointer-events: none;
