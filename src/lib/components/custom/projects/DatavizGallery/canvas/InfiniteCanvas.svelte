@@ -45,17 +45,41 @@
   let perm = $derived(makePerm(title));
 
   /**
-   * Resolve thumbnail URL once per item. Path layout:
-   *   `<dir>/<file>` → `/media/<dir>/thumbs_600/<file>`
+   * Thumbnail widths available on disk (see `scripts/generate-thumbnails.js`).
+   * Order doesn't matter — the browser picks based on `sizes` × DPR.
+   */
+  const THUMB_WIDTHS = [300, 600];
+
+  /**
+   * Build the URL for a thumbnail at a specific width. Path layout:
+   *   `<dir>/<file>` → `/media/<dir>/thumbs_<w>/<file>`
+   * @param {string} url
+   * @param {number} w
+   */
+  function thumbAt(url, w) {
+    if (!url) return '';
+    const i = url.lastIndexOf('/');
+    return (
+      '/media/' + url.slice(0, i) + '/thumbs_' + w + '/' + url.slice(i + 1)
+    );
+  }
+
+  /**
+   * Fallback single-size URL (used when `srcset` isn't honoured, and as
+   * the click-through href).
    * @param {string} url
    */
   function tileUrl(url) {
-    if (!url) return '';
-    const i = url.lastIndexOf('/');
-    return '/media/' + url.slice(0, i) + '/thumbs_600/' + url.slice(i + 1);
+    return thumbAt(url, 600);
   }
 
-  // Precompute the per-tile data (style string + thumbnail URL) once
+  // `sizes` describes how wide each <img> renders. Tiles are pinned to
+  // FRAME_W (500px) regardless of viewport — the gallery doesn't reflow
+  // — so a single value is honest. On 1× the browser picks 600w; on 2×
+  // a slight upscale from 600w to 1000 physical px is fine for thumbs.
+  const TILE_SIZES = '500px';
+
+  // Precompute the per-tile data (style string + thumbnail URLs) once
   // per `items`/`title`/`perm` change, so the `{#each}` block doesn't
   // rebuild strings on every reactive tick.
   let tiles = $derived(
@@ -63,6 +87,7 @@
       item: it,
       style: tileStyle(it, title, i, perm),
       thumb: tileUrl(it.url),
+      srcset: THUMB_WIDTHS.map((w) => `${thumbAt(it.url, w)} ${w}w`).join(', '),
       href: it.ref_url || tileUrl(it.url),
       alt: it.title || '',
       key: it.url + '#' + i,
@@ -239,16 +264,23 @@
       }
 
       // Image deferral. Tile DOM nodes are cheap; the <img> payload is
-      // expensive. We attach `data-src` initially and only set `src`
-      // when the tile intersects (with a generous root margin so
-      // panning doesn't reveal blank tiles).
+      // expensive. We attach `data-src` / `data-srcset` initially and
+      // only swap them onto the real attributes when the tile
+      // intersects (with a generous root margin so panning doesn't
+      // reveal blank tiles).
+      //
+      // Note: set `srcset` *before* `src`. Otherwise the browser kicks
+      // off a fallback request from `src` and then has to reconsider
+      // once `srcset` shows up — double load on slow connections.
       if (typeof IntersectionObserver !== 'undefined') {
         imgObs = new IntersectionObserver(
           (entries) => {
             for (const e of entries) {
               if (!e.isIntersecting) continue;
               const img = /** @type {HTMLImageElement} */ (e.target);
+              const ss = img.dataset.srcset;
               const src = img.dataset.src;
+              if (ss && !img.srcset) img.srcset = ss;
               if (src && !img.src) img.src = src;
               imgObs?.unobserve(img);
             }
@@ -388,6 +420,8 @@
             <span class="tile-inner">
               <img
                 data-src={t.thumb}
+                data-srcset={t.srcset}
+                sizes={TILE_SIZES}
                 alt={t.alt}
                 decoding="async"
                 loading="lazy"
