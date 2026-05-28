@@ -78,7 +78,7 @@
     return items.map((/** @type {{url:string}} */ it) =>
       ('media/' + it.url).replace(
         /^(media\/projects\/dataviz-gallery)\/([^/]+)$/,
-        '$1/thumbs/$2'
+        '$1/thumbs_50/$2'
       )
     );
   }
