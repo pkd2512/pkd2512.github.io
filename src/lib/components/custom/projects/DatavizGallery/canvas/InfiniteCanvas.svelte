@@ -19,7 +19,7 @@
 
   /**
    * @type {{
-   *   items: Array<{url:string, ref_url?:string, title?:string, aspect:number}>,
+   *   items: Array<{img_url:string, ref_url?:string, title?:string, aspect:number}>,
    *   title?: string,
    *   originRect: DOMRect | null,
    *   onclose: () => void
@@ -103,11 +103,13 @@
     items.map((it, i) => ({
       item: it,
       style: tileStyle(it, title, i, perm),
-      thumb: tileUrl(it.url),
-      srcset: THUMB_WIDTHS.map((w) => `${thumbAt(it.url, w)} ${w}w`).join(', '),
-      href: it.ref_url || fullUrl(it.url),
+      thumb: tileUrl(it.img_url),
+      srcset: THUMB_WIDTHS.map((w) => `${thumbAt(it.img_url, w)} ${w}w`).join(
+        ', '
+      ),
+      href: it.ref_url || fullUrl(it.img_url),
       alt: it.title || '',
-      key: it.url + '#' + i,
+      key: it.img_url + '#' + i,
     }))
   );
 
@@ -117,8 +119,33 @@
   let overlayEl;
   /** @type {HTMLDivElement | undefined} */
   let ghostEl;
+  /** @type {HTMLDivElement | undefined} */
+  let zoomEl;
+  /** @type {HTMLImageElement | undefined} */
+  let zoomImgEl;
 
   let contentWidth = $state(2500);
+
+  /**
+   * Index of the currently zoomed tile, or -1 if none. Reactive so the
+   * markup can show the caption + blur the stage.
+   */
+  let zoomedIndex = $state(-1);
+  let zoomedItem = $derived(zoomedIndex >= 0 ? tiles[zoomedIndex] : null);
+
+  /** Reference to the Draggable instance so zoom/close can pause it. */
+  /** @type {any} */
+  let _draggable = null;
+
+  /**
+   * Stage transform snapshot taken at the moment we entered zoom — so
+   * close() can return to exactly where the user was panning.
+   * @type {{ x: number, y: number } | null}
+   */
+  let _preZoom = null;
+
+  /** Scale factor used when zooming a tile into focus. */
+  const ZOOM_SCALE = 2.4;
 
   /** @type {{minX:number,maxX:number,minY:number,maxY:number}} */
   let _bounds = {
@@ -148,6 +175,40 @@
     /** @type {IntersectionObserver | null} */
     let imgObs = null;
     let cancelled = false;
+
+    // Manual click-vs-drag tracking. gsap Draggable's onClick is
+    // unreliable in some browsers (the synthetic click never fires if
+    // there's even a 1-2px pointer movement between down and up), so
+    // we track pointer position ourselves and call openZoom when the
+    // gesture qualifies as a click.
+    /** @type {{x:number,y:number}|null} */
+    let _downAt = null;
+    const CLICK_THRESHOLD = 6;
+    /** @param {PointerEvent} e */
+    function onPointerDown(e) {
+      _downAt = { x: e.clientX, y: e.clientY };
+    }
+    /** @param {PointerEvent} e */
+    function onPointerUp(e) {
+      const start = _downAt;
+      _downAt = null;
+      if (!start) return;
+      const dx = e.clientX - start.x;
+      const dy = e.clientY - start.y;
+      if (Math.hypot(dx, dy) > CLICK_THRESHOLD) return;
+      if (zoomedIndex >= 0) {
+        closeZoom();
+        return;
+      }
+      const tile = /** @type {HTMLElement | null} */ (
+        /** @type {HTMLElement} */ (e.target).closest('.tile')
+      );
+      if (!tile) return;
+      const idxAttr = /** @type {HTMLElement} */ (tile).dataset.index;
+      const idx = idxAttr != null ? Number(idxAttr) : NaN;
+      if (Number.isNaN(idx)) return;
+      openZoom(idx);
+    }
 
     /** @param {WheelEvent} e */
     function onWheel(e) {
@@ -250,13 +311,11 @@
           tx = Number(gsap.getProperty(stageEl, 'x'));
           ty = Number(gsap.getProperty(stageEl, 'y'));
         },
-        onClick(/** @type {MouseEvent} */ e) {
-          const tile = /** @type {HTMLElement} */ (e.target).closest('.tile');
-          if (!tile) return;
-          const href = tile.getAttribute('href');
-          if (href) window.open(href, '_blank', 'noopener');
-        },
+        // Note: tile clicks are handled by the pointerdown/up
+        // listeners attached below — Draggable's own onClick is
+        // unreliable for synthetic clicks.
       })[0];
+      _draggable = draggable;
 
       xTo = gsap.quickTo(stageEl, 'x', {
         duration: 0.4,
@@ -316,6 +375,9 @@
 
       // Wheel + keyboard nav.
       overlayEl?.addEventListener('wheel', onWheel, { passive: false });
+      // Pointer-based click detection (more reliable than Draggable.onClick).
+      stageEl?.addEventListener('pointerdown', onPointerDown);
+      stageEl?.addEventListener('pointerup', onPointerUp);
       document.body.style.overflow = 'hidden';
       overlayEl?.focus();
     })();
@@ -328,6 +390,8 @@
         // ignore
       }
       overlayEl?.removeEventListener('wheel', onWheel);
+      stageEl?.removeEventListener('pointerdown', onPointerDown);
+      stageEl?.removeEventListener('pointerup', onPointerUp);
       resizeObs?.disconnect();
       imgObs?.disconnect();
       if (gsap && stageEl) gsap.killTweensOf(stageEl);
@@ -339,7 +403,11 @@
   /** @param {KeyboardEvent} e */
   function handleKeydown(e) {
     if (e.key === 'Escape') {
-      close();
+      if (zoomedIndex >= 0) {
+        closeZoom();
+      } else {
+        close();
+      }
       return;
     }
     // Arrow keys only do anything once gsap has finished loading.
@@ -374,6 +442,167 @@
       duration: 0.3,
       ease: 'power2.out',
       overwrite: 'auto',
+    });
+  }
+
+  /**
+   * Swap a tile's <img> from its thumbnail to the full-resolution
+   * source (or back). The original thumb attributes are stashed onto
+   * the element's dataset so close-zoom can restore them.
+   * @param {HTMLImageElement | null | undefined} img
+   * @param {boolean} toFull
+   * @param {string} fullSrc
+   */
+  function swapTileImage(img, toFull, fullSrc) {
+    if (!img) return;
+    if (toFull) {
+      if (img.dataset.thumbCached) return;
+      img.dataset.thumbCached = '1';
+      img.dataset.thumbSrc = img.currentSrc || img.src || '';
+      img.dataset.thumbSrcset = img.srcset || '';
+      img.removeAttribute('srcset');
+      img.src = fullSrc;
+    } else {
+      if (!img.dataset.thumbCached) return;
+      const src = img.dataset.thumbSrc || '';
+      const ss = img.dataset.thumbSrcset || '';
+      // srcset must be set before src so the browser doesn't kick off
+      // a redundant request from the bare src.
+      if (ss) img.srcset = ss;
+      else img.removeAttribute('srcset');
+      if (src) img.src = src;
+      delete img.dataset.thumbCached;
+      delete img.dataset.thumbSrc;
+      delete img.dataset.thumbSrcset;
+    }
+  }
+
+  /**
+   * Open the zoom for the tile at `idx`. Instead of cloning the tile
+   * into a separate layer, we *transform the whole stage* — translate
+   * it so the tile sits at viewport centre, then scale up via a 3D
+   * transform so the whole grid feels "closer". Non-focused tiles
+   * get blurred via CSS for depth.
+   * @param {number} idx
+   */
+  function openZoom(idx) {
+    if (!gsap || !stageEl) return;
+    if (idx < 0 || idx >= tiles.length) return;
+    if (zoomedIndex === idx) return;
+
+    const tileEl = /** @type {HTMLElement | null} */ (
+      stageEl.querySelector(`.tile[data-index="${idx}"] .tile-inner`)
+    );
+    if (!tileEl) return;
+    const rect = tileEl.getBoundingClientRect();
+
+    // Current stage transform (Draggable + wheel keep these in sync).
+    const curX = Number(gsap.getProperty(stageEl, 'x')) || 0;
+    const curY = Number(gsap.getProperty(stageEl, 'y')) || 0;
+
+    // Tile centre in stage-local (un-transformed) coordinates.
+    // (We never enter openZoom while already zoomed, so curScale = 1.)
+    const localX = rect.x + rect.width / 2 - curX;
+    const localY = rect.y + rect.height / 2 - curY;
+
+    // Target translate so that, after scaling around (0,0), the tile
+    // centre lands at viewport centre.
+    const S = ZOOM_SCALE;
+    const tx = window.innerWidth / 2 - S * localX;
+    const ty = window.innerHeight / 2 - S * localY;
+
+    // Remember where we came from so close() can put us back exactly.
+    _preZoom = { x: curX, y: curY };
+
+    // Pause panning. Draggable continually re-applies its own transform
+    // to the element, which fights any scale/translate tween we issue.
+    // `disable()` alone isn't enough — kill any active inertia/throw
+    // tweens it spawned, too.
+    try {
+      _draggable?.disable();
+      _draggable?.endDrag?.();
+    } catch (_) {
+      /* ignore */
+    }
+
+    zoomedIndex = idx;
+
+    // Swap the focused tile's <img> to the full-resolution source so
+    // the zoomed-in view actually shows extra detail.
+    const img = /** @type {HTMLImageElement | null} */ (
+      tileEl.querySelector('img')
+    );
+    swapTileImage(img, true, fullUrl(tiles[idx].item.url));
+
+    // Kill ALL active tweens on the stage (including the quickTo
+    // helpers fed by the wheel handler), and lock in the current
+    // transform with `set` so the upcoming `to` has a known starting
+    // point with the right transformOrigin.
+    gsap.killTweensOf(stageEl);
+    gsap.set(stageEl, { transformOrigin: '0 0' });
+    gsap.to(stageEl, {
+      x: tx,
+      y: ty,
+      scale: S,
+      duration: 0.6,
+      ease: 'power3.out',
+      force3D: true,
+      overwrite: true,
+      onStart: () => {
+        // eslint-disable-next-line no-console
+        console.log('[gallery] tween start', { tx, ty, S });
+      },
+      onUpdate: function () {
+        // eslint-disable-next-line no-console
+        console.log(
+          '[gallery] tween tick',
+          gsap.getProperty(stageEl, 'x'),
+          gsap.getProperty(stageEl, 'y'),
+          gsap.getProperty(stageEl, 'scale')
+        );
+      },
+    });
+  }
+
+  /**
+   * Close the zoom: tween scale back to 1 and translate back to the
+   * pre-zoom position, restore the thumb image, re-enable panning.
+   */
+  function closeZoom() {
+    if (!gsap || !stageEl) return;
+    if (zoomedIndex < 0) return;
+    const idx = zoomedIndex;
+    const target = _preZoom || { x: 0, y: 0 };
+
+    // Restore the thumb on the focused tile up-front so the shrinking
+    // tween shows the right image immediately.
+    const tileEl = /** @type {HTMLElement | null} */ (
+      stageEl.querySelector(`.tile[data-index="${idx}"] .tile-inner`)
+    );
+    const img = /** @type {HTMLImageElement | null} */ (
+      tileEl?.querySelector('img')
+    );
+    swapTileImage(img, false, '');
+
+    zoomedIndex = -1;
+    _preZoom = null;
+
+    gsap.killTweensOf(stageEl);
+    gsap.to(stageEl, {
+      x: target.x,
+      y: target.y,
+      scale: 1,
+      duration: 0.5,
+      ease: 'power3.inOut',
+      transformOrigin: '0 0',
+      force3D: true,
+      onComplete: () => {
+        try {
+          _draggable?.enable();
+        } catch (_) {
+          /* ignore */
+        }
+      },
     });
   }
 
@@ -422,17 +651,23 @@
     >
     <h2 class="canvas-title">{title}</h2>
 
-    <div class="stage" bind:this={stageEl}>
+    <div
+      class="stage"
+      bind:this={stageEl}
+      class:is-zoomed={zoomedIndex >= 0}
+      onclick={zoomedIndex >= 0 ? closeZoom : undefined}
+      role={zoomedIndex >= 0 ? 'button' : undefined}
+      tabindex={zoomedIndex >= 0 ? 0 : undefined}
+      aria-label={zoomedIndex >= 0 ? 'Close zoomed image' : undefined}
+    >
       <div class="masonry-inner" style={masonryContainerStyle(contentWidth)}>
-        {#each tiles as t (t.key)}
-          <a
+        {#each tiles as t, i (t.key)}
+          <div
             class="tile"
+            class:is-focused={zoomedIndex === i}
             style={t.style}
-            href={t.href}
-            target="_blank"
-            rel="noopener"
-            draggable="false"
             aria-label={t.alt}
+            data-index={i}
           >
             <span class="tile-inner">
               <img
@@ -446,10 +681,29 @@
                 draggable="false"
               />
             </span>
-          </a>
+          </div>
         {/each}
       </div>
     </div>
+
+    <!-- Caption + optional reference link. Lives outside the stage so
+         it doesn't get scaled along with the grid. -->
+    {#if zoomedItem && zoomedItem.alt}
+      <div class="zoom-caption" aria-live="polite">
+        {#if zoomedItem.item.ref_url}
+          <a
+            href={zoomedItem.item.ref_url}
+            target="_blank"
+            rel="noopener"
+            onclick={(e) => e.stopPropagation()}
+          >
+            {zoomedItem.alt}
+          </a>
+        {:else}
+          <span>{zoomedItem.alt}</span>
+        {/if}
+      </div>
+    {/if}
   </div>
 </div>
 
@@ -542,6 +796,14 @@
     user-select: none;
     cursor: grab;
     touch-action: none;
+    // Establish a 3D context so the scale tween benefits from
+    // hardware compositing.
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+
+    &.is-zoomed {
+      cursor: zoom-out;
+    }
 
     &:active {
       cursor: grabbing;
@@ -561,6 +823,35 @@
     }
   }
 
+  // Bottom caption shown while a tile is zoomed. Sits *outside* the
+  // transformed stage so its position doesn't get scaled along with
+  // the grid.
+  .zoom-caption {
+    position: fixed;
+    left: 50%;
+    bottom: var(--space-sm, 1rem);
+    transform: translateX(-50%);
+    z-index: 25;
+    padding: var(--space-2xs, 0.5rem) var(--space-md, 1.5rem);
+    max-width: min(90vw, 720px);
+    background: rgba(0, 0, 0, 0.7);
+    color: var(--white, #fff);
+    font-size: var(--font-size-0, 1rem);
+    text-align: center;
+    border-radius: 999px;
+    backdrop-filter: blur(6px);
+    pointer-events: auto;
+
+    a {
+      color: inherit;
+      text-decoration: underline;
+
+      &:hover {
+        color: var(--purple-soft);
+      }
+    }
+  }
+
   .masonry-inner {
     grid-auto-rows: var(--row-h);
     overflow: visible;
@@ -576,6 +867,7 @@
     text-decoration: none;
     color: inherit;
     display: block;
+    cursor: zoom-in;
 
     // content-visibility skips rendering work for tiles offscreen; the
     // intrinsic size keeps the masonry grid from collapsing while the
@@ -592,13 +884,27 @@
       overflow: hidden;
       border-radius: 4px;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-      transition: box-shadow 0.15s;
+      transition:
+        box-shadow 0.15s,
+        filter 0.45s ease,
+        opacity 0.45s ease;
       cursor: zoom-in;
       outline: 3px solid var(--purple-soft);
       background-color: #fff;
       &:hover {
         box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
       }
+    }
+
+    // While the stage is zoomed, lift the focused tile above the
+    // others (each tile has random jitter z-index between 6-14 from
+    // tileStyle) and beef up its shadow for a "popping" feel.
+    &.is-focused {
+      z-index: 100 !important;
+    }
+    &.is-focused .tile-inner {
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+      cursor: zoom-out;
     }
 
     img {

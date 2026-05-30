@@ -75,9 +75,9 @@
   function thumbsFor(name) {
     if (!name) return [];
     const items = getGroup(active, name)?.items || [];
-    return items.map((/** @type {{url:string}} */ it) =>
-      ('media/' + it.url).replace(
-        /^(media\/projects\/dataviz-gallery)\/([^/]+)$/,
+    return items.map((/** @type {{img_url:string}} */ it) =>
+      ('media/' + it.img_url).replace(
+        /^(media\/projects\/dataviz-gallery)\/images\/([^/]+)$/,
         '$1/thumbs_50/$2'
       )
     );

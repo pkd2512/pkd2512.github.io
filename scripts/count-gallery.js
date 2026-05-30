@@ -163,7 +163,7 @@ async function main() {
 
   // Measure all images to embed w/h for placeholder blocks
   for (const row of rows) {
-    const filePath = resolve(ROOT, 'static', 'media', row.url);
+    const filePath = resolve(ROOT, 'static', 'media', row.img_url);
     try {
       const meta = await sharp(filePath).metadata();
       row.w = meta.width;
