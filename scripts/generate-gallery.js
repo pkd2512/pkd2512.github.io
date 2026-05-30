@@ -151,7 +151,7 @@ function makeEntry(file, urlPrefix, defaults) {
   return {
     id: slug,
     title: name,
-    url: `${urlPrefix}/${slug}${ext}`,
+    img_url: `${urlPrefix}/${slug}${ext}`,
     ref_url: defaults.refUrl || '',
     graphic_type: defaults.graphicType || '',
     category: defaults.category || '',
@@ -208,7 +208,7 @@ async function promptDefaults() {
 }
 
 function getExistingUrls(rows) {
-  return new Set(rows.map((r) => r.url));
+  return new Set(rows.map((r) => r.img_url));
 }
 
 // ── Fill missing fields ──────────────────────────────────────────

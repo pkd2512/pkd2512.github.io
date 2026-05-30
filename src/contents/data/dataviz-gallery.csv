@@ -1,4 +1,4 @@
-id,title,url,ref_url,graphic_type,category,alt,client
+id,title,img_url,ref_url,graphic_type,category,alt,client
 39-found-dead-in-truck-near-london,39 found dead in truck near London,projects/dataviz-gallery/images/39-found-dead-in-truck-near-london.webp,,map,"society, misc","Infographic showing the route and discovery of 39 deceased individuals in a truck near London, featuring a map and satellite imagery.",reuters
 andy-murrays-grand-slam-journey,Andy Murray's grand slam journey,projects/dataviz-gallery/images/andy-murrays-grand-slam-journey.webp,,chart,"sports, health, misc","A chart tracking tennis player Andy Murray's performance at four Grand Slam tournaments from 2005 to 2019, showing his progress by round.",reuters
 aramcos-ipo-valuations,Aramco's IPO valuations,projects/dataviz-gallery/images/aramcos-ipo-valuations.webp,,chart,"economy, energy, society",A bar chart showing Aramco IPO valuation estimates from various banks ranging from $1.2 trillion to $2.3 trillion.,reuters
