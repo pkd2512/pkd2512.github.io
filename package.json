@@ -71,7 +71,7 @@
     "typescript": "^5.0.0",
     "vite": "^6.3.5",
     "vite-plugin-purgecss": "^0.2.13",
-    "vitest": "^1.0.0",
+    "vitest": "^4.1.0",
     "yarn": "^1.22.19"
   },
   "type": "module",
