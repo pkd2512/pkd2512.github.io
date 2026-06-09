@@ -1,0 +1,39 @@
+// Grid system
+// Responsive column count: 4 (mobile) -> 8 (tablet) -> 12 (desktop)
+// Override --grid-subs and --grid-baseline in devtools to tune overlay.
+/* @link https://utopia.fyi/grid/calculator?c=321,18,1.25,1013,22,1.414,4,2,&s=0.75|0.5|0.25,1.5|2|3|4|6,s-l&g=2xs,xs,xl,12 */
+
+:where(html) {
+  --grid-columns: 12;
+  --grid-subs: 4;
+  --grid-baseline: calc(var(--font-size-0) * var(--line-height-regular));
+  --grid-max-width: 63.31rem;
+  --grid-gutter: var(
+    --space-2xs-xs,
+    clamp(0.5625rem, 0.3306rem + 1.1561vw, 1.0625rem)
+  );
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(var(--grid-columns), 1fr);
+  gap: var(--grid-gutter);
+}
+
+.col-span-full {
+  grid-column: 1 / -1;
+}
+
+@for $i from 1 through 12 {
+  .col-span-#{$i} {
+    grid-column: span $i;
+  }
+
+  .col-start-#{$i} {
+    grid-column-start: $i;
+  }
+
+  .col-end-#{$i} {
+    grid-column-end: $i;
+  }
+}

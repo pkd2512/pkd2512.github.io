@@ -133,7 +133,7 @@
     transition:
       transform 0.35s ease,
       max-width 0.15s ease;
-    z-index: var(--layer-important);
+    z-index: var(--layer-5);
     background-color: var(--purple-soft);
     position: relative;
     margin-inline: auto;
