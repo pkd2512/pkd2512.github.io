@@ -6,7 +6,7 @@
 :where(html) {
   --grid-columns: 12;
   --grid-subs: 4;
-  --grid-baseline: calc(var(--font-size-0) * var(--line-height-regular));
+  --grid-baseline: calc(var(--font-size-0)/2);
   --grid-max-width: 63.31rem;
   --grid-gutter: var(
     --space-2xs-xs,

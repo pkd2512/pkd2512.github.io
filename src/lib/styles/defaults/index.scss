@@ -23,6 +23,7 @@ p {
   color: var(--black);
   font-size: var(--font-size-0);
   line-height: var(--line-height-regular);
+  text-box-trim: trim-both;
 }
 
 small {
@@ -74,6 +75,7 @@ h6,
 .h6 {
   color: var(--black-soft);
   font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-0);
   line-height: var(--line-height-medium);
   margin-block: var(--space-s) var(--space-2xs);
 }
