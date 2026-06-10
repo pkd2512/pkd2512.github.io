@@ -49,7 +49,7 @@
     padding: var(--space-s) var(--space-l);
     text-align: center;
     background-color: var(--white);
-    z-index: var(--layer-5);
+    z-index: var(--layer-2);
     -webkit-mask: var(--mask-edge-zig-zag-horizontal);
     box-shadow: var(--shadow-5);
     margin-block: var(--space-xl);

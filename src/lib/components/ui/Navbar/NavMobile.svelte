@@ -96,12 +96,13 @@
       max-width 0.15s ease-out;
     z-index: var(--layer-important);
     background-color: var(--purple-soft);
-    box-shadow: var(--shadow-3), var(--shadow-5);
+    // box-shadow: var(--shadow-3), var(--shadow-5);
     position: relative;
     margin-inline: auto;
     padding-inline: var(--space-s);
     max-width: 100%;
     height: 4rem;
+    display: flex;
     justify-content: space-between;
     align-items: flex-start;
     flex-wrap: wrap;
@@ -132,7 +133,7 @@
     margin-inline: calc(-1 * var(--space-s));
     transition: all 0.65s cubic-bezier(0.29, 1.4, 0.44, 0.96);
     height: 0;
-    box-shadow: var(--shadow-3), var(--shadow-5);
+    // box-shadow: var(--shadow-3), var(--shadow-5);
 
     &.open {
       height: calc(0.25 * 100svh);

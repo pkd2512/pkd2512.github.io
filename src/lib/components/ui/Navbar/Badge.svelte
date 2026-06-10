@@ -114,12 +114,12 @@
     align-items: center;
     justify-content: center;
 
-    filter: drop-shadow(0 1px 35px hsl(269, 33%, 22%));
+    filter: drop-shadow(0 1px 25px hsl(269, 33%, 22%));
 
     background-image: url('/media/textures/small-crackle-bright.webp');
     background-blend-mode: overlay;
 
-    box-shadow: var(--shadow-3);
+    box-shadow: var(--shadow-1);
 
     transform-origin: center;
     transition: transform 0.3s step-start;
