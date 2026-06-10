@@ -14,7 +14,8 @@
   );
 }
 
-.grid {
+.grid,
+.container-grid {
   display: grid;
   grid-template-columns: repeat(var(--grid-columns), 1fr);
   gap: var(--grid-gutter);
@@ -26,7 +27,7 @@
 
 @for $i from 1 through 12 {
   .col-span-#{$i} {
-    grid-column: span $i;
+    grid-column-end: span $i;
   }
 
   .col-start-#{$i} {
@@ -35,5 +36,61 @@
 
   .col-end-#{$i} {
     grid-column-end: $i;
+  }
+}
+
+$breakpoints-above: (
+  'xxs': '(--xxs-n-above)',
+  'xs': '(--xs-n-above)',
+  'sm': '(--sm-n-above)',
+  'md': '(--md-n-above)',
+  'lg': '(--lg-n-above)',
+  'xl': '(--xl-n-above)',
+  'xxl': '(--xxl-n-above)',
+);
+
+@each $name, $mq in $breakpoints-above {
+  @media #{$mq} {
+    .col-span-#{$name}-full {
+      grid-column: 1 / -1;
+    }
+
+    @for $i from 1 through 12 {
+      .col-span-#{$name}-#{$i} {
+        grid-column-end: span $i;
+      }
+
+      .col-start-#{$name}-#{$i} {
+        grid-column-start: $i;
+      }
+
+      .col-end-#{$name}-#{$i} {
+        grid-column-end: $i;
+      }
+    }
+  }
+}
+
+$breakpoints-below: (
+  'xxs': '(--xxs-n-below)',
+  'xs': '(--xs-n-below)',
+  'sm': '(--sm-n-below)',
+  'md': '(--md-n-below)',
+  'lg': '(--lg-n-below)',
+  'xl': '(--xl-n-below)',
+  'xxl': '(--xxl-n-below)',
+);
+
+@each $name, $mq in $breakpoints-below {
+  @media #{$mq} {
+    .col-span-#{$name}-full {
+      grid-column: 1 / -1;
+    }
+
+    @for $i from 1 through 12 {
+      .col-span-#{$name}-#{$i} {
+        grid-column: 1 / -1;
+      }
+    }
   }
 }

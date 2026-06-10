@@ -4,7 +4,15 @@
 
 <div
   {...restProps}
-  class={[width === 'fluid' ? 'container-fluid' : 'container', grid && 'grid'].filter(Boolean).join(' ')}
+  class={[
+    width === 'fluid'
+      ? 'container-fluid'
+      : grid
+        ? 'container-grid'
+        : 'container',
+  ]
+    .filter(Boolean)
+    .join(' ')}
 >
   {@render children()}
 </div>
@@ -14,6 +22,14 @@
     max-width: var(--grid-max-width);
     width: auto;
     display: block;
+    margin-inline: auto;
+    padding-inline: var(--grid-gutter);
+  }
+
+  .container-grid {
+    max-width: var(--grid-max-width);
+    width: auto;
+    display: grid;
     margin-inline: auto;
     padding-inline: var(--grid-gutter);
   }

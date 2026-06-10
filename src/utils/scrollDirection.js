@@ -2,22 +2,20 @@
  * @param {HTMLElement} node
  */
 export default (node) => {
-  let y = window.scrollY;
   let prevY = window.scrollY;
-  let dy = y - prevY;
 
   const getDirection = () => {
-    if (window.scrollY > 0) {
-      y = window.scrollY;
-      dy = y - prevY;
-      prevY = y;
+    const y = window.scrollY;
+    const dy = y - prevY;
+    prevY = y;
 
-      Math.abs(dy) > 3 && node.classList.toggle('up', dy < 0);
-      Math.abs(dy) > 3 && node.classList.toggle('down', dy >= 0);
+    if (Math.abs(dy) > 3) {
+      node.classList.toggle('up', dy < 0);
+      node.classList.toggle('down', dy >= 0);
     }
   };
 
-  window.addEventListener('scroll', getDirection);
+  window.addEventListener('scroll', getDirection, { passive: true });
 
   return {
     destroy() {

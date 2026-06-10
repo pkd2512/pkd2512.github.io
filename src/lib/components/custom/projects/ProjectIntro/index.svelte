@@ -57,7 +57,7 @@
     margin-top: calc(-1.5 * var(--space-3xl));
     background-color: var(--purple-soft);
     position: relative;
-    z-index: var(--layer-5);
+    z-index: var(--layer-2);
   }
 
   header {
