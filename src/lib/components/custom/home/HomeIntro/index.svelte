@@ -20,7 +20,7 @@
     <header>
       <div class="text">
         <h1>{@html intro.hed}</h1>
-        <p>
+        <p class="dek">
           {@html intro.dek}
         </p>
       </div>
@@ -39,7 +39,7 @@
   #hero {
     background-color: var(--purple-soft);
     position: relative;
-    z-index: var(--layer-5);
+    z-index: var(--layer-2);
   }
 
   header {
@@ -94,6 +94,7 @@
     font-weight: var(--font-weight-light);
     @include text-shadow(var(--purple));
     max-width: var(--md);
+    line-height: var(--line-height-medium);
   }
 
   h1 {

@@ -1,10 +1,7 @@
 import adapter from '@sveltejs/adapter-static';
-import autoprefixer from 'autoprefixer';
 import { importAssets } from 'svelte-preprocess-import-assets';
 import { mdsvex } from 'mdsvex';
 import path from 'path';
-import postcssCustomMedia from 'postcss-custom-media';
-import postcssGlobalData from '@csstools/postcss-global-data';
 import { rehypeAccessibleEmojis } from 'rehype-accessible-emojis';
 import rehypeSlug from 'rehype-slug';
 import remarkToc from 'remark-toc';
@@ -70,15 +67,6 @@ const config = {
       scss: {
         includePaths: ['src', 'node_modules'],
         silenceDeprecations: ['legacy-js-api'],
-      },
-      postcss: {
-        plugins: [
-          autoprefixer(),
-          postcssGlobalData({
-            files: ['src/lib/styles/vars/_custom-media.css'],
-          }),
-          postcssCustomMedia({ preserve: true }),
-        ],
       },
     }),
     mdsvex(mdsvexOptions),

@@ -1,6 +1,7 @@
 @use './vars/index.scss' as *;
 @use './reset/index.scss' as *;
 @use './defaults/index.scss' as *;
+@use './grid';
 
 // * {
 //   outline: 1px solid red;
