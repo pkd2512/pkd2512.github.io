@@ -7,7 +7,6 @@
   import { page } from '$app/state';
   import { afterNavigate } from '$app/navigation';
   import GridOverlay from '$lib/components/ui/GridOverlay/index.svelte';
-  // import GridOverlay from '$lib/components/ui/GridOverlay/index.svelte';
   import CrtOverlay from '$lib/components/ui/CrtOverlay/index.svelte';
   import { registerPageview } from '$utils/googleAnalytics';
 
