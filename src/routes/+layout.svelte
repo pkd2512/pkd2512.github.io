@@ -6,6 +6,8 @@
   import ProjectHero from '$lib/components/custom/projects/ProjectHero/index.svelte';
   import { page } from '$app/state';
   import { afterNavigate } from '$app/navigation';
+  // import GridOverlay from '$lib/components/ui/GridOverlay/index.svelte';
+  import CrtOverlay from '$lib/components/ui/CrtOverlay/index.svelte';
   import { registerPageview } from '$utils/googleAnalytics';
 
   import '$lib/styles/main.scss';
@@ -41,6 +43,8 @@
 </main>
 
 <Footer />
+
+<CrtOverlay />
 
 <style>
   article {
