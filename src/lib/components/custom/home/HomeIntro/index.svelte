@@ -1,5 +1,6 @@
 <script>
   import Container from '$lib/components/ui/Container/index.svelte';
+  import LinkButton from '$lib/components/ui/LinkButton/index.svelte';
   import { page } from '$app/state';
   import { asset } from '$app/paths';
 
@@ -16,13 +17,21 @@
 </svelte:head>
 
 <section id="hero">
-  <Container width="xl">
+  <Container width="fluid">
     <header>
       <div class="text">
         <h1>{@html intro.hed}</h1>
         <p class="dek">
           {@html intro.dek}
         </p>
+        <div class="cta">
+          <LinkButton
+            label="Book a consultation"
+            target=""
+            url="https://topmate.io/prasanta_kumar_dutta"
+            solid={true}
+          />
+        </div>
       </div>
       <div
         class="img"
@@ -52,56 +61,77 @@
     display: flex;
     align-items: center;
     justify-content: center;
-
+    padding-inline: var(--grid-gutter);
     color: var(--white);
-  }
 
-  .img {
-    width: 100%;
-    max-width: 600px;
-    margin-bottom: -4.5rem;
-    aspect-ratio: var(--ratio-square);
-    background-repeat: no-repeat;
-    background-size: contain;
-    border-bottom-right-radius: 20%;
+    .img {
+      width: 100%;
+      max-height: 75svh;
+      margin-bottom: -4.5rem;
+      aspect-ratio: var(--ratio-square);
+      background-repeat: no-repeat;
+      background-size: contain;
+      background-position: top right;
+      border-bottom-right-radius: 20%;
+      pointer-events: none;
 
-    @media (--xl-n-below) {
+      // @media (--xl-n-below) {
       position: absolute;
       bottom: 0;
       right: 0;
       margin-bottom: 0;
-    }
-  }
-
-  .text {
-    max-width: calc(0.8 * var(--md));
-    position: relative;
-    z-index: var(--layer-1);
-
-    @media (--xl-n-below) {
-      max-width: calc(var(--lg) - 2 * var(--space-xl));
+      // }
     }
 
-    @media (--lg-n-below) {
-      max-width: calc(1.15 * var(--md));
+    .text {
+      // max-width: var(--grid-max-width);
+      position: relative;
+      z-index: var(--layer-1);
+
+      @media (--xl-n-below) {
+        // max-width: calc(var(--lg) - 2 * var(--space-xl));
+      }
+
+      @media (--lg-n-below) {
+        // max-width: calc(1.15 * var(--md));
+      }
     }
-  }
 
-  p {
-    font-family: var(--font-sans);
-    color: var(--white-soft);
-    font-size: var(--font-size-1);
-    font-weight: var(--font-weight-light);
-    @include text-shadow(var(--purple));
-    max-width: var(--md);
-    line-height: var(--line-height-medium);
-  }
+    .dek {
+      font-family: var(--font-sans);
+      color: var(--white-soft);
+      font-size: var(--font-size-1);
+      font-weight: var(--font-weight-light);
+      @include text-shadow(var(--purple));
+      max-width: var(--md);
+      line-height: var(--line-height-medium);
+      margin-block-end: var(--space-l);
+    }
 
-  h1 {
-    color: var(--white-soft);
-    text-wrap: balance;
-    margin-inline: auto;
-    margin-block: var(--space-l);
-    @include filter-shadow(var(--purple));
+    .cta {
+      text-align: left;
+      max-width: var(--md);
+    }
+
+    :global(a) {
+      background-color: var(--white) !important;
+      color: var(--purple) !important;
+      font-weight: bold;
+
+      &:hover {
+        background-color: var(--purple-soft) !important;
+        color: var(--white) !important;
+        border: none !important;
+        border-left: 0.25rem solid var(--white) !important;
+      }
+    }
+
+    h1 {
+      color: var(--white-soft);
+      text-wrap: balance;
+      margin-inline: auto;
+      margin-block: var(--space-l);
+      @include filter-shadow(var(--purple));
+    }
   }
 </style>
