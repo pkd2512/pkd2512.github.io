@@ -30,6 +30,7 @@ published: true
   import BlogFeed from '$lib/components/custom/home/BlogFeed/index.svelte';
   import Shop from '$lib/components/custom/home/Shop/index.svelte';
   import YouTubeEmbed from '$lib/components/ui/YouTubeEmbed/index.svelte';
+  import PhotoPile from '$lib/components/custom/home/PhotoPile/index.svelte';
 </script>
 
 <RecentProjects />
@@ -43,6 +44,26 @@ I design data-driven visual narratives that help transform information to knowle
 </Container>
 
 <Awards />
+
+<PhotoPile
+  items={[
+    {
+      src: 'https://images.pexels.com/photos/190589/pexels-photo-190589.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+      alt: 'Hand-painted mask of Goddess Durga',
+      caption: 'A close up view of a mask of Goddess Durga being hand-painted.',
+    },
+    {
+      src: 'https://images.pexels.com/photos/417173/pexels-photo-417173.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+      alt: 'Abstract painting',
+      caption: 'Abstract explorations in color and texture.',
+    },
+    {
+      src: 'https://images.pexels.com/photos/356830/pexels-photo-356830.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+      alt: 'Mountain landscape',
+      caption: 'Serene mountain landscapes captured during travels.',
+    },
+  ]}
+/>
 
 <Container width=md>
 

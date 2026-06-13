@@ -25,7 +25,7 @@
     if (window.scrollY > -1) pin = !e.detail.inView;
   }}
 >
-  <Container grid width="lg">
+  <Container grid>
     <ul class={pin ? 'col-span-full' : 'col-start-lg-2 col-span-lg-10'}>
       {#each links as link (link.name)}
         {#if link.url === '/'}
