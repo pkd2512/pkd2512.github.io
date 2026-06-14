@@ -34,6 +34,8 @@ p {
   font-family: var(--font-serif);
   margin-block-end: var(--space-s);
   margin-block-start: 0;
+  text-wrap: pretty;
+  column-gap: var(--grid-gap);
 }
 
 h1,
@@ -51,7 +53,7 @@ h2,
   font-weight: var(--font-weight-medium);
   font-family: var(--font-sans);
   font-size: var(--font-size-2);
-  line-height: var(--line-height-tight);
+  line-height: var(--line-height-medium);
   letter-spacing: calc(-1 * var(--letter-spaced));
   margin-block: var(--space-l) var(--space-xs);
 }

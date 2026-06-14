@@ -56,9 +56,11 @@
 
 <style lang="scss">
   img {
-    height: 75px;
+    height: max(75px, calc(0.1 * 100lvh));
+    max-height: 250px;
     width: auto;
-    margin: var(--space-l);
+    margin-inline: var(--space-l);
+    padding-block: var(--space-2xs);
 
     @media (--md-n-below) {
       height: 50px;
@@ -76,7 +78,8 @@
 
   #awards {
     mix-blend-mode: multiply;
-    margin-bottom: var(--space-xl-2xl);
+    overflow-x: hidden;
+    // margin-bottom: var(--space-xl-2xl);
 
     :global(.marquee) {
       justify-content: space-around;

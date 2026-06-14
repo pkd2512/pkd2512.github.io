@@ -32,7 +32,7 @@
     gap: calc(var(--grid-gutter) * 0.5);
 
     // define grid cols
-    --cols: 3;
+    --cols: 2;
 
     @media (max-width: 1200px) {
       --cols: 2;

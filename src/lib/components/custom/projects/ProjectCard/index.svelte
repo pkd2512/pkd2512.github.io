@@ -1,4 +1,5 @@
 <script>
+  import Container from '$lib/components/ui/Container/index.svelte';
   import truncateText from '$utils/truncateText';
   import { asset } from '$app/paths';
 
@@ -31,24 +32,32 @@
       "');"}
   ></div>
   <div class="body" bind:clientHeight={infoHeight}>
-    <p class="hed">{@html info.intro.hed}</p>
-    <p class="dek">{@html info.description}</p>
-    <div class="tags">
-      {#each info.categories as tag}
-        <span class="tag">{tag}</span>
-      {/each}
-    </div>
+    <Container width="sm">
+      <p class="hed">{@html info.intro.hed}</p>
+      <div class="tags">
+        {#each info.categories as tag}
+          <span class="tag">{tag}</span>
+        {/each}
+      </div>
+      <div class="body-rest">
+        <div class="body-rest-inner">
+          <p class="dek">{@html info.description}</p>
+        </div>
+      </div>
+    </Container>
   </div>
 </div>
 
 <style lang="scss">
+  @use 'lib/styles/mixins' as m;
+
   .card {
     box-sizing: border-box;
     position: relative;
     aspect-ratio: var(--ratio-square);
     background-color: var(--white-soft);
     // border: var(--space-3xs) solid var(--white-soft);
-    box-shadow: var(--shadow-2);
+    box-shadow: var(--shadow-1);
     transition: all 0.35s ease;
     display: block;
     overflow: hidden;
@@ -67,11 +76,16 @@
     }
 
     &:hover {
-      box-shadow: var(--shadow-1), var(--shadow-3);
+      // box-shadow: var(--shadow-3);
+      @include m.filter-shadow();
       z-index: var(--layer-1);
 
       .body {
-        transform: translateY(0);
+        background-color: var(--white);
+
+        .body-rest {
+          grid-template-rows: 1fr;
+        }
       }
 
       .img {
@@ -95,50 +109,59 @@
     bottom: 0;
     left: 0;
     right: 0;
-    transform: translateY(110%);
-    // max-height: calc(var(--ch) - 3 * var(--space-l));
-    transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    background-color: var(--white);
-    padding: var(--space-s-m) var(--space-m-l);
-    // border-radius: 0.5rem 0.5rem 0 0;
+    background-color: rgba(255, 255, 255, 0.65);
+    backdrop-filter: blur(8px);
+    border-radius: var(--space-s-m) var(--space-s-m) 0 0;
+    padding: var(--space-m) var(--space-s);
     box-shadow: var(--shadow-5);
     display: flex;
     flex-flow: column;
-    overflow-y: hidden;
+    transition: background-color 0.35s ease;
 
     .hed {
       font-size: var(--font-size-1);
       color: var(--black-soft);
-      font-weight: var(--font-weight-regular);
+      font-weight: var(--font-weight-medium);
       font-family: var(--font-sans);
-      line-height: var(--line-height-medium);
-      margin-bottom: var(--space-3xs);
+      line-height: var(--line-height-tight);
+      margin-bottom: var(--space-2xs);
+      max-width: var(--sm);
     }
+  }
+
+  .body-rest {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .body-rest-inner {
+    overflow: hidden;
 
     .dek {
-      margin: 0;
+      margin: var(--space-2xs) auto;
+      font-size: var(--font-size-0);
       font-style: italic;
       text-wrap: pretty;
       line-height: var(--line-height-medium);
+      max-width: var(--sm);
     }
+  }
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    // margin-top: var(--space-xs);
+    // background-color: var(--white);
 
-    .tags {
-      display: flex;
-      flex-wrap: wrap;
-      margin-top: var(--space-xs);
+    .tag {
+      border-radius: 0.25rem;
+      margin-right: var(--space-3xs);
+      padding: var(--space-3xs) var(--space-2xs);
+      font-size: var(--font-size--2);
+      text-transform: capitalize;
+      color: var(--purple);
       background-color: var(--white);
-
-      .tag {
-        border-radius: 0.25rem;
-        margin-right: var(--space-3xs);
-        padding: var(--space-3xs) var(--space-2xs);
-        font-size: var(--font-size--2);
-        text-transform: capitalize;
-        color: var(--purple);
-        background-color: var(--white-soft);
-        // box-shadow: var(--shadow-1), var(--inner-shadow-1);
-        letter-spacing: var(--letter-spaced);
-      }
+      letter-spacing: var(--letter-spaced);
     }
   }
 </style>

@@ -91,9 +91,7 @@
   nav {
     margin-top: -1px;
     margin-bottom: var(--space-3xl);
-    transition:
-      transform 0.35s ease-out,
-      max-width 0.15s ease-out;
+    transition: transform 0.35s ease-out;
     z-index: var(--layer-important);
     background-color: var(--purple-soft);
     // box-shadow: var(--shadow-3), var(--shadow-5);

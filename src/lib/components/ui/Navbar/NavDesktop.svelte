@@ -13,6 +13,16 @@
   let pageId = $derived(page.route.id);
   let pageHash = $derived(page.url.hash);
   let pin = $state(false);
+  let resizeTimer;
+
+  const handleInview = (/** @type {{ detail: { inView: any; } }} */ e) => {
+    if (window.scrollY > -1) {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+        pin = !e.detail.inView;
+      }, 100);
+    }
+  };
 </script>
 
 <nav
@@ -21,9 +31,7 @@
   class:pin
   use:scrollDirection
   use:inview={{ root: null, threshold: 1 }}
-  oninview_change={(/** @type {{ detail: { inView: any; }; }} */ e) => {
-    if (window.scrollY > -1) pin = !e.detail.inView;
-  }}
+  oninview_change={handleInview}
 >
   <Container grid>
     <ul class={pin ? 'col-span-full' : 'col-start-lg-2 col-span-lg-10'}>
@@ -69,9 +77,7 @@
   nav {
     margin-top: -1px;
     margin-bottom: var(--space-3xl);
-    transition:
-      transform 0.35s ease,
-      max-width 0.15s ease;
+    transition: transform 0.35s ease;
     z-index: var(--layer-5);
     background-color: var(--purple-soft);
     position: relative;

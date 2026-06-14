@@ -33,19 +33,27 @@ published: true
   import PhotoPile from '$lib/components/custom/home/PhotoPile/index.svelte';
 </script>
 
-<RecentProjects />
-
-<Container width=md>
-
-## At the intersection of information design, web development and data journalism
-
-I design data-driven visual narratives that help transform information to knowledge using charts, maps and interactive data visualisations. Several of my work over the years have been recognised with various awards including the SND awards. <LinkButton label='Read&nbsp;more' url='about/' />
-
-</Container>
-
+<div class=awards>
 <Awards />
+</div>
 
-<PhotoPile
+<Container grid style="margin-block-start:  var(--space-2xl);">
+<div class="hed col-span-5">
+
+## Information design, web development and data journalism
+
+<LinkButton label='More about my work' url='about/#a-storyteller-passionate-about-data-visualisation' />
+</div>
+<div class="dek col-span-7">
+
+I design data-driven visual narratives, dashboards and web applications that help transform information to knowledge using charts, maps and interactive visualisations.
+
+Several of my work over the years have been recognised with various awards including the Society for News Design and the Webby awards.
+
+</div>
+</Container>
+<RecentProjects />
+<!-- <PhotoPile
   items={[
     {
       src: 'https://images.pexels.com/photos/190589/pexels-photo-190589.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
@@ -63,16 +71,22 @@ I design data-driven visual narratives that help transform information to knowle
       caption: 'Serene mountain landscapes captured during travels.',
     },
   ]}
-/>
+/> -->
 
-<Container width=md>
+<Container grid>
+<div class="hed col-span-5">
 
-## Towards dataviz literacy
+## Towards data and infographic literacy
+
+<LinkButton label='See all talks and workshops' url='community/' />
+</div>
+<div class="dek col-span-7">
 
 I love to <LinkButton label='talk' url='https://youtube.com/playlist?list=PLDs9PQJU9iKYFO7VPsaqwhrmFwVUAvtWN&si=Y6-PBmDNPAv-zjZ8' /> about design and data visualisation.
-Over the years, I have instructed design students on data representation, geovisualisation and data storytelling at eminent institutes across India like the National Institute of Design and JK Lakshmipat University. <LinkButton label='See all talks and workshops' url='community/' />
+Over the years, I have instructed design students on data representation, geovisualisation and data storytelling at eminent institutes across India like the National Institute of Design and JK Lakshmipat University.
 
 <YouTubeEmbed videoId="ngjkqqjW5kY" title="Video of Prasanta talking about Understanding Perception-Driven Data Visualisation at VizChitra 2025" />
+</div>
 
 </Container>
 
@@ -100,7 +114,7 @@ I love to make <LinkButton label='zines and prints' url='https://www.instagram.c
 <!-- <Shop /> -->
 
 <br />
-<Container  width=md>
+<Container width=md>
 
 I also co-host <LinkButton label='Creative Coding Crafts Space'  url='https://www.instagram.com/p/DNKVWp3M8IG/' /> -- a London-based and online community dedicated to making space for creativity - physical space, head space, collaboration space. We try to meet monthly to explore tools, ideas, and experiments that live at the intersection of code and art.
 
@@ -142,5 +156,25 @@ Drop me a line on <LinkButton label='Instagram ' url='https://www.instagram.com/
     @media (--md-n-below) {
       display: block;
     }
+  }
+
+  .awards {
+    margin-block-start: calc(1.5 * var(--space-3xl));
+    height: calc(0.2 * 100lvh - 70px);
+    display: flex;
+    align-items: center;
+  
+  }
+
+  .hed {
+    text-wrap: balance;
+    :global(h2) {
+      margin-block-start: 0;
+    }
+  }
+
+  .dek {
+    /* column-count: 2; */
+
   }
 </style>
