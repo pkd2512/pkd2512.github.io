@@ -35,7 +35,7 @@ p {
   margin-block-end: var(--space-s);
   margin-block-start: 0;
   text-wrap: pretty;
-  column-gap: var(--grid-gap);
+  column-gap: var(--grid-gutter);
 }
 
 h1,

@@ -2,11 +2,14 @@
   import Container from '$lib/components/ui/Container/index.svelte';
   import truncateText from '$utils/truncateText';
   import { asset } from '$app/paths';
+  import AwardBadge from '$lib/components/custom/projects/AwardBadge/index.svelte';
 
   /**
-   * @type {{ info: { image: any; intro: { hed: any; }; description: any; categories: any; } }}
+   * @type {{ info: { image: any; intro: { hed: any; }; description: any; categories: any; awards?: { type: string; logo?: string; url?: string; label?: string }[] } }}
    */
   let { info } = $props();
+
+  let hasAwards = $derived(!!info.awards && info.awards.length > 0);
 
   /**
    * @type {number}
@@ -21,10 +24,23 @@
 
 <div
   class="card"
+  class:has-badge={hasAwards}
   data-sveltekit-preload-code
   bind:clientHeight={cardHeight}
   style="--ch:{cardHeight}px; --ih:{infoHeight}px"
 >
+  {#if hasAwards}
+    <div class="awards-strip">
+      {#each info.awards?.slice(0, 1) as award}
+        <AwardBadge
+          type={award.type}
+          logo={award.logo}
+          url={award.url}
+          inverted
+        />
+      {/each}
+    </div>
+  {/if}
   <div
     class="img"
     style={"background-image: url('" +
@@ -76,8 +92,8 @@
     }
 
     &:hover {
-      // box-shadow: var(--shadow-3);
-      @include m.filter-shadow();
+      box-shadow: var(--shadow-2);
+      // @include m.filter-shadow();
       z-index: var(--layer-1);
 
       .body {
@@ -111,9 +127,9 @@
     right: 0;
     background-color: rgba(255, 255, 255, 0.65);
     backdrop-filter: blur(8px);
-    border-radius: var(--space-s-m) var(--space-s-m) 0 0;
+    // border-radius: var(--space-s-m) var(--space-s-m) 0 0;
     padding: var(--space-m) var(--space-s);
-    box-shadow: var(--shadow-5);
+    box-shadow: var(--shadow-2);
     display: flex;
     flex-flow: column;
     transition: background-color 0.35s ease;
@@ -147,6 +163,33 @@
       max-width: var(--sm);
     }
   }
+  .awards-strip {
+    position: absolute;
+    top: var(--space-xs);
+    right: 0;
+    display: flex;
+    flex-wrap: wrap;
+    box-shadow: var(--shadow-1);
+    gap: var(--space-2xs);
+    padding: var(--space-3xs) 0 var(--space-3xs) var(--space-s);
+    z-index: var(--layer-1);
+    pointer-events: none;
+    // border-radius: 0.25rem 0 0 0.25rem;
+    background-color: var(--purple-soft);
+    -webkit-mask: var(--mask-edge-scalloped-left);
+    mask: var(--mask-edge-scalloped-left);
+
+    :global(.badge) {
+      pointer-events: auto;
+    }
+  }
+
+  .has-badge {
+    .img {
+      filter: brightness(0.85);
+    }
+  }
+
   .tags {
     display: flex;
     flex-wrap: wrap;

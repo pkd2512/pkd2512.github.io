@@ -85,9 +85,10 @@ Several of my work over the years have been recognised with various awards inclu
 I love to <LinkButton label='talk' url='https://youtube.com/playlist?list=PLDs9PQJU9iKYFO7VPsaqwhrmFwVUAvtWN&si=Y6-PBmDNPAv-zjZ8' /> about design and data visualisation.
 Over the years, I have instructed design students on data representation, geovisualisation and data storytelling at eminent institutes across India like the National Institute of Design and JK Lakshmipat University.
 
+</div>
+<div class="c col-span-full" style="margin-block-start: var(--space-s);">
 <YouTubeEmbed videoId="ngjkqqjW5kY" title="Video of Prasanta talking about Understanding Perception-Driven Data Visualisation at VizChitra 2025" />
 </div>
-
 </Container>
 
 <Testimonials/>

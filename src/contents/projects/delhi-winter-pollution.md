@@ -26,14 +26,22 @@ links:
     url: projects/delhi-winter-pollution/
     label: 🗒️ Read more
 
+awards:
+  - type: Society for News Design
+    logo: awards/snd.webp
+    url: https://web.archive.org/web/20260401011825/https://snd.org/best-of-digital-bronze-medal-winners/#:~:text=Reuters%3A%20India%20pollution%20Line%20of%20Coverage
+    label: Bronze—Environment and Health, 2018; Bronze—Explainer Infographics, 2018;
+
+  - type: Kalinga Forein Correspondents' Club
+    logo: awards/fcc.webp
+    url: https://web.archive.org/web/20260615222916/https://www.newindianexpress.com/india/2019/Aug/28/reuters-bbc-journalists-win-big-at-kalinga-fcc-awards-for-excellence-in-journalism-2025710.html
+    label: Digital Journalist of the Year, 2019;
+
 
 intro:
   hed: Air pollution in north India
 
-  dek: "Each year, from late October, a thick blanket of smog settles over vast swathes of northern India, including the capital, New Delhi, pushing air pollution levels off the charts. 
-
-  <br>
-  I worked on this for my Master's graduation project that looks at the causes, severity and extent of the systemic problem using data collected from air quality monitors, satellite imagery from NASA and photographic evidence."
+  dek: "Each year, from late October, a thick blanket of smog settles over vast swathes of northern India, including the capital, New Delhi, pushing air pollution levels off the charts. I worked on this for my Master's graduation project that looks at the causes, severity and extent of the systemic problem using data collected from air quality monitors, satellite imagery from NASA and photographic evidence."
 
   img: projects/delhi-winter-pollution/hero.webp
 
@@ -56,6 +64,18 @@ intro:
 
 <style lang='scss'>
   @use 'src/lib/styles/mixins' as *;
+
+  .hed {
+    text-wrap: balance;
+
+    :global(h2) {
+      margin-block-start: 0;
+    }
+  }
+
+  .dek {
+
+  }
 
   .embed-responsive {
     @include iframeResponsive;
@@ -90,12 +110,17 @@ intro:
 
 </style>
 
-<Container width="md">
+<Container grid style="margin-block-start:var(--space-l)">
+<div class="hed col-span-5">
 
 ## Creative brief
 
+</div>
+<div class="dek col-span-7">
+
 Delhi’s deteriorating air quality in the cold season was not a new phenomenon and had already been widely reported on. However, we wanted to investigate the nuances through the lens of data and explore storytelling ideas for explaining them to the mass audience, as a means of creating awareness before the upcoming cold season by developing interactive visuals for the same.
 
+</div>
 </Container>
 
 <Container width="lg">
@@ -118,11 +143,20 @@ Delhi’s deteriorating air quality in the cold season was not a new phenomenon 
   </figure>
 </Container>
 
-<Container width="md">
+<Container grid style="margin-block-start:var(--space-l)">
+<div class="hed col-span-5">
 
 ## Research and analysis
 
+</div>
+<div class="dek col-span-7">
+
 We were familiar with the most common causes that the increased air pollution were attributed to -- crop stubble burning in the neighbouring states and burning of firecrackers during the festival of Diwali. After a brief reading on how to best quantify air quality, we sourced some data for particulate pollutants in the city and plotted along with the stubble burning data.
+
+</div>
+</Container>
+
+<Container width="lg" style="margin-block-start:var(--space-l)">
 
 <OverflowImage breakpoint=480 maxWidth='150%' url='media/projects/delhi-winter-pollution/research-chart.webp' alt="Screenshot of line charts showing PM2.5 levels and fires detected between 2015 and 2018." caption="The data was plotted using MS Excel. Looking at the particulate pollutant levels alongside the fires data and Diwali helped establish a correlation among the events." />
 

@@ -23,7 +23,7 @@
     const update = () => {
       if (mq2.matches) cols = 1;
       else if (mq1.matches) cols = 2;
-      else cols = 2;
+      else cols = 3;
     };
 
     mq1.addEventListener('change', update);
@@ -40,7 +40,7 @@
 </script>
 
 <section id="recent-projects">
-  <Container width="xl">
+  <Container width="xxl">
     <!-- <div class="col-span-full"> -->
     <ProjectList posts={displayData} />
     <!-- </div> -->

@@ -1,5 +1,6 @@
 <script>
   import Container from '$lib/components/ui/Container/index.svelte';
+  import ProjectAward from '$lib/components/custom/projects/ProjectAward/index.svelte';
   import Icon from '@iconify/svelte';
 
   /**
@@ -8,17 +9,20 @@
   let infoHeight = $state(0);
 
   /**
-   * @type {{ meta: { intro: { hed: any; dek?: any; img?: any; client?: any; url?: any; duration?: any; }; } }}
+   * @type {{ meta: { intro: { hed: any; dek?: any; img?: any; client?: any; url?: any; duration?: any; }; awards?: { type: string; logo?: string; url?: string; label?: string }[] } }}
    */
   let { meta } = $props();
 </script>
 
 <section id="hero">
-  <Container width="md">
-    <header style="height: {Math.round(infoHeight * 1.5)}px;">
+  <Container grid>
+    <header
+      class="c col-span-10"
+      style="height: {Math.round(infoHeight * 1.5)}px;"
+    >
       <div class="text" bind:clientHeight={infoHeight}>
         <h1>{@html meta.intro.hed}</h1>
-        <p>
+        <p class="dek">
           {@html meta.intro.dek}
         </p>
         <p class="meta">
@@ -47,6 +51,17 @@
         </p>
       </div>
     </header>
+
+    <div
+      class="awards col-span-2"
+      style="height: {Math.round(
+        infoHeight * 1
+      )}px; margin-block-start: calc({Math.round(
+        infoHeight * 0.25
+      )}px + var(--space-xl));"
+    >
+      <ProjectAward awards={meta.awards} />
+    </div>
   </Container>
 </section>
 
@@ -58,6 +73,12 @@
     background-color: var(--purple-soft);
     position: relative;
     z-index: var(--layer-2);
+  }
+
+  .awards {
+    display: flex;
+    // align-items: center;
+    justify-content: center;
   }
 
   header {
@@ -86,10 +107,15 @@
       }
     }
 
+    .dek {
+      column-count: 2;
+      margin-block-start: var(--space-s);
+    }
+
     p {
       color: var(--white-soft);
-      font-size: var(--font-size-1);
-      font-weight: var(--font-weight-light);
+      // font-size: var(--font-size-1);
+      font-weight: var(--font-weight-regular);
       @include text-shadow(var(--purple));
 
       &.meta {

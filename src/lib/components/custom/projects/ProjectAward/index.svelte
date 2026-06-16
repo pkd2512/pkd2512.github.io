@@ -1,58 +1,69 @@
 <script>
-  import Container from '$lib/components/ui/Container/index.svelte';
-  import { asset } from '$app/paths';
+  import AwardBadge from '$lib/components/custom/projects/AwardBadge/index.svelte';
 
   /**
-   * @type {number | undefined}
+   * @type {{ awards?: { type: string; logo?: string; url?: string; label?: string }[] }}
    */
-  let height = $state();
+  let { awards = [] } = $props();
 
-  let { img = '', notes = '', url = '' } = $props();
+  let items = $derived(
+    awards.flatMap((a) => {
+      const labels = (a.label || '')
+        .split(';')
+        .map((s) => s.trim())
+        .filter(Boolean);
+      return labels.length > 0 ? labels.map((label) => ({ ...a, label })) : [a];
+    })
+  );
 </script>
 
-<Container width="sm">
-  <div
-    class="award"
-    bind:clientHeight={height}
-    style="margin-block-start: -{0.35 * (height ?? 0)}px"
-  >
-    <a href={url} target="">
-      <img
-        src={asset('/media/awards/' + img)}
-        alt="Adobe Design Achievement Awards"
-      />
-      <div class="notes">
-        {@html notes}
-      </div>
-    </a>
+{#if items.length > 0}
+  <div class="strip">
+    {#each items as item}
+      <a class="award-item" href={item.url}>
+        <AwardBadge
+          type={item.type}
+          logo={item.logo}
+          url={item.url}
+          label={item.label}
+          inverted
+        />
+        {#if item.label}
+          <span class="label">{@html item.label}</span>
+        {/if}
+      </a>
+    {/each}
   </div>
-</Container>
+{/if}
 
 <style lang="scss">
-  img {
-    max-width: var(--xs);
-    width: 100%;
-    margin-inline: auto;
+  .strip {
+    column-width: 16ch;
+    column-gap: var(--grid-gutter);
+    max-height: 100%;
   }
 
-  a {
+  .award-item {
+    max-width: 10rem;
     text-decoration: none;
+    break-inside: avoid;
+    padding: var(--space-xs) var(--space-s);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-3xs);
+    margin-bottom: var(--space-xs);
+    background-color: var(--purple-soft);
+    -webkit-mask: var(--mask-edge-scalloped);
   }
 
-  .notes {
-    font-size: var(--font-size-0);
-    font-family: var(--font-display);
-    margin-block: var(--space-xs);
-  }
-
-  .award {
-    padding: var(--space-s) var(--space-l);
+  .label {
+    font-size: var(--font-size--2);
+    font-weight: var(--font-weight-medium);
+    font-family: var(--font-sans);
+    color: var(--white-soft);
     text-align: center;
-    background-color: var(--white);
-    z-index: var(--layer-2);
-    -webkit-mask: var(--mask-edge-zig-zag-horizontal);
-    box-shadow: var(--shadow-5);
-    margin-block: var(--space-xl);
-    margin-inline: auto;
+    width: auto;
+    line-height: var(--line-height-tight);
   }
 </style>
