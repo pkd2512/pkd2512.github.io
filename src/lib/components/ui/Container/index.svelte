@@ -25,6 +25,7 @@
 <style lang="scss">
   .container,
   [class^='container-'] {
+    container-type: inline-size;
     display: block;
     width: auto;
     margin-inline: auto;

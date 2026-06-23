@@ -24,7 +24,7 @@
     <div class="label">
       <div class="title">{@html title}</div>
       <p>
-        {@html truncateText(description, 15)}
+        {@html truncateText(description, 10)}
       </p>
       <span class="icon">
         {#if target === '_blank'}
@@ -40,7 +40,7 @@
     [data-card-type='referral-card'] {
       &:hover {
         .preview-card {
-          box-shadow: var(--shadow-3) !important;
+          box-shadow: var(--shadow-2) !important;
           transform: scale3d(1.01, 1.01, 1.01);
 
           .image {
@@ -61,7 +61,7 @@
     margin-block: var(--space-xs);
     margin-inline: auto;
     max-width: calc(0.8 * var(--md));
-    width: calc(0.8 * var(--md));
+    // width: calc(0.8 * var(--md));
     background-color: var(--white);
     border-radius: 0.25rem;
     box-shadow: var(--shadow-1);

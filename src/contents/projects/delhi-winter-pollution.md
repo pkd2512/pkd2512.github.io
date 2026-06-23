@@ -30,12 +30,12 @@ awards:
   - type: Society for News Design
     logo: awards/snd.webp
     url: https://web.archive.org/web/20260401011825/https://snd.org/best-of-digital-bronze-medal-winners/#:~:text=Reuters%3A%20India%20pollution%20Line%20of%20Coverage
-    label: Bronze—Environment and Health, 2018; Bronze—Explainer Infographics, 2018;
+    label: 🥉Bronze—Environment and Health, 2018; 🥉Bronze—Explainer Infographics, 2018;
 
   - type: Kalinga Forein Correspondents' Club
     logo: awards/fcc.webp
     url: https://web.archive.org/web/20260615222916/https://www.newindianexpress.com/india/2019/Aug/28/reuters-bbc-journalists-win-big-at-kalinga-fcc-awards-for-excellence-in-journalism-2025710.html
-    label: Digital Journalist of the Year, 2019;
+    label: 🥇Digital Journalist of the Year, 2019;
 
 
 intro:
@@ -65,18 +65,6 @@ intro:
 <style lang='scss'>
   @use 'src/lib/styles/mixins' as *;
 
-  .hed {
-    text-wrap: balance;
-
-    :global(h2) {
-      margin-block-start: 0;
-    }
-  }
-
-  .dek {
-
-  }
-
   .embed-responsive {
     @include iframeResponsive;
   }
@@ -89,6 +77,8 @@ intro:
     line-height:  var(--line-height-medium);
     font-style: italic;
     text-wrap: pretty;
+    margin-block-start: 0;
+    text-align: left;
 
       @media (--md-n-below) {
         flex-direction: column;
@@ -110,13 +100,13 @@ intro:
 
 </style>
 
-<Container grid style="margin-block-start:var(--space-l)">
-<div class="hed col-span-5">
+<Container grid style="margin-block-start:var(--space-xl)">
+<div class="hed col-span-md-5">
 
 ## Creative brief
 
 </div>
-<div class="dek col-span-7">
+<div class="dek col-span-md-7">
 
 Delhi’s deteriorating air quality in the cold season was not a new phenomenon and had already been widely reported on. However, we wanted to investigate the nuances through the lens of data and explore storytelling ideas for explaining them to the mass audience, as a means of creating awareness before the upcoming cold season by developing interactive visuals for the same.
 
@@ -143,22 +133,22 @@ Delhi’s deteriorating air quality in the cold season was not a new phenomenon 
   </figure>
 </Container>
 
-<Container grid style="margin-block-start:var(--space-l)">
-<div class="hed col-span-5">
+<Container grid style="margin-block-start:var(--space-xl)">
+<div class="hed col-span-md-5">
 
 ## Research and analysis
 
 </div>
-<div class="dek col-span-7">
+<div class="dek col-span-md-7">
 
 We were familiar with the most common causes that the increased air pollution were attributed to -- crop stubble burning in the neighbouring states and burning of firecrackers during the festival of Diwali. After a brief reading on how to best quantify air quality, we sourced some data for particulate pollutants in the city and plotted along with the stubble burning data.
 
 </div>
 </Container>
 
-<Container width="lg" style="margin-block-start:var(--space-l)">
+<Container width="lg" >
 
-<OverflowImage breakpoint=480 maxWidth='150%' url='media/projects/delhi-winter-pollution/research-chart.webp' alt="Screenshot of line charts showing PM2.5 levels and fires detected between 2015 and 2018." caption="The data was plotted using MS Excel. Looking at the particulate pollutant levels alongside the fires data and Diwali helped establish a correlation among the events." />
+<OverflowImage  breakpoint=480 maxWidth='150%' url='media/projects/delhi-winter-pollution/research-chart.webp' alt="Screenshot of line charts showing PM2.5 levels and fires detected between 2015 and 2018." caption="The data was plotted using MS Excel. Looking at the particulate pollutant levels alongside the fires data and Diwali helped establish a correlation among the events." />
 
 <figure>
 
@@ -168,9 +158,16 @@ We were familiar with the most common causes that the increased air pollution we
   After extensive secondary research, we were able to narrow down major elements of the system that contribute to the air quality in the region.
   </figcaption>
 
-  </figure>
+</figure>
+</Container>
+
+<Container grid style="margin-block-start:var(--space-xl)">
+<div class="hed col-span-md-5">
 
 ## Design solution
+
+</div>
+<div class="dek col-span-md-7">
 
 The timing of the project, when it started — September 2018, was quite appropriate to study the air quality crisis in Delhi thoroughly as it could be substantiated with data from coming months. We, a team comprising <LinkButton label='Rajshree Deshmukh'  url='https://www.linkedin.com/in/rajshree-deshmukh/' />, <LinkButton label='Gurman Bhatia'  url='https://www.linkedin.com/in/gurmanbhatia/' /> and <LinkButton label='Simon Scarr'  url='https://www.linkedin.com/in/simon-scarr/' /> began ideating on project angles which can be summarised as --
 
@@ -181,13 +178,27 @@ The timing of the project, when it started — September 2018, was quite appropr
 - Show visually, how bad Delhi’s air can get in winter.
   Get photos/videos; do some experiment to see the particulate pollutants. <LinkButton label='See Project'  url='https://www.reuters.com/graphics/INDIA-POLLUTION/01008173281/' />
 
+</div>
+<div class="hed col-span-md-5">
+
 ### Making air quality maps
+
+</div>
+<div class="dek col-span-md-7">
 
 Using monthly data of Aerosol Optical Thickness and Visible Infrared Imaging Radiometer Suite (VIIRS) 375 m active fire product from NASA, I created the maps on QGIS.
 
+</div>
+
+<div class="col-span-full">
+
 ![A panel of three maps showing the haze and dots of fires in orange over the norther part of India for March, October and November 2017.](/media/projects/delhi-winter-pollution/map-1.webp)
 
-  <figure>
+</div>
+
+<div class="col-span-md-9">
+
+<figure>
 
 ![A panel of two maps for March and October 2017 showing the air quality as grey smoke. Location of fires are shown as red dots. The direction of wind is marked using arrows around Delhi.](/media/projects/delhi-winter-pollution/map-2.webp)
 
@@ -195,9 +206,9 @@ Using monthly data of Aerosol Optical Thickness and Visible Infrared Imaging Rad
   The final maps were exported and styled in Adobe Illustrator. Annotations were added to add context for the readers. Multiple versions of the layout were designed to account for responsive design of the webpage using ai2html.
   </figcaption>
 
-  </figure>
+</figure>
 
-  <figure>
+<figure>
 
 ![A satellite image showing Punjab, Haryana and Delhi covered by a white smoky haze. Red dots are overlaid on it to show location of stubble burning fires detected by satellite.](/media/projects/delhi-winter-pollution/map-3.webp)
 
@@ -205,24 +216,18 @@ Using monthly data of Aerosol Optical Thickness and Visible Infrared Imaging Rad
   In order to further establish the presence of multitude of fires in the Punjab region in the month of October as seen from VIIRS fire data, I analysed satellite images from NASA Worldview for traces of smoke and fumes that correspond to fire the spots detected.
   </figcaption>
 
-  </figure>
+</figure>
+</div>
 
 </Container>
 
-<Container width="md" style="text-align:center; margin-block-end:var(--space-l)">
-
-<ReferralCard
-    url="https://www.reuters.com/graphics/INDIA-POLLUTION/010080SY1KE/"
-    image="https://fingfx.thomsonreuters.com/gfx/rngs/INDIA-POLLUTION/010080SY1KE/images/share-card.png"
-    title="Preparing to choke"
-    description="India’s annual air pollution threat explained"
-  />
-
-</Container>
-
-<Container width="md">
+<Container grid>
+<div class="hed col-span-md-5">
 
 ### Visualising Delhi's air quality
+
+</div>
+<div class="dek col-span-md-7">
 
 At this point in the project, the attempt was to take a look at the PM2.5 levels across various regions of the city of Delhi, because the pollution levels are not uniform across the city and can vary with the time of the day as well.
 
@@ -238,7 +243,10 @@ Using PM2.5 concentrations data at Continuous Air Quality Monitoring Stations (C
 
   </figure>
 
-Using the heat map as a starting point, the time period of observations was expanded to include the whole of October 2018 and the few days of November, later to be expanded to the end of the month.
+  Using the heat map as a starting point, the time period of observations was expanded to include the whole of October 2018 and the few days of November, later to be expanded to the end of the month.
+</div>
+
+<div class="col-span-md-9">
 
   <figure>
 
@@ -249,7 +257,7 @@ Using the heat map as a starting point, the time period of observations was expa
   </figcaption>
 
   </figure>
-
+</div>
 </Container>
 
 <Container width="lg">
@@ -258,7 +266,31 @@ Using the heat map as a starting point, the time period of observations was expa
 
 </Container>
 
-<Container width="md" style="text-align:center; margin-block-end:var(--space-l)">
+<Container grid style="margin-block-start:var(--space-xl)">
+<div class="hed col-span-md-5">
+
+## Final visualisation and outcomes
+
+</div>
+<div class="dek col-span-md-7">
+
+The outcome of the projects were visual stories published by Reuters.
+
+<Container width="fluid" style="text-align:center; margin-block-end:var(--space-l)">
+
+<ReferralCard
+    url="https://www.reuters.com/graphics/INDIA-POLLUTION/010080SY1KE/"
+    image="https://fingfx.thomsonreuters.com/gfx/rngs/INDIA-POLLUTION/010080SY1KE/images/share-card.png"
+    title="Preparing to choke"
+    description="India’s annual air pollution threat explained"
+  />
+
+<ReferralCard
+    url="https://www.reuters.com/graphics/INDIA-POLLUTION/01008173281/"
+    image="https://fingfx.thomsonreuters.com/gfx/rngs/INDIA-POLLUTION/01008173281/images/share-card.png"
+    title="A window into Delhi’s deadly pollution"
+    description="Reuters set up a camera on top of our Delhi bureau, capturing hundreds of images over October-November, historically the worst period of air quality each year in the Indian capital."
+  />
 
 <ReferralCard
     url="https://www.reuters.com/graphics/INDIA-POLLUTION/010081VR3BW/"
@@ -269,14 +301,15 @@ Using the heat map as a starting point, the time period of observations was expa
 
 </Container>
 
-<Container width="md">
+The detailed process is documented in my graduation document which you can navigate through by manually turning the pages at the curl using the mouse or using the <kbd>&#8592;</kbd> and <kbd>&#8594;</kbd> keys. To peek into a section of a page click on the section to zoom in and out of it. You can also zoom out of a view using the <kbd>Esc</kbd> key.
 
-The outcome of the projects were visual stories published by Reuters. The detailed process is documented in my graduation document which you can navigate through by manually turning the pages at the curl using the mouse or using the <kbd>&#8592;</kbd> and <kbd>&#8594;</kbd> keys. To peek into a section of a page click on the section to zoom in and out of it. You can also zoom out of a view using the <kbd>Esc</kbd> key.
+The project was also featured on <LinkButton label='Lines of Inquiry'  url='https://www.scribd.com/document/664184751/Lines-of-Inquiry-2020#page=55' />, the Annual Design Show at the National Institute of Design, Ahmedabad, India in March 2020.
 
 <p style="font-style:italic;">
 The high-resolution images may take a while to load upon zoom, depending upon your internet speed.
 </p>
 
+</div>
 </Container>
 
 <Container width="fluid">
@@ -284,11 +317,5 @@ The high-resolution images may take a while to load upon zoom, depending upon yo
 <div class='embed-responsive'>
   <iframe class="embed-responsive-item" src="https://delhi-winter-pollution-gpdoc.vercel.app" frameborder="0" scrolling="yes" height="100%" width="100%"allowfullscreen=""></iframe>
 </div>
-
-</Container>
-
-<Container width="md">
-
-The project was also featured on <LinkButton label='Lines of Inquiry'  url='https://www.scribd.com/document/664184751/Lines-of-Inquiry-2020#page=55' />, the Annual Design Show at the National Institute of Design, Ahmedabad, India in March 2020.
 
 </Container>

@@ -161,9 +161,40 @@ blockquote {
 figure {
   margin-block: var(--space-l);
   margin-inline: auto;
+  text-align: center;
+  position: relative;
 }
 
-figcaption,
+figcaption {
+  color: var(--black-soft);
+  font-style: italic;
+  font-size: var(--font-size-0);
+  font-family: var(--font-serif);
+  margin-block: 0;
+  line-height: var(--line-height-medium);
+  text-align: start;
+  max-width: var(--grid-max-width);
+  margin-inline: auto;
+  padding-inline: var(--grid-gutter);
+
+  // default: caption below image
+  order: 2;
+  margin-top: var(--space-2xs);
+}
+
+figure.side-caption figcaption {
+  order: unset;
+
+  position: absolute;
+  top: 0;
+  right: 0;
+  transform: translateX(calc(100% + var(--grid-gutter)));
+
+  max-width: var(--xxs);
+  margin: 0;
+  padding-inline: 0;
+}
+
 figcaption p {
   color: var(--black-soft);
   font-style: italic;
