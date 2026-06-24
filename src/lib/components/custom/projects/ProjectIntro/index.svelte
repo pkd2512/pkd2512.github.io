@@ -153,7 +153,7 @@
 
   header {
     min-height: 90lvh;
-    height: calc(var(--info-height) * 1.5);
+    height: calc(var(--info-height) + 125px);
 
     @media (max-width: 600px) {
       min-height: 80lvh;
@@ -163,6 +163,10 @@
     align-items: center;
     justify-content: center;
     color: var(--white-soft);
+
+    @media (--md-n-below) {
+      align-items: end;
+    }
 
     .text {
       max-width: calc(0.85 * var(--lg));
