@@ -14,12 +14,9 @@
   let { meta } = $props();
 </script>
 
-<section id="hero">
+<section id="hero" style="--info-height: {Math.round(infoHeight)}px;">
   <Container grid>
-    <header
-      class="c col-span-10"
-      style="height: {Math.round(infoHeight * 1.5)}px;"
-    >
+    <header class="c col-span-10">
       <div class="text" bind:clientHeight={infoHeight}>
         <h1>{@html meta.intro.hed}</h1>
         <p class="dek">
@@ -52,14 +49,7 @@
       </div>
     </header>
 
-    <div
-      class="awards col-span-2"
-      style="height: {Math.round(
-        infoHeight * 1
-      )}px; margin-block-start: calc({Math.round(
-        infoHeight * 0.25
-      )}px + var(--space-xl));"
-    >
+    <div class="awards col-span-2">
       <ProjectAward awards={meta.awards} />
     </div>
   </Container>
@@ -77,12 +67,17 @@
 
   .awards {
     display: flex;
-    // align-items: center;
+    align-self: flex-start;
     justify-content: center;
+    height: var(--info-height);
+    margin-block-start: calc(
+      var(--info-height) * 0.25 + var(--space-xl) + 67px
+    );
   }
 
   header {
     min-height: 90lvh;
+    height: calc(var(--info-height) * 1.5);
 
     @media (max-width: 600px) {
       min-height: 80lvh;
