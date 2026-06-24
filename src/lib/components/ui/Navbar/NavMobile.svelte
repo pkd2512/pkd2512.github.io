@@ -104,6 +104,7 @@
     justify-content: space-between;
     align-items: flex-start;
     flex-wrap: wrap;
+    box-shadow: var(--shadow-2);
   }
 
   .hamburger {
@@ -131,8 +132,7 @@
     margin-inline: calc(-1 * var(--space-s));
     transition: all 0.65s cubic-bezier(0.29, 1.4, 0.44, 0.96);
     height: 0;
-    // box-shadow: var(--shadow-3), var(--shadow-5);
-
+    box-shadow: var(--shadow-2);
     &.open {
       height: calc(0.25 * 100svh);
     }
