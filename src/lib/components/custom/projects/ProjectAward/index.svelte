@@ -5,21 +5,11 @@
    * @type {{ awards?: { type: string; logo?: string; url?: string; label?: string }[] }}
    */
   let { awards = [] } = $props();
-
-  let items = $derived(
-    awards.flatMap((a) => {
-      const labels = (a.label || '')
-        .split(';')
-        .map((s) => s.trim())
-        .filter(Boolean);
-      return labels.length > 0 ? labels.map((label) => ({ ...a, label })) : [a];
-    })
-  );
 </script>
 
-{#if items.length > 0}
+{#if awards.length > 0}
   <div class="strip">
-    {#each items as item}
+    {#each awards as item}
       <a class="award-item" href={item.url}>
         <AwardBadge
           type={item.type}
@@ -38,23 +28,45 @@
 
 <style lang="scss">
   .strip {
-    column-width: 16ch;
-    column-gap: var(--grid-gutter);
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    gap: var(--space-xs);
     max-height: 100%;
+    width: 100%;
+
+    // When the parent flips to bottom-row layout, items flow horizontally
+    // and wrap. Each item targets the width of 2 of the 12 page-grid
+    // columns (6 items per row), with a 300px floor that triggers wrapping
+    // on narrower screens.
+    :global([data-awards='bottom']) & {
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: start;
+      max-height: none;
+    }
   }
 
   .award-item {
     max-width: 10rem;
+    text-wrap: balance;
     text-decoration: none;
     break-inside: avoid;
-    padding: var(--space-xs) var(--space-s);
+    padding: var(--space-xs) 0;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: var(--space-3xs);
-    margin-bottom: var(--space-xs);
     background-color: var(--purple-soft);
     -webkit-mask: var(--mask-edge-scalloped);
+
+    // In the bottom layout, each item is sized to span ~2 of the 12 grid
+    // columns (i.e. 6 per row), with min-width: 300px so they wrap nicely.
+    :global([data-awards='bottom']) & {
+      flex: 0 1 calc((100% - 5 * var(--grid-gutter)) / 6);
+      min-width: 100px;
+      max-width: none;
+    }
   }
 
   .label {

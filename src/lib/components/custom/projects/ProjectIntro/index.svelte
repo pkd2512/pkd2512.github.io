@@ -12,11 +12,39 @@
    * @type {{ meta: { intro: { hed: any; dek?: any; img?: any; client?: any; url?: any; duration?: any; }; awards?: { type: string; logo?: string; url?: string; label?: string }[] } }}
    */
   let { meta } = $props();
+
+  // How many awards fit comfortably in the side rail.
+  // Tweak this if a project's h1 is unusually short/tall.
+  const SIDE_RAIL_CAPACITY = 4;
+
+  // Below this viewport width we always switch to the bottom-row layout.
+  const SIDE_RAIL_MIN_WIDTH = '(min-width: 1024px)'; // matches --lg-n-above
+
+  let isWide = $state(false);
+
+  $effect(() => {
+    if (typeof window === 'undefined') return;
+    const mql = window.matchMedia(SIDE_RAIL_MIN_WIDTH);
+    const update = () => (isWide = mql.matches);
+    update();
+    mql.addEventListener('change', update);
+    return () => mql.removeEventListener('change', update);
+  });
+
+  let position = $derived(
+    isWide && (meta.awards?.length ?? 0) <= SIDE_RAIL_CAPACITY
+      ? 'side'
+      : 'bottom'
+  );
 </script>
 
-<section id="hero" style="--info-height: {Math.round(infoHeight)}px;">
+<section
+  id="hero"
+  data-awards={position}
+  style="--info-height: {Math.round(infoHeight)}px;"
+>
   <Container grid>
-    <header class="c col-span-10">
+    <header class="col-span-md-10">
       <div class="text" bind:clientHeight={infoHeight}>
         <h1>{@html meta.intro.hed}</h1>
         <p class="dek">
@@ -65,14 +93,33 @@
     z-index: var(--layer-2);
   }
 
-  .awards {
-    display: flex;
-    align-self: flex-start;
-    justify-content: center;
+  // Default / side-rail layout for the awards column.
+  // Uses --info-height (set inline on #hero) so it tracks the h1's height.
+  #hero[data-awards='side'] .awards {
     height: var(--info-height);
     margin-block-start: calc(
       var(--info-height) * 0.25 + var(--space-xl) + 67px
     );
+  }
+
+  .awards {
+    display: flex;
+    align-self: start;
+    justify-content: center;
+  }
+
+  // Bottom-row layout: awards take full grid width below the header.
+  #hero[data-awards='bottom'] {
+    header {
+      min-height: 0;
+    }
+
+    .awards {
+      grid-column: 1 / -1;
+      height: auto;
+      margin-block-start: 0;
+      margin-block-end: var(--space-l);
+    }
   }
 
   header {
@@ -105,6 +152,10 @@
     .dek {
       column-count: 2;
       margin-block-start: var(--space-s);
+
+      @media (--md-n-below) {
+        column-count: 1;
+      }
     }
 
     p {
