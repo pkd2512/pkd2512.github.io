@@ -2,6 +2,7 @@
   import Container from '$lib/components/ui/Container/index.svelte';
   import ProjectAward from '$lib/components/custom/projects/ProjectAward/index.svelte';
   import Icon from '@iconify/svelte';
+  import { fade } from 'svelte/transition';
 
   /**
    * @type {number}
@@ -25,6 +26,7 @@
 
   let isWide = $state(false);
   let isXWide = $state(false);
+  let ready = $state(false);
 
   $effect(() => {
     if (typeof window === 'undefined') return;
@@ -35,6 +37,7 @@
       isXWide = mqlXW.matches;
     };
     update();
+    ready = true;
     mqlW.addEventListener('change', update);
     mqlXW.addEventListener('change', update);
     return () => {
@@ -55,7 +58,7 @@
 <section
   id="hero"
   data-awards={position}
-  style="--info-height: {Math.round(infoHeight)}px;"
+  style={infoHeight ? `--info-height: ${Math.round(infoHeight)}px` : '700px'}
 >
   <Container grid>
     <header class="col-span-lg-10">
@@ -91,9 +94,11 @@
       </div>
     </header>
 
-    <div class="awards col-span-2">
-      <ProjectAward awards={meta.awards} />
-    </div>
+    {#if ready}
+      <div class="awards col-span-2" in:fade={{ duration: 200 }}>
+        <ProjectAward awards={meta.awards} />
+      </div>
+    {/if}
   </Container>
 </section>
 
