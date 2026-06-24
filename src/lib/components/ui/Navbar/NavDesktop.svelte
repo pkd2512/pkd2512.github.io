@@ -89,7 +89,8 @@
       top: -1px;
       left: -50%;
       max-width: var(--md);
-      box-shadow: var(--shadow-3), var(--shadow-5);
+      // box-shadow: var(--shadow-3);
+      @include filter-shadow(var(--purple));
 
       @media (min-width: 600px) {
         border-radius: 15rem;

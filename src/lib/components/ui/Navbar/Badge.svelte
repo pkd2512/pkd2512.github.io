@@ -91,20 +91,27 @@
 
 <svelte:window bind:scrollY bind:innerHeight={windowHeight} />
 
-<div
-  class="badge"
-  aria-hidden="true"
-  bind:this={badgeEl}
-  style="--angle:{getRotation(scrollY)}deg; width: {size}; height: {size}"
->
-  <div class="logo">
-    <Logo size={mobile ? '3rem' : '3.75rem'} colour="var(--white)" />
+<div class="wrapper">
+  <div
+    class="badge"
+    aria-hidden="true"
+    bind:this={badgeEl}
+    style="--angle:{getRotation(scrollY)}deg; width: {size}; height: {size}"
+  >
+    <div class="logo">
+      <Logo size={mobile ? '3rem' : '3.75rem'} colour="var(--white)" />
+    </div>
+    <div class="text" bind:this={circleTextEl}>Designer;Developer;Dreamer;</div>
   </div>
-  <div class="text" bind:this={circleTextEl}>Designer;Developer;Dreamer;</div>
 </div>
 
 <style lang="scss">
   @use 'src/lib/styles/mixins/shadows' as *;
+
+  .wrapper {
+    border-radius: 50%;
+    box-shadow: var(--shadow-3);
+  }
   .badge {
     pointer-events: none;
     aspect-ratio: var(--ratio-square);
@@ -113,13 +120,10 @@
     display: flex;
     align-items: center;
     justify-content: center;
-
-    filter: drop-shadow(0 1px 25px hsl(269, 33%, 22%));
+    // filter: drop-shadow(0 1px 25px hsl(269, 33%, 22%));
 
     background-image: url('/media/textures/small-crackle-bright.webp');
     background-blend-mode: overlay;
-
-    box-shadow: var(--shadow-1);
 
     transform-origin: center;
     transition: transform 0.3s step-start;
