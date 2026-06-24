@@ -31,9 +31,28 @@
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
-    gap: var(--space-xs);
+    // gap: var(--space-xs);
     max-height: 100%;
     width: 100%;
+
+    // 2-column side rail: absolutely positioned anchored to the LEFT edge
+    // of the .awards column so the second wrapped column overflows to the
+    // RIGHT into the empty bleed area (never overlapping the header text
+    // on the left).
+    :global([data-awards='side-2']) & {
+      position: absolute;
+      inset-block: 0;
+      inset-inline-start: 0;
+      flex-direction: column;
+      flex-wrap: wrap;
+      align-content: flex-start;
+      // Width = 2 page-grid columns + 1 gutter between them.
+      width: calc(
+        (var(--grid-max-width) - 11 * var(--grid-gutter)) / 12 * 2 +
+          var(--grid-gutter)
+      );
+      // gap: var(--grid-gutter);
+    }
 
     // When the parent flips to bottom-row layout, items flow horizontally
     // and wrap. Each item targets the width of 2 of the 12 page-grid
@@ -42,13 +61,18 @@
     :global([data-awards='bottom']) & {
       flex-direction: row;
       flex-wrap: wrap;
-      justify-content: start;
+      justify-content: center;
       max-height: none;
     }
   }
 
   .award-item {
     max-width: 10rem;
+    // Width = 2 page-grid columns + 1 gutter between them.
+    width: calc(
+      (var(--grid-max-width) - 11 * var(--grid-gutter)) / 12 * 2 +
+        var(--grid-gutter)
+    );
     text-wrap: balance;
     text-decoration: none;
     break-inside: avoid;
@@ -64,7 +88,7 @@
     // columns (i.e. 6 per row), with min-width: 300px so they wrap nicely.
     :global([data-awards='bottom']) & {
       flex: 0 1 calc((100% - 5 * var(--grid-gutter)) / 6);
-      min-width: 100px;
+      min-width: 130px;
       max-width: none;
     }
   }
