@@ -13,29 +13,43 @@
    */
   let { meta } = $props();
 
-  // How many awards fit comfortably in the side rail.
-  // Tweak this if a project's h1 is unusually short/tall.
+  // How many awards fit in the 1-column side rail.
   const SIDE_RAIL_CAPACITY = 4;
+  // How many awards fit in the 2-column side rail (wider viewports).
+  const SIDE_RAIL_2COL_CAPACITY = 8;
 
-  // Below this viewport width we always switch to the bottom-row layout.
-  const SIDE_RAIL_MIN_WIDTH = '(min-width: 1024px)'; // matches --lg-n-above
+  // Below this width we switch to bottom-row entirely.
+  const WIDE_QUERY = '(min-width: 1024px)'; // --lg-n-above
+  // Above this width we have room for the 2-column side rail.
+  const XWIDE_QUERY = '(min-width: 1440px)'; // --xl-n-above
 
   let isWide = $state(false);
+  let isXWide = $state(false);
 
   $effect(() => {
     if (typeof window === 'undefined') return;
-    const mql = window.matchMedia(SIDE_RAIL_MIN_WIDTH);
-    const update = () => (isWide = mql.matches);
+    const mqlW = window.matchMedia(WIDE_QUERY);
+    const mqlXW = window.matchMedia(XWIDE_QUERY);
+    const update = () => {
+      isWide = mqlW.matches;
+      isXWide = mqlXW.matches;
+    };
     update();
-    mql.addEventListener('change', update);
-    return () => mql.removeEventListener('change', update);
+    mqlW.addEventListener('change', update);
+    mqlXW.addEventListener('change', update);
+    return () => {
+      mqlW.removeEventListener('change', update);
+      mqlXW.removeEventListener('change', update);
+    };
   });
 
-  let position = $derived(
-    isWide && (meta.awards?.length ?? 0) <= SIDE_RAIL_CAPACITY
-      ? 'side'
-      : 'bottom'
-  );
+  let position = $derived.by(() => {
+    const count = meta.awards?.length ?? 0;
+    if (!isWide) return 'bottom';
+    if (count <= SIDE_RAIL_CAPACITY) return 'side';
+    if (isXWide && count <= SIDE_RAIL_2COL_CAPACITY) return 'side-2';
+    return 'bottom';
+  });
 </script>
 
 <section
@@ -44,7 +58,7 @@
   style="--info-height: {Math.round(infoHeight)}px;"
 >
   <Container grid>
-    <header class="col-span-md-10">
+    <header class="col-span-lg-10">
       <div class="text" bind:clientHeight={infoHeight}>
         <h1>{@html meta.intro.hed}</h1>
         <p class="dek">
@@ -93,13 +107,23 @@
     z-index: var(--layer-2);
   }
 
-  // Default / side-rail layout for the awards column.
+  // Side-rail layout (1- or 2-column).
   // Uses --info-height (set inline on #hero) so it tracks the h1's height.
-  #hero[data-awards='side'] .awards {
+  #hero[data-awards='side'] .awards,
+  #hero[data-awards='side-2'] .awards {
     height: var(--info-height);
     margin-block-start: calc(
       var(--info-height) * 0.25 + var(--space-xl) + 67px
     );
+  }
+
+  // 2-column side rail: the .awards column itself stays at col-span-2,
+  // but its strip is absolutely positioned so it can overflow into the
+  // empty space to the right of the page grid without affecting layout
+  // or overlapping the header text on the left.
+  #hero[data-awards='side-2'] .awards {
+    position: relative;
+    overflow: visible;
   }
 
   .awards {
@@ -153,7 +177,7 @@
       column-count: 2;
       margin-block-start: var(--space-s);
 
-      @media (--md-n-below) {
+      @media (--lg-n-below) {
         column-count: 1;
       }
     }
