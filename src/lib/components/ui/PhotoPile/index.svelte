@@ -1,18 +1,54 @@
 <script>
+  // @ts-nocheck
   import { onMount } from 'svelte';
   import { gsap } from 'gsap';
-  import { asset, resolve } from '$app/paths';
+  import { asset } from '$app/paths';
+  import Icon from '@iconify/svelte';
+  import { createPileAnimator } from './pile-animation.js';
+  import { attachGestures } from './pile-gestures.js';
+
+  // ─── Helpers ───────────────────────────────────────────────────────────────
 
   function resolveSrc(src) {
     if (/^(https?:|data:|\/\/|\/)/.test(src)) return src;
     return asset(src);
   }
 
-  let { items = [], foreground, orientation = 'landscape' } = $props();
+  // ─── Props ─────────────────────────────────────────────────────────────────
+
+  let {
+    items = [],
+    foreground,
+    orientation = 'landscape',
+
+    // Exit travel (px)
+    exitX = 300,
+    exitY = 150,
+    exitRotation = 12,
+
+    // Drag feel
+    swipeThreshold = 75,
+    velocityThreshold = 0.5,
+    rotationFactor = 0.08,
+    maxRotation = 25,
+    dragResistance = 0.85,
+
+    // Stack offsets [bottom, middle, top]
+    stackPositions = [
+      { y: 28, x: 20, rotation: 3.5, scale: 0.82, rotateY: 5 },
+      { y: 14, x: 10, rotation: -2, scale: 0.91, rotateY: -2 },
+      { y: 0, x: 0, rotation: 0, scale: 1, rotateY: 0 },
+    ],
+  } = $props();
+
+  // ─── Refs ──────────────────────────────────────────────────────────────────
 
   let wrapper;
   let cards = [];
   let captions = [];
+  let showNudge = $state(true);
+
+  // ─── Mount: wire animation + gestures ─────────────────────────────────────
 
   onMount(() => {
     if (!wrapper || cards.length < 2) return;
@@ -20,166 +56,115 @@
     const n = cards.length;
     let currentIndex = n - 1;
     let isAnimating = false;
+    let pendingAction = null;
 
     gsap.set(wrapper, { perspective: 1200 });
 
-    cards.forEach((card, i) => {
-      card.style.zIndex = i;
+    // ── Animator ─────────────────────────────────────────────────────────
+
+    const anim = createPileAnimator({
+      cards,
+      captions,
+      stackPositions,
+      n,
+      exitX,
+      exitY,
+      exitRotation,
     });
 
-    gsap.set(cards[0], {
-      y: 90,
-      x: 32,
-      rotation: 3.5,
-      scale: 0.75,
-      rotateY: 7,
-    });
-    gsap.set(cards[1], {
-      y: 45,
-      x: 16,
-      rotation: -2,
-      scale: 0.86,
-      rotateY: -3,
-    });
-    gsap.set(cards[n - 1], {
-      y: 0,
-      x: 0,
-      rotation: 0,
-      scale: 1,
-      rotateY: 0,
-      zIndex: n - 1,
-    });
+    anim.initPositions(currentIndex);
 
-    captions.forEach((c, i) => {
-      gsap.set(c, {
-        opacity: i === n - 1 ? 1 : 0,
-        x: i === n - 1 ? 0 : 16,
-      });
-    });
+    // ── Navigate ──────────────────────────────────────────────────────────
 
-    function animateTo(fromIdx, toIdx, onDone) {
-      const flyOut = {
-        x: 320,
-        y: -120,
-        rotation: 14,
-        rotateY: 0,
-        scale: 0.85,
-        opacity: 1,
-        duration: 0.35,
-        ease: 'power2.in',
-      };
-      const flyIn = {
-        x: 0,
-        y: 0,
-        rotation: 0,
-        scale: toIdx === 0 ? 1.01 : 1,
-        rotateY: 0,
-        zIndex: n - 1,
-        opacity: 1,
-        duration: 0.35,
-        ease: 'power2.out',
-      };
-
-      gsap.to(cards[fromIdx], flyOut);
-      gsap.to(cards[toIdx], flyIn);
-      gsap.to(captions[fromIdx], { opacity: 0, x: -8, duration: 0.25 });
-      gsap.to(captions[toIdx], { opacity: 1, x: 0, duration: 0.25 });
-      gsap.set(cards[fromIdx], { zIndex: -1 });
-      gsap.to(cards[fromIdx], {
-        x: 16,
-        y: 45,
-        rotation: -2,
-        rotateY: -3,
-        scale: 0.86,
-        opacity: 1,
-        duration: 0.2,
-        ease: 'power2.out',
-        delay: 0.35,
-        onComplete: onDone,
-      });
-    }
-
-    function goTo(index) {
-      if (isAnimating) return;
-
-      let targetIndex = index;
-      if (targetIndex < 0) targetIndex = n - 1;
-      else if (targetIndex >= n) targetIndex = 0;
-
-      if (targetIndex === currentIndex) return;
-
-      isAnimating = true;
-      const from = currentIndex;
-      const to = targetIndex;
-
-      animateTo(from, to, () => {
-        currentIndex = to;
-        isAnimating = false;
-      });
-    }
-
-    let start = null;
-
-    function getSwipeDir(dx, dy) {
-      return Math.abs(dx) > Math.abs(dy)
-        ? dx > 0
-          ? 'right'
-          : 'left'
-        : dy > 0
-          ? 'down'
-          : 'up';
-    }
-
-    function handlePointerDown(e) {
-      if (isAnimating) return;
-      start = { x: e.clientX, y: e.clientY, time: Date.now() };
-      wrapper.setPointerCapture(e.pointerId);
-    }
-
-    function handlePointerUp(e) {
-      if (!start) return;
-
-      const dx = e.clientX - start.x;
-      const dy = e.clientY - start.y;
-      const dist = Math.hypot(dx, dy);
-      const elapsed = Date.now() - start.time;
-
-      start = null;
-
-      if (dist < 10 && elapsed < 300) {
-        goTo(currentIndex - 1);
+    function navigate(direction, vel = { vx: 0, vy: 0 }, releaseState = {}) {
+      if (isAnimating) {
+        pendingAction = { direction, vel };
         return;
       }
+      isAnimating = true;
+      pendingAction = null;
 
-      if (dist < 30) return;
+      const fromIdx = currentIndex;
+      const toIdx = (currentIndex - 1 + n) % n;
 
-      const dir = getSwipeDir(dx, dy);
+      anim.promoteStack(toIdx, currentIndex);
 
-      if (dir === 'left' || dir === 'up') {
-        goTo(currentIndex - 1);
-      } else {
-        goTo(currentIndex + 1);
-      }
+      anim.flyCardOut(
+        fromIdx,
+        direction,
+        vel,
+        () => {
+          currentIndex = toIdx;
+          anim.refreshZIndices(currentIndex);
+          isAnimating = false;
+
+          if (pendingAction) {
+            const next = pendingAction;
+            pendingAction = null;
+            navigate(next.direction, next.vel);
+          }
+        },
+        releaseState
+      );
     }
 
-    function handlePointerCancel() {
-      start = null;
-    }
+    // ── Gestures ─────────────────────────────────────────────────────────
 
-    wrapper.addEventListener('pointerdown', handlePointerDown);
-    wrapper.addEventListener('pointerup', handlePointerUp);
-    wrapper.addEventListener('pointercancel', handlePointerCancel);
+    const gestures = attachGestures({
+      wrapper,
+      getCards: () => cards,
+      getCurrentIndex: () => currentIndex,
+      getIsAnimating: () => isAnimating,
+      swipeThreshold,
+      velocityThreshold,
+      dragResistance,
 
-    return () => {
-      wrapper.removeEventListener('pointerdown', handlePointerDown);
-      wrapper.removeEventListener('pointerup', handlePointerUp);
-      wrapper.removeEventListener('pointercancel', handlePointerCancel);
-    };
+      onNudgeHide: () => {
+        showNudge = false;
+      },
+      onDragStart: () => {
+        anim.liftCard(currentIndex);
+      },
+
+      onDragMove: (dx, dy, grabY) => {
+        anim.applyDrag(
+          currentIndex,
+          dx,
+          dy,
+          {
+            rotationFactor,
+            maxRotation,
+            swipeThreshold,
+          },
+          grabY
+        );
+      },
+
+      onNavigate: (direction, vel, releaseState) => {
+        anim.lowerCard(currentIndex);
+        navigate(direction, vel, releaseState);
+      },
+
+      onSnapBack: () => {
+        anim.snapBackToTop(currentIndex);
+        anim.resetNextCard(currentIndex);
+      },
+    });
+
+    return () => gestures.destroy();
   });
 </script>
 
+<!-- ─── Template ─────────────────────────────────────────────────────────── -->
+
 <div class="photopile {orientation}" bind:this={wrapper}>
-  <div class="pile">
+  <div class="pile" class:has-captions={items.some((item) => item.caption)}>
+    {#if showNudge}
+      <div class="nudge" aria-hidden="true">
+        <Icon icon="iwwa:swipe" width="36" height="36" style="color: white" />
+      </div>
+    {/if}
+
     {#each items as item, i}
       <figure
         class="card"
@@ -200,6 +185,8 @@
   </div>
 </div>
 
+<!-- ─── Styles ───────────────────────────────────────────────────────────── -->
+
 <style lang="scss">
   .photopile {
     position: relative;
@@ -211,8 +198,21 @@
     width: 100%;
     flex-wrap: wrap;
     margin-block-end: var(--space-l);
+    cursor: grab;
+    outline: none;
+
+    &:active {
+      cursor: grabbing;
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--black-soft, #333);
+      outline-offset: 4px;
+      border-radius: 0.5rem;
+    }
   }
 
+  // ── Aspect-ratio variants ────────────────────────────────────────────────
   .square .card .img {
     aspect-ratio: var(--ratio-square);
   }
@@ -232,6 +232,7 @@
     aspect-ratio: var(--ratio-golden);
   }
 
+  // ── Pile container ───────────────────────────────────────────────────────
   .pile {
     position: relative;
     display: grid;
@@ -239,14 +240,26 @@
     flex-shrink: 0;
     width: 100%;
     max-width: min(90vw, var(--grid-max-width));
+    overflow: visible;
+
+    // Only add space for the below-image caption when captions are present
+    &.has-captions {
+      padding-bottom: 3rem;
+
+      @media (width >= 1400px) {
+        padding-bottom: 0; // caption is beside the image at wide viewport
+      }
+    }
   }
 
+  // ── Card ─────────────────────────────────────────────────────────────────
   .card {
     position: relative;
     grid-area: 1 / 1;
     width: 100%;
-    user-select: none;
     margin: 0;
+    user-select: none;
+    will-change: transform;
 
     .img {
       width: 100%;
@@ -257,6 +270,7 @@
       background-position: center;
       background-size: cover;
       box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+      will-change: box-shadow;
 
       &::after {
         content: '';
@@ -274,10 +288,6 @@
 
     figcaption {
       position: absolute;
-      top: 0;
-      left: calc(100% + var(--grid-gutter));
-      max-width: var(--xxs);
-      margin: 0;
       padding-inline: 0;
       color: var(--black-soft);
       font-style: italic;
@@ -285,12 +295,55 @@
       font-family: var(--font-serif);
       line-height: var(--line-height-medium);
       text-align: start;
+      pointer-events: none;
+      // Paint above all buried cards and their shadows
+      z-index: 9998;
 
-      @media (width <= 1024px) {
-        top: calc(100% + var(--space-2xs));
-        left: 0;
-        max-width: 100%;
+      // Mobile: below the image
+      top: calc(100% + var(--space-2xs));
+      left: 0;
+      width: 100%;
+      max-width: 100%;
+
+      // Wide: alongside the image to the right
+      @media (width >= 1400px) {
+        top: 0;
+        left: calc(100% + var(--grid-gutter));
+        width: var(--xxs);
+        max-width: var(--xxs);
+        // No padding-bottom reservation needed here — caption is beside the image
+        z-index: auto;
       }
+    }
+  }
+
+  // ── Swipe nudge ───────────────────────────────────────────────────────────
+  .nudge {
+    grid-area: 1 / 1;
+    position: relative;
+    align-self: end;
+    justify-self: end;
+    z-index: 9999;
+    background-color: var(--purple-soft, rgba(120, 80, 200, 0.85));
+    padding: 0.8rem 1rem;
+    margin-bottom: var(--space-m, 1.5rem);
+    margin-right: var(--space-m, 1.5rem);
+    border-radius: 50px;
+    pointer-events: none;
+    animation: swipe-nudge 1.5s cubic-bezier(0.86, 0, 0.07, 1) infinite forwards;
+  }
+
+  @keyframes swipe-nudge {
+    0% {
+      opacity: 0;
+      transform: translateX(-1rem);
+    }
+    50% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(0);
     }
   }
 

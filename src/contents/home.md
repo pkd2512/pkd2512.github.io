@@ -217,6 +217,16 @@ Drop me a line on <LinkButton label='Instagram ' url='https://www.instagram.com/
       alt: 'Mountain landscape',
       caption: 'Mountain landscape',
     },
+    {
+      src: '/media/c3s/c3s-1.webp',
+      alt: 'Hand-painted mask of Goddess Durga',
+      caption: 'Hand-painted mask of Goddess Durga',
+    },
+    {
+      src: 'https://images.pexels.com/photos/417173/pexels-photo-417173.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+      alt: 'Abstract painting',
+      caption: 'Abstract painting',
+    },
   ]}
 />
 </div>
