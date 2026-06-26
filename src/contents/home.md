@@ -136,7 +136,7 @@ I co-host <LinkButton label='Creative Coding Crafts Space'  url='https://www.ins
 <Container grid>
 
 <div class="col-span-lg-7">
-<PhotoPile orientation=""
+<PhotoPile orientation="golden"
   items={[
     {
       src: '/media/c3s/c3s-1.webp',
@@ -166,7 +166,7 @@ Over the years, I have also created a collection of stock photographs that have 
 
 <Container grid>
 
-<div class="col-span-lg-9">
+<div class="col-span-xl-10">
 <figure >
 
 ![A close up view of a mask of Goddess Durga being hand-painted](https://images.pexels.com/photos/190589/pexels-photo-190589.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1)
@@ -186,24 +186,6 @@ Over the years, I have also created a collection of stock photographs that have 
 
 ## Poetry and Performing arts
 
-<div class="" style="margin-block-start: var(--space-s);">
-<PhotoPile orientation="portrait"
-  items={[
-    {
-      src: '/media/c3s/c3s-1.webp',
-      alt: 'Hand-painted mask of Goddess Durga',
-    },
-    {
-      src: 'https://images.pexels.com/photos/417173/pexels-photo-417173.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-      alt: 'Abstract painting',
-    },
-    {
-      src: 'https://images.pexels.com/photos/356830/pexels-photo-356830.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-      alt: 'Mountain landscape',
-    },
-  ]}
-/>
-</div>
 </div>
 <div class="dek col-span-md-7">
 
@@ -213,6 +195,30 @@ I am also part of <LinkButton label='Dakshinayan UK' url='https://www.londonpuja
 
 Drop me a line on <LinkButton label='Instagram ' url='https://www.instagram.com/pkd_da_pacific/' /> if you would like me to perform at your event or hear more about my poetry and music.
 
+</div>
+</Container>
+
+<Container grid>
+<div class="col-span-xl-10" style="margin-block-start: var(--space-s);">
+<PhotoPile orientation="widescreen"
+  items={[
+    {
+      src: '/media/c3s/c3s-1.webp',
+      alt: 'Hand-painted mask of Goddess Durga',
+      caption: 'Hand-painted mask of Goddess Durga',
+    },
+    {
+      src: 'https://images.pexels.com/photos/417173/pexels-photo-417173.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+      alt: 'Abstract painting',
+      caption: 'Abstract painting',
+    },
+    {
+      src: 'https://images.pexels.com/photos/356830/pexels-photo-356830.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+      alt: 'Mountain landscape',
+      caption: 'Mountain landscape',
+    },
+  ]}
+/>
 </div>
 </Container>
 
