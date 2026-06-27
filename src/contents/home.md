@@ -120,12 +120,36 @@ I co-host <LinkButton label='Creative Coding Crafts Space'  url='https://www.ins
       alt: 'Hand-painted mask of Goddess Durga',
     },
     {
-      src: 'https://images.pexels.com/photos/417173/pexels-photo-417173.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+      src: '/media/c3s/c3s-2.webp',
       alt: 'Abstract painting',
     },
     {
-      src: 'https://images.pexels.com/photos/356830/pexels-photo-356830.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-      alt: 'Mountain landscape',
+      src: '/media/c3s/c3s-3.webp',
+      alt: 'Abstract painting',
+    },
+    {
+      src: '/media/c3s/c3s-4.webp',
+      alt: 'Abstract painting',
+    },
+    {
+      src: '/media/c3s/c3s-5.webp',
+      alt: 'Abstract painting',
+    },
+    {
+      src: '/media/c3s/c3s-6.webp',
+      alt: 'Abstract painting',
+    },
+    {
+      src: '/media/c3s/c3s-7.webp',
+      alt: 'Abstract painting',
+    },
+    {
+      src: '/media/c3s/c3s-8.webp',
+      alt: 'Abstract painting',
+    },
+    {
+      src: '/media/c3s/c3s-9.webp',
+      alt: 'Abstract painting',
     },
   ]}
 />

@@ -121,3 +121,46 @@
     Total: 64.8MB → 14.7MB (77.3% saved)
 ════════════════════════════════════════════════════════════
 
++ media\c3s\c3s-2.jpg  1.1MB → 219.2KB  (79.7% saved)
+
+════════════════════════════════════════════════════════════
+  WebP conversion
+────────────────────────────────────────────────────────────
+    WebP conversion  ·  2026-06-27 09:43:17  ·  mode: missing
+    Source images: 2  |  Existing .webp: 1  |  To convert: 1
+    1 converted, 0 failed, 0 skipped  ·  0.2s
+    Total: 1.1MB → 219.2KB (79.7% saved)
+════════════════════════════════════════════════════════════
+
++ media\c3s\c3s-3.jpg  947.1KB → 178.7KB  (81.1% saved)
++ media\c3s\c3s-4.jpg  1002.2KB → 184.1KB  (81.6% saved)
++ media\c3s\c3s-5.jpg  1.3MB → 323.8KB  (75.9% saved)
+
+════════════════════════════════════════════════════════════
+  WebP conversion
+────────────────────────────────────────────────────────────
+    WebP conversion  ·  2026-06-27 10:01:58  ·  mode: missing
+    Source images: 5  |  Existing .webp: 2  |  To convert: 3
+    3 converted, 0 failed, 0 skipped  ·  0.5s
+    Total: 3.2MB → 686.7KB (79.2% saved)
+════════════════════════════════════════════════════════════
+
++ media\c3s\c3s-1.jpg  1.1MB → 243.8KB  (78.9% saved)
++ media\c3s\c3s-2.jpg  666.6KB → 87.0KB  (86.9% saved)
++ media\c3s\c3s-3.jpg  947.1KB → 178.7KB  (81.1% saved)
++ media\c3s\c3s-4.jpg  1.1MB → 219.2KB  (79.7% saved)
++ media\c3s\c3s-5.jpg  678.2KB → 116.2KB  (82.9% saved)
++ media\c3s\c3s-6.jpg  540.7KB → 76.8KB  (85.8% saved)
++ media\c3s\c3s-7.jpg  901.2KB → 161.9KB  (82.0% saved)
++ media\c3s\c3s-8.jpg  857.1KB → 150.5KB  (82.4% saved)
++ media\c3s\c3s-9.jpg  1.3MB → 290.4KB  (78.4% saved)
+
+════════════════════════════════════════════════════════════
+  WebP conversion
+────────────────────────────────────────────────────────────
+    WebP conversion  ·  2026-06-27 23:21:16  ·  mode: force
+    Source images: 9  |  Existing .webp: 0  |  To convert: 9
+    9 converted, 0 failed, 0 skipped  ·  1.3s
+    Total: 8.0MB → 1.5MB (81.3% saved)
+════════════════════════════════════════════════════════════
+
