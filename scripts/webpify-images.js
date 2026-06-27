@@ -40,6 +40,14 @@ function walkDir(dir) {
   return files;
 }
 
+function listMediaSubdirs() {
+  const mediaPath = join(STATIC, 'media');
+  if (!existsSync(mediaPath)) return [];
+  return readdirSync(mediaPath, { withFileTypes: true })
+    .filter(d => d.isDirectory() && !SKIP_DIRS.has(d.name))
+    .map(d => ({ value: join('media', d.name), label: d.name }));
+}
+
 function readText(fp) {
   try { return readFileSync(fp, 'utf-8'); } catch { return ''; }
 }
@@ -69,14 +77,15 @@ function logBlock(title, lines) {
 
 // ── Convert images ───────────────────────────────────────────────
 
-async function runConvert(force) {
+async function runConvert(force, targetDir) {
   const t0 = Date.now();
   const ts = new Date().toISOString().replace('T', ' ').slice(0, 19);
 
   const s = p.spinner();
-  s.start('Scanning images...');
+  const searchDir = targetDir ? resolve(STATIC, targetDir) : STATIC;
+  s.start(`Scanning images in ${relative(ROOT, searchDir)}...`);
 
-  const allFiles = walkDir(STATIC);
+  const allFiles = walkDir(searchDir);
   const images = allFiles.filter(f => IMAGE_EXTS.includes(extname(f).toLowerCase()));
   const existingWebps = allFiles.filter(f => f.endsWith('.webp')).length;
 
@@ -342,6 +351,21 @@ async function main() {
       ],
     });
 
+    let targetDir = null;
+    if (action === 'convert' || action === 'both') {
+      const subdirs = listMediaSubdirs();
+      if (subdirs.length > 0) {
+        const selected = await p.select({
+          message: 'Which directory to process?',
+          options: [
+            { value: '', label: 'All media', hint: 'process everything in static/media' },
+            ...subdirs.map(d => ({ value: d.value, label: d.label, hint: 'process recursively' })),
+          ],
+        });
+        targetDir = selected || null;
+      }
+    }
+
     let force = false;
     if (action === 'convert' || action === 'both') {
       force = await p.confirm({
@@ -352,11 +376,11 @@ async function main() {
     }
 
     if (action === 'convert') {
-      await runConvert(force);
+      await runConvert(force, targetDir);
     } else if (action === 'check') {
       await runCheck();
     } else {
-      await runConvert(force);
+      await runConvert(force, targetDir);
       await runCheck();
     }
   }

@@ -165,7 +165,7 @@
       </div>
     {/if}
 
-    {#each items as item, i}
+    {#each items.reverse() as item, i}
       <figure
         class="card"
         bind:this={cards[i]}
