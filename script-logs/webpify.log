@@ -221,3 +221,16 @@
     Total: 5.2MB → 1.1MB (79.4% saved)
 ════════════════════════════════════════════════════════════
 
++ media\shows\shows-1.jpg  1.8MB → 380.5KB  (79.4% saved)
++ media\shows\shows-2.jpg  865.1KB → 137.4KB  (84.1% saved)
++ media\shows\shows-3.jpg  1.0MB → 210.6KB  (80.3% saved)
+
+════════════════════════════════════════════════════════════
+  WebP conversion
+────────────────────────────────────────────────────────────
+    WebP conversion  ·  2026-06-28 00:56:22  ·  mode: force
+    Source images: 3  |  Existing .webp: 0  |  To convert: 3
+    3 converted, 0 failed, 0 skipped  ·  0.5s
+    Total: 3.7MB → 728.5KB (80.7% saved)
+════════════════════════════════════════════════════════════
+
