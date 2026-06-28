@@ -160,19 +160,27 @@ I co-host <LinkButton label='Creative Coding Crafts Space'  url='https://www.ins
 <Container grid>
 
 <div class="col-span-lg-7">
-<PhotoPile orientation="golden"
+<PhotoPile orientation="landscape"
   items={[
     {
-      src: '/media/c3s/c3s-1.webp',
+      src: '/media/zines/zines-1.webp',
       alt: 'Hand-painted mask of Goddess Durga',
     },
     {
-      src: 'https://images.pexels.com/photos/417173/pexels-photo-417173.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+      src: '/media/zines/zines-2.webp',
       alt: 'Abstract painting',
     },
     {
-      src: 'https://images.pexels.com/photos/356830/pexels-photo-356830.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-      alt: 'Mountain landscape',
+      src: '/media/zines/zines-3.webp',
+      alt: 'Abstract painting',
+    },
+    {
+      src: '/media/zines/zines-4.webp',
+      alt: 'Abstract painting',
+    },
+    {
+      src: '/media/zines/zines-5.webp',
+      alt: 'Abstract painting',
     },
   ]}
 />

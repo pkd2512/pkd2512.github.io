@@ -279,7 +279,7 @@
         border-radius: inherit;
         background: linear-gradient(
           to top,
-          rgba(0, 0, 0, 0.45) 0%,
+          rgba(0, 0, 0, 0.15) 0%,
           transparent 50%
         );
         pointer-events: none;
