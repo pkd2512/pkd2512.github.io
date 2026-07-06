@@ -2,6 +2,7 @@
   "name": "prasantakrdutta.com",
   "version": "2",
   "private": true,
+  "packageManager": "pnpm@10.34.3",
   "scripts": {
     "dev": "vite dev --open",
     "build": "rm -rf docs && vite build",
@@ -75,6 +76,14 @@
     "yarn": "^1.22.19"
   },
   "type": "module",
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "sharp",
+      "esbuild",
+      "@parcel/watcher",
+      "svelte-preprocess"
+    ]
+  },
   "dependencies": {
     "@clack/prompts": "^1.4.0",
     "@vercel/speed-insights": "^2.0.0",
