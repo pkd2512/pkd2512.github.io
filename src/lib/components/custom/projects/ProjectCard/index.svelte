@@ -37,6 +37,7 @@
           logo={award.logo}
           url={award.url}
           inverted
+          size="2"
         />
       {/each}
     </div>

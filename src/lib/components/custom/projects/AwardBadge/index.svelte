@@ -12,7 +12,7 @@
     label = '',
     link = false,
     inverted = false,
-    size = '1.5',
+    size = '3',
   } = $props();
 </script>
 
@@ -21,11 +21,13 @@
   class:clickable={link}
   class:inverted
   tabindex={link && url ? 0 : -1}
+  title={type}
+  style="--size:{size}rem"
 >
   <Icon
     class="laurel"
     icon="hugeicons:laurel-wreath-left-02"
-    height="1.5rem"
+    height="{size}rem"
     style="color: {inverted ? 'var(--white-soft)' : 'var(--purple-soft)'}"
   />
 
@@ -36,7 +38,7 @@
   <Icon
     class="laurel"
     icon="hugeicons:laurel-wreath-right-02"
-    height="1.5rem"
+    height="{size}rem"
     style="color: {inverted ? 'var(--white-soft)' : 'var(--purple-soft)'}"
   />
 </div>
@@ -78,7 +80,7 @@
 
   .logo {
     width: auto;
-    height: 1.5rem;
+    height: var(--size);
     object-fit: contain;
     flex-shrink: 0;
 
