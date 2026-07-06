@@ -269,6 +269,10 @@ Drop me a line on <LinkButton label='Instagram ' url='https://www.instagram.com/
     height: calc(0.2 * 100lvh - 70px);
     display: flex;
     align-items: center;
+
+    @media (max-width: 1024px) {
+      height: calc(0.2 * 100lvh + 35px);
+    }
   
   }
 

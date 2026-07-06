@@ -20,6 +20,10 @@ links:
     url: projects/soulace/
     label: 🗒️ Read more
 
+awards:
+  - type: NASSCOM Design4India Design Awards 2018
+    logo: awards/nasscom.webp
+    label: ⭐ Finalist-Mobile Experiences 
 
 intro:
   hed: Soulace
@@ -74,9 +78,9 @@ intro:
 
     figure {
       width: calc(1.25 * var(--xxs));
-      display: flex;
+      /* display: flex;
       flex-direction: column;
-      margin-block-start: 0;
+      margin-block-start: 0; */
 
       :global(img) {
         margin:auto;
@@ -131,17 +135,34 @@ intro:
 }
 </style>
 
-<Container width="md">
+<Container grid style="margin-block-start:var(--space-xl)">
+
+<div class="hed col-span-5">
 
 ## Background
+
+</div>
+
+<div class="dek col-span-7">
 
 Death is an unavoidable part of life and dealing with that of a loved one is perhaps the most difficult task that one faces in life. Besides coping with the emotional trauma, one also has to take care of everything associated with the deceased — starting from performing the last rites to settling the official matters to provide for his family.
 
 A lot happens over a very short span of time, which involves interacting with various stakeholders, understanding their processes and working accordingly to fulfil one's goals. Not surprisingly though, an entire industry has evolved around this. While there is no official estimate, the death-care industry is worth about $2.5 billion in India (as of 2015), where about 8.5 million die every year. The US death-care industry is worth nearly $20 billion.
 
+</div>
+<div class=col-span-full>
+
 > Death-care industry — companies and organizations that provide services related to death: funerals, cremation or burial, and memorials, including funeral homes, coffins, crematoria, cemeteries, and headstones.
 
+</div>
+
+<div class="hed col-span-5">
+
 ## The Problem
+
+</div>
+
+<div class="dek col-span-7">
 
 So how did people manage death before all these?
 
@@ -151,9 +172,11 @@ The current death-care companies are mostly service providers of some form — c
 
 Also, these service providers do not deal with how the person handles official work like insurances and banking, nor do they have proper information systems in place.
 
+</div>
+
 </Container>
 
-<Container width="md">
+<Container width="lg">
 
   <div class="prob-img">
     <figure>
@@ -220,12 +243,15 @@ Also, these service providers do not deal with how the person handles official w
 
 </Container>
 
-<Container width="md">
+<Container grid style="margin-block-start:var(--space-xl)">
+
+<div class="hed col-span-5">
 
 ## The Solution
 
-> Assistive-Agentive service — Agentive technology, based on Artificial Narrow Intelligence, does things on your behalf, while allowing you to turn your attention elsewhere. This is an emerging category of technology, which will need new approaches to user experience design. This intelligence can learn and infer but cannot generalise.
-> <cite> — Chris Noessel, Designing Agentive Technology: AI That Works for People
+</div>
+
+<div class="dek col-span-7">
 
 The service is envisioned to simplify the complete scenario related to handling the death of a loved one.
 Informing people, arranging for immediate family care (if needed), doctor related formalities.
@@ -240,9 +266,22 @@ Informing people, arranging for immediate family care (if needed), doctor relate
 
 - Users can later opt to answer queries from other people, to help them out when they are in a similar situation.
 
+</div>
+
+<div class="col-span-full">
+
+> Assistive-Agentive service — Agentive technology, based on Artificial Narrow Intelligence, does things on your behalf, while allowing you to turn your attention elsewhere. This is an emerging category of technology, which will need new approaches to user experience design. This intelligence can learn and infer but cannot generalise.
+> <cite> — Chris Noessel, Designing Agentive Technology: AI That Works for People
+
+</div>
+
+<div class="col-start-6 col-span-7">
+
 The system involves numerous stakeholders, including government agencies, that will need to come together to provide the various services required. In this project I have focussed on the end-user to lay out a general framework for the system and designed the interface that the user will need to avail the services.
 
 Due to constraints of time and resources, I have designed the prototype for a single segment of the service, which establishes the working of the interface and the system.
+
+</div>
 
 </Container>
 
@@ -252,11 +291,23 @@ Due to constraints of time and resources, I have designed the prototype for a si
 
 </Container>
 
-<Container width="md">
+<Container grid style="margin-block-start:var(--space-xl)">
+
+<div class="hed col-span-5">
 
 ### Understanding the ecosystem
 
+</div>
+
+<div class="dek col-span-7">
+
 The different aspects related to the death of an individual were noted and categorized based on the kind of activities involved based on my personal experiences and secondary research. This gave a rough idea about the various areas that need to be addressed.
+
+Before proceeding further, I wanted to know what people, who have dealt with death in the family or otherwise, had to say about their experiences in terms of dealing with different stakeholders and the idea of a death-care service. I circulated a survey in my circles and had received quite a response.
+
+<SoulaceSurvey />
+
+</div>
 
 </Container>
 
@@ -266,11 +317,9 @@ The different aspects related to the death of an individual were noted and categ
 
 </Container>
 
-<Container width="md">
+<Container grid style="margin-block-start:var(--space-xl)">
 
-Before proceeding further, I wanted to know what people, who have dealt with death in the family or otherwise, had to say about their experiences in terms of dealing with different stakeholders and the idea of a death-care service. I circulated a survey in my circles and had received quite a response.
-
-<SoulaceSurvey />
+<div class="col-start-6 col-span-7">
 
 Even though the answers varied based on the individual scenario, some common areas of thought were summarised as follows--
 
@@ -292,7 +341,9 @@ From this it was evident that the problem needed to be addressed in two segments
 
 </Container>
 
-<Container width="md">
+<Container grid style="margin-block-start:var(--space-xl)">
+
+<div class="col-start-6 col-span-7">
 
 Now that I had a fair understanding of the problem, it was necessary to look into the current state of the death-care services in India. For this purpose, I did a competitive analysis of some prominent service providers in India.
 
@@ -308,9 +359,18 @@ Now that I had a fair understanding of the problem, it was necessary to look int
 
 - Repatriation service providers like _VMEDO_ and _Sanjeevini_.
 
+</div>
+
+<div class="hed col-span-5">
+
 ### Understanding the bereaved
 
+</div>
+<div class="dek col-span-7">
+
 Based on the research, I mapped the journey of the bereaved, divided into three time-segments — within 24 hours, between 24-48 hours, and a month and beyond. I mapped out the different activities involved and the experience of the bereaved while handling them. For some activities the boundaries are dilute, meaning that they might require immediate addressing, but take a while before they get resolved.
+
+</div>
 
 </Container>
 

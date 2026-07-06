@@ -10,7 +10,7 @@
 {#if awards.length > 0}
   <div class="strip">
     {#each awards as item}
-      <a class="award-item" href={item.url}>
+      <a class="award-item" href={item.url} title={item.type}>
         <AwardBadge
           type={item.type}
           logo={item.logo}
@@ -31,6 +31,7 @@
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
+    justify-content: center;
     // gap: var(--space-xs);
     max-height: 100%;
     width: 100%;
