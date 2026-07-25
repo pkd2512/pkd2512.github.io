@@ -80,7 +80,7 @@
     "@vercel/speed-insights": "^2.0.0",
     "archive-url": "1.1.1",
     "mapbox-gl": "^3.5.1",
-    "sharp": "^0.33.5",
+    "sharp": "^0.35.0",
     "svelte-intersection-observer": "^0.10.0"
   }
 }
