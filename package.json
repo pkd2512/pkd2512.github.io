@@ -46,7 +46,7 @@
     "mdsvex": "^0.11.0",
     "normalize.css": "^8.0.1",
     "open-props": "^1.5.10",
-    "postcss": "^8.4.31",
+    "postcss": "^8.5.23",
     "postcss-custom-media": "^10.0.0",
     "prettier": "^3.0.0",
     "prettier-plugin-svelte": "^3.0.0",
