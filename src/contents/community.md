@@ -26,6 +26,7 @@ published: true
   import List from '$lib/components/custom/community/List/index.svelte';
   import ParallaxHero from '$lib/components/ui/ParallaxHero/index.svelte';
   import ReferralCard from '$lib/components/ui/ReferralCard/index.svelte';
+  import PhotoPile from '$lib/components/ui/PhotoPile/index.svelte';
   import { asset } from '$app/paths';
 
   import talks from '/src/contents/data/talks.csv';
@@ -41,30 +42,69 @@ published: true
 
 <ParallaxHero img='/media/hero-community.webp'/>
 
-<Container width=md>
+<Container grid style="margin-block-start: var(--space-l);">
+<div class="hed col-span-md-5">
 
-<p style="margin-block-start: var(--space-l)">
-  I love to talk about design and data visualisation. Over the years, I have instructed students and professionals on data representation, geographic visualisation and visual storytelling.
-</p>
+## Talks, teaching and community
 
+</div>
+<div class="dek col-span-md-7">
+
+I love to talk about design and data visualisation. Over the years, I have instructed students and professionals on data representation, geographic visualisation and visual storytelling.
+
+<LinkButton solid="{true}" url="https://topmate.io/prasanta_kumar_dutta" label="Schedule a call" />
+
+</div>
 </Container>
 
-<Container width=md style="text-align: center; margin-top: var(--space-m); margin-bottom: var(--space-l);">
+<Container grid style="margin-block-start: var(--space-xl);">
+<div class="col-span-full">
+<PhotoPile orientation="widescreen"
+  items={[
+    {
+      src: 'https://picsum.photos/seed/community-1/1600/900',
+      alt: 'Placeholder photo from a talk',
+      caption: 'Speaking at a data visualisation talk.',
+    },
+    {
+      src: 'https://picsum.photos/seed/community-2/1600/900',
+      alt: 'Placeholder photo from a workshop',
+      caption: 'Running a hands-on workshop with students.',
+    },
+    {
+      src: 'https://picsum.photos/seed/community-3/1600/900',
+      alt: 'Placeholder photo from a classroom session',
+      caption: 'A classroom session on narrative cartography.',
+    },
+    {
+      src: 'https://picsum.photos/seed/community-4/1600/900',
+      alt: 'Placeholder photo from a panel discussion',
+      caption: 'On a panel discussing data storytelling.',
+    },
+    {
+      src: 'https://picsum.photos/seed/community-5/1600/900',
+      alt: 'Placeholder photo from a meetup',
+      caption: 'Meeting fellow designers at a community meetup.',
+    },
+  ]}
+/>
+</div>
+</Container>
 
- <LinkButton solid="{true}"  url="https://topmate.io/prasanta_kumar_dutta" label="Schedule a call" />
-
- </Container>
-
-<Container width=lg>
+<Container grid style="margin-block-start: var(--space-xl);">
+<div class="col-span-full">
 <List title='Interviews and Features' content={mentions}/>
 <List title='Talks and Workshops' content={talks}/>
 <List title='In the classroom' content={teachings}/>
+</div>
 </Container>
 
 <Container width=md style="text-align: center;">
 <ReferralCard  url="https://medium.com/diarium-da-pacific/showcasing-brilliance-2fe5fa976b5b" image="/media/teachings.webp" title="Showcasing Brilliance" description="A curation of data visualisation projects from my students"/>
 </Container>
 
-<Container width=lg>
+<Container grid style="margin-block-start: var(--space-xl);">
+<div class="col-span-full">
 <List title='Resources and Tools' content={resources}/>
+</div>
 </Container>
