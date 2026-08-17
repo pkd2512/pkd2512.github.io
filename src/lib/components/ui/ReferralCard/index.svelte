@@ -38,6 +38,13 @@
 <style lang="scss">
   :global {
     [data-card-type='referral-card'] {
+      // NavLink's own `.nav-link` class is display:inline-block (shrink-to-
+      // fit), which left .preview-card without a definite width to lay its
+      // flex children out against -- so .label's percentage width fell
+      // back to sizing off the description text instead, making cards
+      // with longer text render wider than ones with shorter text.
+      display: block !important;
+
       &:hover {
         .preview-card {
           box-shadow: var(--shadow-2) !important;
