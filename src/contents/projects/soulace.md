@@ -78,9 +78,9 @@ intro:
 
     figure {
       width: calc(1.25 * var(--xxs));
-      /* display: flex;
+      display: flex;
       flex-direction: column;
-      margin-block-start: 0; */
+      margin-block-start: 0;
 
       :global(img) {
         margin:auto;
@@ -90,6 +90,20 @@ intro:
       figcaption {
         text-align: center;
         text-wrap: balance;
+      }
+
+      // These icon cards are too small for the site-wide side-caption
+      // treatment -- keep the caption stacked below the icon even when
+      // figureCaptionObserver toggles .side-caption on. side-caption is
+      // added at runtime (not present in the template), so it must stay
+      // :global or Svelte's CSS pruning strips this rule entirely.
+      &:global(.side-caption) figcaption {
+        position: static;
+        right: auto;
+        top: auto;
+        transform: none;
+        max-width: 100%;
+        margin: var(--space-2xs) 0 0;
       }
     }
   }
@@ -133,17 +147,32 @@ intro:
     margin-block-start: var(--space-s);
   }
 }
+
+.sol-img {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: start;
+  gap: var(--space-s);
+  margin-block: var(--space-l);
+
+  :global(img) {
+    flex: 1 1 calc(33.333% - var(--space-s));
+    width: auto;
+    min-width: min(100%, 260px);
+  }
+}
 </style>
 
 <Container grid style="margin-block-start:var(--space-xl)">
 
-<div class="hed col-span-5">
+<div class="hed col-span-md-5">
 
 ## Background
 
 </div>
 
-<div class="dek col-span-7">
+<div class="dek col-span-md-7">
 
 Death is an unavoidable part of life and dealing with that of a loved one is perhaps the most difficult task that one faces in life. Besides coping with the emotional trauma, one also has to take care of everything associated with the deceased — starting from performing the last rites to settling the official matters to provide for his family.
 
@@ -156,13 +185,13 @@ A lot happens over a very short span of time, which involves interacting with va
 
 </div>
 
-<div class="hed col-span-5">
+<div class="hed col-span-md-5">
 
 ## The Problem
 
 </div>
 
-<div class="dek col-span-7">
+<div class="dek col-span-md-7">
 
 So how did people manage death before all these?
 
@@ -245,13 +274,13 @@ Also, these service providers do not deal with how the person handles official w
 
 <Container grid style="margin-block-start:var(--space-xl)">
 
-<div class="hed col-span-5">
+<div class="hed col-span-md-5">
 
 ## The Solution
 
 </div>
 
-<div class="dek col-span-7">
+<div class="dek col-span-md-7">
 
 The service is envisioned to simplify the complete scenario related to handling the death of a loved one.
 Informing people, arranging for immediate family care (if needed), doctor related formalities.
@@ -271,11 +300,11 @@ Informing people, arranging for immediate family care (if needed), doctor relate
 <div class="col-span-full">
 
 > Assistive-Agentive service — Agentive technology, based on Artificial Narrow Intelligence, does things on your behalf, while allowing you to turn your attention elsewhere. This is an emerging category of technology, which will need new approaches to user experience design. This intelligence can learn and infer but cannot generalise.
-> <cite> — Chris Noessel, Designing Agentive Technology: AI That Works for People
+> <cite> — Chris Noessel, Designing Agentive Technology: AI That Works for People</cite>
 
 </div>
 
-<div class="col-start-6 col-span-7">
+<div class="col-start-md-6 col-span-md-7">
 
 The system involves numerous stakeholders, including government agencies, that will need to come together to provide the various services required. In this project I have focussed on the end-user to lay out a general framework for the system and designed the interface that the user will need to avail the services.
 
@@ -293,13 +322,13 @@ Due to constraints of time and resources, I have designed the prototype for a si
 
 <Container grid style="margin-block-start:var(--space-xl)">
 
-<div class="hed col-span-5">
+<div class="hed col-span-md-5">
 
 ### Understanding the ecosystem
 
 </div>
 
-<div class="dek col-span-7">
+<div class="dek col-span-md-7">
 
 The different aspects related to the death of an individual were noted and categorized based on the kind of activities involved based on my personal experiences and secondary research. This gave a rough idea about the various areas that need to be addressed.
 
@@ -319,13 +348,15 @@ Before proceeding further, I wanted to know what people, who have dealt with dea
 
 <Container grid style="margin-block-start:var(--space-xl)">
 
-<div class="col-start-6 col-span-7">
+<div class="col-start-md-6 col-span-md-7">
 
 Even though the answers varied based on the individual scenario, some common areas of thought were summarised as follows--
 
 <OverflowImage breakpoint=480 maxWidth='180%' shadow="{false}" url='media/projects/soulace/survey-result.webp' alt="Views and feedback on death-care service from the survey" caption="" />
 
 From this it was evident that the problem needed to be addressed in two segments — things that need immediate attention and those that span over a period of time after the death of an individual.
+
+</div>
 
 </Container>
 
@@ -343,7 +374,7 @@ From this it was evident that the problem needed to be addressed in two segments
 
 <Container grid style="margin-block-start:var(--space-xl)">
 
-<div class="col-start-6 col-span-7">
+<div class="col-start-md-6 col-span-md-7">
 
 Now that I had a fair understanding of the problem, it was necessary to look into the current state of the death-care services in India. For this purpose, I did a competitive analysis of some prominent service providers in India.
 
@@ -361,12 +392,12 @@ Now that I had a fair understanding of the problem, it was necessary to look int
 
 </div>
 
-<div class="hed col-span-5">
+<div class="hed col-span-md-5">
 
 ### Understanding the bereaved
 
 </div>
-<div class="dek col-span-7">
+<div class="dek col-span-md-7">
 
 Based on the research, I mapped the journey of the bereaved, divided into three time-segments — within 24 hours, between 24-48 hours, and a month and beyond. I mapped out the different activities involved and the experience of the bereaved while handling them. For some activities the boundaries are dilute, meaning that they might require immediate addressing, but take a while before they get resolved.
 
@@ -380,25 +411,33 @@ Based on the research, I mapped the journey of the bereaved, divided into three 
 
 </Container>
 
-<Container width="md">
+<Container grid style="margin-block-start:var(--space-xl)">
 
-The experience-map presented a number of opportunities for the pain points at every stage. Each of them is a service in itself, which should make up the comprehensive solution for the death-care service.
+<div class="hed col-span-md-5">
 
 ### Designing the service
 
+</div>
+
+<div class="dek col-span-md-7">
+
+The experience-map presented a number of opportunities for the pain points at every stage. Each of them is a service in itself, which should make up the comprehensive solution for the death-care service.
+
 Given the vast scope of the service, I identified key requirements for the service as a whole and associated attributes/features. This established a basic framework that should encompass all the constituting offerings in the death-care solution.
 
-  <div class="sol-img" style="text-align: center; margin: var(--space-s) auto; max-width: var(--xs);">
+</div>
 
-    ![A holistic service that Ian guide a person through all associated activities, without increasing cognitive load. The service should take all stakeholders into account that may be involved in the user journey.](/media/projects/soulace/sol1.webp)
+<div class="col-span-full sol-img">
 
+![A holistic service that Ian guide a person through all associated activities, without increasing cognitive load. The service should take all stakeholders into account that may be involved in the user journey.](/media/projects/soulace/sol1.webp)
 
-    ![A service that provides information + assístance with minimal user involvement. The service should be assistive-agentive in nature.](/media/projects/soulace/sol2.webp)
+![A service that provides information + assístance with minimal user involvement. The service should be assistive-agentive in nature.](/media/projects/soulace/sol2.webp)
 
+![A one-stop solution for death care service. The service should be easily accessible and should provide all feasible features that a one may need.](/media/projects/soulace/sol3.webp)
 
-    ![A one-stop solution for death care service. The service should be easily accessible and should provide all feasible features that a one may need.](/media/projects/soulace/sol3.webp)
+</div>
 
-  </div>
+<div class="dek col-span-md-7">
 
 The user will use the interface to fulfil the requirements. The AI agents will strive to act as the connector between the users and the service providers. However, based on the physical nature of the processes, it will also involve some amount of interaction with the physical agents associated with the stakeholders. The service will integrate the different service providers and stakeholders for easy management and information exchange.
 
@@ -406,7 +445,19 @@ I focussed on designing the user-interface that will be used by the bereaved as 
 
   <OverflowImage breakpoint=480 maxWidth='180%' shadow="{false}" url='media/projects/soulace/model.webp' alt="parts of the service bluprint" caption="Block diagram of operation of the death-care service, showing the stakeholders and service touchpoints." />
 
+</div>
+
+</Container>
+
+<Container grid style="margin-block-start:var(--space-xl)">
+
+<div class="hed col-span-md-5">
+
 ### Creating an identity for the service
+
+</div>
+
+<div class="dek col-span-md-7">
 
 It was time that I gave a name to this service and delved a bit into graphic design. I decided to call the service, **soulace** — _your companion in the face of distress helping you deal with the loss of your loved one_.
 
@@ -449,8 +500,16 @@ Next up was choosing a typeface. It was an important decision because I had deci
 
 I decided to go with Proxima Nova, a geometric sans-serif font by Mark Simonson, simply because of its brilliance and elegance. It combines the strength of Helvetica with the feeling of Futura. It is well adapted for both print and web.
 
+</div>
+
+<div class="col-span-full">
+
 > Proxima Nova is a font people can easily connect with, probably because of the qualities I put into the font — the proportions, the spacing, the overall look and feel. I tried to make the shapes of the letters simple and clear. It doesn’t have a lot of fussy details or mannerisms. Maybe it has to do with the open, circular forms, which perhaps give it a “friendly” appearance, especially in the lowercase.
-> <cite> — Mark Simonson
+> <cite> — Mark Simonson</cite>
+
+</div>
+
+<div class="dek col-span-md-7">
 
 ![Sample of typeface Proxima Nova](/media/projects/soulace/type.webp)
 
@@ -464,12 +523,32 @@ I decided to go with Proxima Nova, a geometric sans-serif font by Mark Simonson,
 
   </Container>
 
+</div>
+
+</Container>
+
+<Container grid style="margin-block-start:var(--space-xl)">
+
+<div class="hed col-span-md-5">
+
 ### The soulace app
+
+</div>
+
+<div class="dek col-span-md-7">
 
 The service will be presented to the user through an assistive-agentive Progressive Web App (PWA) providing an end-to-end service related to death care. The app will be powered by a narrow AI, trained with relevant cases. All the fragmented service providers will be integrated in the back-end with the platform for a seamless user experience.
 
+</div>
+
+<div class="col-span-full">
+
 > Progressive Web Apps are user experiences that have the reach of the web, and are Reliable - Load instantly and never show the downasaur, even in uncertain network conditions, Fast - Respond quickly to user interactions with silky smooth animations and no janky scrolling, and Engaging - Feel like a natural app on the device, with an immersive user experience.
-> <cite> — Google
+> <cite> — Google</cite>
+
+</div>
+
+<div class="dek col-span-md-7">
 
 So, why a Progressive Web App (PWA) for soulace?
 
@@ -502,6 +581,8 @@ One of the preliminary ideas was to have a voice-UI that assists the user. Howev
 The final design focussed on two major items — search and service listing. Information related to the service in general is pushed down to the bottom of the page.
 I created the design in Adobe XD using a standard 12-column responsive grid. It was later adapted to a mobile-screen size and a prototype was made.
 
+</div>
+
 </Container>
 
 <Container width="xl">
@@ -510,16 +591,32 @@ I created the design in Adobe XD using a standard 12-column responsive grid. It 
 
 </Container>
 
-<Container width="md">
+<Container grid style="margin-block-start:var(--space-xl)">
+
+<div class="hed col-span-md-5">
 
 ## Using soulace
 
+</div>
+
+<div class="dek col-span-md-7">
+
 Madhavi Choudhary is a 32-year old housewife who lives in Pune with her husband Prafulla and Pramit, their 13-year-old son. The family originally hails from Kolkata but shifted to Pune, a couple of months back, when Prafulla had got a promotion at Infosys, where he worked as a Software-engineer.
 
+</div>
+
+<div class="col-span-full">
+
 > Prafulla was admitted to Columbia Asia Hospital, Pune because of a cardiac arrest, which, sadly he couldn't survive. Now, Madhavi has to take him back to Kolkata to their hometown for the funeral. In the wake of the sudden distress, she was clueless as to how to work things out single-handedly. Even though some of the local friends and colleagues came to help, Madhavi could see herself drown in a pool of suggestions and misdirections. A single young female in a vulnerable condition, she was as much worried about the safety and well-being of Pramit and herself as taking Prafulla back home.
-> <cite> — An imaginary scenario based on true experiences
+> <cite> — An imaginary scenario based on true experiences</cite>
+
+</div>
+
+<div class="col-start-md-6 col-span-md-7">
 
 As Madhavi googled about how to take a deceased back home to Kolkata, she came across soulace. The following is a demonstration of how the service came to her aid.
+
+</div>
 
 </Container>
 
