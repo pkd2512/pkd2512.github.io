@@ -126,6 +126,8 @@
     bottom: 0;
     left: 0;
     right: 0;
+    max-width: var(--lg);
+    margin-inline: auto;
     background-color: rgba(255, 255, 255, 0.65);
     backdrop-filter: blur(8px);
     // border-radius: var(--space-s-m) var(--space-s-m) 0 0;
