@@ -5,10 +5,12 @@
   "packageManager": "pnpm@10.34.3",
   "scripts": {
     "dev": "vite dev --open",
+    "prebuild": "node scripts/sync-talks-from-sheet.js",
     "build": "rm -rf docs && vite build",
     "postbuild": "node scripts/generate-sitemap.js",
     "webpify": "node scripts/webpify-images.js",
     "archive-urls": "node scripts/archive-urls.js",
+    "sync:talks": "node scripts/sync-talks-from-sheet.js",
     "preview": "vite preview",
     "check": "svelte-kit sync && svelte-check --tsconfig ./jsconfig.json",
     "check:watch": "svelte-kit sync && svelte-check --tsconfig ./jsconfig.json --watch",
