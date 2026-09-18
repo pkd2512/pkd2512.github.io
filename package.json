@@ -2,12 +2,15 @@
   "name": "prasantakrdutta.com",
   "version": "2",
   "private": true,
+  "packageManager": "pnpm@10.34.3",
   "scripts": {
     "dev": "vite dev --open",
+    "prebuild": "node scripts/sync-data-from-sheet.js",
     "build": "rm -rf docs && vite build",
     "postbuild": "node scripts/generate-sitemap.js",
     "webpify": "node scripts/webpify-images.js",
     "archive-urls": "node scripts/archive-urls.js",
+    "sync:data": "node scripts/sync-data-from-sheet.js",
     "generate-gallery": "node scripts/generate-gallery.js",
     "classify-gallery": "node scripts/classify-gallery.js",
     "count-gallery": "node scripts/count-gallery.js",
@@ -80,12 +83,21 @@
     "yarn": "^1.22.19"
   },
   "type": "module",
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "sharp",
+      "esbuild",
+      "@parcel/watcher",
+      "svelte-preprocess"
+    ]
+  },
   "dependencies": {
     "@clack/prompts": "^1.4.0",
     "@google/genai": "^2.6.0",
     "@masonry-grid/svelte": "^1.1.1",
     "@vercel/speed-insights": "^2.0.0",
     "archive-url": "1.1.1",
+    "d3-array": "^3.2.4",
     "d3-delaunay": "^6.0.4",
     "d3-dsv": "^3.0.1",
     "d3-hierarchy": "^3.1.2",

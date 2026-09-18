@@ -28,7 +28,9 @@
 
   let size = $derived(mobile ? '7.5rem' : '8.75rem');
 
-  let getRotation = $state((/** @type {any} */ d) => d);
+  let getRotation = $derived(
+    scaleLinear().domain([0, windowHeight * 0.8]).range([0, 360]).clamp(true)
+  );
 
   const makeText = (/** @type {String} */ text) => {
     let chars = new GraphemeSplitter().splitGraphemes(text);
@@ -45,38 +47,33 @@
   };
 
   const makeCircleText = () => {
+    // @ts-ignore
+    circleText?.destroy();
     circleText = new CircleType(circleTextEl, makeText);
 
     const badgeRect = badgeEl.getBoundingClientRect();
     const radius = (Math.min(badgeRect.width, badgeRect.height) / 2) * 0.75;
 
     circleText.dir(1).forceWidth(true).radius(radius);
-
-    getRotation = scaleLinear()
-      .domain([0, windowHeight * 0.8])
-      .range([0, 360])
-      .clamp(true);
   };
 
   onMount(() => {
-    makeCircleText();
+    /** @type {number} */
+    let rafId;
 
-    let prevWidth = window.innerWidth;
+    // Fires once immediately on observe, covering the initial layout too.
+    const observer = new ResizeObserver(() => {
+      cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(makeCircleText);
+    });
 
-    const onResize = () => {
-      const w = window.innerWidth;
-      if (w === prevWidth) return;
-      prevWidth = w;
-
-      // @ts-ignore
-      circleText.destroy();
-      makeCircleText();
-    };
-
-    if (window) window.addEventListener('resize', onResize);
+    observer.observe(badgeEl);
 
     return () => {
-      window.removeEventListener('resize', onResize);
+      cancelAnimationFrame(rafId);
+      observer.disconnect();
+      // @ts-ignore
+      circleText?.destroy();
     };
   });
 
@@ -91,20 +88,27 @@
 
 <svelte:window bind:scrollY bind:innerHeight={windowHeight} />
 
-<div
-  class="badge"
-  aria-hidden="true"
-  bind:this={badgeEl}
-  style="--angle:{getRotation(scrollY)}deg; width: {size}; height: {size}"
->
-  <div class="logo">
-    <Logo size={mobile ? '3rem' : '3.75rem'} colour="var(--white)" />
+<div class="wrapper">
+  <div
+    class="badge"
+    aria-hidden="true"
+    bind:this={badgeEl}
+    style="--angle:{getRotation(scrollY)}deg; width: {size}; height: {size}"
+  >
+    <div class="logo">
+      <Logo size={mobile ? '3rem' : '3.75rem'} colour="var(--white)" />
+    </div>
+    <div class="text" bind:this={circleTextEl}>Designer;Developer;Dreamer;</div>
   </div>
-  <div class="text" bind:this={circleTextEl}>Designer;Developer;Dreamer;</div>
 </div>
 
 <style lang="scss">
   @use 'src/lib/styles/mixins/shadows' as *;
+
+  .wrapper {
+    border-radius: 50%;
+    box-shadow: var(--shadow-3);
+  }
   .badge {
     pointer-events: none;
     aspect-ratio: var(--ratio-square);
@@ -113,13 +117,10 @@
     display: flex;
     align-items: center;
     justify-content: center;
-
-    filter: drop-shadow(0 1px 35px hsl(269, 33%, 22%));
+    // filter: drop-shadow(0 1px 25px hsl(269, 33%, 22%));
 
     background-image: url('/media/textures/small-crackle-bright.webp');
     background-blend-mode: overlay;
-
-    box-shadow: var(--shadow-3);
 
     transform-origin: center;
     transition: transform 0.3s step-start;

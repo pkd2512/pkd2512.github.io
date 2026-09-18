@@ -1,0 +1,88 @@
+name: Deploy
+
+# Manual trigger only, run from the Actions tab. More steps can be added
+# here later as needed.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Sync data from Google Sheet
+        run: node scripts/sync-data-from-sheet.js
+
+      - name: Trigger Vercel deploy
+        id: trigger
+        run: |
+          echo "triggered_at=$(($(date +%s%N)/1000000 - 5000))" >> "$GITHUB_OUTPUT"
+          curl -fsS -X POST "${{ secrets.VERCEL_DEPLOY_HOOK_URL }}"
+
+      - name: Wait for Vercel deployment to finish
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+          TEAM_ID: ${{ secrets.VERCEL_TEAM_ID }}
+          TRIGGERED_AT: ${{ steps.trigger.outputs.triggered_at }}
+        run: |
+          team_query=""
+          if [ -n "$TEAM_ID" ]; then team_query="&teamId=$TEAM_ID"; fi
+
+          echo "Looking for the deployment that was just triggered..."
+          deployment_id=""
+          for i in $(seq 1 20); do
+            resp=$(curl -fsS -H "Authorization: Bearer $VERCEL_TOKEN" \
+              "https://api.vercel.com/v6/deployments?projectId=$PROJECT_ID&limit=5$team_query")
+            deployment_id=$(node -e "
+              const d = JSON.parse(process.argv[1]);
+              const after = Number(process.argv[2]);
+              const match = d.deployments.find(x => x.createdAt >= after);
+              process.stdout.write(match ? match.uid : '');
+            " "$resp" "$TRIGGERED_AT")
+            if [ -n "$deployment_id" ]; then break; fi
+            sleep 10
+          done
+
+          if [ -z "$deployment_id" ]; then
+            echo "::error::Could not find the triggered deployment in time."
+            exit 1
+          fi
+          echo "Found deployment $deployment_id, polling status..."
+
+          for i in $(seq 1 60); do
+            state=$(curl -fsS -H "Authorization: Bearer $VERCEL_TOKEN" \
+              "https://api.vercel.com/v13/deployments/$deployment_id?$team_query" \
+              | node -e "process.stdout.write(JSON.parse(require('fs').readFileSync(0,'utf8')).readyState)")
+            echo "Status: $state"
+            if [ "$state" = "READY" ]; then
+              exit 0
+            fi
+            if [ "$state" = "ERROR" ] || [ "$state" = "CANCELED" ]; then
+              echo "::error::Vercel deployment failed (state: $state)."
+              exit 1
+            fi
+            sleep 15
+          done
+          echo "::error::Timed out waiting for the deployment to finish."
+          exit 1
+
+      - name: Commit synced data now that the deploy succeeded
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add src/contents/data/*.csv
+          if git diff --cached --quiet; then
+            echo "No data changes to commit."
+          else
+            git commit -m "Manual deployment"
+            git push
+          fi

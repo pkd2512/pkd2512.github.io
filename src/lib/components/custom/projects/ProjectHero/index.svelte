@@ -1,6 +1,7 @@
 <script>
   import Container from '$lib/components/ui/Container/index.svelte';
   import ParallaxHero from '$lib/components/ui/ParallaxHero/index.svelte';
+
   import { asset } from '$app/paths';
 
   import { scaleLinear } from 'd3-scale';

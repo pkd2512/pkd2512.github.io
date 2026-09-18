@@ -1,6 +1,5 @@
 <script>
   import Icon from '@iconify/svelte';
-  import Container from '$lib/components/ui/Container/index.svelte';
   import { asset } from '$app/paths';
 
   let {
@@ -12,11 +11,7 @@
     shadow = true,
   } = $props();
 
-  /**
-   * @type {Number | undefined}
-   */
   let width = $state();
-
   let showNudge = $state(true);
 
   const handleScroll = (/** @type {any} */ e) => {
@@ -38,6 +33,14 @@
     </div>
   {/if}
 
+  <!-- 1. CAPTION MUST COME FIRST IN THE DOM TO FLOAT CORRECTLY -->
+  {#if caption}
+    <div class="caption">
+      {@html caption}
+    </div>
+  {/if}
+
+  <!-- 2. THE IMAGE CONTAINER SITS NEXT TO IT -->
   <figure
     class:shadow
     style="overflow-x:{width !== undefined && width < breakpoint
@@ -54,23 +57,37 @@
         : '100%'}"
     />
   </figure>
-
-  <Container width="md" style="padding-inline: 0">
-    <div class="caption">
-      {@html caption}
-    </div>
-  </Container>
 </div>
 
 <style lang="scss">
   .overflow-img {
     margin-block-end: var(--space-l);
     position: relative;
+    text-align: center;
+
+    // Mobile layout: stack vertically
+    display: flex;
+    flex-direction: column;
+
+    @media (width > 1500px) {
+      // Desktop: Reset display back to allow standard centering via inline-flex/text-center
+      display: block;
+      max-width: var(--grid-max-width);
+      margin-inline: auto;
+    }
 
     figure {
       display: inline-flex;
       margin-block-end: 0;
       position: relative;
+      text-align: start;
+
+      // Mobile first: image on top
+      order: 1;
+
+      @media (width > 1500px) {
+        order: unset;
+      }
 
       &.shadow {
         box-shadow: var(--shadow-2);
@@ -79,8 +96,41 @@
       }
     }
   }
+
   img {
     border-radius: 0.5rem;
+  }
+
+  .caption {
+    font-style: italic;
+    font-family: var(--font-serif);
+    line-height: var(--line-height-medium);
+    text-align: start;
+    max-width: var(--grid-max-width);
+    margin-inline: auto;
+    padding-inline: var(--grid-gutter);
+
+    // Mobile first: caption on bottom
+    order: 2;
+    margin-top: var(--space-2xs);
+
+    @media (width > 1500px) {
+      order: unset;
+
+      // Pulls it completely out of layout flow so the image stays dead center
+      position: absolute;
+      top: var(
+        --space-l
+      ); // Aligns top edge perfectly with the top of the image
+      right: 0; // Snaps to the right edge of the page grid
+      transform: translateX(
+        calc(100% + var(--grid-gutter))
+      ); // Offsets it completely outside the page grid
+
+      max-width: var(--xxs);
+      margin: 0;
+      padding-inline: 0;
+    }
   }
 
   .nudge {

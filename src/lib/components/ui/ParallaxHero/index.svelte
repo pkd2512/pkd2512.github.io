@@ -27,7 +27,7 @@
 </script>
 
 <svelte:window bind:innerHeight={windowHeight} />
-<div class="hero" style="--img: url({img}); --y:{vPos}%">
+<div class="hero" style="background-image: url({img}); --y:{vPos}%">
   {#if children}{@render children()}{/if}
 </div>
 
@@ -37,7 +37,6 @@
     width: 100%;
     margin-inline: auto;
     @include fullheight(0.9);
-    background-image: var(--img);
     background-size: cover;
 
     background-repeat: no-repeat;

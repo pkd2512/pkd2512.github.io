@@ -6,7 +6,9 @@
   import ProjectHero from '$lib/components/custom/projects/ProjectHero/index.svelte';
   import { page } from '$app/state';
   import { afterNavigate } from '$app/navigation';
+  import GridOverlay from '$lib/components/ui/GridOverlay/index.svelte';
   import { registerPageview } from '$utils/googleAnalytics';
+  import { figureCaptionObserver } from '$lib/actions/figureCaptionObserver';
 
   import '$lib/styles/main.scss';
 
@@ -24,6 +26,8 @@
 
 <Analytics />
 
+<GridOverlay />
+
 {#if pageId && (pageId === '/' || pageId === '/colophone')}
   <Intro />
 {/if}
@@ -35,7 +39,7 @@
 <Navbar />
 
 <main>
-  <article>
+  <article use:figureCaptionObserver>
     {@render children()}
   </article>
 </main>

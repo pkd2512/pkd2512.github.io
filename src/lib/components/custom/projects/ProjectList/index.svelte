@@ -7,8 +7,6 @@
    * @type {{ posts: any[] }}
    */
   let { posts } = $props();
-
-  $inspect(posts);
 </script>
 
 <Container width="fluid">
@@ -31,6 +29,7 @@
     justify-content: center;
     margin-inline: auto;
     margin-block-end: var(--space-s);
+    gap: calc(var(--grid-gutter) * 0.5);
 
     // define grid cols
     --cols: 3;
@@ -46,7 +45,9 @@
 
   li {
     list-style: none;
-    width: calc(100% / var(--cols));
+    width: calc(
+      (100% - (var(--cols) + 1) * (var(--grid-gutter) * 0.5)) / var(--cols)
+    );
     flex: auto 0 0;
   }
   a {
