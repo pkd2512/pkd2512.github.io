@@ -88,14 +88,30 @@ function perlin2D(x, y, perm) {
   );
 }
 
-/** Frame width in px */
-export const FRAME_W = 500;
-/** Gap between tiles in px */
-export const GAP = 100;
 /** Span precision for CSS grid-row: span calc(...) */
 export const PRECISION = 100;
-/** World width for the grid container */
-export const WORLD_W = 2500;
+
+/** Widest a tile ever gets, on a large desktop. */
+const FRAME_MAX = 500;
+/** Narrowest a tile gets, on a small phone. */
+const FRAME_MIN = 240;
+/** Gap as a fraction of frame width (0.2 → the original 500/100 pair). */
+const GAP_RATIO = 0.2;
+
+/**
+ * Tile geometry for a given viewport. On a phone a 500px frame is wider
+ * than the screen, which makes the world unnavigable — so the frame
+ * tracks viewport width and the gap scales with it.
+ *
+ * @param {number} viewportWidth
+ * @returns {{ frameW: number, gap: number }}
+ */
+export function frameMetrics(viewportWidth) {
+  const frameW = Math.round(
+    Math.max(FRAME_MIN, Math.min(FRAME_MAX, viewportWidth * 0.62))
+  );
+  return { frameW, gap: Math.round(frameW * GAP_RATIO) };
+}
 
 /**
  * Perlin-noise jitter offsets for a tile.
@@ -128,37 +144,49 @@ export function makePerm(seed) {
 /**
  * Generate inline style string for a masonry tile.
  * Sets aspect-ratio CSS variables and Perlin-noise jitter (rotation + position).
+ * Jitter offsets scale with the frame so a narrow phone tile doesn't get
+ * shoved a desktop-sized distance out of its cell.
+ *
  * @param {{aspect?:number}} item
  * @param {string} seed
  * @param {number} index
  * @param {Uint8Array} perm
+ * @param {number} frameW
+ * @param {number} gap
  * @returns {string}
  */
-export function tileStyle(item, seed, index, perm) {
+export function tileStyle(item, seed, index, perm, frameW, gap) {
   const aspect = item.aspect || 1;
   const span = Math.max(1, Math.round(PRECISION / aspect));
-  const corrected = (aspect * FRAME_W) / (FRAME_W - GAP + GAP * aspect);
+  const corrected = (aspect * frameW) / (frameW - gap + gap * aspect);
   const w = Math.round(corrected * 1000);
   const h = 1000;
   const { rot, dx, dy, z } = tileJitter(index, perm);
-  return `--w: ${w}; --h: ${h}; --span: ${span}; transform: rotate(${rot}deg) translate(${dx}px, ${dy}px); z-index: ${10 + z}; position: relative;`;
+  const s = frameW / 500;
+  const jx = (dx * s).toFixed(1);
+  const jy = (dy * s).toFixed(1);
+  return `--w: ${w}; --h: ${h}; --span: ${span}; transform: rotate(${rot}deg) translate(${jx}px, ${jy}px); z-index: ${10 + z}; position: relative;`;
 }
 
 /**
  * Calculate masonry container width for a roughly square grid.
  * @param {number} itemCount
+ * @param {number} frameW
+ * @param {number} gap
  * @returns {number}
  */
-export function calcMasonryWidth(itemCount) {
+export function calcMasonryWidth(itemCount, frameW, gap) {
   const cols = Math.max(1, Math.ceil(Math.sqrt(itemCount)));
-  return cols * FRAME_W + (cols - 1) * GAP;
+  return cols * frameW + (cols - 1) * gap;
 }
 
 /**
  * Inline styles for the masonry inner container (CSS Grid).
- * @param {number} [width]
+ * @param {number} width
+ * @param {number} frameW
+ * @param {number} gap
  * @returns {string}
  */
-export function masonryContainerStyle(width = WORLD_W) {
-  return `display: grid; margin: calc(-1 * ${GAP}px / 2); grid-template-columns: repeat(auto-fill, minmax(${FRAME_W}px, 1fr)); width: ${width}px;`;
+export function masonryContainerStyle(width, frameW, gap) {
+  return `display: grid; margin: calc(-1 * ${gap}px / 2); grid-template-columns: repeat(auto-fill, minmax(${frameW}px, 1fr)); width: ${width}px;`;
 }

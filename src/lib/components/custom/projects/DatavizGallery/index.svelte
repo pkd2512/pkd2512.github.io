@@ -1,11 +1,9 @@
 <script>
   import Container from '$lib/components/ui/Container/index.svelte';
   import ColumnPicker from './ui/ColumnPicker.svelte';
-  import Treemap from './charts/Treemap.svelte';
   import Voronoi from './charts/Voronoi.svelte';
   import InfiniteCanvas from './canvas/InfiniteCanvas.svelte';
-  // eslint-disable-next-line no-unused-vars
-  import GalleryList from './ui/GalleryList.svelte';
+  import { thumbUrl } from './data/mediaUrl.js';
   // @ts-ignore
   import {
     getCounts,
@@ -50,10 +48,6 @@
   /** @type {string} */
   let selected = $state('');
 
-  let selectedItems = $derived(
-    selected ? getGroup(active, selected)?.items || [] : []
-  );
-
   /** @type {string | null} */
   let expandedGroup = $state(null);
 
@@ -61,13 +55,9 @@
   let originRect = $state(null);
 
   /**
-   * Resolve thumbnail URLs for the items in one group. CSV stores
-   * `projects/dataviz-gallery/<file>`, but the static assets live at
-   * `static/media/projects/dataviz-gallery/thumbs/<file>` — so we
-   * prepend `media/` and insert `thumbs/` before the filename.
-   *
-   * The Voronoi component renders one static collage *per group*,
-   * each filling the SVG canvas and clipped by its polygon.
+   * Thumbnail URLs for the items in one group, at the smallest
+   * generated size — the Voronoi renders one static collage per group
+   * where each image occupies only a few dozen pixels.
    *
    * @param {string} name
    * @returns {string[]}
@@ -76,16 +66,11 @@
     if (!name) return [];
     const items = getGroup(active, name)?.items || [];
     return items.map((/** @type {{img_url:string}} */ it) =>
-      ('media/' + it.img_url).replace(
-        /^(media\/projects\/dataviz-gallery)\/images\/([^/]+)$/,
-        '$1/thumbs_50/$2'
-      )
+      thumbUrl(it.img_url, 50)
     );
   }
 
   const total = getAllRows().length;
-
-  let layout = $state('voronoi');
 </script>
 
 <Container width="fluid">
@@ -99,66 +84,27 @@
           selected = '';
         }}
       />
-      <!-- <div class="layout-toggle" role="radiogroup">
-        <button
-          role="radio"
-          aria-checked={layout === 'treemap'}
-          class:active={layout === 'treemap'}
-          onclick={() => (layout = 'treemap')}
-        >
-          ▦ Treemap
-        </button>
-        <button
-          role="radio"
-          aria-checked={layout === 'voronoi'}
-          class:active={layout === 'voronoi'}
-          onclick={() => (layout = 'voronoi')}
-        >
-          ⬡ Voronoi
-        </button>
-      </div> -->
     </div>
     <div class="chart-overlap">
-      {#if layout === 'treemap'}
-        <Treemap
-          {counts}
-          {selected}
-          onselect={(name) => {
-            selected = selected === name ? '' : name;
-          }}
-        />
-      {:else}
-        <Voronoi
-          {counts}
-          {selected}
-          getThumbs={thumbsFor}
-          onselect={(name, rect) => {
-            if (rect && selected === name) {
-              expandedGroup = name;
-              originRect = rect;
-            } else {
-              selected = selected === name ? '' : name;
-            }
-          }}
-        />
-      {/if}
+      <Voronoi
+        {counts}
+        {selected}
+        getThumbs={thumbsFor}
+        onselect={(name, rect) => {
+          selected = name;
+          expandedGroup = name;
+          originRect = rect || null;
+        }}
+      />
     </div>
     <p class="caption">
       {counts.length}
       {activeDef.label.toLowerCase()} &middot; {total} graphics total
     </p>
   </section>
-  <!--
-    Old bottom grid — kept around for reference, replaced by the
-    upcoming infinite-canvas overlay (see GalleryList.svelte).
-
-  {#if selectedItems.length}
-    <GalleryList title={selected} items={selectedItems} />
-  {/if}
-  -->
 </Container>
 
-{#if expandedGroup && originRect}
+{#if expandedGroup}
   <InfiniteCanvas
     items={getGroup(active, expandedGroup)?.items || []}
     title={expandedGroup}
@@ -204,36 +150,6 @@
       min-height: 0;
     }
 
-    .layout-toggle {
-      display: flex;
-      border-radius: 6px;
-      overflow: hidden;
-      border: 1px solid var(--purple-soft, #41295a);
-
-      button {
-        background: transparent;
-        border: none;
-        padding: 0.35rem 0.75rem;
-        cursor: pointer;
-        font-size: var(--font-size--1);
-        color: var(--purple-soft, #41295a);
-        transition: background 0.15s;
-
-        &.active {
-          background: var(--purple-soft, #41295a);
-          color: white;
-        }
-
-        &:not(.active):hover {
-          background: color-mix(
-            in srgb,
-            var(--purple-soft, #41295a) 10%,
-            transparent
-          );
-        }
-      }
-    }
-
     .caption {
       text-align: center;
       font-size: var(--font-size-0);
@@ -244,50 +160,4 @@
     }
   }
 
-  .gallery-items {
-    margin-top: var(--space-lg);
-    padding-inline: var(--grid-gutter);
-    max-width: var(--lg);
-    margin-inline: auto;
-
-    h3 {
-      font-size: var(--font-size-2);
-      margin-bottom: var(--space-sm);
-      text-transform: capitalize;
-    }
-
-    .gallery-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-      gap: var(--space-sm);
-    }
-
-    .gallery-card {
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-3xs);
-      text-decoration: none;
-      border-radius: 6px;
-      overflow: hidden;
-      background: var(--bg-soft, #f5f5f5);
-      transition: transform 0.15s;
-
-      &:hover {
-        transform: translateY(-2px);
-      }
-
-      img {
-        width: 100%;
-        aspect-ratio: 4 / 3;
-        object-fit: cover;
-        display: block;
-      }
-
-      .card-label {
-        font-size: var(--font-size--1);
-        padding: 0 var(--space-2xs) var(--space-2xs);
-        color: var(--text, #333);
-      }
-    }
-  }
 </style>

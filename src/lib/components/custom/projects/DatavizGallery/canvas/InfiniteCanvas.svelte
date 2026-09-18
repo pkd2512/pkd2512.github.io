@@ -1,13 +1,26 @@
 <script>
   import { onMount } from 'svelte';
+  import Icon from '@iconify/svelte';
   import {
     tileStyle,
     masonryContainerStyle,
     makePerm,
     calcMasonryWidth,
+    frameMetrics,
   } from './infiniteCanvas.js';
+  import { mediaUrl, thumbUrl } from '../data/mediaUrl.js';
 
   const PADDING = 150;
+
+  /** Stage zoom limits, shared by pinch, ctrl-wheel and click-to-focus. */
+  const MIN_SCALE = 0.4;
+  const MAX_SCALE = 6;
+
+  /** Fraction of the viewport a focused item is scaled to fill. */
+  const FOCUS_FIT = 0.82;
+
+  /** On-screen height (px) of the caption band under a focused card. */
+  const CAPTION_H = 76;
 
   /**
    * Shared gsap reference. Populated by the dynamic import inside
@@ -19,7 +32,11 @@
 
   /**
    * @type {{
-   *   items: Array<{img_url:string, ref_url?:string, title?:string, aspect:number}>,
+   *   items: Array<{
+   *     img_url: string, ref_url?: string, title?: string, alt?: string,
+   *     client?: string, graphic_type?: string, category?: string,
+   *     aspect: number
+   *   }>,
    *   title?: string,
    *   originRect: DOMRect | null,
    *   onclose: () => void
@@ -50,65 +67,27 @@
    */
   const THUMB_WIDTHS = [300, 600];
 
-  /**
-   * Build the URL for a thumbnail at a specific width. CSV `url` values
-   * follow the canonical layout `<dir>/images/<slug>.<ext>`; thumbs
-   * live alongside the `images/` folder at `<dir>/thumbs_<w>/<slug>.<ext>`.
-   * So we just swap the `/images/` segment for the matching `/thumbs_<w>/`.
-   *
-   * Falls back to the previous behaviour (insert `/thumbs_<w>/` before
-   * the filename) for legacy CSV rows that still point at flat folders.
-   * @param {string} url
-   * @param {number} w
-   */
-  function thumbAt(url, w) {
-    if (!url) return '';
-    if (url.includes('/images/')) {
-      return '/media/' + url.replace('/images/', `/thumbs_${w}/`);
-    }
-    const i = url.lastIndexOf('/');
-    return (
-      '/media/' + url.slice(0, i) + '/thumbs_' + w + '/' + url.slice(i + 1)
-    );
-  }
+  /** Tile geometry, recomputed whenever the viewport changes width. */
+  let metrics = $state(frameMetrics(1200));
+  let contentWidth = $state(2500);
 
-  /**
-   * Single-size fallback URL — used when `srcset` isn't honoured.
-   * @param {string} url
-   */
-  function tileUrl(url) {
-    return thumbAt(url, 600);
-  }
-
-  /**
-   * Click-through URL when an entry has no `ref_url`. Opens the
-   * full-resolution source image so users can see detail beyond the
-   * thumbnail.
-   * @param {string} url
-   */
-  function fullUrl(url) {
-    return url ? '/media/' + url : '';
-  }
-
-  // `sizes` describes how wide each <img> renders. Tiles are pinned to
-  // FRAME_W (500px) regardless of viewport — the gallery doesn't reflow
-  // — so a single value is honest. On 1× the browser picks 600w; on 2×
-  // a slight upscale from 600w to 1000 physical px is fine for thumbs.
-  const TILE_SIZES = '500px';
+  // `sizes` tracks the frame width so the browser can pick 300w on a
+  // phone instead of always pulling the 600w file.
+  let tileSizes = $derived(`${metrics.frameW}px`);
 
   // Precompute the per-tile data (style string + thumbnail URLs) once
-  // per `items`/`title`/`perm` change, so the `{#each}` block doesn't
-  // rebuild strings on every reactive tick.
+  // per `items`/`title`/`perm`/`metrics` change, so the `{#each}` block
+  // doesn't rebuild strings on every reactive tick.
   let tiles = $derived(
     items.map((it, i) => ({
       item: it,
-      style: tileStyle(it, title, i, perm),
-      thumb: tileUrl(it.img_url),
-      srcset: THUMB_WIDTHS.map((w) => `${thumbAt(it.img_url, w)} ${w}w`).join(
+      style: tileStyle(it, title, i, perm, metrics.frameW, metrics.gap),
+      thumb: thumbUrl(it.img_url, 600),
+      srcset: THUMB_WIDTHS.map((w) => `${thumbUrl(it.img_url, w)} ${w}w`).join(
         ', '
       ),
-      href: it.ref_url || fullUrl(it.img_url),
-      alt: it.title || '',
+      full: mediaUrl(it.img_url),
+      label: it.title || '',
       key: it.img_url + '#' + i,
     }))
   );
@@ -119,33 +98,20 @@
   let overlayEl;
   /** @type {HTMLDivElement | undefined} */
   let ghostEl;
-  /** @type {HTMLDivElement | undefined} */
-  let zoomEl;
-  /** @type {HTMLImageElement | undefined} */
-  let zoomImgEl;
 
-  let contentWidth = $state(2500);
-
-  /**
-   * Index of the currently zoomed tile, or -1 if none. Reactive so the
-   * markup can show the caption + blur the stage.
-   */
+  /** Index of the tile currently in focus, or -1 while browsing the wall. */
   let zoomedIndex = $state(-1);
-  let zoomedItem = $derived(zoomedIndex >= 0 ? tiles[zoomedIndex] : null);
 
-  /** Reference to the Draggable instance so zoom/close can pause it. */
+  /** Reference to the Draggable instance so focus/close can pause it. */
   /** @type {any} */
   let _draggable = null;
 
   /**
-   * Stage transform snapshot taken at the moment we entered zoom — so
-   * close() can return to exactly where the user was panning.
-   * @type {{ x: number, y: number } | null}
+   * Stage transform captured the moment we zoomed in, so leaving focus
+   * returns the reader to exactly the spot on the wall they came from.
+   * @type {{ x: number, y: number, scale: number } | null}
    */
   let _preZoom = null;
-
-  /** Scale factor used when zooming a tile into focus. */
-  const ZOOM_SCALE = 2.4;
 
   /** @type {{minX:number,maxX:number,minY:number,maxY:number}} */
   let _bounds = {
@@ -157,9 +123,17 @@
 
   let ready = $state(false);
 
-  onMount(() => {
-    contentWidth = calcMasonryWidth(items.length);
+  /**
+   * Captions and links sit inside the scaled stage, so they'd balloon
+   * along with the artwork. This counter-scale keeps them at a constant
+   * on-screen size; it's tweened alongside every stage scale change.
+   * @param {number} scale
+   */
+  function setInverseScale(scale) {
+    stageEl?.style.setProperty('--inv', String(1 / scale));
+  }
 
+  onMount(() => {
     /** @type {any} */ let Draggable;
     /** @type {any} */ let InertiaPlugin;
     /** @type {any} */ let draggable;
@@ -176,44 +150,182 @@
     let imgObs = null;
     let cancelled = false;
 
+    function applyMetrics() {
+      const next = frameMetrics(window.innerWidth);
+      if (next.frameW !== metrics.frameW) metrics = next;
+      contentWidth = calcMasonryWidth(items.length, next.frameW, next.gap);
+    }
+    applyMetrics();
+
+    /** Current stage scale, read back off the live gsap transform. */
+    function stageScale() {
+      return gsap ? Number(gsap.getProperty(stageEl, 'scale')) || 1 : 1;
+    }
+
     // Manual click-vs-drag tracking. gsap Draggable's onClick is
     // unreliable in some browsers (the synthetic click never fires if
     // there's even a 1-2px pointer movement between down and up), so
-    // we track pointer position ourselves and call openZoom when the
-    // gesture qualifies as a click.
+    // we track pointer position ourselves and decide here.
     /** @type {{x:number,y:number}|null} */
     let _downAt = null;
     const CLICK_THRESHOLD = 6;
+
+    /** Live pointers on the stage, for pinch detection. */
+    /** @type {Map<number, {x:number, y:number}>} */
+    const pointers = new Map();
+    /** @type {{dist:number, scale:number, x:number, y:number} | null} */
+    let _pinch = null;
+
     /** @param {PointerEvent} e */
     function onPointerDown(e) {
+      pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+      if (pointers.size === 2) startPinch();
       _downAt = { x: e.clientX, y: e.clientY };
     }
+
+    /** @param {PointerEvent} e */
+    function onPointerMove(e) {
+      if (!pointers.has(e.pointerId)) return;
+      pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+      if (_pinch && pointers.size >= 2) movePinch();
+    }
+
     /** @param {PointerEvent} e */
     function onPointerUp(e) {
+      const wasPinching = !!_pinch;
+      pointers.delete(e.pointerId);
+      if (wasPinching && pointers.size < 2) endPinch();
+
       const start = _downAt;
       _downAt = null;
-      if (!start) return;
+      if (!start || wasPinching) return;
       const dx = e.clientX - start.x;
       const dy = e.clientY - start.y;
       if (Math.hypot(dx, dy) > CLICK_THRESHOLD) return;
-      if (zoomedIndex >= 0) {
-        closeZoom();
+
+      const target = /** @type {HTMLElement} */ (e.target);
+      // The source link is a real anchor — let the browser open it
+      // instead of treating the tap as a zoom gesture.
+      if (target.closest('a')) return;
+
+      const tile = /** @type {HTMLElement | null} */ (target.closest('.tile'));
+      if (!tile) {
+        // Tapping empty wall while focused steps back out.
+        if (zoomedIndex >= 0) closeZoom();
         return;
       }
-      const tile = /** @type {HTMLElement | null} */ (
-        /** @type {HTMLElement} */ (e.target).closest('.tile')
-      );
-      if (!tile) return;
-      const idxAttr = /** @type {HTMLElement} */ (tile).dataset.index;
-      const idx = idxAttr != null ? Number(idxAttr) : NaN;
+      const idx = Number(tile.dataset.index);
       if (Number.isNaN(idx)) return;
-      openZoom(idx);
+      if (zoomedIndex === idx) closeZoom();
+      else openZoom(idx);
+    }
+
+    // The stage only spans the cards, so clicks on the empty backdrop
+    // around a zoomed card never reach its pointer handlers.
+    /** @param {MouseEvent} e */
+    function onOverlayClick(e) {
+      if (zoomedIndex < 0 || !stageEl) return;
+      const target = /** @type {HTMLElement} */ (e.target);
+      if (stageEl.contains(target) || target.closest('button, a')) return;
+      closeZoom();
+    }
+
+    /** Midpoint + separation of the two live pointers. */
+    function pinchGeometry() {
+      const [a, b] = [...pointers.values()];
+      return {
+        dist: Math.hypot(b.x - a.x, b.y - a.y) || 1,
+        mx: (a.x + b.x) / 2,
+        my: (a.y + b.y) / 2,
+      };
+    }
+
+    function startPinch() {
+      if (!gsap || !stageEl) return;
+      const { dist } = pinchGeometry();
+      // Draggable keeps writing its own x/y while a finger is down, which
+      // fights the transform we're about to compute — park it for the
+      // duration of the gesture.
+      try {
+        _draggable?.disable();
+      } catch (_) {
+        /* ignore */
+      }
+      gsap.killTweensOf(stageEl);
+      _pinch = {
+        dist,
+        scale: stageScale(),
+        x: Number(gsap.getProperty(stageEl, 'x')) || 0,
+        y: Number(gsap.getProperty(stageEl, 'y')) || 0,
+      };
+    }
+
+    function movePinch() {
+      if (!_pinch || !gsap || !stageEl) return;
+      const { dist, mx, my } = pinchGeometry();
+      const scale = Math.max(
+        MIN_SCALE,
+        Math.min(MAX_SCALE, (_pinch.scale * dist) / _pinch.dist)
+      );
+      // With transform-origin at 0 0, the stage-local point under the
+      // fingers is (screen - pos) / scale. Solve for the position that
+      // keeps that same local point under the (possibly moved) midpoint.
+      const localX = (mx - _pinch.x) / _pinch.scale;
+      const localY = (my - _pinch.y) / _pinch.scale;
+      gsap.set(stageEl, {
+        scale,
+        x: mx - scale * localX,
+        y: my - scale * localY,
+      });
+      setInverseScale(scale);
+    }
+
+    function endPinch() {
+      _pinch = null;
+      if (!gsap || !stageEl) return;
+      tx = Number(gsap.getProperty(stageEl, 'x')) || 0;
+      ty = Number(gsap.getProperty(stageEl, 'y')) || 0;
+      recomputeBounds();
+      try {
+        _draggable?.enable();
+      } catch (_) {
+        /* ignore */
+      }
     }
 
     /** @param {WheelEvent} e */
     function onWheel(e) {
       if (!stageEl || !xTo) return;
       e.preventDefault();
+
+      // Trackpad pinch and ctrl+wheel arrive as a wheel event with
+      // ctrlKey set — treat those as zoom rather than pan.
+      if (e.ctrlKey && gsap) {
+        const cur = stageScale();
+        const scale = Math.max(
+          MIN_SCALE,
+          Math.min(MAX_SCALE, cur * (1 - e.deltaY * 0.01))
+        );
+        const px = Number(gsap.getProperty(stageEl, 'x')) || 0;
+        const py = Number(gsap.getProperty(stageEl, 'y')) || 0;
+        const localX = (e.clientX - px) / cur;
+        const localY = (e.clientY - py) / cur;
+        gsap.killTweensOf(stageEl);
+        tx = e.clientX - scale * localX;
+        ty = e.clientY - scale * localY;
+        gsap.set(stageEl, { scale, x: tx, y: ty });
+        setInverseScale(scale);
+        recomputeBounds();
+        return;
+      }
+
+      // Scrolling away from a focused item releases it, so the reader
+      // never gets stuck zoomed in.
+      if (zoomedIndex >= 0) {
+        closeZoom();
+        return;
+      }
+
       // Normalise wheel delta across browsers / input devices:
       //   deltaMode 0 → pixels (trackpad)
       //   deltaMode 1 → lines (Windows mouse wheel)
@@ -231,10 +343,11 @@
       const masonryInner = /** @type {HTMLElement | null} */ (
         stageEl.querySelector('.masonry-inner')
       );
+      const k = stageScale();
       const vw = window.innerWidth;
       const vh = window.innerHeight;
-      const cw = contentWidth;
-      const ch = masonryInner ? masonryInner.scrollHeight : vh;
+      const cw = contentWidth * k;
+      const ch = (masonryInner ? masonryInner.scrollHeight : vh) * k;
       const maxX = PADDING;
       const minX = -(cw - vw) - PADDING;
       const maxY = PADDING;
@@ -250,6 +363,17 @@
       ty = Math.max(_bounds.minY, Math.min(_bounds.maxY, ty));
       if (draggable) draggable.applyBounds(_bounds);
     }
+
+    // Expose the pieces the zoom helpers below need. They live outside
+    // onMount so the template and keyboard handler can call them.
+    _ctx = {
+      stageScale,
+      recomputeBounds,
+      syncPan: () => {
+        tx = Number(gsap.getProperty(stageEl, 'x')) || 0;
+        ty = Number(gsap.getProperty(stageEl, 'y')) || 0;
+      },
+    };
 
     (async () => {
       // Dynamic-import gsap + plugins so the gallery JS only ships to
@@ -268,6 +392,7 @@
       gsap.registerPlugin(Draggable, InertiaPlugin);
 
       ready = true;
+      setInverseScale(1);
 
       // Entrance ghost zoom (snapshot rect, autoAlpha for visibility).
       if (ghostEl && initialRect) {
@@ -335,7 +460,10 @@
       // Recompute on resize / orientation change. ResizeObserver fires
       // for the overlay itself, which is `position: fixed; inset: 0`.
       if (typeof ResizeObserver !== 'undefined' && overlayEl) {
-        resizeObs = new ResizeObserver(() => recomputeBounds());
+        resizeObs = new ResizeObserver(() => {
+          applyMetrics();
+          recomputeBounds();
+        });
         resizeObs.observe(overlayEl);
       }
 
@@ -373,11 +501,13 @@
         });
       }
 
-      // Wheel + keyboard nav.
+      // Wheel + pointer input.
       overlayEl?.addEventListener('wheel', onWheel, { passive: false });
-      // Pointer-based click detection (more reliable than Draggable.onClick).
+      overlayEl?.addEventListener('click', onOverlayClick);
       stageEl?.addEventListener('pointerdown', onPointerDown);
+      stageEl?.addEventListener('pointermove', onPointerMove);
       stageEl?.addEventListener('pointerup', onPointerUp);
+      stageEl?.addEventListener('pointercancel', onPointerUp);
       document.body.style.overflow = 'hidden';
       overlayEl?.focus();
     })();
@@ -390,8 +520,11 @@
         // ignore
       }
       overlayEl?.removeEventListener('wheel', onWheel);
+      overlayEl?.removeEventListener('click', onOverlayClick);
       stageEl?.removeEventListener('pointerdown', onPointerDown);
+      stageEl?.removeEventListener('pointermove', onPointerMove);
       stageEl?.removeEventListener('pointerup', onPointerUp);
+      stageEl?.removeEventListener('pointercancel', onPointerUp);
       resizeObs?.disconnect();
       imgObs?.disconnect();
       if (gsap && stageEl) gsap.killTweensOf(stageEl);
@@ -400,16 +533,188 @@
     };
   });
 
+  /**
+   * Handles owned by `onMount` that the zoom helpers need.
+   * @type {{stageScale: () => number, recomputeBounds: () => void, syncPan: () => void} | null}
+   */
+  let _ctx = null;
+
+  /**
+   * Swap a tile's <img> from its thumbnail to the full-resolution
+   * source (or back). The original thumb attributes are stashed onto
+   * the element's dataset so leaving focus can restore them.
+   * @param {HTMLImageElement | null | undefined} img
+   * @param {boolean} toFull
+   * @param {string} fullSrc
+   */
+  function swapTileImage(img, toFull, fullSrc) {
+    if (!img) return;
+    if (toFull) {
+      if (img.dataset.thumbCached || !fullSrc) return;
+      img.dataset.thumbCached = '1';
+      img.dataset.thumbSrc = img.currentSrc || img.src || '';
+      img.dataset.thumbSrcset = img.srcset || '';
+      img.removeAttribute('srcset');
+      img.src = fullSrc;
+    } else {
+      if (!img.dataset.thumbCached) return;
+      const src = img.dataset.thumbSrc || '';
+      const ss = img.dataset.thumbSrcset || '';
+      // srcset must be set before src so the browser doesn't kick off
+      // a redundant request from the bare src.
+      if (ss) img.srcset = ss;
+      else img.removeAttribute('srcset');
+      if (src) img.src = src;
+      delete img.dataset.thumbCached;
+      delete img.dataset.thumbSrc;
+      delete img.dataset.thumbSrcset;
+    }
+  }
+
+  /**
+   * Walk the reader up to one item: pan and scale the wall so the tile
+   * sits centred and near-full-height, then load the full-resolution
+   * file in place of its thumbnail. Nothing is lifted out of the grid —
+   * the surrounding wall stays put and simply falls back behind.
+   * @param {number} idx
+   */
+  function openZoom(idx) {
+    if (!gsap || !stageEl || !_ctx) return;
+    if (idx < 0 || idx >= tiles.length) return;
+
+    const tileEl = /** @type {HTMLElement | null} */ (
+      stageEl.querySelector(`.tile[data-index="${idx}"] .tile-inner`)
+    );
+    if (!tileEl) return;
+    const rect = tileEl.getBoundingClientRect();
+
+    const curX = Number(gsap.getProperty(stageEl, 'x')) || 0;
+    const curY = Number(gsap.getProperty(stageEl, 'y')) || 0;
+    const curScale = _ctx.stageScale();
+
+    // Only remember the wall position on the way *in* — stepping between
+    // items while focused must not overwrite it.
+    if (zoomedIndex < 0 && !_preZoom)
+      _preZoom = { x: curX, y: curY, scale: curScale };
+
+    // How much closer we need to get for the item to fill FOCUS_FIT of
+    // the viewport. rect is already in screen pixels at curScale, so the
+    // ratio is relative to where we're standing now.
+    // The caption band unfolds below the card at a fixed on-screen height,
+    // so reserve it before fitting the image.
+    const fit = Math.min(
+      (window.innerWidth * FOCUS_FIT) / rect.width,
+      (window.innerHeight * FOCUS_FIT - CAPTION_H) / rect.height
+    );
+    const S = Math.max(MIN_SCALE, Math.min(MAX_SCALE, curScale * fit));
+
+    // Tile centre in stage-local (untransformed) coordinates, then the
+    // translation that lands card + band centred once scaled.
+    const localX = (rect.x + rect.width / 2 - curX) / curScale;
+    const localY = (rect.y + rect.height / 2 - curY) / curScale;
+    const nx = window.innerWidth / 2 - S * localX;
+    const ny = window.innerHeight / 2 - S * localY - CAPTION_H / 2;
+
+    // Pause panning: Draggable continually re-applies its own transform,
+    // which fights the tween. `disable()` alone isn't enough — kill any
+    // inertia it already spawned, too.
+    try {
+      _draggable?.disable();
+      _draggable?.endDrag?.();
+    } catch (_) {
+      /* ignore */
+    }
+
+    const prev = zoomedIndex;
+    stageEl.style.setProperty('--inv-end', String(1 / S));
+    zoomedIndex = idx;
+
+    if (prev >= 0 && prev !== idx) restoreThumb(prev);
+    swapTileImage(
+      /** @type {HTMLImageElement | null} */ (tileEl.querySelector('img')),
+      true,
+      tiles[idx].full
+    );
+
+    gsap.killTweensOf(stageEl);
+    gsap.to(stageEl, {
+      x: nx,
+      y: ny,
+      scale: S,
+      duration: 0.7,
+      ease: 'power3.inOut',
+      force3D: true,
+      overwrite: true,
+      onUpdate: () => setInverseScale(_ctx?.stageScale() || 1),
+      onComplete: () => setInverseScale(S),
+    });
+  }
+
+  /**
+   * Put a tile's thumbnail back in place of the full-resolution file.
+   * @param {number} idx
+   */
+  function restoreThumb(idx) {
+    const el = stageEl?.querySelector(
+      `.tile[data-index="${idx}"] .tile-inner img`
+    );
+    swapTileImage(/** @type {HTMLImageElement | null} */ (el), false, '');
+  }
+
+  /** Step back to the wall, returning to the exact spot we left. */
+  function closeZoom() {
+    if (!gsap || !stageEl || zoomedIndex < 0) return;
+    const target = _preZoom || { x: 0, y: 0, scale: 1 };
+    restoreThumb(zoomedIndex);
+    zoomedIndex = -1;
+    // Kept until we've actually arrived: a card clicked mid-return must go
+    // back to the wall, not to wherever the camera happened to be.
+    gsap.killTweensOf(stageEl);
+    gsap.to(stageEl, {
+      x: target.x,
+      y: target.y,
+      scale: target.scale,
+      duration: 0.6,
+      ease: 'power3.inOut',
+      force3D: true,
+      onUpdate: () => setInverseScale(_ctx?.stageScale() || 1),
+      onComplete: () => {
+        _preZoom = null;
+        setInverseScale(target.scale);
+        _ctx?.syncPan();
+        _ctx?.recomputeBounds();
+        try {
+          _draggable?.enable();
+        } catch (_) {
+          /* ignore */
+        }
+      },
+    });
+  }
+
+  /** Move focus to the neighbouring item without stepping back first. */
+  /** @param {number} dir */
+  function stepZoom(dir) {
+    if (zoomedIndex < 0) return;
+    openZoom((zoomedIndex + dir + tiles.length) % tiles.length);
+  }
+
   /** @param {KeyboardEvent} e */
   function handleKeydown(e) {
     if (e.key === 'Escape') {
-      if (zoomedIndex >= 0) {
-        closeZoom();
-      } else {
-        close();
+      if (zoomedIndex >= 0) closeZoom();
+      else close();
+      return;
+    }
+
+    if (zoomedIndex >= 0) {
+      if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+        e.preventDefault();
+        stepZoom(e.key === 'ArrowRight' ? 1 : -1);
       }
       return;
     }
+
     // Arrow keys only do anything once gsap has finished loading.
     if (!gsap || !stageEl) return;
 
@@ -442,167 +747,6 @@
       duration: 0.3,
       ease: 'power2.out',
       overwrite: 'auto',
-    });
-  }
-
-  /**
-   * Swap a tile's <img> from its thumbnail to the full-resolution
-   * source (or back). The original thumb attributes are stashed onto
-   * the element's dataset so close-zoom can restore them.
-   * @param {HTMLImageElement | null | undefined} img
-   * @param {boolean} toFull
-   * @param {string} fullSrc
-   */
-  function swapTileImage(img, toFull, fullSrc) {
-    if (!img) return;
-    if (toFull) {
-      if (img.dataset.thumbCached) return;
-      img.dataset.thumbCached = '1';
-      img.dataset.thumbSrc = img.currentSrc || img.src || '';
-      img.dataset.thumbSrcset = img.srcset || '';
-      img.removeAttribute('srcset');
-      img.src = fullSrc;
-    } else {
-      if (!img.dataset.thumbCached) return;
-      const src = img.dataset.thumbSrc || '';
-      const ss = img.dataset.thumbSrcset || '';
-      // srcset must be set before src so the browser doesn't kick off
-      // a redundant request from the bare src.
-      if (ss) img.srcset = ss;
-      else img.removeAttribute('srcset');
-      if (src) img.src = src;
-      delete img.dataset.thumbCached;
-      delete img.dataset.thumbSrc;
-      delete img.dataset.thumbSrcset;
-    }
-  }
-
-  /**
-   * Open the zoom for the tile at `idx`. Instead of cloning the tile
-   * into a separate layer, we *transform the whole stage* — translate
-   * it so the tile sits at viewport centre, then scale up via a 3D
-   * transform so the whole grid feels "closer". Non-focused tiles
-   * get blurred via CSS for depth.
-   * @param {number} idx
-   */
-  function openZoom(idx) {
-    if (!gsap || !stageEl) return;
-    if (idx < 0 || idx >= tiles.length) return;
-    if (zoomedIndex === idx) return;
-
-    const tileEl = /** @type {HTMLElement | null} */ (
-      stageEl.querySelector(`.tile[data-index="${idx}"] .tile-inner`)
-    );
-    if (!tileEl) return;
-    const rect = tileEl.getBoundingClientRect();
-
-    // Current stage transform (Draggable + wheel keep these in sync).
-    const curX = Number(gsap.getProperty(stageEl, 'x')) || 0;
-    const curY = Number(gsap.getProperty(stageEl, 'y')) || 0;
-
-    // Tile centre in stage-local (un-transformed) coordinates.
-    // (We never enter openZoom while already zoomed, so curScale = 1.)
-    const localX = rect.x + rect.width / 2 - curX;
-    const localY = rect.y + rect.height / 2 - curY;
-
-    // Target translate so that, after scaling around (0,0), the tile
-    // centre lands at viewport centre.
-    const S = ZOOM_SCALE;
-    const tx = window.innerWidth / 2 - S * localX;
-    const ty = window.innerHeight / 2 - S * localY;
-
-    // Remember where we came from so close() can put us back exactly.
-    _preZoom = { x: curX, y: curY };
-
-    // Pause panning. Draggable continually re-applies its own transform
-    // to the element, which fights any scale/translate tween we issue.
-    // `disable()` alone isn't enough — kill any active inertia/throw
-    // tweens it spawned, too.
-    try {
-      _draggable?.disable();
-      _draggable?.endDrag?.();
-    } catch (_) {
-      /* ignore */
-    }
-
-    zoomedIndex = idx;
-
-    // Swap the focused tile's <img> to the full-resolution source so
-    // the zoomed-in view actually shows extra detail.
-    const img = /** @type {HTMLImageElement | null} */ (
-      tileEl.querySelector('img')
-    );
-    swapTileImage(img, true, fullUrl(tiles[idx].item.url));
-
-    // Kill ALL active tweens on the stage (including the quickTo
-    // helpers fed by the wheel handler), and lock in the current
-    // transform with `set` so the upcoming `to` has a known starting
-    // point with the right transformOrigin.
-    gsap.killTweensOf(stageEl);
-    gsap.set(stageEl, { transformOrigin: '0 0' });
-    gsap.to(stageEl, {
-      x: tx,
-      y: ty,
-      scale: S,
-      duration: 0.6,
-      ease: 'power3.out',
-      force3D: true,
-      overwrite: true,
-      onStart: () => {
-        // eslint-disable-next-line no-console
-        console.log('[gallery] tween start', { tx, ty, S });
-      },
-      onUpdate: function () {
-        // eslint-disable-next-line no-console
-        console.log(
-          '[gallery] tween tick',
-          gsap.getProperty(stageEl, 'x'),
-          gsap.getProperty(stageEl, 'y'),
-          gsap.getProperty(stageEl, 'scale')
-        );
-      },
-    });
-  }
-
-  /**
-   * Close the zoom: tween scale back to 1 and translate back to the
-   * pre-zoom position, restore the thumb image, re-enable panning.
-   */
-  function closeZoom() {
-    if (!gsap || !stageEl) return;
-    if (zoomedIndex < 0) return;
-    const idx = zoomedIndex;
-    const target = _preZoom || { x: 0, y: 0 };
-
-    // Restore the thumb on the focused tile up-front so the shrinking
-    // tween shows the right image immediately.
-    const tileEl = /** @type {HTMLElement | null} */ (
-      stageEl.querySelector(`.tile[data-index="${idx}"] .tile-inner`)
-    );
-    const img = /** @type {HTMLImageElement | null} */ (
-      tileEl?.querySelector('img')
-    );
-    swapTileImage(img, false, '');
-
-    zoomedIndex = -1;
-    _preZoom = null;
-
-    gsap.killTweensOf(stageEl);
-    gsap.to(stageEl, {
-      x: target.x,
-      y: target.y,
-      scale: 1,
-      duration: 0.5,
-      ease: 'power3.inOut',
-      transformOrigin: '0 0',
-      force3D: true,
-      onComplete: () => {
-        try {
-          _draggable?.enable();
-        } catch (_) {
-          /* ignore */
-        }
-      },
     });
   }
 
@@ -642,6 +786,8 @@
   aria-label={title ? `Gallery: ${title}` : 'Image gallery'}
   tabindex="-1"
   onkeydown={handleKeydown}
+  style="--frame-width: {metrics.frameW}px; --gap: {metrics.gap}px; --row-h: {metrics.frameW /
+    100}px; --cap-h: {CAPTION_H}px;"
 >
   <div class="ghost" bind:this={ghostEl}></div>
 
@@ -651,72 +797,80 @@
     >
     <h2 class="canvas-title">{title}</h2>
 
-    <div
-      class="stage"
-      bind:this={stageEl}
-      class:is-zoomed={zoomedIndex >= 0}
-      onclick={zoomedIndex >= 0 ? closeZoom : undefined}
-      role={zoomedIndex >= 0 ? 'button' : undefined}
-      tabindex={zoomedIndex >= 0 ? 0 : undefined}
-      aria-label={zoomedIndex >= 0 ? 'Close zoomed image' : undefined}
-    >
-      <div class="masonry-inner" style={masonryContainerStyle(contentWidth)}>
+    <div class="stage" bind:this={stageEl} class:is-zoomed={zoomedIndex >= 0}>
+      <div
+        class="masonry-inner"
+        style={masonryContainerStyle(contentWidth, metrics.frameW, metrics.gap)}
+      >
         {#each tiles as t, i (t.key)}
           <div
             class="tile"
             class:is-focused={zoomedIndex === i}
             style={t.style}
-            aria-label={t.alt}
             data-index={i}
           >
-            <span class="tile-inner">
+            <!-- Pointer input is handled by the stage-level drag-vs-click
+                 listeners; this button exists so the wall is reachable by
+                 keyboard too. -->
+            <button
+              class="tile-inner"
+              type="button"
+              aria-label={t.label}
+              onkeydown={(e) => {
+                if (e.key !== 'Enter' && e.key !== ' ') return;
+                e.preventDefault();
+                if (zoomedIndex === i) closeZoom();
+                else openZoom(i);
+              }}
+            >
               <img
                 data-src={t.thumb}
                 data-srcset={t.srcset}
-                sizes={TILE_SIZES}
-                alt={t.alt}
+                sizes={tileSizes}
+                alt={t.label}
                 decoding="async"
                 loading="lazy"
                 fetchpriority="low"
                 draggable="false"
               />
-            </span>
+
+              <span class="tile-caption">
+                <span class="tile-title">{t.label}</span>
+                {#if t.item.client}
+                  <span class="tile-client">{t.item.client}</span>
+                {/if}
+              </span>
+            </button>
+            <!-- Sibling, not child: an <a> inside a <button> is invalid and
+                 Firefox won't follow it. -->
+            {#if t.item.ref_url}
+              <a
+                class="tile-link"
+                href={t.item.ref_url}
+                target="_blank"
+                rel="noopener"
+                aria-label="Open source for {t.label}"
+              >
+                <Icon icon="iconamoon:link-external-duotone" />
+              </a>
+            {/if}
           </div>
         {/each}
       </div>
     </div>
-
-    <!-- Caption + optional reference link. Lives outside the stage so
-         it doesn't get scaled along with the grid. -->
-    {#if zoomedItem && zoomedItem.alt}
-      <div class="zoom-caption" aria-live="polite">
-        {#if zoomedItem.item.ref_url}
-          <a
-            href={zoomedItem.item.ref_url}
-            target="_blank"
-            rel="noopener"
-            onclick={(e) => e.stopPropagation()}
-          >
-            {zoomedItem.alt}
-          </a>
-        {:else}
-          <span>{zoomedItem.alt}</span>
-        {/if}
-      </div>
-    {/if}
   </div>
 </div>
 
 <style lang="scss">
-  // FRAME_W / GAP / PRECISION are module constants; expose them once
-  // via custom properties on the root of the overlay so per-tile inline
-  // styles don't need to repeat them.
-  .infinite-canvas-overlay {
-    --frame-width: 500px;
-    --gap: 100px;
-    --precision: 100;
-    --row-h: 5px; // = frame-width / precision
+  // Registered so it can transition, and so the image can read the band's
+  // live height mid-animation.
+  @property --band {
+    syntax: '<length>';
+    inherits: true;
+    initial-value: 0px;
+  }
 
+  .infinite-canvas-overlay {
     position: fixed;
     inset: 0;
     z-index: 1000;
@@ -789,6 +943,7 @@
   }
 
   .stage {
+    --inv: 1;
     position: absolute;
     top: 0;
     left: 0;
@@ -796,8 +951,9 @@
     user-select: none;
     cursor: grab;
     touch-action: none;
-    // Establish a 3D context so the scale tween benefits from
-    // hardware compositing.
+    // Pinch/wheel/focus zoom all scale about the origin — the anchoring
+    // maths assumes this corner, not the default centre.
+    transform-origin: 0 0;
     transform-style: preserve-3d;
     backface-visibility: hidden;
 
@@ -823,35 +979,6 @@
     }
   }
 
-  // Bottom caption shown while a tile is zoomed. Sits *outside* the
-  // transformed stage so its position doesn't get scaled along with
-  // the grid.
-  .zoom-caption {
-    position: fixed;
-    left: 50%;
-    bottom: var(--space-sm, 1rem);
-    transform: translateX(-50%);
-    z-index: 25;
-    padding: var(--space-2xs, 0.5rem) var(--space-md, 1.5rem);
-    max-width: min(90vw, 720px);
-    background: rgba(0, 0, 0, 0.7);
-    color: var(--white, #fff);
-    font-size: var(--font-size-0, 1rem);
-    text-align: center;
-    border-radius: 999px;
-    backdrop-filter: blur(6px);
-    pointer-events: auto;
-
-    a {
-      color: inherit;
-      text-decoration: underline;
-
-      &:hover {
-        color: var(--purple-soft);
-      }
-    }
-  }
-
   .masonry-inner {
     grid-auto-rows: var(--row-h);
     overflow: visible;
@@ -860,12 +987,17 @@
   .tile {
     --w: 1;
     --h: 1;
+    --card: #f1ede1;
+    // Caption band + type hold a constant on-screen size at any zoom.
+    // Sized from the zoom we're heading to, not the live one — a value that
+    // changes every frame keeps restarting the band's CSS transition.
+    --footer-h: calc(var(--cap-h) * var(--inv-end, 1));
+    --cap-fs: calc(15px * var(--inv-end, 1));
+    --unfold: 0.55s cubic-bezier(0.65, 0, 0.35, 1);
     aspect-ratio: var(--w) / var(--h);
     width: 100%;
     grid-row: span var(--span);
     align-self: start;
-    text-decoration: none;
-    color: inherit;
     display: block;
     cursor: zoom-in;
 
@@ -878,43 +1010,172 @@
     .tile-inner {
       position: absolute;
       display: flex;
-      justify-content: center;
-      align-items: center;
+      flex-direction: column;
+      --band: 0px;
       inset: calc(var(--gap, 0) / 2);
+      bottom: calc(var(--gap, 0) / 2 - var(--band));
       overflow: hidden;
+      border: none;
+      padding: 0;
+      font: inherit;
+      text-align: left;
       border-radius: 4px;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+      // These timings apply on the way *back* to the wall: fold the band away
+      // quickly so it doesn't hang over neighbours while the camera pulls out.
       transition:
-        box-shadow 0.15s,
-        filter 0.45s ease,
-        opacity 0.45s ease;
+        --band 0.2s ease-in,
+        background-color 0.2s,
+        box-shadow 0.2s,
+        opacity 0.5s ease,
+        filter 0.5s ease;
       cursor: zoom-in;
-      outline: 3px solid var(--purple-soft);
+      // Constant on-screen width at any zoom level.
+      outline: calc(3px * var(--inv, 1)) solid var(--purple-soft);
       background-color: #fff;
+
       &:hover {
         box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
       }
+
+      &:focus-visible {
+        outline-color: var(--white, #fff);
+        outline-width: calc(4px * var(--inv, 1));
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+      }
     }
 
-    // While the stage is zoomed, lift the focused tile above the
-    // others (each tile has random jitter z-index between 6-14 from
-    // tileStyle) and beef up its shadow for a "popping" feel.
-    &.is-focused {
-      z-index: 100 !important;
-    }
-    &.is-focused .tile-inner {
-      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
-      cursor: zoom-out;
-    }
-
+    // Always exactly the original frame, however far the band has unfolded,
+    // so it covers the caption tucked beneath it.
     img {
+      flex: none;
+      position: relative;
+      z-index: 1;
       width: 100%;
-      height: auto;
+      height: calc(100% - var(--band));
+      background-color: inherit;
       padding: 2.5%;
       box-sizing: border-box;
       object-fit: contain;
       display: block;
       pointer-events: none;
+    }
+
+    // Lift the item being read above its neighbours; the per-tile jitter
+    // z-index sits in the 6-14 range.
+    &.is-focused {
+      z-index: 100 !important; // beat the inline jitter z-index
+      cursor: zoom-out;
+      // `auto` implies paint containment, which would clip the unfolded band.
+      content-visibility: visible;
+    }
+
+    // On focus the card turns to cream stock and unfolds its caption band
+    // downward — the grid cell keeps its size, so nothing else reflows.
+    &.is-focused .tile-inner {
+      cursor: zoom-out;
+      --band: var(--footer-h);
+      background-color: var(--card);
+      box-shadow: 0 12px 48px rgba(0, 0, 0, 0.45);
+      transition:
+        --band var(--unfold),
+        background-color var(--unfold),
+        box-shadow 0.2s,
+        opacity 0.5s ease,
+        filter 0.5s ease;
+    }
+  }
+
+  // Everything the reader isn't looking at recedes.
+  .stage.is-zoomed .tile:not(.is-focused) .tile-inner {
+    opacity: 0.35;
+    filter: blur(2px);
+  }
+
+  // ----- Postcard caption -------------------------------------------
+
+  .tile-caption {
+    position: absolute;
+    left: 2.5%;
+    right: 2.5%;
+    bottom: 0;
+    height: var(--footer-h);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.2em;
+    padding-right: 1.8em; // clear the link icon
+    box-sizing: border-box;
+    border-top: calc(1px * var(--inv, 1)) solid rgba(0, 0, 0, 0.12);
+    font-size: var(--cap-fs);
+    text-transform: none;
+    letter-spacing: normal;
+    min-width: 0;
+    // Pinned to the card's bottom edge beneath the image: as the card grows
+    // the caption slides out from under the frame.
+    z-index: 0;
+    background-color: var(--card);
+  }
+
+  .tile-title {
+    font-family: var(--font-sans);
+    font-weight: var(--font-weight-bold);
+    line-height: 1.25;
+    color: var(--black-soft);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .tile-client {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 0.9em;
+    color: var(--gray);
+    text-transform: capitalize;
+  }
+
+  // Same icon and nudge as the blog referral cards.
+  .tile-link {
+    position: absolute;
+    z-index: 1;
+    top: calc(100% - var(--gap) / 2 + 0.6em);
+    right: calc(var(--gap) / 2 + var(--frame-width) * 0.03);
+    font-size: var(--cap-fs);
+    line-height: 0;
+    color: var(--black-soft);
+    opacity: 0;
+    pointer-events: none;
+    transition:
+      transform 0.35s ease,
+      color 0.2s,
+      opacity 0.3s ease;
+
+    :global(svg) {
+      width: 1.35em;
+      height: 1.35em;
+    }
+
+    &:hover,
+    &:focus-visible {
+      color: var(--purple);
+      transform: translate(0.15em, -0.15em);
+    }
+  }
+
+  .tile.is-focused .tile-link {
+    opacity: 1;
+    pointer-events: auto;
+    transition-delay: 0s, 0s, 0.3s;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .tile .tile-inner,
+    .tile-caption,
+    .tile-link {
+      transition: none;
     }
   }
 </style>

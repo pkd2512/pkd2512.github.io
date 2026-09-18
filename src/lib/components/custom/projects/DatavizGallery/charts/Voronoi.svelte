@@ -764,8 +764,13 @@
             role="button"
             tabindex="0"
             aria-label={`${cell.name}: ${cell.value} (${cell.pct}%)`}
-            onclick={(e) => onselect?.(cell.name, e.currentTarget.getBoundingClientRect())}
-            onkeydown={(e) => e.key === 'Enter' && onselect?.(cell.name)}
+            onclick={(e) =>
+              onselect?.(cell.name, e.currentTarget.getBoundingClientRect())}
+            onkeydown={(e) => {
+              if (e.key !== 'Enter' && e.key !== ' ') return;
+              e.preventDefault();
+              onselect?.(cell.name, e.currentTarget.getBoundingClientRect());
+            }}
           >
             <title>{cell.name} — {cell.value} ({cell.pct}%)</title>
           </path>
@@ -858,10 +863,6 @@
   .cells :global(path.voronoi-cell) {
     color: transparent;
     fill: transparent;
-  }
-
-  .cells :global(path.voronoi-cell:not(.selected)) {
-    stroke: var(#fff, inherit);
   }
 
   .cell-label,
