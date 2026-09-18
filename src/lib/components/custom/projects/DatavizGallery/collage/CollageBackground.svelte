@@ -20,7 +20,7 @@
    * @type {{
    *   width: number,
    *   height: number,
-   *   thumbs: string[],   // paths without leading `/`
+   *   thumbs: string[],   // root-relative URLs, see data/mediaUrl.js
    *   x?: number,         // patch top-left x (default 0)
    *   y?: number,         // patch top-left y (default 0)
    *   seed?: string       // any string — same seed → identical layout
@@ -72,7 +72,7 @@
         cx: leaf.x0 + w / 2,
         cy: leaf.y0 + h / 2,
         rot: (leaf.data.rand * 2 - 1) * TILE_TILT_DEG,
-        url: '/' + leaf.data.url,
+        url: leaf.data.url,
         key: 'bg' + leaf.data._i,
       });
     }
