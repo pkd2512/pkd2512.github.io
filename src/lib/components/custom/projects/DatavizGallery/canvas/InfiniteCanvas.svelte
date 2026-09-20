@@ -13,7 +13,7 @@
   const PADDING = 150;
 
   /** Stage zoom limits, shared by pinch, ctrl-wheel and click-to-focus. */
-  const MIN_SCALE = 0.4;
+  const MIN_SCALE = 0.2;
   const MAX_SCALE = 6;
 
   /** Fraction of the viewport a focused item is scaled to fill. */
@@ -39,10 +39,19 @@
    *   }>,
    *   title?: string,
    *   originRect: DOMRect | null,
+   *   reveal?: {polygon: [number, number][], x: number, y: number, scale: number, anchor: [number, number]} | null,
+   *   portalEl?: HTMLElement | null,
    *   onclose: () => void
    * }}
    */
-  let { items = [], title = '', originRect = null, onclose } = $props();
+  let {
+    items = [],
+    title = '',
+    originRect = null,
+    reveal = null,
+    portalEl = null,
+    onclose,
+  } = $props();
 
   // Snapshot originRect into plain numbers so a layout shift in the
   // page beneath us can't invalidate the live DOMRect mid-tween.
@@ -82,7 +91,7 @@
     items.map((it, i) => ({
       item: it,
       style: tileStyle(it, title, i, perm, metrics.frameW, metrics.gap),
-      thumb: thumbUrl(it.img_url, 600),
+      small: thumbUrl(it.img_url, 300),
       srcset: THUMB_WIDTHS.map((w) => `${thumbUrl(it.img_url, w)} ${w}w`).join(
         ', '
       ),
@@ -133,6 +142,228 @@
     stageEl?.style.setProperty('--inv', String(1 / scale));
   }
 
+  // ----- Window reveal ------------------------------------------------
+  // Opened from a chart cell, the gallery starts clipped to that cell's
+  // outline over an identical render of the wall, then the outline grows
+  // until it covers the screen. Closing runs it backwards.
+
+  const REVEAL_MS = 800;
+  const CONCEAL_MS = 550;
+
+  /** Current growth of the outline (1 = the cell itself). */
+  let maskScale = 1;
+  let maskRaf = 0;
+  let revealDone = false;
+
+  /**
+   * Vertex average. Voronoi cells are convex, so it's always inside.
+   * @param {[number, number][]} poly
+   * @returns {[number, number]}
+   */
+  function polyCentre(poly) {
+    let x = 0;
+    let y = 0;
+    for (const p of poly) {
+      x += p[0];
+      y += p[1];
+    }
+    return [x / poly.length, y / poly.length];
+  }
+
+  /**
+   * How far the outline must grow about `c` to cover the viewport: each
+   * viewport corner must fall inside, so find where the ray from `c` to
+   * that corner crosses the outline.
+   * @param {[number, number][]} poly
+   * @param {[number, number]} c
+   */
+  function coverScale(poly, c) {
+    const W = window.innerWidth;
+    const H = window.innerHeight;
+    let k = 1;
+    for (const [px, py] of [
+      [0, 0],
+      [W, 0],
+      [W, H],
+      [0, H],
+    ]) {
+      const dx = px - c[0];
+      const dy = py - c[1];
+      let hit = Infinity;
+      for (let i = 0; i < poly.length; i++) {
+        const [ax, ay] = poly[i];
+        const [bx, by] = poly[(i + 1) % poly.length];
+        const ex = bx - ax;
+        const ey = by - ay;
+        const den = dx * ey - dy * ex;
+        if (Math.abs(den) < 1e-9) continue;
+        const qx = ax - c[0];
+        const qy = ay - c[1];
+        const t = (qx * ey - qy * ex) / den;
+        const u = (qx * dy - qy * dx) / den;
+        if (t > 0 && u >= 0 && u <= 1 && t < hit) hit = t;
+      }
+      if (hit < Infinity) k = Math.max(k, 1 / hit);
+    }
+    return k * 1.05;
+  }
+
+  /**
+   * @param {[number, number][]} poly
+   * @param {[number, number]} c
+   * @param {number} k
+   */
+  function clipAt(poly, c, k) {
+    return (
+      'polygon(' +
+      poly
+        .map(
+          ([x, y]) =>
+            `${(c[0] + (x - c[0]) * k).toFixed(1)}px ${(c[1] + (y - c[1]) * k).toFixed(1)}px`
+        )
+        .join(', ') +
+      ')'
+    );
+  }
+
+  /** @type {any} */
+  let windowTween = null;
+
+  /** The point the portal zooms toward: where the reader clicked. */
+  function portalCentre() {
+    return reveal?.anchor ?? polyCentre(reveal?.polygon ?? []);
+  }
+
+  /**
+   * Scale the cell outline by `k` about `c` — and the chart page with it,
+   * so the whole page flies toward the reader and the clicked cell's own
+   * border stays exactly on the mask edge.
+   * @param {[number, number][]} poly
+   * @param {[number, number]} c
+   * @param {number} k
+   */
+  function applyWindow(poly, c, k) {
+    if (overlayEl) overlayEl.style.clipPath = clipAt(poly, c, k);
+    if (portalEl) portalEl.style.transform = k === 1 ? '' : `scale(${k})`;
+  }
+
+  /**
+   * Pin the page's zoom origin to the portal centre and promote it to its
+   * own layer for the flight (a stretched bitmap is fine while it rushes past).
+   * @param {boolean} on
+   */
+  function preparePortal(on) {
+    if (!portalEl) return;
+    if (on) {
+      const c = portalCentre();
+      portalEl.style.transform = '';
+      const r = portalEl.getBoundingClientRect();
+      portalEl.style.transformOrigin = `${c[0] - r.left}px ${c[1] - r.top}px`;
+      portalEl.style.willChange = 'transform';
+    } else {
+      portalEl.style.willChange = '';
+    }
+  }
+
+  /**
+   * Grow/shrink the outline to `maskTo` and, if given, move the camera to
+   * `stageTo` — driven by one tween so the two can never drift apart, even
+   * when frames drop (gsap slows its clock on a hitch; a wall-clock rAF
+   * loop doesn't). Falls back to a mask-only rAF loop before gsap loads.
+   * @param {number} maskTo
+   * @param {{x: number, y: number, scale: number} | null} stageTo
+   * @param {number} ms
+   * @param {() => void} [done]
+   */
+  function tweenWindow(maskTo, stageTo, ms, done) {
+    cancelAnimationFrame(maskRaf);
+    windowTween?.kill();
+    if (!reveal || !overlayEl) return done?.();
+    if (!gsap || !stageEl) return animateMask(maskTo, ms, done);
+    const poly = reveal.polygon;
+    const c = portalCentre();
+    const m0 = maskScale;
+    const x0 = Number(gsap.getProperty(stageEl, 'x')) || 0;
+    const y0 = Number(gsap.getProperty(stageEl, 'y')) || 0;
+    const k0 = Number(gsap.getProperty(stageEl, 'scale')) || 1;
+    gsap.killTweensOf(stageEl);
+    // Frame widths hang off --inv; changing it re-rasterises every card, so
+    // hold it at the chart's value for the flight and settle it at the end.
+    if (stageTo) setInverseScale(reveal.scale);
+    const p = { t: 0 };
+    windowTween = gsap.to(p, {
+      t: 1,
+      duration: ms / 1000,
+      ease: 'power2.inOut',
+      onUpdate: () => {
+        maskScale = m0 + (maskTo - m0) * p.t;
+        applyWindow(poly, c, maskScale);
+        if (!stageTo) return;
+        // x, y and scale all move linearly in t, which keeps the anchor
+        // point fixed on screen throughout the zoom.
+        const k = k0 + (stageTo.scale - k0) * p.t;
+        gsap.set(stageEl, {
+          x: x0 + (stageTo.x - x0) * p.t,
+          y: y0 + (stageTo.y - y0) * p.t,
+          scale: k,
+          force3D: true,
+        });
+      },
+      onComplete: () => {
+        if (stageTo) setInverseScale(stageTo.scale);
+        done?.();
+      },
+    });
+  }
+
+  /**
+   * Tween the outline's growth to `to` on a wall-clock rAF loop.
+   * @param {number} to
+   * @param {number} ms
+   * @param {() => void} [done]
+   */
+  function animateMask(to, ms, done) {
+    cancelAnimationFrame(maskRaf);
+    if (!reveal || !overlayEl) return done?.();
+    const poly = reveal.polygon;
+    const c = portalCentre();
+    const from = maskScale;
+    const t0 = performance.now();
+    /** @param {number} now */
+    const step = (now) => {
+      const t = Math.min(1, (now - t0) / ms);
+      const e = t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+      maskScale = from + (to - from) * e;
+      applyWindow(poly, c, maskScale);
+      if (t < 1) maskRaf = requestAnimationFrame(step);
+      else done?.();
+    };
+    maskRaf = requestAnimationFrame(step);
+  }
+
+  /**
+   * Resolve once the images under the outline have decoded — they're cached
+   * from the chart's windows — or after `ms`, whichever comes first.
+   * @param {[number, number][]} poly
+   * @param {number} ms
+   */
+  function imagesUnder(poly, ms) {
+    const xs = poly.map((p) => p[0]);
+    const ys = poly.map((p) => p[1]);
+    const l = Math.min(...xs);
+    const r = Math.max(...xs);
+    const t = Math.min(...ys);
+    const b = Math.max(...ys);
+    const imgs = [...(stageEl?.querySelectorAll('img') || [])].filter((img) => {
+      const box = img.getBoundingClientRect();
+      return box.right > l && box.left < r && box.bottom > t && box.top < b;
+    });
+    return Promise.race([
+      Promise.all(imgs.map((img) => img.decode().catch(() => {}))),
+      new Promise((res) => setTimeout(res, ms)),
+    ]);
+  }
+
   onMount(() => {
     /** @type {any} */ let Draggable;
     /** @type {any} */ let InertiaPlugin;
@@ -156,6 +387,69 @@
       contentWidth = calcMasonryWidth(items.length, next.frameW, next.gap);
     }
     applyMetrics();
+
+    // Lock page scroll, padding for the scrollbar that disappears — the
+    // chart underneath must not shift while the gallery sits over it.
+    const scrollbar = window.innerWidth - document.documentElement.clientWidth;
+    document.body.style.overflow = 'hidden';
+    if (scrollbar > 0) document.body.style.paddingRight = `${scrollbar}px`;
+
+    /** Starts upgrading tiles to their full srcset; set up once gsap loads. */
+    let observeImages = () => {};
+
+    /** Settles once gsap + Draggable are set up (in the async block below). */
+    /** @type {() => void} */
+    let gsapReady = () => {};
+    const gsapLoaded = new Promise((res) => (gsapReady = () => res(undefined)));
+
+    if (reveal && stageEl && overlayEl) {
+      const from = reveal;
+      tx = from.x;
+      ty = from.y;
+      stageEl.style.transform = `translate(${from.x}px, ${from.y}px) scale(${from.scale})`;
+      setInverseScale(from.scale);
+      const c = portalCentre();
+      overlayEl.style.clipPath = clipAt(from.polygon, c, 1);
+      // Hold the first frame until the cards under the window are ready,
+      // or the reveal would open on blank frames.
+      overlayEl.style.visibility = 'hidden';
+      Promise.all([imagesUnder(from.polygon, 200), gsapLoaded]).then(() => {
+        if (cancelled || !overlayEl || !stageEl) return;
+        overlayEl.style.visibility = '';
+        // While the window opens, zoom the wall to full size about the
+        // anchor, so the cards under the pointer stay under it and grow.
+        const [ax, ay] = from.anchor;
+        const lx = (ax - from.x) / from.scale;
+        const ly = (ay - from.y) / from.scale;
+        try {
+          _draggable?.disable();
+        } catch (_) {
+          /* ignore */
+        }
+        preparePortal(true);
+        tweenWindow(
+          coverScale(from.polygon, c),
+          { x: ax - lx, y: ay - ly, scale: 1 },
+          REVEAL_MS,
+          () => {
+            revealDone = true;
+            if (overlayEl) overlayEl.style.clipPath = '';
+            preparePortal(false);
+            // Only now fetch sharper images: mid-flight loads and decodes
+            // compete with the animation.
+            observeImages();
+            tx = Number(gsap.getProperty(stageEl, 'x')) || 0;
+            ty = Number(gsap.getProperty(stageEl, 'y')) || 0;
+            recomputeBounds();
+            try {
+              _draggable?.enable();
+            } catch (_) {
+              /* ignore */
+            }
+          }
+        );
+      });
+    }
 
     /** Current stage scale, read back off the live gsap transform. */
     function stageScale() {
@@ -352,11 +646,15 @@
       const minX = -(cw - vw) - PADDING;
       const maxY = PADDING;
       const minY = -(ch - vh) - PADDING;
+      // Always admit where the wall is now (e.g. where the chart's window
+      // placed it) — applyBounds would otherwise yank it into range.
+      const px = gsap ? Number(gsap.getProperty(stageEl, 'x')) || 0 : tx;
+      const py = gsap ? Number(gsap.getProperty(stageEl, 'y')) || 0 : ty;
       _bounds = {
-        minX: Math.min(minX, maxX),
-        maxX: Math.max(minX, maxX),
-        minY: Math.min(minY, maxY),
-        maxY: Math.max(minY, maxY),
+        minX: Math.min(minX, maxX, px),
+        maxX: Math.max(minX, maxX, px),
+        minY: Math.min(minY, maxY, py),
+        maxY: Math.max(minY, maxY, py),
       };
       // Re-clamp the current target so it doesn't sit outside new bounds.
       tx = Math.max(_bounds.minX, Math.min(_bounds.maxX, tx));
@@ -392,10 +690,10 @@
       gsap.registerPlugin(Draggable, InertiaPlugin);
 
       ready = true;
-      setInverseScale(1);
+      setInverseScale(reveal?.scale ?? 1);
 
       // Entrance ghost zoom (snapshot rect, autoAlpha for visibility).
-      if (ghostEl && initialRect) {
+      if (ghostEl && initialRect && !reveal) {
         gsap.fromTo(
           ghostEl,
           {
@@ -422,6 +720,9 @@
       draggable = Draggable.create(stageEl, {
         type: 'x,y',
         inertia: true,
+        // Draggable raises the target's z-index on every press by default,
+        // which soon lifts the whole wall over the back pill.
+        zIndexBoost: false,
         edgeResistance: 0,
         onDragStart() {
           stageEl?.classList.add('is-dragging');
@@ -441,6 +742,7 @@
         // unreliable for synthetic clicks.
       })[0];
       _draggable = draggable;
+      gsapReady();
 
       xTo = gsap.quickTo(stageEl, 'x', {
         duration: 0.4,
@@ -467,15 +769,9 @@
         resizeObs.observe(overlayEl);
       }
 
-      // Image deferral. Tile DOM nodes are cheap; the <img> payload is
-      // expensive. We attach `data-src` / `data-srcset` initially and
-      // only swap them onto the real attributes when the tile
-      // intersects (with a generous root margin so panning doesn't
-      // reveal blank tiles).
-      //
-      // Note: set `srcset` *before* `src`. Otherwise the browser kicks
-      // off a fallback request from `src` and then has to reconsider
-      // once `srcset` shows up — double load on slow connections.
+      // Tiles start on the small 300w thumb (already cached by the chart's
+      // windows) and only take on the full `srcset` once near the
+      // viewport (generous root margin so panning doesn't catch them).
       if (typeof IntersectionObserver !== 'undefined') {
         imgObs = new IntersectionObserver(
           (entries) => {
@@ -483,22 +779,20 @@
               if (!e.isIntersecting) continue;
               const img = /** @type {HTMLImageElement} */ (e.target);
               const ss = img.dataset.srcset;
-              const src = img.dataset.src;
               if (ss && !img.srcset) img.srcset = ss;
-              if (src && !img.src) img.src = src;
               imgObs?.unobserve(img);
             }
           },
           { root: null, rootMargin: '200% 200%', threshold: 0 }
         );
-        // Observe whatever images exist on the next frame (after Svelte
-        // has rendered the `{#each}`).
-        requestAnimationFrame(() => {
+        observeImages = () => {
           if (cancelled || !stageEl) return;
           stageEl
-            .querySelectorAll('img[data-src]')
+            .querySelectorAll('img[data-srcset]')
             .forEach((/** @type {Element} */ img) => imgObs?.observe(img));
-        });
+        };
+        // Opening from the chart, wait until the reveal has landed.
+        if (!reveal) requestAnimationFrame(observeImages);
       }
 
       // Wheel + pointer input.
@@ -508,7 +802,6 @@
       stageEl?.addEventListener('pointermove', onPointerMove);
       stageEl?.addEventListener('pointerup', onPointerUp);
       stageEl?.addEventListener('pointercancel', onPointerUp);
-      document.body.style.overflow = 'hidden';
       overlayEl?.focus();
     })();
 
@@ -529,7 +822,15 @@
       imgObs?.disconnect();
       if (gsap && stageEl) gsap.killTweensOf(stageEl);
       if (gsap && ghostEl) gsap.killTweensOf(ghostEl);
+      cancelAnimationFrame(maskRaf);
+      windowTween?.kill();
+      if (portalEl) {
+        portalEl.style.transform = '';
+        portalEl.style.transformOrigin = '';
+        portalEl.style.willChange = '';
+      }
       document.body.style.overflow = '';
+      document.body.style.paddingRight = '';
     };
   });
 
@@ -637,6 +938,10 @@
     );
 
     gsap.killTweensOf(stageEl);
+    // --inv drives frame widths; set it for the closer end of the move and
+    // leave it alone mid-flight — updating it per frame re-rasterises every
+    // card. Frames read slightly thin while zooming, never bold.
+    setInverseScale(Math.max(curScale, S));
     gsap.to(stageEl, {
       x: nx,
       y: ny,
@@ -645,7 +950,6 @@
       ease: 'power3.inOut',
       force3D: true,
       overwrite: true,
-      onUpdate: () => setInverseScale(_ctx?.stageScale() || 1),
       onComplete: () => setInverseScale(S),
     });
   }
@@ -677,7 +981,6 @@
       duration: 0.6,
       ease: 'power3.inOut',
       force3D: true,
-      onUpdate: () => setInverseScale(_ctx?.stageScale() || 1),
       onComplete: () => {
         _preZoom = null;
         setInverseScale(target.scale);
@@ -754,6 +1057,30 @@
   function close() {
     if (closing) return;
     closing = true;
+    if (reveal && overlayEl && stageEl) {
+      // Put the wall back where the window shows it while the outline
+      // shrinks, so the chart underneath takes over without a cut.
+      if (zoomedIndex >= 0) {
+        restoreThumb(zoomedIndex);
+        zoomedIndex = -1;
+      }
+      try {
+        _draggable?.disable();
+      } catch (_) {
+        /* ignore */
+      }
+      if (revealDone) {
+        maskScale = coverScale(reveal.polygon, portalCentre());
+      }
+      if (portalEl) portalEl.style.willChange = 'transform';
+      tweenWindow(
+        1,
+        { x: reveal.x, y: reveal.y, scale: reveal.scale },
+        CONCEAL_MS,
+        () => onclose?.()
+      );
+      return;
+    }
     if (gsap && ghostEl && initialRect) {
       // Cancel any in-flight ghost tween before starting the close tween
       // — otherwise an interrupted entrance can race with the exit.
@@ -791,11 +1118,12 @@
 >
   <div class="ghost" bind:this={ghostEl}></div>
 
-  <div class="canvas-content" class:ready>
-    <button class="close-btn" onclick={close} aria-label="Close gallery"
-      >&times;</button
-    >
-    <h2 class="canvas-title">{title}</h2>
+  <div class="canvas-content" class:ready={ready || !!reveal}>
+    <button class="back-pill" onclick={close}>
+      <span aria-hidden="true">&larr;</span> Topics
+      {#if title}<span class="back-sep" aria-hidden="true">&middot;</span>
+        <span class="back-topic">{title}</span>{/if}
+    </button>
 
     <div class="stage" bind:this={stageEl} class:is-zoomed={zoomedIndex >= 0}>
       <div
@@ -824,12 +1152,11 @@
               }}
             >
               <img
-                data-src={t.thumb}
+                src={t.small}
                 data-srcset={t.srcset}
                 sizes={tileSizes}
                 alt={t.label}
                 decoding="async"
-                loading="lazy"
                 fetchpriority="low"
                 draggable="false"
               />
@@ -904,42 +1231,42 @@
     }
   }
 
-  .close-btn {
-    position: fixed;
-    top: var(--space-sm, 0.75rem);
-    right: var(--space-sm, 0.75rem);
-    z-index: 20;
-    width: 44px;
-    height: 44px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: rgba(0, 0, 0, 0.5);
-    color: #fff;
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    border-radius: 50%;
-    font-size: 1.5rem;
-    cursor: pointer;
-    transition: background 0.15s;
-    padding: 0;
-    margin: 0;
-
-    &:hover {
-      background: var(--purple-soft);
-    }
-  }
-
-  .canvas-title {
+  .back-pill {
     position: fixed;
     top: var(--space-sm, 0.75rem);
     left: var(--space-sm, 0.75rem);
     z-index: 20;
-    color: var(--white);
-    font-size: var(--font-size-1, 1rem);
-    font-weight: var(--font-weight-medium, 500);
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.4em;
     margin: 0;
+    padding: 0.45em 0.9em 0.45em 0.75em;
+    font-family: var(--font-sans);
+    font-size: 0.875rem;
+    line-height: 1.2;
+    letter-spacing: normal;
+    text-transform: none;
+    color: var(--white, #fff);
+    background: rgba(20, 12, 30, 0.72);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 999px;
+    backdrop-filter: blur(6px);
+    cursor: pointer;
+    transition: background 0.15s;
+
+    &:hover,
+    &:focus-visible {
+      background: var(--purple-soft);
+    }
+  }
+
+  .back-sep {
+    opacity: 0.55;
+  }
+
+  .back-topic {
     text-transform: capitalize;
-    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
+    opacity: 0.85;
   }
 
   .stage {
@@ -954,8 +1281,6 @@
     // Pinch/wheel/focus zoom all scale about the origin — the anchoring
     // maths assumes this corner, not the default centre.
     transform-origin: 0 0;
-    transform-style: preserve-3d;
-    backface-visibility: hidden;
 
     &.is-zoomed {
       cursor: zoom-out;
@@ -1031,7 +1356,11 @@
         filter 0.5s ease;
       cursor: zoom-in;
       // Constant on-screen width at any zoom level.
-      outline: calc(3px * var(--inv, 1)) solid var(--purple-soft);
+      // On-screen frame width follows the zoom: 1px at the 0.25x overview,
+      // 3px from full size up. Same formula in WallPreview and InfiniteCanvas
+      // so the gallery takes over from the chart without a jump.
+      --ow: clamp(1px, (1px / var(--inv, 1) - 0.25px) * 2.667 + 1px, 3px);
+      outline: calc(var(--ow) * var(--inv, 1)) solid var(--purple-soft);
       background-color: #fff;
 
       &:hover {

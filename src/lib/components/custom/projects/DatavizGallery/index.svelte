@@ -1,15 +1,11 @@
 <script>
+  import { onMount } from 'svelte';
   import Container from '$lib/components/ui/Container/index.svelte';
   import ColumnPicker from './ui/ColumnPicker.svelte';
   import Voronoi from './charts/Voronoi.svelte';
   import InfiniteCanvas from './canvas/InfiniteCanvas.svelte';
-  import { thumbUrl } from './data/mediaUrl.js';
   // @ts-ignore
-  import {
-    getCounts,
-    getGroup,
-    getAllRows,
-  } from './data/dataviz-gallery-counts.js';
+  import { getCounts, getGroup } from './data/dataviz-gallery-counts.js';
   // @ts-ignore
   import csvcols from '$contents/data/dataviz-gallery.csv';
 
@@ -38,11 +34,6 @@
 
   let active = $state(groupers[0]?.key || '');
 
-  let activeDef = $derived(
-    groupers.find((/** @type {{ key: string }} */ g) => g.key === active) ||
-      groupers[0]
-  );
-
   let counts = $derived(getCounts(active));
 
   /** @type {string} */
@@ -54,27 +45,29 @@
   /** @type {DOMRect | null} */
   let originRect = $state(null);
 
-  /**
-   * Thumbnail URLs for the items in one group, at the smallest
-   * generated size — the Voronoi renders one static collage per group
-   * where each image occupies only a few dozen pixels.
-   *
-   * @param {string} name
-   * @returns {string[]}
-   */
-  function thumbsFor(name) {
-    if (!name) return [];
-    const items = getGroup(active, name)?.items || [];
-    return items.map((/** @type {{img_url:string}} */ it) =>
-      thumbUrl(it.img_url, 50)
-    );
-  }
+  /** @type {{polygon: [number, number][], x: number, y: number, scale: number, anchor: [number, number]} | null} */
+  let reveal = $state(null);
 
-  const total = getAllRows().length;
+  /** The chart section; the gallery zooms it toward the clicked cell. */
+  /** @type {HTMLElement | undefined} */
+  let sectionEl = $state();
+
+  // The gallery's opening animation runs on gsap; fetch it now so the first
+  // click doesn't wait on the download.
+  onMount(() => {
+    import('gsap');
+    import('gsap/Draggable');
+    import('gsap/InertiaPlugin');
+  });
+
+  /** @param {string} name */
+  function itemsFor(name) {
+    return getGroup(active, name)?.items || [];
+  }
 </script>
 
 <Container width="fluid">
-  <section class="gallery-treemap">
+  <section class="gallery-treemap" bind:this={sectionEl}>
     <div class="toolbar">
       <ColumnPicker
         {groupers}
@@ -89,29 +82,29 @@
       <Voronoi
         {counts}
         {selected}
-        getThumbs={thumbsFor}
-        onselect={(name, rect) => {
+        getItems={itemsFor}
+        onselect={(name, rect, from) => {
           selected = name;
           expandedGroup = name;
           originRect = rect || null;
+          reveal = from || null;
         }}
       />
     </div>
-    <p class="caption">
-      {counts.length}
-      {activeDef.label.toLowerCase()} &middot; {total} graphics total
-    </p>
   </section>
 </Container>
 
 {#if expandedGroup}
   <InfiniteCanvas
-    items={getGroup(active, expandedGroup)?.items || []}
+    items={itemsFor(expandedGroup)}
     title={expandedGroup}
     {originRect}
+    {reveal}
+    portalEl={sectionEl}
     onclose={() => {
       expandedGroup = null;
       originRect = null;
+      reveal = null;
     }}
   />
 {/if}
@@ -131,10 +124,12 @@
     .toolbar {
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      justify-content: center;
       flex-wrap: wrap;
       gap: var(--space-xs);
-      margin-bottom: var(--space-xs);
+      // Half the Voronoi leading (10px): the active tab covers the top seam
+      // and joins the window beneath it.
+      margin-bottom: -5px;
       flex-shrink: 0;
       // Force the toolbar to paint above everything, including the hero
       // it now visually overlaps.
@@ -149,15 +144,5 @@
       flex: 1 1 auto;
       min-height: 0;
     }
-
-    .caption {
-      text-align: center;
-      font-size: var(--font-size-0);
-      color: var(--gray);
-      margin-top: var(--space-xs);
-      font-style: italic;
-      flex-shrink: 0;
-    }
   }
-
 </style>
