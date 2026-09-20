@@ -1,0 +1,17 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "broken-image",
+        "value": "*",
+        "files": [
+          "src/lib/components/custom/projects/DatavizGallery/canvas/InfiniteCanvas.svelte"
+        ],
+        "createdAt": "2026-09-18T11:16:59.364Z",
+        "reason": "Tile <img> intentionally ships without src: an IntersectionObserver swaps data-src/data-srcset onto src when the tile nears the viewport, so 100+ offscreen tiles don't all fetch at once. Pre-existing deferred-loading pattern, documented in the component."
+      }
+    ]
+  }
+}
