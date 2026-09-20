@@ -5,10 +5,15 @@
   let { groupers, active, onchange } = $props();
 </script>
 
-<div class="picker">
+<!-- Folder tabs for the chart below: the active tab shares the windows'
+     ground colour and runs down into the sheet, so it reads as that
+     sheet's tab. -->
+<div class="tabs" role="tablist">
   {#each groupers as g}
     <button
-      class="pill"
+      class="tab"
+      role="tab"
+      aria-selected={active === g.key}
       class:active={active === g.key}
       onclick={() => onchange(g.key)}
     >
@@ -18,34 +23,41 @@
 </div>
 
 <style lang="scss">
-  .picker {
+  .tabs {
     display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-3xs);
-    margin-bottom: var(--space-s);
+    justify-content: center;
+    align-items: flex-end;
+    gap: 6px;
+  }
 
-    .pill {
-      all: unset;
-      cursor: pointer;
-      padding: var(--space-3xs) var(--space-s);
-      border-radius: 999px;
-      font-size: var(--font-size-0);
-      font-weight: var(--font-weight-medium);
-      color: var(--gray);
+  .tab {
+    all: unset;
+    cursor: pointer;
+    padding: 0.55em 1.6em;
+    border-radius: 8px 8px 0 0;
+    font-family: var(--font-sans);
+    font-size: var(--font-size-0);
+    font-weight: var(--font-weight-medium);
+    color: rgba(255, 255, 255, 0.75);
+    background: rgba(255, 255, 255, 0.14);
+    transition:
+      background 0.2s ease,
+      color 0.2s ease;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.24);
+      color: var(--white, #fff);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--white, #fff);
+      outline-offset: 2px;
+    }
+
+    &.active {
+      color: var(--purple-soft);
       background: var(--white-soft);
-      border: 1px solid var(--gray-soft);
-      transition: all 0.2s ease;
-
-      &:hover {
-        border-color: var(--purple-soft);
-        color: var(--purple-soft);
-      }
-
-      &.active {
-        background: var(--purple-soft);
-        color: var(--white);
-        border-color: var(--purple-soft);
-      }
+      cursor: default;
     }
   }
 </style>

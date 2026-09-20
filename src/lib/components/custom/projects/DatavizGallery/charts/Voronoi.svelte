@@ -2,7 +2,8 @@
   import { hierarchy } from 'd3-hierarchy';
   import { voronoiTreemap } from 'd3-voronoi-treemap';
   import { weightedVoronoi } from 'd3-weighted-voronoi';
-  import CollageBackground from '../collage/CollageBackground.svelte';
+  import WallPreview from '../canvas/WallPreview.svelte';
+  import { frameMetrics, calcMasonryWidth } from '../canvas/infiniteCanvas.js';
 
   // ==========================================================
   // CONFIG (tweak freely)
@@ -26,11 +27,11 @@
   const RESIZE_DEBOUNCE_MS = 80;
   /** Deterministic seed (so the layout doesn't reshuffle on resize). */
   const SEED = 0x9e3779b9;
-  /** Hide labels for cells smaller than this in px². */
-  const LABEL_MIN_AREA = 1500;
-  /** Min/max label font size in px. */
-  const LABEL_MIN_FS = 11;
-  const LABEL_MAX_FS = 24;
+  /** Width of the purple "leading" between windows, in px. */
+  const LEAD = 10;
+  /** Tag height, and approximate width per character, at 12px type. */
+  const TAG_H = 20;
+  const TAG_CHAR_W = 6.6;
   /** Voronoi treemap tuning. */
   const MIN_WEIGHT_RATIO = 0.001;
 
@@ -41,8 +42,8 @@
    *   counts: Array<{name: string, value: number}>,
    *   palette?: string[],
    *   selected?: string,
-   *   onselect?: (name: string, rect?: DOMRect) => void,
-   *   getThumbs?: (name: string) => string[]
+   *   onselect?: (name: string, rect?: DOMRect, reveal?: {polygon: [number, number][], x: number, y: number, scale: number, anchor: [number, number]}) => void,
+   *   getItems?: (name: string) => Array<{img_url: string, aspect: number}>
    * }}
    */
   let {
@@ -66,56 +67,45 @@
     ],
     selected = '',
     onselect,
-    getThumbs,
+    getItems,
   } = $props();
 
-  /**
-   * Sanitise a cell name into a safe SVG id fragment.
-   * @param {string} s
-   */
-  function slugId(s) {
-    return String(s)
-      .replace(/[^a-z0-9]+/gi, '-')
-      .toLowerCase();
-  }
-
-  /** Extra pixels around each cell's bbox when sizing its image patch.
-   *  A small margin keeps the white backdrop from showing through at
-   *  the polygon edge as the cell morphs/wobbles. */
-  const COLLAGE_MARGIN = 12;
+  /** Scale each topic's wall is shown at through its window. */
+  const WALL_SCALE = 0.25;
 
   /**
-   * Axis-aligned bounding box of a polygon, expanded by `COLLAGE_MARGIN`
-   * and clamped to the canvas. Used to size each cell's image patch.
-   *
-   * @param {[number,number][]} polygon
-   * @param {number} W
-   * @param {number} H
+   * Place a span of `size` near `start` inside [0, span]: kept fully inside
+   * when it fits, otherwise made to cover the whole span — so a window never
+   * shows empty backdrop the wall could have filled.
+   * @param {number} start
+   * @param {number} size
+   * @param {number} span
    */
-  function polyPatch(polygon, W, H) {
-    let minX = Infinity,
-      minY = Infinity,
-      maxX = -Infinity,
-      maxY = -Infinity;
-    for (const [px, py] of polygon) {
-      if (px < minX) minX = px;
-      if (py < minY) minY = py;
-      if (px > maxX) maxX = px;
-      if (py > maxY) maxY = py;
-    }
-    const x0 = Math.max(0, Math.floor(minX - COLLAGE_MARGIN));
-    const y0 = Math.max(0, Math.floor(minY - COLLAGE_MARGIN));
-    const x1 = Math.min(W, Math.ceil(maxX + COLLAGE_MARGIN));
-    const y1 = Math.min(H, Math.ceil(maxY + COLLAGE_MARGIN));
-    return { x: x0, y: y0, w: Math.max(1, x1 - x0), h: Math.max(1, y1 - y0) };
+  function fitSpan(start, size, span) {
+    return size <= span
+      ? Math.min(Math.max(start, 0), span - size)
+      : Math.min(Math.max(start, span - size), 0);
   }
 
-  // Collage tile constants live in ./cellCollage.js so the math is
-  // testable on its own. Vignette tints the cell over the collage.
-  /** Vignette opacity at the centre (0 = clear window, 1 = solid color). */
-  const VIGNETTE_INNER = 0;
-  /** Vignette opacity at the polygon edge. */
-  const VIGNETTE_OUTER = 1;
+  /**
+   * CSS clip-path for a cell, grown from its centroid by `b` in [0, 1] —
+   * the HTML twin of `cellPath`.
+   * @param {{polygon:[number,number][], cx:number, cy:number}} cell
+   * @param {number} b
+   */
+  function cellClip(cell, b) {
+    const { polygon, cx, cy } = cell;
+    return (
+      'polygon(' +
+      polygon
+        .map(
+          ([x, y]) =>
+            `${(cx + (x - cx) * b).toFixed(1)}px ${(cy + (y - cy) * b).toFixed(1)}px`
+        )
+        .join(', ') +
+      ')'
+    );
+  }
 
   /** @type {number} */
   let w = $state(0);
@@ -503,15 +493,71 @@
   /** @type {ReturnType<typeof buildCells>} */
   let cells = $state([]);
 
+  /** True once the morph has converged — tags only appear then. */
+  let settled = $state(false);
+
   /** Per-cell birth scale 0..1 keyed by cell name. */
   let birth = $state(/** @type {Record<string, number>} */ ({}));
 
-  /** Per-cell *final* polygon patch, computed once from the converged
-   *  voronoi snapshot. Stays fixed across the entire morph timeline so
-   *  the image bed never reflows. Keyed by cell.name. */
-  let finalPatch = $state(
-    /** @type {Record<string, {x:number, y:number, w:number, h:number}>} */ ({})
+  /** Each cell's *converged* centroid. Walls are anchored here so they stay
+   *  still while the cells morph over them. Keyed by cell.name. */
+  let finalCentre = $state(
+    /** @type {Record<string, {x:number, y:number}>} */ ({})
   );
+
+  /** Unscaled masonry height of each wall, reported by WallPreview. */
+  let wallH = $state(/** @type {Record<string, number>} */ ({}));
+
+  /** Same tile geometry the gallery overlay will use. */
+  let metrics = $state(frameMetrics(1200));
+
+  /**
+   * Top-left of a group's cards in wrap coordinates: centred on its cell,
+   * then kept inside the chart (or covering it, if larger).
+   * @param {string} name
+   * @param {number} count
+   */
+  function wallOrigin(name, count) {
+    const c = finalCentre[name];
+    if (!c) return { x: 0, y: 0 };
+    const { frameW, gap } = metrics;
+    const cw = (calcMasonryWidth(count, frameW, gap) - gap) * WALL_SCALE;
+    const ch = Math.max(0, (wallH[name] || 0) - gap) * WALL_SCALE;
+    return {
+      x: fitSpan(c.x - cw / 2, cw, debouncedW),
+      y: fitSpan(c.y - ch / 2, ch, debouncedH),
+    };
+  }
+
+  /**
+   * Everything the gallery needs to open exactly where this window is:
+   * the cell outline and the wall's transform, in viewport coordinates,
+   * plus the point to zoom in from (the click, else the cell's centre).
+   * @param {{name: string, polygon: [number, number][], cx: number, cy: number}} cell
+   * @param {MouseEvent | KeyboardEvent} e
+   */
+  function revealFor(cell, e) {
+    if (!wrapEl || !getItems) return undefined;
+    const r = wrapEl.getBoundingClientRect();
+    const o = wallOrigin(cell.name, getItems(cell.name).length);
+    const clicked = 'clientX' in e && (e.clientX || e.clientY);
+    return {
+      polygon: cell.polygon.map(
+        ([x, y]) => /** @type {[number, number]} */ ([x + r.left, y + r.top])
+      ),
+      x: o.x + r.left,
+      y: o.y + r.top,
+      scale: WALL_SCALE,
+      anchor: /** @type {[number, number]} */ (
+        clicked
+          ? [
+              /** @type {MouseEvent} */ (e).clientX,
+              /** @type {MouseEvent} */ (e).clientY,
+            ]
+          : [cell.cx + r.left, cell.cy + r.top]
+      ),
+    };
+  }
 
   let debouncedW = $state(0);
   let debouncedH = $state(0);
@@ -561,6 +607,7 @@
   $effect(() => {
     // Wait until visible — avoids burning CPU on offscreen charts and
     // ensures the entrance animation plays exactly when the user sees it.
+    settled = false;
     if (!inView || !debouncedW || !debouncedH || !counts.length) {
       cells = [];
       return;
@@ -575,9 +622,8 @@
     const snaps = buildSnapshots(data, W, H);
     if (!snaps.length) return;
 
-    // 1b. Compute the *converged* cells once. Their polygon patches are
-    //     used as the image-bed rectangles for every frame — keeping
-    //     the collage layout perfectly still as cells morph above it.
+    // 1b. Compute the *converged* cells once. Walls anchor on their
+    //     centroids so they stay still as the cells morph above them.
     const finalCellsLayout = buildCells(
       data,
       snaps[snaps.length - 1],
@@ -585,12 +631,11 @@
       H,
       tv
     );
-    /** @type {Record<string, {x:number, y:number, w:number, h:number}>} */
-    const nextPatch = {};
-    for (const c of finalCellsLayout) {
-      nextPatch[c.name] = polyPatch(c.polygon, W, H);
-    }
-    finalPatch = nextPatch;
+    /** @type {Record<string, {x:number, y:number}>} */
+    const nextCentre = {};
+    for (const c of finalCellsLayout) nextCentre[c.name] = { x: c.cx, y: c.cy };
+    finalCentre = nextCentre;
+    metrics = frameMetrics(window.innerWidth);
 
     // 1a. Initialise the first frame *synchronously* with birth=0 so the
     //     cells visibly start as circles before the first RAF callback.
@@ -651,6 +696,7 @@
         for (const c of finalCells) finalBirth[c.name] = 1;
         cells = finalCells;
         birth = finalBirth;
+        settled = true;
       }
     }
 
@@ -662,15 +708,74 @@
   });
 
   // ==========================================================
-  // LABEL SIZING
+  // TAGS — each window's name, pinned to its longest inner edge
   // ==========================================================
 
-  /** @param {number} area */
-  function labelSize(area) {
-    if (area < LABEL_MIN_AREA) return 0;
-    const s = Math.sqrt(area) * 0.18;
-    return Math.max(LABEL_MIN_FS, Math.min(LABEL_MAX_FS, s));
+  /**
+   * One tag per cell, laid along the cell's longest interior edge (not the
+   * chart's outer border), just inside the window so it hangs off the
+   * leading. Edges are claimed once, so neighbours never share a seam;
+   * smallest cells choose first since they have the fewest long edges.
+   * Cells with no edge long enough for their tag go unlabelled.
+   * @param {Array<{name: string, polygon: [number, number][], cx: number, cy: number, area: number}>} list
+   * @param {number} W
+   * @param {number} H
+   */
+  function placeTags(list, W, H) {
+    /** @param {[number, number]} q */
+    const onFrame = (q) => q[0] < 1 || q[0] > W - 1 || q[1] < 1 || q[1] > H - 1;
+    const used = new Set();
+    const tags = [];
+    for (const c of [...list].sort((a, b) => a.area - b.area)) {
+      const w = c.name.length * TAG_CHAR_W + 22;
+      const p = c.polygon;
+      const edges = [];
+      for (let j = 0; j < p.length; j++) {
+        const a = p[j];
+        const b = p[(j + 1) % p.length];
+        if (onFrame(a) && onFrame(b)) continue;
+        const len = Math.hypot(b[0] - a[0], b[1] - a[1]);
+        if (len < w + LEAD * 2) continue;
+        const key = [a, b]
+          .map((q) => q.map(Math.round).join(','))
+          .sort()
+          .join('|');
+        edges.push({ a, b, len, key });
+      }
+      edges.sort((x, y) => y.len - x.len);
+      const e = edges.find((x) => !used.has(x.key));
+      if (!e) continue;
+      used.add(e.key);
+      const [ax, ay] = e.a;
+      const ex = e.b[0] - ax;
+      const ey = e.b[1] - ay;
+      const mx = ax + ex / 2;
+      const my = ay + ey / 2;
+      // Unit normal pointing into this cell.
+      let nx = -ey / e.len;
+      let ny = ex / e.len;
+      if ((c.cx - mx) * nx + (c.cy - my) * ny < 0) {
+        nx = -nx;
+        ny = -ny;
+      }
+      let angle = (Math.atan2(ey, ex) * 180) / Math.PI;
+      if (angle > 90) angle -= 180;
+      if (angle <= -90) angle += 180;
+      // Tag's near edge tucks 1px under the leading, so it reads as hung
+      // from it rather than floating in the window.
+      const off = LEAD / 2 + TAG_H / 2 - 1;
+      tags.push({
+        name: c.name,
+        x: mx + nx * off,
+        y: my + ny * off,
+        angle,
+        w,
+      });
+    }
+    return tags;
   }
+
+  let tags = $derived(settled ? placeTags(cells, debouncedW, debouncedH) : []);
 </script>
 
 <div
@@ -680,96 +785,60 @@
   bind:clientHeight={h}
 >
   {#if debouncedW && debouncedH}
+    <!-- Every topic's wall sits behind the chart; each cell is a window
+         onto its own. The gallery opens by growing that window. -->
+    {#if getItems}
+      <div class="windows" aria-hidden="true">
+        {#each cells as cell (cell.name + '-win')}
+          {@const items = getItems(cell.name)}
+          {@const o = wallOrigin(cell.name, items.length)}
+          <div
+            class="window"
+            style="clip-path: {cellClip(cell, birth[cell.name] ?? 0)}"
+          >
+            <WallPreview
+              {items}
+              seed={cell.name}
+              frameW={metrics.frameW}
+              gap={metrics.gap}
+              scale={WALL_SCALE}
+              x={o.x}
+              y={o.y}
+              bind:height={wallH[cell.name]}
+            />
+          </div>
+        {/each}
+      </div>
+    {/if}
     <svg
       viewBox="0 0 {debouncedW} {debouncedH}"
       preserveAspectRatio="xMidYMid meet"
     >
-      <defs>
-        <!-- Single shared radial vignette: every cell uses the same
-             `--purple` tint, so 15 duplicated gradients were collapsed
-             into one. `objectBoundingBox` units mean the percentages
-             refer to each cell's own bbox.
-             • End circle (cx/cy/r) defines where the gradient hits 100%
-             • Focal point (fx/fy) is where 0% starts — top-left here,
-               giving a soft diagonal "spotlight" effect. -->
-        <radialGradient
-          id="cellvig"
-          cx="50%"
-          cy="50%"
-          r="75%"
-          fx="50%"
-          fy="50%"
-        >
-          <stop offset="50%" class="vig-stop" stop-opacity={VIGNETTE_INNER}
-          ></stop>
-          <stop
-            offset="85%"
-            class="vig-stop"
-            stop-opacity={VIGNETTE_OUTER * 0.45}
-          ></stop>
-          <stop offset="100%" class="vig-stop" stop-opacity={VIGNETTE_OUTER}
-          ></stop>
-        </radialGradient>
-      </defs>
-
-      <!-- Per-cell clip paths. The clip uses the cell's *morphed* shape
-           (circle at b=0 → polygon at b=1) so the collage underneath
-           stays perfectly still — only the porthole opening grows. -->
-      {#if getThumbs}
-        <defs>
-          {#each cells as cell (cell.name + '-clip')}
-            {@const b = birth[cell.name] ?? 0}
-            <clipPath id="cellclip-{slugId(cell.name)}">
-              <path d={cellPath(cell, b)}></path>
-            </clipPath>
-          {/each}
-        </defs>
-      {/if}
-
-      <!-- One static collage per cell. The image bed is only rendered
-           inside the cell's bounding box (padded by COLLAGE_MARGIN) —
-           tiles stay small and we don't render across the whole canvas.
-           The clip-path on top still confines what's actually visible. -->
-      <g class="collages">
-        {#each cells as cell (cell.name + '-bg')}
-          {@const thumbs = getThumbs ? getThumbs(cell.name) : []}
-          {@const patch = finalPatch[cell.name]}
-          {#if thumbs.length && patch}
-            <g clip-path="url(#cellclip-{slugId(cell.name)})">
-              <CollageBackground
-                x={patch.x}
-                y={patch.y}
-                width={patch.w}
-                height={patch.h}
-                {thumbs}
-                seed={'bed:' + cell.name}
-              />
-            </g>
-          {/if}
-        {/each}
-      </g>
-
-      <g class="cells">
+      <g class="cells" class:settled>
         {#each cells as cell (cell.name)}
           {@const b = birth[cell.name] ?? 0}
-          {@const hasCollage = getThumbs
-            ? getThumbs(cell.name).length > 0
-            : false}
           <path
             class="voronoi-cell"
             class:selected={cell.name === selected}
-            class:tinted={hasCollage}
             d={cellPath(cell, b)}
-            fill={hasCollage ? 'url(#cellvig)' : cell.color}
+            fill={getItems ? 'transparent' : cell.color}
             role="button"
             tabindex="0"
             aria-label={`${cell.name}: ${cell.value} (${cell.pct}%)`}
             onclick={(e) =>
-              onselect?.(cell.name, e.currentTarget.getBoundingClientRect())}
+              onselect?.(
+                cell.name,
+                e.currentTarget.getBoundingClientRect(),
+                revealFor(cell, e)
+              )}
             onkeydown={(e) => {
               if (e.key !== 'Enter' && e.key !== ' ') return;
               e.preventDefault();
-              onselect?.(cell.name, e.currentTarget.getBoundingClientRect());
+              onselect?.(
+                cell.name,
+                e.currentTarget.getBoundingClientRect(),
+                revealFor(cell, e)
+              );
             }}
           >
             <title>{cell.name} — {cell.value} ({cell.pct}%)</title>
@@ -777,30 +846,19 @@
         {/each}
       </g>
 
-      <g class="labels" pointer-events="none">
-        {#each cells as cell (cell.name + '-l')}
-          {@const fs = labelSize(cell.area)}
-          {@const b = birth[cell.name] ?? 1}
-          {#if fs > 0 && b >= 1}
-            <text
-              class="cell-label"
-              x={cell.cx}
-              y={fs >= 13 ? cell.cy - fs * 0.45 : cell.cy}
-              font-size={fs}
-            >
-              {cell.name}
-            </text>
-            {#if fs >= 13}
-              <text
-                class="cell-pct"
-                x={cell.cx}
-                y={cell.cy + fs * 0.75}
-                font-size={fs * 0.78}
-              >
-                {cell.pct}%
-              </text>
-            {/if}
-          {/if}
+      <g class="tags" pointer-events="none">
+        {#each tags as t (t.name)}
+          <g transform="translate({t.x} {t.y}) rotate({t.angle})">
+            <rect
+              class="tag"
+              x={-t.w / 2}
+              y={-TAG_H / 2}
+              width={t.w}
+              height={TAG_H}
+              rx={TAG_H / 2}
+            ></rect>
+            <text class="tag-text">{t.name}</text>
+          </g>
         {/each}
       </g>
     </svg>
@@ -820,17 +878,23 @@
     background-color: var(--purple-soft);
 
     svg {
+      position: relative; // above the windows
       display: block;
       width: 100%;
       height: 100%;
     }
   }
 
-  // SVG `stop-color` attributes do not evaluate CSS variables, so we
-  // set the color via a CSS rule on the stops instead. This way the
-  // vignette inherits `--purple` from the theme automatically.
-  :global(.vig-stop) {
-    stop-color: var(--purple-soft);
+  .windows,
+  .window {
+    position: absolute;
+    inset: 0;
+  }
+
+  .window {
+    overflow: hidden;
+    // Same ground as the gallery overlay, so the reveal has no seam.
+    background-color: var(--white-soft);
   }
 
   .voronoi-cell {
@@ -842,20 +906,28 @@
     shape-rendering: geometricPrecision;
     // Hairline same-color stroke fills the sub-pixel gaps between
     // adjacent cells that otherwise appear due to anti-aliasing.
+    // The leading between windows: header purple, wide enough to read as
+    // the sheet the windows are cut from.
     stroke: var(--purple-soft);
-    stroke-width: 3;
+    stroke-width: 10px; // = LEAD
     stroke-linejoin: round;
     vector-effect: non-scaling-stroke;
 
     &:hover,
     &:focus-visible {
-      filter: brightness(1.18);
+      filter: brightness(1.35);
     }
+  }
 
-    &.selected {
-      stroke: #fff;
-      stroke-width: 3;
-      stroke-dasharray: 6 3;
+  // The leading casts a soft shadow onto the windows, so they sit recessed
+  // behind the sheet. Applied once the cells settle: a blur filter over the
+  // whole chart is too costly to recompute on every frame of the morph.
+  .cells {
+    transition: filter 0.5s ease;
+
+    &.settled {
+      filter: drop-shadow(0 1px 1.5px rgba(0, 0, 0, 0.45))
+        drop-shadow(0 3px 8px rgba(0, 0, 0, 0.28));
     }
   }
 
@@ -865,24 +937,33 @@
     fill: transparent;
   }
 
-  .cell-label,
-  .cell-pct {
-    text-anchor: middle;
-    dominant-baseline: middle;
-    font-family: inherit;
-    paint-order: stroke;
-    stroke: rgba(0, 0, 0, 0.4);
-    stroke-width: 2;
-    stroke-linejoin: round;
+  .tags {
+    animation: tags-in 0.45s ease both;
   }
 
-  .cell-label {
-    fill: #fff;
-    font-weight: 600;
+  .tag {
+    fill: var(--purple-soft);
   }
 
-  .cell-pct {
-    fill: rgba(255, 255, 255, 0.92);
+  .tag-text {
+    fill: var(--white, #fff);
+    font-family: var(--font-sans);
+    font-size: 12px;
     font-weight: 500;
+    letter-spacing: 0.04em;
+    text-anchor: middle;
+    dominant-baseline: central;
+  }
+
+  @keyframes tags-in {
+    from {
+      opacity: 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .tags {
+      animation: none;
+    }
   }
 </style>
