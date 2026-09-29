@@ -8,23 +8,33 @@
 
   let { meta } = $props();
 
-  let infoHeight = $state();
+  // Starts at 0, not undefined: an empty value would render `--anno-h: px`,
+  // which makes `animation-range` invalid and spreads the sink over the
+  // whole page instead of the first screen.
+  let infoHeight = $state(0);
   let windowHeight = $state();
-  let bottom = $state();
+  /** How far the quote has sunk, in px. CSS drives this where it can. */
+  let annoY = $state(0);
 
   const makeParallax = (pos) => {
     if (!infoHeight || !windowHeight) return 0;
     return scaleLinear()
       .clamp(true)
       .domain([infoHeight, 0.6 * windowHeight])
-      .range([0, -infoHeight])(pos);
+      .range([0, infoHeight])(pos);
   };
 
   $effect(() => {
+    // Where scroll-driven animations are supported the CSS below does this
+    // off the main thread; animating the `bottom` offset from script forced
+    // a layout on every scroll event.
+    if (CSS.supports('animation-timeline: scroll()')) return;
+
     const handleScroll = () => {
-      bottom = makeParallax(window.scrollY);
+      annoY = makeParallax(window.scrollY);
     };
-    window.addEventListener('scroll', handleScroll);
+    handleScroll();
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
@@ -50,7 +60,7 @@
   </div>
 
   <Container width="fluid">
-    <div class="anno" style="bottom:{bottom}px">
+    <div class="anno" style="--anno-h: {infoHeight}px; --anno-y: {annoY}px">
       <aside bind:clientHeight={infoHeight}>
         {@html meta.intro.quote}
       </aside>
@@ -76,6 +86,9 @@
     box-shadow: var(--shadow-2);
     max-width: 100%;
     position: relative;
+    // Sinks by exactly its own height, as the old `bottom` offset did —
+    // but as a transform, which costs no layout.
+    transform: translateY(var(--anno-y, 0px));
 
     aside {
       text-wrap: balance;
@@ -100,6 +113,32 @@
       @media (--sm-n-below) {
         font-size: var(--font-size--1);
       }
+    }
+  }
+
+  // Same mapping as the fallback: starts once the quote's own height has
+  // scrolled past, finishes at 60vh.
+  @supports (animation-timeline: scroll()) {
+    .anno {
+      animation: anno-sink linear both;
+      animation-timeline: scroll(root block);
+      animation-range: var(--anno-h, 0px) 60vh;
+    }
+
+    @keyframes anno-sink {
+      from {
+        transform: translateY(0);
+      }
+      to {
+        transform: translateY(var(--anno-h, 0px));
+      }
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .anno {
+      animation: none;
+      transform: none;
     }
   }
 </style>
