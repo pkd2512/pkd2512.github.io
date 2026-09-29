@@ -7,26 +7,50 @@
 
   import scrollDirection from '$utils/scrollDirection';
   import { inview } from 'svelte-inview';
+  import { afterNavigate } from '$app/navigation';
 
   let { links } = $props();
 
   let pageId = $derived(page.route.id);
   let pageHash = $derived(page.url.hash);
   let pin = $state(false);
+  let resizeTimer;
+  /** @type {HTMLElement} */
+  let navEl;
+
+  const handleInview = (/** @type {{ detail: { inView: any; } }} */ e) => {
+    if (window.scrollY > -1) {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+        pin = !e.detail.inView;
+      }, 100);
+    }
+  };
+
+  afterNavigate(() => {
+    // The observer can't settle this on its own: it reports *changes*, and the
+    // bar's clipping often reads the same either side of a navigation, so no
+    // event fires and the old page's state sticks. Measure instead. Sticky
+    // keeps the bar in flow, so offsetTop is still its natural place in the new
+    // page — and `margin-top: -1px` is what makes a bar sitting at the document
+    // top count as scrolled past, which is how pages without a hero above the
+    // nav get the pill at rest.
+    clearTimeout(resizeTimer);
+    pin = window.scrollY > navEl.offsetTop;
+  });
 </script>
 
 <nav
   id="sitenav"
+  bind:this={navEl}
   class="up"
   class:pin
   use:scrollDirection
   use:inview={{ root: null, threshold: 1 }}
-  oninview_change={(/** @type {{ detail: { inView: any; }; }} */ e) => {
-    if (window.scrollY > -1) pin = !e.detail.inView;
-  }}
+  oninview_change={handleInview}
 >
-  <Container grid width="lg">
-    <ul class={pin ? 'col-span-full' : 'col-start-lg-2 col-span-lg-10'}>
+  <Container grid>
+    <ul class="col-span-full">
       {#each links as link (link.name)}
         {#if link.url === '/'}
           <li class="nav-item badge">
@@ -69,9 +93,13 @@
   nav {
     margin-top: -1px;
     margin-bottom: var(--space-3xl);
+    // Every property the `.pin` state changes that can be interpolated, so the
+    // bar reshapes into the pill (and back, on navigation) instead of snapping.
     transition:
       transform 0.35s ease,
-      max-width 0.15s ease;
+      max-width 0.35s ease,
+      border-radius 0.35s ease,
+      filter 0.35s ease;
     z-index: var(--layer-5);
     background-color: var(--purple-soft);
     position: relative;
@@ -83,7 +111,8 @@
       top: -1px;
       left: -50%;
       max-width: var(--md);
-      box-shadow: var(--shadow-3), var(--shadow-5);
+      // box-shadow: var(--shadow-3);
+      @include filter-shadow(var(--purple));
 
       @media (min-width: 600px) {
         border-radius: 15rem;
@@ -128,6 +157,19 @@
     justify-content: space-between;
     align-items: center;
     padding: 0;
+    transition: padding-inline 0.35s ease;
+  }
+
+  // Unpinned, the links sit in columns 2-11, where `col-start-lg-2
+  // col-span-lg-10` used to put them. As padding that interpolates; grid
+  // placement does not, so swapping the class popped the row a frame before
+  // the bar had moved. (100% - 11 gutters) / 12 is one column, plus its gutter.
+  @media (min-width: 1024px) {
+    nav:not(.pin) ul {
+      padding-inline: calc(
+        (100% - 11 * var(--grid-gutter)) / 12 + var(--grid-gutter)
+      );
+    }
   }
 
   li {

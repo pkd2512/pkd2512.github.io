@@ -59,5 +59,6 @@
     max-width: none;
     border: none !important;
     background-color: transparent;
+    box-shadow: var(--shadow-2);
   }
 </style>

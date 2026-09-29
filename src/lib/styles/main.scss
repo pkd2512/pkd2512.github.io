@@ -6,3 +6,21 @@
 // * {
 //   outline: 1px solid red;
 // }
+
+.hed {
+  text-wrap: balance;
+  h2,
+  h3 {
+    margin-block: 0;
+  }
+  @media (--md-n-above) {
+    h2::before {
+      content: '';
+      background: var(--gray-soft);
+      display: block;
+      width: 100%;
+      height: calc(var(--grid-baseline) * 1);
+      margin-block-start: calc(var(--grid-baseline) * 1);
+    }
+  }
+}

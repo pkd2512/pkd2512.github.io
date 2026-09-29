@@ -1,6 +1,8 @@
 <script>
   import Container from '$lib/components/ui/Container/index.svelte';
+  import ProjectAward from '$lib/components/custom/projects/ProjectAward/index.svelte';
   import Icon from '@iconify/svelte';
+  import { fade } from 'svelte/transition';
 
   /**
    * @type {number}
@@ -8,17 +10,61 @@
   let infoHeight = $state(0);
 
   /**
-   * @type {{ meta: { intro: { hed: any; dek?: any; img?: any; client?: any; url?: any; duration?: any; }; } }}
+   * @type {{ meta: { intro: { hed: any; dek?: any; img?: any; client?: any; url?: any; duration?: any; }; awards?: { type: string; logo?: string; url?: string; label?: string }[] } }}
    */
   let { meta } = $props();
+
+  // How many awards fit in the 1-column side rail.
+  const SIDE_RAIL_CAPACITY = 4;
+  // How many awards fit in the 2-column side rail (wider viewports).
+  const SIDE_RAIL_2COL_CAPACITY = 8;
+
+  // Below this width we switch to bottom-row entirely.
+  const WIDE_QUERY = '(min-width: 1024px)'; // --lg-n-above
+  // Above this width we have room for the 2-column side rail.
+  const XWIDE_QUERY = '(min-width: 1440px)'; // --xl-n-above
+
+  let isWide = $state(false);
+  let isXWide = $state(false);
+  let ready = $state(false);
+
+  $effect(() => {
+    if (typeof window === 'undefined') return;
+    const mqlW = window.matchMedia(WIDE_QUERY);
+    const mqlXW = window.matchMedia(XWIDE_QUERY);
+    const update = () => {
+      isWide = mqlW.matches;
+      isXWide = mqlXW.matches;
+    };
+    update();
+    ready = true;
+    mqlW.addEventListener('change', update);
+    mqlXW.addEventListener('change', update);
+    return () => {
+      mqlW.removeEventListener('change', update);
+      mqlXW.removeEventListener('change', update);
+    };
+  });
+
+  let position = $derived.by(() => {
+    const count = meta.awards?.length ?? 0;
+    if (!isWide) return 'bottom';
+    if (count <= SIDE_RAIL_CAPACITY) return 'side';
+    if (isXWide && count <= SIDE_RAIL_2COL_CAPACITY) return 'side-2';
+    return 'bottom';
+  });
 </script>
 
-<section id="hero">
-  <Container width="md">
-    <header style="height: {Math.round(infoHeight * 1.5)}px;">
+<section
+  id="hero"
+  data-awards={position}
+  style={infoHeight ? `--info-height: ${Math.round(infoHeight)}px` : '700px'}
+>
+  <Container grid>
+    <header class="col-span-lg-10">
       <div class="text" bind:clientHeight={infoHeight}>
         <h1>{@html meta.intro.hed}</h1>
-        <p>
+        <p class="dek">
           {@html meta.intro.dek}
         </p>
         <p class="meta">
@@ -47,6 +93,12 @@
         </p>
       </div>
     </header>
+
+    {#if ready}
+      <div class="awards col-span-2" in:fade={{ duration: 200 }}>
+        <ProjectAward awards={meta.awards} />
+      </div>
+    {/if}
   </Container>
 </section>
 
@@ -60,8 +112,48 @@
     z-index: var(--layer-2);
   }
 
+  // Side-rail layout (1- or 2-column).
+  // Uses --info-height (set inline on #hero) so it tracks the h1's height.
+  #hero[data-awards='side'] .awards,
+  #hero[data-awards='side-2'] .awards {
+    height: var(--info-height);
+    margin-block-start: calc(
+      var(--info-height) * 0.25 + var(--space-xl) + 67px
+    );
+  }
+
+  // 2-column side rail: the .awards column itself stays at col-span-2,
+  // but its strip is absolutely positioned so it can overflow into the
+  // empty space to the right of the page grid without affecting layout
+  // or overlapping the header text on the left.
+  #hero[data-awards='side-2'] .awards {
+    position: relative;
+    overflow: visible;
+  }
+
+  .awards {
+    display: flex;
+    align-self: start;
+    justify-content: center;
+  }
+
+  // Bottom-row layout: awards take full grid width below the header.
+  #hero[data-awards='bottom'] {
+    header {
+      min-height: 0;
+    }
+
+    .awards {
+      grid-column: 1 / -1;
+      height: auto;
+      margin-block-start: 0;
+      margin-block-end: var(--space-l);
+    }
+  }
+
   header {
     min-height: 90lvh;
+    height: calc(var(--info-height) + 125px);
 
     @media (max-width: 600px) {
       min-height: 80lvh;
@@ -71,6 +163,10 @@
     align-items: center;
     justify-content: center;
     color: var(--white-soft);
+
+    @media (--md-n-below) {
+      align-items: end;
+    }
 
     .text {
       max-width: calc(0.85 * var(--lg));
@@ -86,10 +182,19 @@
       }
     }
 
+    .dek {
+      column-count: 2;
+      margin-block-start: var(--space-s);
+
+      @media (--lg-n-below) {
+        column-count: 1;
+      }
+    }
+
     p {
       color: var(--white-soft);
-      font-size: var(--font-size-1);
-      font-weight: var(--font-weight-light);
+      // font-size: var(--font-size-1);
+      font-weight: var(--font-weight-regular);
       @include text-shadow(var(--purple));
 
       &.meta {
