@@ -59,42 +59,90 @@ I love to talk about design and data visualisation. Over the years, I have instr
 
 <Container grid style="margin-block-start: var(--space-xl);">
 <div class="col-span-full">
-<PhotoPile orientation="widescreen"
-  items={[
-    {
-      src: 'https://picsum.photos/seed/community-1/1600/900',
-      alt: 'Placeholder photo from a talk',
-      caption: 'Speaking at a data visualisation talk.',
-    },
-    {
-      src: 'https://picsum.photos/seed/community-2/1600/900',
-      alt: 'Placeholder photo from a workshop',
-      caption: 'Running a hands-on workshop with students.',
-    },
-    {
-      src: 'https://picsum.photos/seed/community-3/1600/900',
-      alt: 'Placeholder photo from a classroom session',
-      caption: 'A classroom session on narrative cartography.',
-    },
-    {
-      src: 'https://picsum.photos/seed/community-4/1600/900',
-      alt: 'Placeholder photo from a panel discussion',
-      caption: 'On a panel discussing data storytelling.',
-    },
-    {
-      src: 'https://picsum.photos/seed/community-5/1600/900',
-      alt: 'Placeholder photo from a meetup',
-      caption: 'Meeting fellow designers at a community meetup.',
-    },
-  ]}
-/>
+<List title='Interviews and Features' content={mentions}/>
 </div>
 </Container>
 
 <Container grid style="margin-block-start: var(--space-xl);">
 <div class="col-span-full">
-<List title='Interviews and Features' content={mentions}/>
+<div style="margin-block-end: var(--space-xl);">
+<PhotoPile orientation="widescreen"
+  items={[
+    {
+      src: '/media/community/community-1.webp',
+      alt: "Prasanta speaking at a podium at VizChitra, with a slide reading 'If it doesn't look right, it probably isn't going to be read or understood right.'",
+      caption: 'Speaking on visual clarity in data storytelling at VizChitra.',
+    },
+    {
+      src: '/media/community/community-8.webp',
+      alt: "Prasanta speaking at a podium with a slide reading 'Data journalism renders the invisible visible — and makes people care.'",
+      caption: "On data journalism's power to make people care.",
+    },
+    {
+      src: '/media/community/community-2.webp',
+      alt: 'Prasanta leading a workshop, gesturing toward a map visualisation on screen while participants work at laptops.',
+      caption: 'Walking participants through a mapping exercise during a hands-on workshop.',
+    },
+    {
+      src: '/media/community/community-4.webp',
+      alt: 'Prasanta on stage at VizChitra with a large heatmap visualisation projected behind him, addressing a seated audience.',
+      caption: 'Presenting a data visualisation case study to a full auditorium at VizChitra.',
+    },
+    {
+      src: '/media/community/community-5.webp',
+      alt: 'A small group seated around a table in a bookshop lounge, deep in conversation.',
+      caption: 'In conversation with fellow designers and journalists.',
+    },
+    {
+      src: '/media/community/community-6.webp',
+      alt: "Prasanta speaking to an audience seated with laptops, with a slide reading 'From data to Art' projected behind him.",
+      caption: 'Talking about the journey from data to art at a community meetup.',
+    },
+    {
+      src: '/media/community/community-7.webp',
+      alt: 'A large group photo of workshop participants and instructors in an auditorium.',
+      caption: 'With workshop participants after a session.',
+    },
+  ]}
+/>
+</div>
 <List title='Talks and Workshops' content={talks}/>
+</div>
+
+</Container>
+<Container grid style="margin-block-start: var(--space-xl);">
+<div class="col-span-full">
+<div style="margin-block-end: var(--space-xl);">
+<PhotoPile orientation="ultrawide"
+  items={[
+    {
+      src: '/media/community/teaching-3.webp',
+      alt: "Prasanta speaking at a podium at VizChitra, with a slide reading 'If it doesn't look right, it probably isn't going to be read or understood right.'",
+      caption: 'Speaking on visual clarity in data storytelling at VizChitra.',
+    },
+    {
+      src: '/media/community/teaching-4.webp',
+      alt: "Prasanta speaking at a podium at VizChitra, with a slide reading 'If it doesn't look right, it probably isn't going to be read or understood right.'",
+      caption: 'Speaking on visual clarity in data storytelling at VizChitra.',
+    },
+    {
+      src: '/media/community/teaching-1.webp',
+      alt: "Prasanta speaking at a podium at VizChitra, with a slide reading 'If it doesn't look right, it probably isn't going to be read or understood right.'",
+      caption: 'Speaking on visual clarity in data storytelling at VizChitra.',
+    },
+    {
+      src: '/media/community/teaching-2.webp',
+      alt: "Prasanta speaking at a podium at VizChitra, with a slide reading 'If it doesn't look right, it probably isn't going to be read or understood right.'",
+      caption: 'Speaking on visual clarity in data storytelling at VizChitra.',
+    },
+    {
+      src: '/media/community/teaching-5.webp',
+      alt: "Prasanta speaking at a podium at VizChitra, with a slide reading 'If it doesn't look right, it probably isn't going to be read or understood right.'",
+      caption: 'Speaking on visual clarity in data storytelling at VizChitra.',
+    },
+  ]}
+/>
+</div>
 <List title='In the classroom' content={teachings}/>
 </div>
 </Container>

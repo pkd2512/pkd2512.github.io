@@ -321,3 +321,36 @@
     Total: 782.6KB → 193.7KB (75.2% saved)
 ════════════════════════════════════════════════════════════
 
++ media\community\community-1.jpg  766.9KB → 105.4KB  (86.3% saved)
++ media\community\community-2.jpg  830.9KB → 138.9KB  (83.3% saved)
++ media\community\community-3.jpg  449.8KB → 54.2KB  (88.0% saved)
++ media\community\community-4.jpg  460.2KB → 50.7KB  (89.0% saved)
++ media\community\community-5.jpg  990.4KB → 196.4KB  (80.2% saved)
++ media\community\community-6.jpg  997.1KB → 235.5KB  (76.4% saved)
++ media\community\community-7.jpg  925.7KB → 134.6KB  (85.5% saved)
++ media\community\community-8.jpg  643.1KB → 60.0KB  (90.7% saved)
+
+════════════════════════════════════════════════════════════
+  WebP conversion
+────────────────────────────────────────────────────────────
+    WebP conversion  ·  2026-09-27 22:46:06  ·  mode: force
+    Source images: 8  |  Existing .webp: 0  |  To convert: 8
+    8 converted, 0 failed, 0 skipped  ·  1.1s
+    Total: 5.9MB → 975.7KB (83.9% saved)
+════════════════════════════════════════════════════════════
+
++ media\community\teaching-1.jpg  842.9KB → 161.4KB  (80.9% saved)
++ media\community\teaching-2.jpg  690.9KB → 168.5KB  (75.6% saved)
++ media\community\teaching-3.jpg  602.9KB → 123.1KB  (79.6% saved)
++ media\community\teaching-4.jpg  679.3KB → 119.6KB  (82.4% saved)
++ media\community\teaching-5.jpg  812.3KB → 199.5KB  (75.4% saved)
+
+════════════════════════════════════════════════════════════
+  WebP conversion
+────────────────────────────────────────────────────────────
+    WebP conversion  ·  2026-09-29 00:32:00  ·  mode: missing
+    Source images: 13  |  Existing .webp: 8  |  To convert: 5
+    5 converted, 0 failed, 0 skipped  ·  0.5s
+    Total: 3.5MB → 772.1KB (78.7% saved)
+════════════════════════════════════════════════════════════
+
