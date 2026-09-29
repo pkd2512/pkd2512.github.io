@@ -1,43 +1,43 @@
 <script>
-  let { width = '', grid = false, children, ...restProps } = $props();
+  let {
+    width = '',
+    grid = false,
+    children,
+    style: styleProp = '',
+    ...restProps
+  } = $props();
+
+  let cls = $derived(
+    width !== '' ? `container-${width}` : grid ? 'container-grid' : 'container'
+  );
+
+  let containerStyle = $derived(
+    width && width !== 'fluid'
+      ? `max-width:var(--${width});${styleProp}`
+      : styleProp
+  );
 </script>
 
-<div
-  {...restProps}
-  class={[
-    width === 'fluid'
-      ? 'container-fluid'
-      : grid
-        ? 'container-grid'
-        : 'container',
-  ]
-    .filter(Boolean)
-    .join(' ')}
->
+<div {...restProps} class={cls} style={containerStyle}>
   {@render children()}
 </div>
 
 <style lang="scss">
-  .container {
-    max-width: var(--grid-max-width);
-    width: auto;
+  .container,
+  [class^='container-'] {
     display: block;
+    width: auto;
     margin-inline: auto;
     padding-inline: var(--grid-gutter);
   }
 
   .container-grid {
-    max-width: var(--grid-max-width);
-    width: auto;
     display: grid;
-    margin-inline: auto;
-    padding-inline: var(--grid-gutter);
+    max-width: var(--grid-max-width);
   }
 
   .container-fluid {
     max-width: none;
-    display: block;
-    margin-inline: auto;
     padding-inline: 0;
   }
 </style>

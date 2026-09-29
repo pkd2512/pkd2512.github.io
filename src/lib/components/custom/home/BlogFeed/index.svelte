@@ -91,16 +91,18 @@
         {@const thumbnail = article.description
           .toString()
           .match(/<img[^>]+src="([^">]+)"/)[1]}
-        <ReferralCard
-          url={article.link}
-          image={thumbnail ||
-            'https://cdn-images-1.medium.com/max/357/1*O7E1vMVWGStXv8TLKqR3Gw@2x.png'}
-          title={article.title}
-          description={article.description.slice(
-            start,
-            end - start < 120 ? end : start + 120
-          )}
-        />
+        <div class="card">
+          <ReferralCard
+            url={article.link}
+            image={thumbnail ||
+              'https://cdn-images-1.medium.com/max/357/1*O7E1vMVWGStXv8TLKqR3Gw@2x.png'}
+            title={article.title}
+            description={article.description.slice(
+              start,
+              end - start < 120 ? end : start + 120
+            )}
+          />
+        </div>
       {/each}
     </div>
     <button class="nav next" onclick={() => scrollCards(1)} aria-label="Next">
@@ -159,6 +161,13 @@
     .next {
       right: calc(-1 * var(--space-m));
       padding-inline-start: var(--space-l);
+    }
+  }
+
+  .card {
+    min-width: var(--xs);
+    @media (--md-n-above) {
+      min-width: calc(0.8 * var(--md));
     }
   }
 

@@ -18,7 +18,7 @@ const mdsvexOptions = {
     rehypeSlug,
 
     rehypeAccessibleEmojis,
-    [widont, { fragment: true }],
+    // [widont, { fragment: true }],
   ],
   layout: {
     _: './src/lib/components/mdsvex/layout.svelte',
