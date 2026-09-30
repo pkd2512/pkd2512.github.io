@@ -3,11 +3,17 @@
   import truncateText from '$utils/truncateText';
   import { asset } from '$app/paths';
   import AwardBadge from '$lib/components/custom/projects/AwardBadge/index.svelte';
+  import { lazyBackground } from '$lib/actions/lazyBackground';
 
+  // `lazy` defers the image until the card nears the screen. Leave it off for
+  // cards that can be above the fold: an inline background is fetched before
+  // any script runs.
   /**
-   * @type {{ info: { image: any; intro: { hed: any; }; description: any; categories: any; awards?: { type: string; logo?: string; url?: string; label?: string }[] } }}
+   * @type {{ info: { image: any; intro: { hed: any; }; description: any; categories: any; awards?: { type: string; logo?: string; url?: string; label?: string }[] }, lazy?: boolean }}
    */
-  let { info } = $props();
+  let { info, lazy = false } = $props();
+
+  let image = $derived(asset('/media/share-images/' + info.image));
 
   let hasAwards = $derived(!!info.awards && info.awards.length > 0);
 
@@ -42,12 +48,11 @@
       {/each}
     </div>
   {/if}
-  <div
-    class="img"
-    style={"background-image: url('" +
-      asset('/media/share-images/' + info.image) +
-      "');"}
-  ></div>
+  {#if lazy}
+    <div class="img" use:lazyBackground={image}></div>
+  {:else}
+    <div class="img" style={"background-image: url('" + image + "');"}></div>
+  {/if}
   <div class="body" bind:clientHeight={infoHeight}>
     <Container width="sm">
       <p class="hed">{@html info.intro.hed}</p>

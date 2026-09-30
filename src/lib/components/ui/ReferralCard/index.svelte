@@ -2,6 +2,7 @@
   import Icon from '@iconify/svelte';
   import truncateText from '$utils/truncateText';
   import NavLink from '$lib/components/ui/Navlink/index.svelte';
+  import { lazyBackground } from '$lib/actions/lazyBackground';
 
   let {
     image,
@@ -9,6 +10,9 @@
     description = '',
     url = '',
     target = '_blank',
+    // Off for cards in a horizontal carousel: they are clipped by the scroller,
+    // so they'd only start loading as they slide in.
+    lazy = true,
   } = $props();
 </script>
 
@@ -20,7 +24,11 @@
   disabled={url === '' ? true : false}
 >
   <div class="preview-card">
-    <div class="image" style="background-image:url({image})"></div>
+    {#if lazy}
+      <div class="image" use:lazyBackground={image}></div>
+    {:else}
+      <div class="image" style="background-image:url({image})"></div>
+    {/if}
     <div class="label">
       <div class="title">{@html title}</div>
       <p>

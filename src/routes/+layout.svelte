@@ -32,6 +32,12 @@
 
   onMount(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    // Lenis only smooths wheel and trackpad input; touch is left native
+    // (syncTouch: false). On a device with no mouse or trackpad at all (phones,
+    // iOS and Android alike) it would smooth nothing while still running a
+    // frame loop for the life of the page. A tablet with a trackpad attached
+    // reports a fine pointer and keeps it.
+    if (!window.matchMedia('(any-pointer: fine)').matches) return;
 
     let cancelled = false;
     // Imported here rather than at the top so it never runs during SSR.
@@ -103,5 +109,12 @@
 
   article {
     margin-top: calc(-1.5 * var(--space-3xl));
+  }
+
+  /* Anything marked by the `visibility` action while off screen pauses its CSS
+     animations: marquees, swipe nudges, the contact bounce. */
+  :global([data-offscreen]),
+  :global([data-offscreen] *) {
+    animation-play-state: paused !important;
   }
 </style>

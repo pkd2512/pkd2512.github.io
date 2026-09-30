@@ -1,6 +1,7 @@
 <script>
   import Icon from '@iconify/svelte';
   import { asset } from '$app/paths';
+  import { visibility } from '$lib/actions/visibility';
 
   let {
     url,
@@ -21,7 +22,7 @@
 
 <svelte:window bind:innerWidth={width} />
 
-<div class="overflow-img">
+<div class="overflow-img" use:visibility>
   {#if width !== undefined && width < breakpoint && showNudge}
     <div class="nudge">
       <Icon
