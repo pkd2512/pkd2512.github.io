@@ -66,27 +66,23 @@
 
 <GridOverlay />
 
-<!-- The screen the CRT bend is applied to, as one filtered surface. Only
-     takes part in layout during the ?bend=1 test; see CrtOverlay. -->
-<div class="crt-screen">
-  {#if pageId && (pageId === '/' || pageId === '/colophone')}
-    <Intro />
-  {/if}
+{#if pageId && (pageId === '/' || pageId === '/colophone')}
+  <Intro />
+{/if}
 
-  {#if pageId && pageId === '/projects/[slug]'}
-    <ProjectHero meta={page.data?.meta} />
-  {/if}
+{#if pageId && pageId === '/projects/[slug]'}
+  <ProjectHero meta={page.data?.meta} />
+{/if}
 
-  <Navbar />
+<Navbar />
 
-  <main>
-    <article use:figureCaptionObserver>
-      {@render children()}
-    </article>
-  </main>
+<main>
+  <article use:figureCaptionObserver>
+    {@render children()}
+  </article>
+</main>
 
-  <Footer />
-</div>
+<Footer />
 
 <CrtOverlay />
 <ScrollBar />
@@ -107,9 +103,5 @@
 
   article {
     margin-top: calc(-1.5 * var(--space-3xl));
-  }
-
-  .crt-screen {
-    display: contents;
   }
 </style>
