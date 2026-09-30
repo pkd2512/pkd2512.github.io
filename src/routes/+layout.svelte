@@ -9,6 +9,7 @@
   import { afterNavigate } from '$app/navigation';
   import GridOverlay from '$lib/components/ui/GridOverlay/index.svelte';
   import CrtOverlay from '$lib/components/ui/CrtOverlay/index.svelte';
+  import ScrollBar from '$lib/components/ui/ScrollBar/index.svelte';
   import { registerPageview } from '$utils/googleAnalytics';
   import { figureCaptionObserver } from '$lib/actions/figureCaptionObserver';
 
@@ -84,6 +85,7 @@
 <Footer />
 
 <CrtOverlay />
+<ScrollBar />
 
 <style>
   /* The site sets `scroll-behavior: smooth` globally; while Lenis is driving,
