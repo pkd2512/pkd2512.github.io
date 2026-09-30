@@ -6,6 +6,7 @@
   import Icon from '@iconify/svelte';
   import { createPileAnimator } from './pile-animation.js';
   import { attachGestures } from './pile-gestures.js';
+  import { visibility } from '$lib/actions/visibility';
 
   // ─── Helpers ───────────────────────────────────────────────────────────────
 
@@ -48,10 +49,37 @@
   let captions = [];
   let showNudge = $state(true);
 
+  // ─── Lazy images ───────────────────────────────────────────────────────────
+  // The cards are CSS backgrounds, so loading="lazy" can't help. Only the top
+  // three are visible in the stack: those load as the pile nears the screen,
+  // the rest on the first swipe, tap or key press.
+
+  function loadCard(card) {
+    const img = card?.querySelector('.img');
+    if (img?.dataset.bg && !img.style.backgroundImage)
+      img.style.backgroundImage = `url("${img.dataset.bg}")`;
+  }
+
+  function loadAll() {
+    cards.forEach(loadCard);
+  }
+
   // ─── Mount: wire animation + gestures ─────────────────────────────────────
 
   onMount(() => {
-    if (!wrapper || cards.length < 2) return;
+    if (!wrapper) return;
+
+    const nearby = new IntersectionObserver(
+      (entries) => {
+        if (!entries.some((e) => e.isIntersecting)) return;
+        cards.slice(-3).forEach(loadCard);
+        nearby.disconnect();
+      },
+      { rootMargin: '600px 0px' }
+    );
+    nearby.observe(wrapper);
+
+    if (cards.length < 2) return () => nearby.disconnect();
 
     const n = cards.length;
     let currentIndex = n - 1;
@@ -83,6 +111,7 @@
       }
       isAnimating = true;
       pendingAction = null;
+      loadAll();
 
       const fromIdx = currentIndex;
       const toIdx = (currentIndex - 1 + n) % n;
@@ -121,6 +150,7 @@
 
       onNudgeHide: () => {
         showNudge = false;
+        loadAll();
       },
       onDragStart: () => {
         anim.liftCard(currentIndex);
@@ -151,13 +181,16 @@
       },
     });
 
-    return () => gestures.destroy();
+    return () => {
+      nearby.disconnect();
+      gestures.destroy();
+    };
   });
 </script>
 
 <!-- ─── Template ─────────────────────────────────────────────────────────── -->
 
-<div class="photopile {orientation}" bind:this={wrapper}>
+<div class="photopile {orientation}" bind:this={wrapper} use:visibility>
   <div class="pile" class:has-captions={items.some((item) => item.caption)}>
     {#if showNudge}
       <div class="nudge" aria-hidden="true">
@@ -172,7 +205,7 @@
         role="img"
         aria-label={item.alt || ''}
       >
-        <div class="img" style="background-image: url({resolveSrc(item.src)})">
+        <div class="img" data-bg={resolveSrc(item.src)}>
           {#if foreground}
             {@render foreground(item)}
           {/if}

@@ -5,10 +5,12 @@
   import ReferralCard from '$lib/components/ui/ReferralCard/index.svelte';
   import Icon from '@iconify/svelte';
   import getBlogFeed from '$utils/getBlogFeed';
+  import { visibility } from '$lib/actions/visibility';
 
   let articles = $state(getContext('blogFeed') || []);
   let cardsEl = $state(null);
   let paused = $state(false);
+  let visible = $state(false);
   const MEDIA_BREAKPOINT = '768px';
   let isMobile = $state(
     browser && window.matchMedia(`(width < ${MEDIA_BREAKPOINT})`).matches
@@ -53,7 +55,7 @@
     const gap = parseFloat(getComputedStyle(el).gap) || 0;
     const step = cardWidth + gap;
     let interval = setInterval(() => {
-      if (paused) return;
+      if (paused || !visible) return;
       let maxScroll = el.scrollWidth / 2;
       if (el.scrollLeft >= maxScroll) {
         el.scrollTo({ left: el.scrollLeft - maxScroll, behavior: 'instant' });
@@ -67,7 +69,7 @@
 
 <Container id="blog" width={isMobile ? 'fluid' : 'lg'}>
   <h2 class="title">Latest from the blog</h2>
-  <div class="cards-wrap">
+  <div class="cards-wrap" use:visibility={(v) => (visible = v)}>
     <button
       class="nav prev"
       onclick={() => scrollCards(-1)}
@@ -93,6 +95,7 @@
           .match(/<img[^>]+src="([^">]+)"/)[1]}
         <div class="card">
           <ReferralCard
+            lazy={false}
             url={article.link}
             image={thumbnail ||
               'https://cdn-images-1.medium.com/max/357/1*O7E1vMVWGStXv8TLKqR3Gw@2x.png'}

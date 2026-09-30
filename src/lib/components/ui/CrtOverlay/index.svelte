@@ -374,7 +374,7 @@
   // resolve against background-position's own odd reference box.
   .crt-grid {
     --crt-origin: calc(
-      max(0px, (100vw - var(--grid-max-width)) / 2) + var(--grid-gutter)
+      max(0px, (100vw - var(--grid-max-width)) / 2) + var(--grid-margin)
     );
     --crt-cell: calc(var(--grid-baseline) * 2);
     --crt-half: var(--grid-baseline);
@@ -479,17 +479,35 @@
     }
   }
 
+  // Phones used to lose the rim and the fringe too, which left only grain,
+  // vignette and bezel: on a small screen that reads as no glass edge at all.
+  // Both are back, with the strip wider than the 900px taper (4.5vmin is under
+  // 18px on a phone). The fringe keeps its desktop strength: turned up, it read
+  // as a blue edge and a red one rather than as glass. Only the scanlines and
+  // lattice, the fine textures a dense screen would alias, stay off.
   @media (max-width: 480px) {
-    .crt-rim,
+    :global(html) {
+      --crt-rim: 8vmin;
+    }
+
     .crt-scan,
     .crt-grid,
-    .crt-fringe,
     .crt-sheen {
       display: none;
     }
 
     .crt-bezel {
       border-radius: 24px;
+    }
+  }
+
+  // iOS (Safari and every other iOS browser, which all run WebKit) can't use
+  // an SVG filter inside backdrop-filter: tested on an iPhone, the bend never
+  // appears. Skip the strips there rather than composite layers that draw
+  // nothing. The fringe, vignette and bezel carry the edge on their own.
+  @supports (-webkit-touch-callout: none) {
+    .crt-rim {
+      display: none;
     }
   }
 </style>

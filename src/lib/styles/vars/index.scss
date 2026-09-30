@@ -9,3 +9,13 @@
 
 // @use '/node_modules/open-props/src/props.easing.css' as *;
 // @use '/node_modules/open-props/src/props.animations.css' as *;
+
+// open-props tunes its shadows to the OS appearance: 1% strength in light
+// mode, 25% in dark. This site only has a light theme, so a phone in light
+// mode drew the navbar and badge shadows at 3-6% opacity, which is invisible,
+// while a dark-mode desktop showed them at ~27%. Hold the dark-mode values
+// everywhere so the shadows look the same whatever the OS is set to.
+:where(html) {
+  --shadow-color: 220 40% 2%;
+  --shadow-strength: 25%;
+}

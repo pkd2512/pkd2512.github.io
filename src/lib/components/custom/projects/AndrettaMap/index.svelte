@@ -57,6 +57,7 @@
                 <img
                   src={asset('/media/projects/andretta/' + place.img)}
                   alt={place.alt}
+                  loading="lazy"
                 />
                 <figcaption>{place.caption}</figcaption>
               </figure>

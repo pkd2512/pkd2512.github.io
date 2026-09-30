@@ -2,6 +2,7 @@
   import Container from '$lib/components/ui/Container/index.svelte';
   import Marquee from 'svelte-fast-marquee';
   import { asset } from '$app/paths';
+  import { visibility } from '$lib/actions/visibility';
   // @ts-ignore
   import awards from '$contents/data/awards.csv';
 
@@ -17,7 +18,7 @@
 
 <svelte:window bind:innerWidth={windowWidth} />
 
-<section id="awards">
+<section id="awards" use:visibility={(v) => (play = v)}>
   <Container width="fluid">
     {#if windowWidth <= 1024}
       <div class="mobile">

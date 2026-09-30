@@ -14,7 +14,7 @@
     {#each posts as post}
       <li class="post">
         <a href={resolve('/projects/[slug]', { slug: post.slug })}>
-          <ProjectCard info={post} />
+          <ProjectCard info={post} lazy />
         </a>
       </li>
     {/each}

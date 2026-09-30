@@ -61,7 +61,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    padding-inline: var(--grid-gutter);
+    padding-inline: var(--grid-margin);
     color: var(--white);
 
     .img {

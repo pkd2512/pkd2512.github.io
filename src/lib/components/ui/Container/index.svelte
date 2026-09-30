@@ -28,7 +28,7 @@
     display: block;
     width: auto;
     margin-inline: auto;
-    padding-inline: var(--grid-gutter);
+    padding-inline: var(--grid-margin);
   }
 
   .container-grid {
