@@ -14,15 +14,36 @@
   let pageId = $derived(page.route.id);
   let pageHash = $derived(page.url.hash);
   let pin = $state(false);
+  // True for the frames around pin flipping on scroll; see setPin.
+  let settling = $state(false);
   let resizeTimer;
   /** @type {HTMLElement} */
   let navEl;
+
+  /**
+   * Pinning swaps the bar from in-flow to sticky in a single frame. If it is
+   * already scrolling away (`down`), the hide transition would then play from
+   * the top of the screen: the bar snaps back into view, hangs, and only then
+   * slides off. `settling` drops the transform transition across that swap
+   * (the pill reshaping still animates).
+   * @param {boolean} next
+   */
+  const setPin = (next) => {
+    if (next === pin) return;
+    settling = true;
+    pin = next;
+    requestAnimationFrame(() =>
+      requestAnimationFrame(() => {
+        settling = false;
+      })
+    );
+  };
 
   const handleInview = (/** @type {{ detail: { inView: any; } }} */ e) => {
     if (window.scrollY > -1) {
       clearTimeout(resizeTimer);
       resizeTimer = setTimeout(() => {
-        pin = !e.detail.inView;
+        setPin(!e.detail.inView);
       }, 100);
     }
   };
@@ -45,6 +66,7 @@
   bind:this={navEl}
   class="up"
   class:pin
+  class:settling
   use:scrollDirection
   use:inview={{ root: null, threshold: 1 }}
   oninview_change={handleInview}
@@ -111,6 +133,9 @@
       top: -1px;
       left: -50%;
       max-width: var(--md);
+      // Already on its own layer when the transform changes, so iOS animates
+      // the move rather than snapping to the end state.
+      will-change: transform;
       // box-shadow: var(--shadow-3);
       @include filter-shadow(var(--purple));
 
@@ -120,12 +145,25 @@
     }
   }
 
+  // The lists below line up with `transition` on nav: transform first, then
+  // the pill's max-width, border-radius and filter, which keep their timing.
+  //
+  // Away: quick and out of the way.
   :global(nav#sitenav.pin.down:not(.open)) {
     transform: translate3d(0, -250%, 0);
+    transition-duration: 0.3s, 0.35s, 0.35s, 0.35s;
+    transition-timing-function: ease-in, ease, ease, ease;
   }
 
+  // Back: a longer, decelerating roll down.
   :global(nav#sitenav.pin.up) {
     transform: translate3d(0, 0, 0);
+    transition-duration: 0.5s, 0.35s, 0.35s, 0.35s;
+    transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1), ease, ease, ease;
+  }
+
+  :global(nav#sitenav.settling) {
+    transition-property: max-width, border-radius, filter;
   }
 
   .nav-item:not(.badge) {

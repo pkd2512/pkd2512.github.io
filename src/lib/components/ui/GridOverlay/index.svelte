@@ -75,7 +75,7 @@
     height: 100%;
     max-width: var(--grid-max-width);
     margin-inline: auto;
-    padding-inline: var(--grid-gutter);
+    padding-inline: var(--grid-margin);
     position: relative;
   }
 

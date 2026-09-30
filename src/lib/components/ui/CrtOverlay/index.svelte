@@ -374,7 +374,7 @@
   // resolve against background-position's own odd reference box.
   .crt-grid {
     --crt-origin: calc(
-      max(0px, (100vw - var(--grid-max-width)) / 2) + var(--grid-gutter)
+      max(0px, (100vw - var(--grid-max-width)) / 2) + var(--grid-margin)
     );
     --crt-cell: calc(var(--grid-baseline) * 2);
     --crt-half: var(--grid-baseline);

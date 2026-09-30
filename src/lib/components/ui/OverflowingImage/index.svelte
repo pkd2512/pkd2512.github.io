@@ -108,7 +108,7 @@
     text-align: start;
     max-width: var(--grid-max-width);
     margin-inline: auto;
-    padding-inline: var(--grid-gutter);
+    padding-inline: var(--grid-margin);
 
     // Mobile first: caption on bottom
     order: 2;

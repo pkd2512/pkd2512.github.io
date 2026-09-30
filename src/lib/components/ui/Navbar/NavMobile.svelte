@@ -20,6 +20,25 @@
   let pageId = $derived(page.route.id);
   let pageHash = $derived(page.url.hash);
   let home = $derived(links.filter((/** @type {any} */ d) => d.url === '/')[0]);
+
+  /**
+   * Pinning swaps the bar from in-flow to sticky in a single frame. If it is
+   * already scrolling away (`down`), the hide transition would then play from
+   * the top of the screen: the bar snaps back into view, hangs, and only then
+   * slides off. `settling` switches transitions off across that swap.
+   * @param {{ detail: { node: HTMLElement; inView: boolean } }} e
+   */
+  const handleInview = (e) => {
+    const nav = e.detail.node;
+    const pinned = !e.detail.inView;
+    if (window.scrollY <= -1 || nav.classList.contains('pin') === pinned) return;
+
+    nav.classList.add('settling');
+    nav.classList.toggle('pin', pinned);
+    requestAnimationFrame(() =>
+      requestAnimationFrame(() => nav.classList.remove('settling'))
+    );
+  };
 </script>
 
 <nav
@@ -28,12 +47,7 @@
   class:open={isOpen}
   use:scrollDirection
   use:inview={{ root: null, threshold: 1 }}
-  oninview_change={(
-    /** @type {{ detail: { node: { classList: { toggle: (arg0: string, arg1: boolean) => void; }; }; inView: any; }; }} */ e
-  ) => {
-    window.scrollY > -1 &&
-      e.detail.node.classList.toggle('pin', !e.detail.inView);
-  }}
+  oninview_change={handleInview}
 >
   <div class="home">
     <NavLink
@@ -97,7 +111,7 @@
     // box-shadow: var(--shadow-3), var(--shadow-5);
     position: relative;
     margin-inline: auto;
-    padding-inline: var(--space-s);
+    padding-inline: var(--grid-margin);
     max-width: 100%;
     height: 4rem;
     display: flex;
@@ -114,14 +128,27 @@
   :global(nav#sitenav-mobile.pin) {
     position: sticky !important;
     top: -1px;
+    // Already on its own layer when the transform changes, so iOS animates the
+    // move rather than snapping to the end state.
+    will-change: transform;
   }
 
+  // Away: quick and out of the way.
   :global(nav#sitenav-mobile.pin.down:not(.open)) {
     transform: translate3d(0, -250%, 0);
+    transition-duration: 0.3s;
+    transition-timing-function: ease-in;
   }
 
+  // Back: a longer, decelerating roll down.
   :global(nav#sitenav-mobile.pin.up) {
     transform: translate3d(0, 0, 0);
+    transition-duration: 0.5s;
+    transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  :global(nav#sitenav-mobile.settling) {
+    transition: none !important;
   }
 
   .hamburger {
@@ -145,8 +172,8 @@
     align-items: flex-end;
     padding: 0;
     background-color: var(--purple-soft);
-    width: calc(100% + 2 * var(--space-s));
-    margin-inline: calc(-1 * var(--space-s));
+    width: calc(100% + 2 * var(--grid-margin));
+    margin-inline: calc(-1 * var(--grid-margin));
     transition: all 0.65s cubic-bezier(0.29, 1.4, 0.44, 0.96);
     height: 0;
     box-shadow: var(--shadow-2);
@@ -155,7 +182,7 @@
     }
   }
   li {
-    padding-inline: var(--space-s);
+    padding-inline: var(--grid-margin);
     list-style: none;
     text-transform: uppercase;
     letter-spacing: var(--letter-spaced-more);
