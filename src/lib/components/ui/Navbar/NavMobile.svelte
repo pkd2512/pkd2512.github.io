@@ -107,6 +107,23 @@
     box-shadow: var(--shadow-2);
   }
 
+  // `pin`, `up` and `down` are toggled with classList (inview + scrollDirection),
+  // which Svelte can't see, so these have to be :global to survive scoping.
+  // Pinned, the bar sticks to the top; it slides away scrolling down and back
+  // in scrolling up, unless the menu is open.
+  :global(nav#sitenav-mobile.pin) {
+    position: sticky !important;
+    top: -1px;
+  }
+
+  :global(nav#sitenav-mobile.pin.down:not(.open)) {
+    transform: translate3d(0, -250%, 0);
+  }
+
+  :global(nav#sitenav-mobile.pin.up) {
+    transform: translate3d(0, 0, 0);
+  }
+
   .hamburger {
     height: 100%;
     display: flex;

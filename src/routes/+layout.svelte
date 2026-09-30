@@ -94,6 +94,13 @@
     scroll-behavior: auto;
   }
 
+  /* PhotoPile cards fly out sideways past the viewport edge. Left alone that
+     widens the page, and mobile browsers zoom out to fit it. `clip` (unlike
+     `hidden`) makes no scroll container, so the sticky nav is unaffected. */
+  main {
+    overflow-x: clip;
+  }
+
   article {
     margin-top: calc(-1.5 * var(--space-3xl));
   }
