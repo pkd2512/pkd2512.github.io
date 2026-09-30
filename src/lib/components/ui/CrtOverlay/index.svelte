@@ -500,4 +500,14 @@
       border-radius: 24px;
     }
   }
+
+  // iOS (Safari and every other iOS browser, which all run WebKit) can't use
+  // an SVG filter inside backdrop-filter: tested on an iPhone, the bend never
+  // appears. Skip the strips there rather than composite layers that draw
+  // nothing. The fringe, vignette and bezel carry the edge on their own.
+  @supports (-webkit-touch-callout: none) {
+    .crt-rim {
+      display: none;
+    }
+  }
 </style>
