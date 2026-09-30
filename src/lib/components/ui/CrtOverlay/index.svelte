@@ -398,28 +398,25 @@
   // pinned to the same distance, cool one way and warm the other because a
   // prism throws the ends of the spectrum in opposite directions.
   .crt-fringe {
-    // Phones turn this up; see the 480px block.
-    --crt-fringe-boost: 1;
-
     background:
       linear-gradient(
         to right,
-        rgba(70, 130, 255, calc(0.16 * var(--crt-fringe-boost))),
+        rgba(70, 130, 255, 0.16),
         transparent var(--crt-rim)
       ),
       linear-gradient(
         to left,
-        rgba(255, 120, 60, calc(0.16 * var(--crt-fringe-boost))),
+        rgba(255, 120, 60, 0.16),
         transparent var(--crt-rim)
       ),
       linear-gradient(
         to bottom,
-        rgba(70, 130, 255, calc(0.13 * var(--crt-fringe-boost))),
+        rgba(70, 130, 255, 0.13),
         transparent var(--crt-rim)
       ),
       linear-gradient(
         to top,
-        rgba(255, 120, 60, calc(0.13 * var(--crt-fringe-boost))),
+        rgba(255, 120, 60, 0.13),
         transparent var(--crt-rim)
       );
     mix-blend-mode: overlay;
@@ -485,7 +482,8 @@
   // Phones used to lose the rim and the fringe too, which left only grain,
   // vignette and bezel: on a small screen that reads as no glass edge at all.
   // Both are back, with the strip wider than the 900px taper (4.5vmin is under
-  // 18px on a phone) and the colour split turned up. Only the scanlines and
+  // 18px on a phone). The fringe keeps its desktop strength: turned up, it read
+  // as a blue edge and a red one rather than as glass. Only the scanlines and
   // lattice, the fine textures a dense screen would alias, stay off.
   @media (max-width: 480px) {
     :global(html) {
@@ -496,10 +494,6 @@
     .crt-grid,
     .crt-sheen {
       display: none;
-    }
-
-    .crt-fringe {
-      --crt-fringe-boost: 1.9;
     }
 
     .crt-bezel {
