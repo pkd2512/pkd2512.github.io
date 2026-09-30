@@ -2,8 +2,7 @@
   import NavLink from '$lib/components/ui/Navlink/index.svelte';
   import Badge from './Badge.svelte';
   import Hamburger from './Hamburger.svelte';
-  import scrollDirection from '$utils/scrollDirection';
-  import { inview } from 'svelte-inview';
+  import pinNav from '$utils/pinNav';
   import { sendEvent } from '$utils/googleAnalytics';
   import { page } from '$app/state';
   import { afterNavigate } from '$app/navigation';
@@ -20,35 +19,13 @@
   let pageId = $derived(page.route.id);
   let pageHash = $derived(page.url.hash);
   let home = $derived(links.filter((/** @type {any} */ d) => d.url === '/')[0]);
-
-  /**
-   * Pinning swaps the bar from in-flow to sticky in a single frame. If it is
-   * already scrolling away (`down`), the hide transition would then play from
-   * the top of the screen: the bar snaps back into view, hangs, and only then
-   * slides off. `settling` switches transitions off across that swap.
-   * @param {{ detail: { node: HTMLElement; inView: boolean } }} e
-   */
-  const handleInview = (e) => {
-    const nav = e.detail.node;
-    const pinned = !e.detail.inView;
-    if (window.scrollY <= -1 || nav.classList.contains('pin') === pinned) return;
-
-    nav.classList.add('settling');
-    nav.classList.toggle('pin', pinned);
-    requestAnimationFrame(() =>
-      requestAnimationFrame(() => nav.classList.remove('settling'))
-    );
-  };
 </script>
 
-<nav
-  id="sitenav-mobile"
-  class="up"
-  class:open={isOpen}
-  use:scrollDirection
-  use:inview={{ root: null, threshold: 1 }}
-  oninview_change={handleInview}
->
+<!-- Marks where the bar naturally sits; pinNav reads it. Must stay directly
+     before the nav. -->
+<div class="pin-sentinel" aria-hidden="true"></div>
+
+<nav id="sitenav-mobile" class="up" class:open={isOpen} use:pinNav>
   <div class="home">
     <NavLink
       style="color: var(--white);"
@@ -102,6 +79,12 @@
   .sr-only {
     @include screenReaderOnly;
   }
+
+  .pin-sentinel {
+    height: 0;
+    pointer-events: none;
+  }
+
   nav {
     margin-top: -1px;
     margin-bottom: var(--space-3xl);
@@ -121,7 +104,7 @@
     box-shadow: var(--shadow-2);
   }
 
-  // `pin`, `up` and `down` are toggled with classList (inview + scrollDirection),
+  // `pin`, `up`, `down` and `settling` are toggled with classList by pinNav,
   // which Svelte can't see, so these have to be :global to survive scoping.
   // Pinned, the bar sticks to the top; it slides away scrolling down and back
   // in scrolling up, unless the menu is open.
