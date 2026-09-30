@@ -1,3 +1,111 @@
+<script>
+  import { onMount } from 'svelte';
+
+  // ── ?bend=1: whole-screen bend test ──────────────────────────────────────
+  //
+  // The rim strips bend with backdrop-filter, which WebKit (so every iOS
+  // browser) cannot combine with an SVG filter. WebKit can run an SVG filter
+  // as a plain `filter` on an element, though, so this test wraps the page
+  // content (.crt-screen in the layout) and bends that directly.
+  //
+  // The page is far taller than the screen, so the displacement map is placed
+  // over the visible slice and moved on every scroll, with a neutral flood
+  // everywhere else. The filter region is cut down to three screens around
+  // the viewport so WebKit is not asked to filter the whole document; content
+  // outside it is clipped, but it is off-screen anyway.
+  //
+  // Expensive: the filtered surface has to be redrawn whenever anything in it
+  // moves, scrolling included. Opt-in only.
+
+  /** @type {SVGFilterElement} */
+  let bendFilter;
+  /** @type {SVGFEImageElement} */
+  let bendImage;
+
+  /**
+   * The four rim maps from below, drawn into one image the size of the screen.
+   * Same profiles and falloff; each edge band is `rim` deep.
+   * @param {number} w @param {number} h @param {number} rim
+   */
+  function bendMap(w, h, rim) {
+    const prof = (id, vertical, a, b, c) =>
+      `<linearGradient id='${id}' x1='0' y1='0' x2='${vertical ? 0 : 1}' y2='${vertical ? 1 : 0}'>` +
+      `<stop offset='0' stop-color='${a}'/><stop offset='0.5' stop-color='${b}'/><stop offset='1' stop-color='${c}'/></linearGradient>`;
+    const mask = (id, grad) =>
+      `<mask id='${id}' maskContentUnits='objectBoundingBox'><rect width='1' height='1' fill='url(%23${grad})'/></mask>`;
+    const svg =
+      `<svg xmlns='http://www.w3.org/2000/svg' width='${w}' height='${h}'><defs>` +
+      // falloff across each band: neutral at the very edge, peak a quarter in
+      `<linearGradient id='fl' x1='0' y1='0' x2='1' y2='0'><stop offset='0' stop-color='black'/><stop offset='0.25' stop-color='white'/><stop offset='1' stop-color='black'/></linearGradient>` +
+      `<linearGradient id='fr' x1='1' y1='0' x2='0' y2='0'><stop offset='0' stop-color='black'/><stop offset='0.25' stop-color='white'/><stop offset='1' stop-color='black'/></linearGradient>` +
+      `<linearGradient id='ft' x1='0' y1='0' x2='0' y2='1'><stop offset='0' stop-color='black'/><stop offset='0.25' stop-color='white'/><stop offset='1' stop-color='black'/></linearGradient>` +
+      `<linearGradient id='fb' x1='0' y1='1' x2='0' y2='0'><stop offset='0' stop-color='black'/><stop offset='0.25' stop-color='white'/><stop offset='1' stop-color='black'/></linearGradient>` +
+      mask('ml', 'fl') + mask('mr', 'fr') + mask('mt', 'ft') + mask('mb', 'fb') +
+      prof('pl', true, 'rgb(30,40,128)', 'rgb(96,128,128)', 'rgb(30,216,128)') +
+      prof('pr', true, 'rgb(226,40,128)', 'rgb(160,128,128)', 'rgb(226,216,128)') +
+      prof('pt', false, 'rgb(40,30,128)', 'rgb(128,96,128)', 'rgb(216,30,128)') +
+      prof('pb', false, 'rgb(40,226,128)', 'rgb(128,160,128)', 'rgb(216,226,128)') +
+      `</defs><rect width='${w}' height='${h}' fill='rgb(128,128,128)'/>` +
+      `<rect x='0' y='0' width='${rim}' height='${h}' fill='url(%23pl)' mask='url(%23ml)'/>` +
+      `<rect x='${w - rim}' y='0' width='${rim}' height='${h}' fill='url(%23pr)' mask='url(%23mr)'/>` +
+      `<rect x='0' y='0' width='${w}' height='${rim}' fill='url(%23pt)' mask='url(%23mt)'/>` +
+      `<rect x='0' y='${h - rim}' width='${w}' height='${rim}' fill='url(%23pb)' mask='url(%23mb)'/>` +
+      `</svg>`;
+    return 'data:image/svg+xml;charset=utf-8,' + svg.replace(/</g, '%3C').replace(/>/g, '%3E');
+  }
+
+  onMount(() => {
+    if (!new URLSearchParams(location.search).has('bend')) return;
+
+    const root = document.documentElement;
+    root.classList.add('crt-bend');
+    const screen = /** @type {HTMLElement | null} */ (
+      document.querySelector('.crt-screen')
+    );
+    if (!screen) return;
+
+    let raf = 0;
+    const place = () => {
+      raf = 0;
+      const r = screen.getBoundingClientRect();
+      const top = -r.top; // viewport top in the surface's own coordinates
+      const w = r.width;
+      const h = window.innerHeight;
+      bendFilter.setAttribute('x', '0');
+      bendFilter.setAttribute('y', String(top - h));
+      bendFilter.setAttribute('width', String(w));
+      bendFilter.setAttribute('height', String(h * 3));
+      bendImage.setAttribute('x', '0');
+      bendImage.setAttribute('y', String(top));
+      bendImage.setAttribute('width', String(w));
+      bendImage.setAttribute('height', String(h));
+    };
+    const redraw = () => {
+      const vw = window.innerWidth;
+      const vmin = Math.min(vw, window.innerHeight);
+      const rim = vmin * (vw <= 480 ? 0.08 : vw <= 900 ? 0.045 : 0.06);
+      bendImage.setAttribute(
+        'href',
+        bendMap(Math.round(vw), Math.round(window.innerHeight), Math.round(rim))
+      );
+      place();
+    };
+    const onScroll = () => {
+      if (!raf) raf = requestAnimationFrame(place);
+    };
+
+    redraw();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', redraw);
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', redraw);
+      root.classList.remove('crt-bend');
+    };
+  });
+</script>
+
 <!--
   The CRT faceplate: a fixed stack of pointer-transparent layers over the whole
   page. Layer order is paint order — grain sits closest to the content, the
@@ -110,6 +218,31 @@
       result="ramp"
       preserveAspectRatio="none"
     ></feImage>
+    <feDisplacementMap
+      in="SourceGraphic"
+      in2="ramp"
+      scale="7"
+      xChannelSelector="R"
+      yChannelSelector="G"
+    ></feDisplacementMap>
+  </filter>
+  <!-- ?bend=1 test: the rim bend applied to the page itself. Positioned by
+       the script; userSpaceOnUse is the filtered element's own box. -->
+  <filter
+    id="crt-bend"
+    bind:this={bendFilter}
+    filterUnits="userSpaceOnUse"
+    primitiveUnits="userSpaceOnUse"
+    color-interpolation-filters="sRGB"
+  >
+    <feFlood flood-color="rgb(128,128,128)" result="neutral"></feFlood>
+    <feImage
+      bind:this={bendImage}
+      preserveAspectRatio="none"
+      result="map"
+    ></feImage>
+    <feComposite in="map" in2="neutral" operator="over" result="ramp"
+    ></feComposite>
     <feDisplacementMap
       in="SourceGraphic"
       in2="ramp"
@@ -461,6 +594,16 @@
       inset 0 0 0 1px rgba(255, 255, 255, 0.28),
       inset 0 0 3vmin rgba(23, 18, 28, 0.3),
       inset 0 0 10vmin rgba(47, 7, 67, 0.14);
+  }
+
+  // ?bend=1 test. The strips would bend a second time on top, so they go.
+  :global(html.crt-bend .crt-screen) {
+    display: block;
+    filter: url(#crt-bend);
+  }
+
+  :global(html.crt-bend) .crt-rim {
+    display: none;
   }
 
   @media (prefers-reduced-motion: reduce) {
