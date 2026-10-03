@@ -1,0 +1,5 @@
+{
+  "rewrites": [
+    { "source": "/:path*", "destination": "https://pkd2512.github.io/:path*" }
+  ]
+}
