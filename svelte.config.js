@@ -44,6 +44,13 @@ const config = {
       precompress: true,
       strict: true,
     }),
+    prerender: {
+      handleHttpError: ({ path, message }) => {
+        // these are server-side redirects in vercel.json, not SvelteKit routes
+        if (path === '/blog' || path.startsWith('/resources/')) return;
+        throw new Error(message);
+      },
+    },
     paths: {
       base: process.argv.includes('dev') ? '' : process.env.BASE_PATH || '',
       assets: '',
