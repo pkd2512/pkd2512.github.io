@@ -1,5 +1,8 @@
 {
+  "redirects": [
+    { "source": "/print-maps", "destination": "/print-maps/", "permanent": true }
+  ],
   "rewrites": [
-    { "source": "/:path*", "destination": "https://pkd2512.github.io/:path*" }
+    { "source": "/(.*)", "destination": "https://pkd2512.github.io/$1" }
   ]
 }
