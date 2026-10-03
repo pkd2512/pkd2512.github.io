@@ -1,8 +1,12 @@
 {
   "redirects": [
-    { "source": "/print-maps", "destination": "/print-maps/", "permanent": true }
+    { "source": "/print-maps", "destination": "/print-maps/", "permanent": true },
+    { "source": "/palampur-studies", "destination": "/palampur-studies/", "permanent": true },
+    { "source": "/delhi-winter-pollution-gpdoc", "destination": "/delhi-winter-pollution-gpdoc/", "permanent": true }
   ],
   "rewrites": [
+    { "source": "/palampur-studies/(.*)", "destination": "https://palampur-studies.vercel.app/$1" },
+    { "source": "/delhi-winter-pollution-gpdoc/(.*)", "destination": "https://delhi-winter-pollution-gpdoc.vercel.app/$1" },
     { "source": "/(.*)", "destination": "https://pkd2512.github.io/$1" }
   ]
 }
