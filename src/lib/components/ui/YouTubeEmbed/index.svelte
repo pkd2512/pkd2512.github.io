@@ -27,7 +27,10 @@
       loading="lazy"
       style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;"
       onerror={(e) => {
-        e.target.src = `https://i.ytimg.com/vi/{videoId}/hqdefault.jpg`;
+        // Not every video has a maxres thumbnail; fall back once, and don't
+        // loop if the fallback fails too.
+        if (!e.target.src.includes('/hqdefault.jpg'))
+          e.target.src = `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`;
       }}
     />
     <div
@@ -59,5 +62,6 @@
     max-width: none;
     border: none !important;
     background-color: transparent;
+    box-shadow: var(--shadow-2);
   }
 </style>

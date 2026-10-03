@@ -65,31 +65,66 @@ intro:
 Commercial Photography &middot; 2018
 "/> -->
 
-<Container width="md">
+<Container grid style="margin-block-start:var(--space-xl)">
+<div class="hed col-span-md-5">
 
 ## About Palampur
+
+</div>
+<div class="dek col-span-md-7">
 
 Known as the "Tea capital of North India", Palampur is a town lying in the lap of the Kangra valley, surrounded by tea gardens and pine forests which gradually merge with the Dhauladhar ranges. Located at an elevation of 1,472 m above sea level at the confluence of the Himalayas and plains, it enjoys the best of both but the horrors of neither, which makes it a huge attraction for tourists from India and abroad alike.
 
 The town has derived its name from the local word 'palum', meaning lots of water, which is attributed to the numerous steams flowing across the valley. Besides being a treasure trove of scenic beauty, it has also been a hotbed of art and culture for a very long time, which provides something for people of all tastes. It also has many iconic temples and buildings constructed during the colonial period.
 
-## About Andretta slipware pottery
+</div>
+</Container>
+
+<Container grid style="margin-block-start:var(--space-xl)">
+<div class="col-span-full">
 
 > Being one of the oldest crafts, more than 10,000 years old, man has expressed his feelings and his aesthetics in clay, in toys, in primitive deities, and in various vessels for storage of water and grain. When he came to know the beauty of a pot thrown on a wheel and its decoration, pottery took on a new meaning for him. History came to be depicted on it.
+
+</div>
+</Container>
+
+<Container grid style="margin-block-start:var(--space-xl)">
+<div class="hed col-span-md-5">
+
+## About Andretta slipware pottery
+
+</div>
+<div class="dek col-span-md-7">
 
 The concept of pottery as an art form was introduced to India in 1952 by Padma Shri Sardar Gurcharan Singh, fondly known as 'Daddyji'' with the establishment of "Delhi Blue Pottery". Slipware is pottery identified by its primary decorating process where slip is placed onto the leather-hard clay body surface before firing by dipping, painting or splashing. Slip is an aqueous suspension of a clay body, which is a mixture of clays and other minerals such as quartz, feldspar and mica.
 
 As the wave of urbanisation swept over Delhi, with the repercussions of political unrest, the pottery was shifted to Andretta, a village 13 km from Palampur, in 1984. The responsibility had passed on to _Daddyji_'s son, Mansimran ‘_Mini_' Singh, and his wife Mary Singh.
 Today, the place not only is the hub of slipware pottery but also serves as a training centre for people interested in learning the craft of studio pottery.
 
+</div>
+</Container>
+
+<Container grid style="margin-block-start:var(--space-xl)">
+<div class="hed col-span-md-5">
+
 ## The Idea
+
+</div>
+<div class="dek col-span-md-7">
 
 We, a team of four people — <LinkButton label='Jasleen Rana'  url='https://www.linkedin.com/in/jasleen-rana-979b63118/' />, <LinkButton label='Faaiza Saeed'  url='https://www.linkedin.com/in/faaizasaeed/' />, <LinkButton label='Niranjan Morkar'  url='https://www.linkedin.com/in/niranjanmorkar/' />, and I, had decided to study the life and rich culture of Palampur and document the studio pottery in Andretta. The idea was to bring out the essence of the place to the rest of the world through an academic project while identifying problem areas that can be intervened in.
 
 The research study, spanning a little over a week, turned into a fun trip that involved studying pottery, interviewing people, clicking pictures, making new friends and romancing with Nature.
 
+</div>
+</Container>
+
+<Container grid style="margin-block-start:var(--space-xl)">
+<div class="hed col-span-full">
+
 ## The Journey
 
+</div>
 </Container>
 
 <Container width='fluid'>
@@ -98,9 +133,13 @@ The research study, spanning a little over a week, turned into a fun trip that i
 
 </Container>
 
-<Container width="md">
+<Container grid style="margin-block-start:var(--space-xl)">
+<div class="hed col-span-md-5">
 
 ## The Photostory
+
+</div>
+<div class="dek col-span-md-7">
 
 My output of the project is the photostory that attempts to paint a picture of the place as seen by me. All the photographs contained in the book have been taken with my Nikon D5200 using a 18-105mm lens, which were edited using Google Nik Collection on Adobe Photoshop and then compiled into the story using Adobe Illustrator.
 
@@ -110,6 +149,7 @@ You can navigate through the digital album shown below by manually turning the p
 The high-resolution images may take a while to load upon zoom, depending upon your internet speed.
 </p>
 
+</div>
 </Container>
 
 <Container width="fluid">
