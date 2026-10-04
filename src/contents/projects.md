@@ -26,7 +26,7 @@ published: true
 </script>
 
 <a class="featured" href={resolve('/projects/[slug]', { slug: featured.slug })}>
-<ProjectCard info={featured} />
+<ProjectCard info={featured} hero />
 </a>
 
 <ProjectList posts={contents.slice(1, 5)} />
@@ -54,6 +54,10 @@ published: true
 <style lang="scss">
   .featured {
     text-decoration: none;
+    display: block;
+    // Same step the grid uses between cards, so the hero reads as the first
+    // row of one continuous grid rather than a separate banner.
+    margin-block-end: var(--project-gap);
 
     :global(.card) {
       width: 100%;

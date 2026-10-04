@@ -8,6 +8,9 @@
   --grid-subs: 4;
   --grid-baseline: calc(var(--font-size-0)/2);
   --grid-max-width: 63.31rem;
+  // The step between project cards, and the width the hero's panel matches.
+  // Shared so the card and the list cannot drift apart.
+  --project-gap: calc(var(--grid-gutter) * 0.5);
   --grid-gutter: var(
     --space-2xs-xs,
     clamp(0.5625rem, 0.3306rem + 1.1561vw, 1.0625rem)

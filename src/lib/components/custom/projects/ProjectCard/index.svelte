@@ -11,7 +11,11 @@
   /**
    * @type {{ info: { image: any; intro: { hed: any; }; description: any; categories: any; awards?: { type: string; logo?: string; url?: string; label?: string }[] }, lazy?: boolean }}
    */
-  let { info, lazy = false } = $props();
+  // `hero` is the one full-bleed card at the top of the portfolio. It gets a
+  // panel centred in the frame rather than parked on the bottom edge, and the
+  // panel runs the full width instead of being capped at --lg, which on a
+  // wide card left a visible margin of image down both sides.
+  let { info, lazy = false, hero = false } = $props();
 
   let image = $derived(asset('/media/share-images/' + info.image));
 
@@ -31,6 +35,7 @@
 <div
   class="card"
   class:has-badge={hasAwards}
+  class:hero
   data-sveltekit-preload-code
   bind:clientHeight={cardHeight}
   style="--ch:{cardHeight}px; --ih:{infoHeight}px"
@@ -150,6 +155,53 @@
       line-height: var(--line-height-tight);
       margin-bottom: var(--space-2xs);
       max-width: var(--sm);
+    }
+  }
+
+  // Hero, desktop only. Below 850px every project stacks into one column and
+  // the hero is just another card, so it keeps the default bottom-anchored
+  // panel and none of this applies.
+  //
+  // The panel is exactly one grid track wide — the same arithmetic ProjectList
+  // uses for a card — so it reads as the same object as the cards below rather
+  // than as a banner. left/right are already 0 on the base rule, so a definite
+  // width plus the inherited `margin-inline: auto` centres it.
+  //
+  // It rides in from below and settles on the centre line: at rest a little
+  // under centre, hover lifts it the rest of the way while the description
+  // opens, so the motion still reads as coming up from the bottom edge.
+  @media (min-width: 850px) {
+    .card.hero .body {
+      max-width: none;
+      width: calc((100% - 2 * var(--project-gap)) / 3);
+      // A floor so the panel can never collapse to its content; the computed
+      // track is wider than this at every desktop width, so it never binds.
+      min-width: 320px;
+      bottom: auto;
+      top: 50%;
+      transform: translateY(calc(-50% + var(--space-s)));
+      transition:
+        transform 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+        background-color 0.35s ease;
+    }
+
+    .card.hero:hover .body {
+      transform: translateY(-50%);
+    }
+  }
+
+  // Two columns here, so a track is half the width less one gap.
+  @media (850px <= width <= 1200px) {
+    .card.hero .body {
+      width: calc((100% - var(--project-gap)) / 2);
+    }
+  }
+
+  @media (min-width: 850px) and (prefers-reduced-motion: reduce) {
+    .card.hero .body,
+    .card.hero:hover .body {
+      transform: translateY(-50%);
+      transition: background-color 0.35s ease;
     }
   }
 

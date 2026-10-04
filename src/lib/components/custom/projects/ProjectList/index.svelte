@@ -29,7 +29,13 @@
     justify-content: center;
     margin-inline: auto;
     margin-block-end: var(--space-s);
-    gap: calc(var(--grid-gutter) * 0.5);
+
+    // One gap value for the whole grid: the track width below subtracts
+    // exactly the gaps BETWEEN items, so a full row spans the container edge
+    // to edge. It used to subtract one gap per item plus one, which left the
+    // row narrower than its container and `justify-content` then centred that
+    // shortfall as a margin down both sides.
+    gap: var(--project-gap);
 
     // define grid cols
     --cols: 3;
@@ -45,9 +51,7 @@
 
   li {
     list-style: none;
-    width: calc(
-      (100% - (var(--cols) + 1) * (var(--grid-gutter) * 0.5)) / var(--cols)
-    );
+    width: calc((100% - (var(--cols) - 1) * var(--project-gap)) / var(--cols));
     flex: auto 0 0;
   }
   a {
