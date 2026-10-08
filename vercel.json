@@ -4,6 +4,7 @@
     { "source": "/print-maps", "destination": "/print-maps/", "permanent": true },
     { "source": "/palampur-studies", "destination": "/palampur-studies/", "permanent": true },
     { "source": "/delhi-winter-pollution-gpdoc", "destination": "/delhi-winter-pollution-gpdoc/", "permanent": true },
+    { "source": "/animamathica", "destination": "/animamathica/", "permanent": true },
     { "source": "/resources/codeschool-front-end", "destination": "https://prasantakrdutta.notion.site/CodeSchool-Front-end-web-b2a8e5b419d04adf8beae269bd965d8f", "permanent": false },
     { "source": "/resources/codeschool-web-scraping", "destination": "https://prasantakrdutta.notion.site/CodeSchool-Web-Scraping-3c52514d10d44a6e8e0c00f712970acd", "permanent": false },
     { "source": "/resources/learning-dataviz", "destination": "https://prasantakrdutta.notion.site/DataViz-learning-resources-611bdb1ee27c4a47a6bbd7dd273d882c", "permanent": false },
@@ -13,6 +14,7 @@
   "rewrites": [
     { "source": "/palampur-studies/(.*)", "destination": "https://palampur-studies.vercel.app/$1" },
     { "source": "/delhi-winter-pollution-gpdoc/(.*)", "destination": "https://delhi-winter-pollution-gpdoc.vercel.app/$1" },
+    { "source": "/animamathica/(.*)", "destination": "https://anima-mathica.vercel.app/$1" },
     { "source": "/(.*)", "destination": "https://pkd2512.github.io/$1" }
   ]
 }
