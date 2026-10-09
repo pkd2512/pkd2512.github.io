@@ -118,27 +118,26 @@ I love to talk about design and data visualisation. Over the years, I have instr
     {
       src: '/media/community/teaching-3.webp',
       alt: "Prasanta speaking at a podium at VizChitra, with a slide reading 'If it doesn't look right, it probably isn't going to be read or understood right.'",
-      caption: 'Speaking on visual clarity in data storytelling at VizChitra.',
+    },
+    {
+      src: '/media/community/teaching-6.webp',
+      alt: "Prasanta speaking at a podium at VizChitra, with a slide reading 'If it doesn't look right, it probably isn't going to be read or understood right.'",
     },
     {
       src: '/media/community/teaching-4.webp',
       alt: "Prasanta speaking at a podium at VizChitra, with a slide reading 'If it doesn't look right, it probably isn't going to be read or understood right.'",
-      caption: 'Speaking on visual clarity in data storytelling at VizChitra.',
     },
     {
       src: '/media/community/teaching-1.webp',
       alt: "Prasanta speaking at a podium at VizChitra, with a slide reading 'If it doesn't look right, it probably isn't going to be read or understood right.'",
-      caption: 'Speaking on visual clarity in data storytelling at VizChitra.',
     },
     {
       src: '/media/community/teaching-2.webp',
       alt: "Prasanta speaking at a podium at VizChitra, with a slide reading 'If it doesn't look right, it probably isn't going to be read or understood right.'",
-      caption: 'Speaking on visual clarity in data storytelling at VizChitra.',
     },
     {
       src: '/media/community/teaching-5.webp',
       alt: "Prasanta speaking at a podium at VizChitra, with a slide reading 'If it doesn't look right, it probably isn't going to be read or understood right.'",
-      caption: 'Speaking on visual clarity in data storytelling at VizChitra.',
     },
   ]}
 />
