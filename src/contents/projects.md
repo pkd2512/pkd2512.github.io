@@ -26,7 +26,7 @@ published: true
 </script>
 
 <a class="featured" href={resolve('/projects/[slug]', { slug: featured.slug })}>
-<ProjectCard info={featured} hero />
+<ProjectCard info={featured} />
 </a>
 
 <ProjectList posts={contents.slice(1, 5)} />
