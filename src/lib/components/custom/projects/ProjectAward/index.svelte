@@ -36,6 +36,11 @@
     max-height: 100%;
     width: 100%;
 
+    // 1-column side rail: start at the top so it lines up with the title.
+    :global([data-awards='side']) & {
+      justify-content: flex-start;
+    }
+
     // 2-column side rail: absolutely positioned anchored to the LEFT edge
     // of the .awards column so the second wrapped column overflows to the
     // RIGHT into the empty bleed area (never overlapping the header text

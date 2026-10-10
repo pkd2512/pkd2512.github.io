@@ -21,9 +21,9 @@ links:
     label: 🗒️ Read more
 
 awards:
-  - type: NASSCOM Design4India Design Awards 2018
+  - type: NASSCOM Design4India Design Awards
     logo: awards/nasscom.webp
-    label: ⭐ Finalist-Mobile Experiences 
+    label: ⭐ Finalist-Mobile Experiences, 2018 
 
 intro:
   hed: Soulace

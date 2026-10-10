@@ -39,12 +39,12 @@ intro:
 
 Hey friends!
 
-![image](/media/tree.webp)
+![A lone tree silhouetted against a sunset over the sea, with the sun glowing through its branches under a dramatic red and purple cloudy sky.](/media/tree.webp)
 
 </Container>
 
 <figure>
 
-![image](/media/page.webp)
+![The Warming Planet, a radial chart of global land temperatures from 1850 to 2015. Yellow bars for maximum and teal bars for minimum temperatures fan out in a semicircle, with buttons below to filter by season.](/media/page.webp)
 
 </figure>

@@ -1039,3 +1039,25 @@
     Total: 47.5KB → 21.5KB (54.8% saved)
 ════════════════════════════════════════════════════════════
 
++ media\awards\adobe.png  135.5KB → 38.7KB  (71.4% saved)
+
+════════════════════════════════════════════════════════════
+  WebP conversion
+────────────────────────────────────────────────────────────
+    WebP conversion  ·  2026-10-10 23:08:49  ·  mode: missing
+    Source images: 10  |  Existing .webp: 10  |  To convert: 1
+    1 converted, 0 failed, 0 skipped  ·  0.1s
+    Total: 135.5KB → 38.7KB (71.4% saved)
+════════════════════════════════════════════════════════════
+
++ media\awards\fcc.png  331.6KB → 100.4KB  (69.7% saved)
+
+════════════════════════════════════════════════════════════
+  WebP conversion
+────────────────────────────────────────────────────────────
+    WebP conversion  ·  2026-10-10 23:25:20  ·  mode: missing
+    Source images: 10  |  Existing .webp: 10  |  To convert: 1
+    1 converted, 0 failed, 0 skipped  ·  0.2s
+    Total: 331.6KB → 100.4KB (69.7% saved)
+════════════════════════════════════════════════════════════
+

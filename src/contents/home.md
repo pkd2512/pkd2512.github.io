@@ -120,39 +120,39 @@ I co-host <LinkButton label='Creative Coding Crafts Space'  url='https://www.ins
   items={[
     {
       src: '/media/c3s/c3s-1.webp',
-      alt: 'Hand-painted mask of Goddess Durga',
+      alt: "Orange flyer for Creative Coding Crafts Space taped to a dark brick wall, decorated with colourful generative butterflies and a QR code marked 'Register today!'. It invites people to bring laptops for an afternoon of making generative art with code, at The Cave, Algha Works, Hackney Wick, Saturday 28 September, 2 to 6 pm.",
     },
     {
       src: '/media/c3s/c3s-2.webp',
-      alt: 'Abstract painting',
+      alt: "Prasanta speaking at a standing table with a laptop, beside a large projected slide titled 'About C3S'. The slide describes Creative Coding Crafts Space as a London-based and online community for exploring the tools, ideas and experiments at the intersection of code and art, and credits its hosts Dea Bankova and Prasanta Kumar Dutta.",
     },
     {
       src: '/media/c3s/c3s-3.webp',
-      alt: 'Abstract painting',
+      alt: "Prasanta speaking into a microphone while seated on a stool beside a laptop, in a brick-walled venue lit with blue and amber light. Workshop participants with laptops listen at a table on the left.",
     },
     {
       src: '/media/c3s/c3s-4.webp',
-      alt: 'Abstract painting',
+      alt: "A speaker at a laptop presents to a room of participants seated at tables with laptops. The projected screen behind shows a pink and blue mandala pattern drawn with code.",
     },
     {
       src: '/media/c3s/c3s-5.webp',
-      alt: 'Abstract painting',
+      alt: "Participants at laptops face a large projection of swirling purple, orange and blue generative visuals, with lines of live-coding code beside them. Two people at the front adjust the setup.",
     },
     {
       src: '/media/c3s/c3s-6.webp',
-      alt: 'Abstract painting',
+      alt: "A pen plotter, a small robotic arm holding a black marker, drawing geometric patterns on paper. Finished squares nearby show grids of overlapping squares, scattered small shapes and looping circles.",
     },
     {
       src: '/media/c3s/c3s-7.webp',
-      alt: 'Abstract painting',
+      alt: "Participants in a craft workshop hold out their hands to compare white gloves decorated with felt flowers and small glowing LED lights. A table of coloured felt and craft supplies sits in front.",
     },
     {
       src: '/media/c3s/c3s-8.webp',
-      alt: 'Abstract painting',
+      alt: "A speaker holding a microphone presents beside a laptop on a standing table, in front of a wall-sized pattern of overlapping blobs in neon pink, blue, green and orange. Two attendees with laptops sit in the foreground.",
     },
     {
       src: '/media/c3s/c3s-9.webp',
-      alt: 'Abstract painting',
+      alt: "Collage of six photos from C3S events: Prasanta and others smiling in selfies and group portraits, in a red-lit lounge, on a dark street, in a plant-filled venue and beside a neon sign reading 'The Nest'.",
     },
   ]}
 />
@@ -167,23 +167,23 @@ I co-host <LinkButton label='Creative Coding Crafts Space'  url='https://www.ins
   items={[
     {
       src: '/media/zines/zines-1.webp',
-      alt: 'Hand-painted mask of Goddess Durga',
+      alt: "A zine stall on a table in front of a teal wall, with printed zines, a sticker sheet of mandala patterns and a framed grid of pixelated colour blocks. Signs read 'Sacred Geometry' and 'Boshonto Utsab'; titles on display include 'Shaak Paata' and 'Wandering with Purpose'.",
     },
     {
       src: '/media/zines/zines-2.webp',
-      alt: 'Abstract painting',
+      alt: "Two folded concertina zines titled 'Rhythm & Rhymes' laid out on a wooden table. Each panel pairs a bold orange, black or purple pattern with a short four-line poem, under titles such as 'Fish n Chips'.",
     },
     {
       src: '/media/zines/zines-3.webp',
-      alt: 'Abstract painting',
+      alt: "Mock-up of a photo zine about street dogs. An open spread shows golden-brown dogs in close-up photographs, with covers edged by a strip of colourful prayer flags lying around it.",
     },
     {
       src: '/media/zines/zines-4.webp',
-      alt: 'Abstract painting',
+      alt: "A hand holds open a small zine outdoors. The left page has a long-exposure photograph of a stream tumbling over rocks. The right page has a four-line poem in Roman Urdu, beginning 'har mod pe tera', with its English translation: at every turn you will meet a new version of yourself, and only after knowing every 'you' will you truly meet yourself.",
     },
     {
       src: '/media/zines/zines-5.webp',
-      alt: 'Abstract painting',
+      alt: "Prasanta smiling and holding up a small purple zine titled 'Wandering with Purpose', in front of a white wall pinned with many other zines and prints.",
     },
   ]}
 />
@@ -228,7 +228,7 @@ As a storyteller I use different mediums to tell different stories. I write and 
 
 I am also part of <LinkButton label='Dakshinayan UK' url='https://www.londonpuja.co.uk/dakshinayan-uk-2/'  /> -- a London-based music group that performs Rabindranath Tagore's compositions along with other traditional Indian music and dance performances.
 
-Drop me a line on <LinkButton label='Instagram ' url='https://www.instagram.com/pkd_da_pacific/' /> if you would like me to perform at your event or hear more about my poetry and music.
+Drop me a line if you would like me to perform at your event or hear more about my <LinkButton label='poetry ' url='https://www.instagram.com/muhabbat_ka_sharbat/' /> and <LinkButton label='music ' url='https://www.instagram.com/thebongmusical/' />.
 
 </div>
 </Container>
@@ -239,15 +239,15 @@ Drop me a line on <LinkButton label='Instagram ' url='https://www.instagram.com/
   items={[
     {
       src: '/media/shows/shows-1.webp',
-      alt: 'Hand-painted mask of Goddess Durga',
+      alt: "Performers in colourful traditional attire pose together on stage at Viraasat UK 2026, in front of a banner reading 'Celebrating Heritage, Culture, Community', 6th and 7th June at Chiswick Town Hall. A seated musician with a harmonium sits at the right.",
     },
     {
       src: '/media/shows/shows-2.webp',
-      alt: 'Abstract painting',
+      alt: "Three photos of Prasanta performing. Left: sitting on a stool with a microphone under a 'Big Belly Comedy Club' sign. Centre: standing at a microphone in a teal kurta against a brick wall. Right: laughing at a microphone in a red scarf, in front of a red curtain.",
     },
     {
       src: '/media/shows/shows-3.webp',
-      alt: 'Abstract painting',
+      alt: "Group photo of about a dozen comedians and organisers, standing and kneeling in a warmly lit bar decorated with festive greenery. Several are smiling; one wears a bowler hat and bow tie, and another gives a thumbs-up.",
     },
   ]}
 />

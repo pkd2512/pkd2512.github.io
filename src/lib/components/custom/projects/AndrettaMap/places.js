@@ -14,7 +14,7 @@ export default [
     hed: 'Palampur',
     dek: 'After a hearty breakfast comprising of Kulcha and Lassi, we rented a car and set out on a five-hour journey to Palampur via 235km of NH54 and NH154. We had luckily received permission to put up at the CSIR-IHBT guest house for the course of our research, which gave us the opportunity to meet some amazing people and learn about the ground-breaking research being conducted there using the Himalayan bio-resources.',
     img: 'ihbt.webp',
-    alt: '',
+    alt: "A green signboard in a pine plantation quoting garden sayings, including 'The kiss of the sun for pardon, the song of the birds for mirth, one is nearer God’s heart in a garden than anywhere else on earth.'",
     caption: 'Amidst the plantations inside the IHBT campus',
   },
   {
@@ -22,7 +22,7 @@ export default [
     hed: 'Andretta',
     dek: 'Being a prime focus of our tour, we made sure that we captured the place in as much detail as possible. Our first stop was the residence cum gallery of Shobha Singh, a well-known contemporary painter from Indian Punjab, that has now been turned into an art museum, showcasing his life and works. We also visited a dance and music school, located nearby, where we got to hear about the local music and dance styles. We might also have picked up some Kangri dance moves from the instructor!',
     img: 'shobha.webp',
-    alt: '',
+    alt: "A white and pink house with a green tiled roof. The words 'Grow more good' are painted across its upper wall, and a small bust stands against its side.",
     caption: 'View of the residence from the road',
   },
   {
@@ -30,7 +30,7 @@ export default [
     hed: '',
     dek: "We then visited the residence and theatre of Norah Richards, an Irish-born actress who had settled in Andretta in 1924 and used to teach drama and playwriting to students. The place is now maintained by the Punjabi University at Patiala. It's no wonder the place of Andretta has always been deeply rooted in artistic and cultural treasures.",
     img: 'norah.webp',
-    alt: '',
+    alt: 'Red roses blooming on a shrub beside strands of barbed wire, against a pale lilac sky.',
     caption: 'A rose shrub by the lane to the entrance.',
   },
   {
@@ -38,7 +38,7 @@ export default [
     hed: '',
     dek: 'The visit to the pottery studio was quite an experience as we were heartily welcomed by the artists, the students and two canine residents of the place.',
     img: 'dog.webp',
-    alt: '',
+    alt: 'A golden retriever with damp fur lies on a stone slab in the sun, tethered by a chain.',
     caption: 'Our canine friend drying off in the sun',
   },
   {
@@ -46,7 +46,7 @@ export default [
     hed: '',
     dek: 'We were shown around the place by Shubham, the young and vibrant potter and manager of the studio. We took a tour of the studio, the museum and the store. We also interviewed Mansimran Singh, which helped us strategize the rest of the research. In the days to come, we documented the birth of a vase from throwing to glazing, interviewed other potters and the students who had come to the place for training.',
     img: 'vase.webp',
-    alt: '',
+    alt: 'A dark green glazed clay vase on a red-painted plinth, with trees and snow-capped mountains in the distance.',
     caption: 'The finished vase basking in the lap of nature',
   },
   {
@@ -54,7 +54,7 @@ export default [
     hed: '',
     dek: "Our next stop was The Mirage. Even though we had reached unannounced, the hosts were kind enough to invite us to lunch. The beautiful place, equipped with a meditation centre, provided a much needed escape to people from the bustle of the city life from across the country and the world. We had the opportunity to interview Navjot, one of the hosts, who was a theatre artist and poet herself. She gave us an idea of the cultural richness of the region and how it was dwindling. She also gave us a tour of the artists' residency she was working on.",
     img: 'mirage.webp',
-    alt: '',
+    alt: 'A plate of stuffed flatbread with roasted aubergine, green chillies and a spicy shredded carrot relish, on a striped mat beside a fork, spoon and knife.',
     caption: 'The much cherished lunch at The Mirage',
   },
   {
@@ -62,7 +62,7 @@ export default [
     hed: 'Wah Tea Estate',
     dek: "It was afternoon by the time we reached the estate on our way back to IHBT campus. The place derives its name from 'Wah' in Pakistan — the first owner was the Nawab of Wah. In 1953, the estate was taken over by the 'Chaiwala Family'. Wah has passed hands within the family and is now looked after by Deepak and Surya, who gave us an elaborate tour of the estate and the tea processing units. Oh, we did some tea tasting too!",
     img: 'wah.webp',
-    alt: '',
+    alt: 'Close-up of fresh green tea leaves on the bushes, with the background softly blurred.',
     caption: 'The tea plants ready for fine-plucking',
   },
   {
@@ -70,7 +70,7 @@ export default [
     hed: 'Ashapuri',
     dek: 'Believed to have been built by the Pandavas, Ashapuri Mata Temple is an important religious destination located on the top of the hill. The drive to the place and watching the sunset from the hill was an experience in itself.',
     img: 'ashapuri.webp',
-    alt: '',
+    alt: 'The sun setting over a hazy valley seen from a hilltop, with pine branches in the foreground at right.',
     caption: 'Viewing the sunset from the top',
   },
   {
@@ -78,7 +78,7 @@ export default [
     hed: 'Baijnath',
     dek: 'We had kept an entire day to go around the city of Palampur to visit some popular spots and observe the people and life in the Kangra valley. On our way, we did encounter a herd of the Gaddi tribe.',
     img: 'gaddi.webp',
-    alt: '',
+    alt: 'Two white, long-haired goats pick their way along a rocky slope covered with shrubs and orange flowers.',
     caption: 'The herd follows its own route through the hills',
   },
   {
@@ -86,7 +86,7 @@ export default [
     hed: '',
     dek: 'We headed for the Tashi Jong village, the Tibetan settlement, that houses a monastery that is one of the schools of Drugpa Kagyu tradition of Buddhism.',
     img: 'tashi.webp',
-    alt: '',
+    alt: 'A row of black and gold prayer wheels engraved with Tibetan script, under a covered walkway.',
     caption: 'Prayer wheels at the entrance of the monastery',
   },
   {
@@ -94,7 +94,7 @@ export default [
     hed: '',
     dek: 'We were quite famished by the time we left Tashi Jong. Upon the suggestion of our cabbie, combined with our excitement to dine at a palace hotel, we headed towards the Taragarh Palace. The palace stands majestically at a height of 1,000 meters, amidst 15 acres of lush forests and tea gardens in the Kangra Valley. The palace was built as a summer resort and was acquired by the Royal Family of Jammu & Kashmir in 1951. Developed as a Heritage Hotel in 1971, Taragarh Palace hotel offers splendid views of the snow-clad ranges of the Dhauladhar Mountains.',
     img: 'taragarh.webp',
-    alt: '',
+    alt: 'A red-brick hotel building with a green roof, seen across a lawn and clipped hedges, with tall pine trees behind it.',
     caption: 'View of the hotel building from the garden',
   },
   {
@@ -102,7 +102,7 @@ export default [
     hed: '',
     dek: 'After lunch, we decided to head towards the famous 13th century temple of Baijnath, dedicated to Lord Shiva as Vaidyanath — the Lord of the Physicians. Even though the place was crowded with devotees, we got a chance to get a peek inside the temple. A flight of steps from the temple leads down to the banks of the Kheerganga that flows through Baijnath.',
     img: 'kheer.webp',
-    alt: '',
+    alt: 'A stream cascading over smooth boulders, the water blurred into silky white streaks by a long exposure.',
     caption: 'Streams of Kheerganga at Baijnath',
   },
   {
@@ -110,7 +110,7 @@ export default [
     hed: 'Bir-Billing',
     dek: 'On the final day of our Palampur tour, we decided to conclude with some experience of adventure. Hence, we headed towards Bir-Billing, the best spot for paragliding aero-sport in India and the 2nd best in the world! For a flight spanning 15-25 minutes, we engaged in a tandem paragliding experience from Billing to Bir. The take-off point is located at Billing, 16 km uphill from Bir, at a height of 2438.4 meters above sea-level. The landing site in Bir is a plain field at about 1310.6 meters above sea-level. It indeed is an amazing experience to fly!',
     img: 'bir.webp',
-    alt: '',
+    alt: 'A selfie taken while paragliding in tandem: two people in white helmets hang from the glider lines high above a green valley dotted with villages and farmland.',
     caption: "Jasleen enjoying her bird's-eye view of the valley",
   },
   { key: 'Closing' },

@@ -71,17 +71,17 @@ I love to talk about design and data visualisation. Over the years, I have instr
     {
       src: '/media/community/community-1.webp',
       alt: "Prasanta speaking at a podium at VizChitra, with a slide reading 'If it doesn't look right, it probably isn't going to be read or understood right.'",
-      caption: 'Speaking on visual clarity in data storytelling at VizChitra.',
+      caption: 'Speaking on gestalt principles at VizChitra.',
     },
     {
       src: '/media/community/community-8.webp',
       alt: "Prasanta speaking at a podium with a slide reading 'Data journalism renders the invisible visible — and makes people care.'",
-      caption: "On data journalism's power to make people care.",
+      caption: "Speaking on data journalism's power to make people care at a Gyaan Adda session,  National Institute of Design, Bangalore",
     },
     {
       src: '/media/community/community-2.webp',
       alt: 'Prasanta leading a workshop, gesturing toward a map visualisation on screen while participants work at laptops.',
-      caption: 'Walking participants through a mapping exercise during a hands-on workshop.',
+      caption: 'Walking participants through a mapping exercise during a VizChitra workshop.',
     },
     {
       src: '/media/community/community-4.webp',
@@ -91,17 +91,17 @@ I love to talk about design and data visualisation. Over the years, I have instr
     {
       src: '/media/community/community-5.webp',
       alt: 'A small group seated around a table in a bookshop lounge, deep in conversation.',
-      caption: 'In conversation with fellow designers and journalists.',
+      caption: 'Charts and chats with fellow designers at a design meetup in Kolkata.',
     },
     {
       src: '/media/community/community-6.webp',
       alt: "Prasanta speaking to an audience seated with laptops, with a slide reading 'From data to Art' projected behind him.",
-      caption: 'Talking about the journey from data to art at a community meetup.',
+      caption: 'Talking about data art at a C3S event in London.',
     },
     {
       src: '/media/community/community-7.webp',
       alt: 'A large group photo of workshop participants and instructors in an auditorium.',
-      caption: 'With workshop participants after a session.',
+      caption: 'Gyaan Adda session at National Institute of Design, Bangalore.',
     },
   ]}
 />
@@ -117,27 +117,27 @@ I love to talk about design and data visualisation. Over the years, I have instr
   items={[
     {
       src: '/media/community/teaching-3.webp',
-      alt: "Prasanta speaking at a podium at VizChitra, with a slide reading 'If it doesn't look right, it probably isn't going to be read or understood right.'",
+      alt: "Prasanta presenting beside a wooden lectern in a classroom, with a projected slide titled 'Designing maps for news'. Students sit around a wooden table with laptops, notebooks and water bottles.",
     },
     {
       src: '/media/community/teaching-6.webp',
-      alt: "Prasanta speaking at a podium at VizChitra, with a slide reading 'If it doesn't look right, it probably isn't going to be read or understood right.'",
+      alt: "About fourteen students and instructors pose in a sunny courtyard in front of poster display boards. Two of them hold small booklets.",
     },
     {
       src: '/media/community/teaching-4.webp',
-      alt: "Prasanta speaking at a podium at VizChitra, with a slide reading 'If it doesn't look right, it probably isn't going to be read or understood right.'",
+      alt: "About fourteen students and instructors stand in a loose line outdoors in front of tall white display boards, smiling at the camera.",
     },
     {
       src: '/media/community/teaching-1.webp',
-      alt: "Prasanta speaking at a podium at VizChitra, with a slide reading 'If it doesn't look right, it probably isn't going to be read or understood right.'",
+      alt: "More than forty students and instructors stand in two rows in a hall, smiling, with laptops on a long wooden table in front and printed maps pinned on the wall behind them.",
     },
     {
       src: '/media/community/teaching-2.webp',
-      alt: "Prasanta speaking at a podium at VizChitra, with a slide reading 'If it doesn't look right, it probably isn't going to be read or understood right.'",
+      alt: "Around twenty students wearing ID lanyards pose in a bright corridor with their instructor.",
     },
     {
       src: '/media/community/teaching-5.webp',
-      alt: "Prasanta speaking at a podium at VizChitra, with a slide reading 'If it doesn't look right, it probably isn't going to be read or understood right.'",
+      alt: "A large group of about thirty-five students and a teacher pose outdoors in a sunny courtyard, some crouching in the front row, in front of a bamboo-roofed structure.",
     },
   ]}
 />

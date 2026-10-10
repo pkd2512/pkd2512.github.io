@@ -96,7 +96,9 @@
 
     {#if ready}
       <div class="awards col-span-2" in:fade={{ duration: 200 }}>
-        <ProjectAward awards={meta.awards} />
+        <div class="rail">
+          <ProjectAward awards={meta.awards} />
+        </div>
       </div>
     {/if}
   </Container>
@@ -113,20 +115,32 @@
   }
 
   // Side-rail layout (1- or 2-column).
-  // Uses --info-height (set inline on #hero) so it tracks the h1's height.
+  // The header is vertically centred in a taller hero, so the title block's
+  // top edge sits (hero height - --info-height) / 2 down. .awards stretches to
+  // the hero's height and centres a --info-height rail, so the rail's top edge
+  // is the title block's top edge whatever the number of awards.
   #hero[data-awards='side'] .awards,
   #hero[data-awards='side-2'] .awards {
+    align-self: stretch;
+    align-items: center;
+  }
+
+  #hero[data-awards='side'] .rail,
+  #hero[data-awards='side-2'] .rail {
     height: var(--info-height);
-    margin-block-start: calc(
-      var(--info-height) * 0.25 + var(--space-xl) + 67px
-    );
+    width: 100%;
+    display: flex;
+    box-sizing: border-box;
+    // The h1 opens with a --space-xl margin (global heading style); match it
+    // so the first award lines up with the title itself, not its margin box.
+    padding-block-start: var(--space-xl);
   }
 
   // 2-column side rail: the .awards column itself stays at col-span-2,
   // but its strip is absolutely positioned so it can overflow into the
   // empty space to the right of the page grid without affecting layout
   // or overlapping the header text on the left.
-  #hero[data-awards='side-2'] .awards {
+  #hero[data-awards='side-2'] .rail {
     position: relative;
     overflow: visible;
   }
@@ -146,7 +160,6 @@
     .awards {
       grid-column: 1 / -1;
       height: auto;
-      margin-block-start: 0;
       margin-block-end: var(--space-l);
     }
   }

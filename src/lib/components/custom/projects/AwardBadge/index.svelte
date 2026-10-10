@@ -14,6 +14,9 @@
     inverted = false,
     size = '3',
   } = $props();
+
+  // Laurels sit a step smaller than the logo so wide logos keep their room.
+  const laurelSize = $derived(parseFloat(size) * 0.75);
 </script>
 
 <div
@@ -27,7 +30,7 @@
   <Icon
     class="laurel"
     icon="hugeicons:laurel-wreath-left-02"
-    height="{size}rem"
+    height="{laurelSize}rem"
     style="color: {inverted ? 'var(--white-soft)' : 'var(--purple-soft)'}"
   />
 
@@ -38,7 +41,7 @@
   <Icon
     class="laurel"
     icon="hugeicons:laurel-wreath-right-02"
-    height="{size}rem"
+    height="{laurelSize}rem"
     style="color: {inverted ? 'var(--white-soft)' : 'var(--purple-soft)'}"
   />
 </div>
@@ -76,13 +79,18 @@
     :global(.laurel path) {
       // stroke-width: 1px;
     }
+
+    // Never let the laurels be squeezed by a wide logo; the logo gives way.
+    :global(.laurel) {
+      flex-shrink: 0;
+    }
   }
 
   .logo {
     width: auto;
     height: var(--size);
+    min-width: 0;
     object-fit: contain;
-    flex-shrink: 0;
 
     filter: brightness(0) saturate(100%) invert(17%) sepia(38%) saturate(2250%)
       hue-rotate(237deg) brightness(94%) contrast(92%);

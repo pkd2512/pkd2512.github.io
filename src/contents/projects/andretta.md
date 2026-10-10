@@ -21,6 +21,12 @@ links:
     url: projects/andretta/
     label: 🗒️ Read more
 
+awards:
+  - type: Adobe Design Achievement Awards
+    logo: awards/adobe.webp
+    url: http://web.archive.org/web/20260219054847/https://www.adobeawards.com/the-gallery?y=2018&liveproject=20188973
+    label: ⭐ Semifinalist, Commercial Photography, 2018
+
 intro:
 
   hed: Andretta
