@@ -1,22 +1,15 @@
 <script>
   import Container from '$lib/components/ui/Container/index.svelte';
-  import { marked } from 'marked';
-  import { markedSmartypants } from 'marked-smartypants';
-  import Icon from '@iconify/svelte';
-  import NavLink from '$lib/components/ui/Navlink/index.svelte';
-  import { timeFormat } from 'd3-time-format';
+  import ListItem from '$lib/components/custom/community/ListItem/index.svelte';
   import slugify from '$utils/slugify';
-
-  marked.use(markedSmartypants());
+  import isUpcoming from '$utils/isUpcoming';
+  import { onMount } from 'svelte';
 
   let { content = [], title = '' } = $props();
 
-  const formatDate = (date) => {
-    if (!date) return;
-    const d = new Date(date);
-    const format = timeFormat('%b %Y');
-    return format(d);
-  };
+  // Re-evaluated in the browser so the badge flips on the day, not on the next deploy.
+  let now = $state(new Date());
+  onMount(() => (now = new Date()));
 
   let sorted = $derived(
     [...content].sort((a, b) => new Date(b.date) - new Date(a.date))
@@ -29,37 +22,7 @@
       <h2 id={slugify(title)}>{title}</h2>
       <ul>
         {#each sorted as item}
-          <li class="list-item">
-            <span class="topic">
-              <strong
-                >{@html marked.parse(item.place)}
-                {#if item.archive_url || item.url}
-                  <NavLink target="" url={item.archive_url || item.url}
-                    ><Icon
-                      width="22"
-                      height="22"
-                      icon="iconamoon:link-external-duotone"
-                    /></NavLink
-                  >
-                {/if}</strong
-              >
-
-              <!-- <span
-                style="white-space: nowrap; line-height: var(--line-height-tight);"
-              >
-                <span class="date">
-                  {item.date ? formatDate(item.date) : ''}
-                </span>
-              </span> -->
-            </span>
-
-            <span class="place">
-              <span class="date">
-                {item.date ? formatDate(item.date) + ' • ' : ''}
-              </span>
-              {@html marked.parse(item.topic)}
-            </span>
-          </li>
+          <ListItem {item} upcoming={isUpcoming(item.date, now)} />
         {/each}
       </ul>
     </div>
@@ -83,66 +46,4 @@
     }
   }
 
-  li {
-    list-style: none;
-    margin-block-end: var(--space-m);
-    break-inside: avoid;
-
-    @media (--md-n-below) {
-      margin-block-end: var(--space-s);
-    }
-  }
-
-  .date {
-    color: var(--gray);
-    font-size: var(--font-size--1);
-    font-family: var(--font-display);
-    font-weight: var(--font-weight-medium);
-    display: inline;
-    white-space: nowrap;
-  }
-
-  .sep {
-    color: var(--gray);
-  }
-
-  .topic {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-
-    :global(p),
-    :global(a) {
-      display: inline-flex;
-      line-height: var(--line-height-medium);
-    }
-  }
-
-  .place {
-    display: inline;
-    :global(p),
-    :global(a) {
-      display: inline;
-    }
-  }
-
-  .list-wrapper .list-item {
-    :global(strong p) {
-      color: var(--black-soft);
-      font-family: var(--font-sans);
-      font-weight: var(--font-weight-medium);
-    }
-
-    :global(a svg) {
-      transform: translateY(0.35rem);
-      transition: all 0.35s ease;
-    }
-    :global(a:hover svg) {
-      transform: translate(0.15rem, 0.2rem);
-    }
-
-    :global(*) {
-      margin-block: 0;
-    }
-  }
 </style>
