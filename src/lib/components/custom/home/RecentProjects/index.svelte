@@ -1,80 +1,50 @@
 <script>
   import Container from '$lib/components/ui/Container/index.svelte';
-  import { fade } from 'svelte/transition';
-  import LinkButton from '$lib/components/ui/LinkButton/index.svelte';
-  import Icon from '@iconify/svelte';
+  import { onMount } from 'svelte';
   import { page } from '$app/state';
-  import { asset } from '$app/paths';
-  import resolveLinkUrl from '$utils/resolveLinkUrl';
-  // @ts-ignore
-  import Scroller from '@sveltejs/svelte-scroller';
+  import Icon from '@iconify/svelte';
+
+  import LinkButton from '$lib/components/ui/LinkButton/index.svelte';
+  import ProjectList from '$lib/components/custom/projects/ProjectList/index.svelte';
 
   let data = $derived(
     page.data.contents
       .filter((/** @type {{ type: string; }} */ d) => d.type === 'project')
-      .slice(0, 3)
       // @ts-ignore
       .sort((a, b) => new Date(b.date) - new Date(a.date))
   );
 
-  let index = $state(0);
-  let offset = $state(0);
-  let progress = $state(0);
+  let cols = $state(2);
+
+  onMount(() => {
+    const mq1 = window.matchMedia('(max-width: 1200px)');
+    const mq2 = window.matchMedia('(width < 850px)');
+
+    const update = () => {
+      if (mq2.matches) cols = 1;
+      else if (mq1.matches) cols = 2;
+      else cols = 3;
+    };
+
+    mq1.addEventListener('change', update);
+    mq2.addEventListener('change', update);
+    update();
+
+    return () => {
+      mq1.removeEventListener('change', update);
+      mq2.removeEventListener('change', update);
+    };
+  });
+
+  let displayData = $derived(cols === 2 ? data.slice(0, 4) : data.slice(0, 3));
 </script>
 
-<svelte:head>
-  {#each data as d}
-    <link rel="preload" as="image" href={asset('/media/' + d.intro.img)} />
-  {/each}
-</svelte:head>
-
 <section id="recent-projects">
-  <Scroller
-    top={0}
-    bottom={1}
-    threshold={0.75}
-    query=".container-sm"
-    bind:index
-    bind:offset
-    bind:progress
-  >
-    <div slot="background">
-      {#key index}
-        <div
-          in:fade={{ duration: 250 }}
-          class="img"
-          style={'background-image:url(' +
-            asset('/media/' + data[index].intro.img) +
-            ')'}
-        ></div>
-      {/key}
-    </div>
-
-    <div slot="foreground">
-      {#each data as project}
-        <Container width="sm">
-          <div class="anno">
-            <p class="hed">{project.intro.hed}</p>
-            <p class="dek">{project.description}</p>
-
-            {#if project.links}
-              <div class="links">
-                {#each project.links as link}
-                  <div class="link">
-                    <LinkButton
-                      url={resolveLinkUrl(link.url)}
-                      label={link.label}
-                      target=""
-                    />
-                  </div>
-                {/each}
-              </div>
-            {/if}
-          </div>
-        </Container>
-      {/each}
-    </div>
-  </Scroller>
+  <Container width="xxl">
+    <!-- <div class="col-span-full"> -->
+    <ProjectList posts={displayData} />
+    <!-- </div> -->
+  </Container>
 
   <div id="all-projects">
     <div class="icon">
@@ -86,14 +56,11 @@
 </section>
 
 <style lang="scss">
-  @use 'src/lib/styles/mixins/fullHeight' as *;
-
   #recent-projects {
-    margin-bottom: var(--space-2xl-3xl);
-
-    :global(svelte-scroller-outer) {
-      overflow: hidden;
-    }
+    margin-block-start: var(--space-xl);
+    margin-block-end: var(--space-2xl-3xl);
+    // margin-top: calc(1.5 * var(--space-3xl));
+    // padding-block-start: calc(0.5 * var(--grid-gutter));
   }
 
   #all-projects {
@@ -106,73 +73,6 @@
       font-size: var(--font-size-1);
       :global(path) {
         fill: var(--purple);
-      }
-    }
-  }
-
-  [slot='background'] {
-    overflow: hidden;
-    .img {
-      width: 100%;
-      @include fullheight(1);
-      background-repeat: no-repeat;
-      background-position: center;
-      background-size: cover;
-      overflow: hidden;
-    }
-  }
-
-  [slot='foreground'] {
-    :global(.container-sm) {
-      @include fullheight(1.5);
-
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
-    }
-
-    :global(.container-sm:last-child) {
-      @include fullheight(1.15);
-    }
-
-    .anno {
-      background-color: var(--white);
-      margin-block-start: 50lvh;
-      padding: var(--space-s-m) var(--space-m-l);
-      border-radius: 0.5rem;
-      box-shadow: var(--shadow-2);
-      display: flex;
-      flex-flow: column;
-
-      @media (--md-n-below) {
-        width: calc(100% - var(--space-xl));
-        margin-block-start: 300px;
-      }
-    }
-
-    .hed {
-      font-size: var(--font-size-1);
-      color: var(--black-soft);
-      font-weight: var(--font-weight-light);
-      font-family: var(--font-sans);
-      line-height: var(--line-height-medium);
-      margin-bottom: var(--space-2xs);
-    }
-
-    .dek {
-      margin: 0;
-      font-style: italic;
-    }
-
-    .links {
-      margin-top: var(--space-xs);
-      display: flex;
-      justify-content: end;
-      width: 100%;
-
-      .link {
-        width: 10rem;
-        text-align: end;
       }
     }
   }

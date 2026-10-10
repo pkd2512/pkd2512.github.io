@@ -218,6 +218,8 @@ async function main() {
   const checkOnly = args.includes('--check');
   const archiveMode = args.includes('--archive');
   const forceNew = args.includes('--force');
+  const onlyIdx = args.indexOf('--only');
+  const only = onlyIdx !== -1 && args[onlyIdx + 1] ? args[onlyIdx + 1].split(',') : null;
   const urlIdx = args.indexOf('--url');
   const inlineUrl = urlIdx !== -1 && args[urlIdx + 1] ? args[urlIdx + 1] : null;
 
@@ -364,7 +366,9 @@ async function main() {
   spinner.start('Scanning for absolute URLs...');
 
   const allFiles = walkDir(CONTENTS);
-  const scanTargets = allFiles.filter(f => SCAN_EXTS.includes(extname(f).toLowerCase()));
+  const scanTargets = allFiles.filter(
+    f => SCAN_EXTS.includes(extname(f).toLowerCase()) && (!only || only.some(o => f.endsWith(o)))
+  );
 
   const { active: allResults, totalSkipped } = scanFiles(scanTargets, forceNew);
   const results = dedup(allResults);

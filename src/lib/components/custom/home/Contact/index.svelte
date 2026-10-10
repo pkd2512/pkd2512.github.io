@@ -6,6 +6,7 @@
   import Logo from '$lib/components/ui/Logo/index.svelte';
   import { copy } from 'svelte-copy';
   import { sendEvent } from '$utils/googleAnalytics';
+  import { visibility } from '$lib/actions/visibility';
 
   // @ts-ignore
   import socialUrls from '/src/contents/data/socialurls.csv';
@@ -37,7 +38,7 @@
   });
 </script>
 
-<section id="contact">
+<section id="contact" use:visibility>
   <Container width="lg">
     <div class="wrapper">
       <div class="contact">

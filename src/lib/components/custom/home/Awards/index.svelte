@@ -2,6 +2,7 @@
   import Container from '$lib/components/ui/Container/index.svelte';
   import Marquee from 'svelte-fast-marquee';
   import { asset } from '$app/paths';
+  import { visibility } from '$lib/actions/visibility';
   // @ts-ignore
   import awards from '$contents/data/awards.csv';
 
@@ -17,7 +18,7 @@
 
 <svelte:window bind:innerWidth={windowWidth} />
 
-<section id="awards">
+<section id="awards" use:visibility={(v) => (play = v)}>
   <Container width="fluid">
     {#if windowWidth <= 1024}
       <div class="mobile">
@@ -56,9 +57,11 @@
 
 <style lang="scss">
   img {
-    height: 75px;
+    height: max(75px, calc(0.1 * 100lvh));
+    max-height: 250px;
     width: auto;
-    margin: var(--space-l);
+    margin-inline: var(--space-l);
+    padding-block: var(--space-2xs);
 
     @media (--md-n-below) {
       height: 50px;
@@ -76,7 +79,8 @@
 
   #awards {
     mix-blend-mode: multiply;
-    margin-bottom: var(--space-xl-2xl);
+    overflow-x: hidden;
+    // margin-bottom: var(--space-xl-2xl);
 
     :global(.marquee) {
       justify-content: space-around;

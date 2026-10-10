@@ -1,6 +1,7 @@
 <script>
   import Icon from '@iconify/svelte';
   import { asset } from '$app/paths';
+  import { onMount } from 'svelte';
 
   /**
    * @param {string} id - The ID of the video.
@@ -72,17 +73,42 @@
   function handleMouseup(e) {
     // @ts-ignore
     if (new Date() - lastMouseDown < 300) {
+      userToggled = true;
       if (paused) e.target.play();
       else e.target.pause();
     }
   }
+
+  /** @type {HTMLVideoElement} */
+  let videoEl;
+  // Once someone plays or pauses it themselves, scrolling stops overriding them.
+  let userToggled = false;
+
+  // `autoplay` made the browser download the whole file as the page loaded,
+  // wherever the video sat (7.4MB up front on the Soulace page). With
+  // preload="none" only the poster loads; the video starts when half of it is
+  // on screen and pauses when it leaves. If the browser refuses to start it
+  // unmuted, it stays paused on its poster with the usual controls.
+  onMount(() => {
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (userToggled) return;
+        if (entry.isIntersecting) videoEl.play().catch(() => {});
+        else if (!videoEl.paused) videoEl.pause();
+      },
+      { threshold: 0.5 }
+    );
+    io.observe(videoEl);
+    return () => io.disconnect();
+  });
 </script>
 
 <figure>
   <div class="wrapper" {id}>
     <video
+      bind:this={videoEl}
       playsinline
-      autoplay
+      preload="none"
       controlslist="nodownload noremoteplayback"
       onmousemove={handleMove}
       ontouchmove={(e) => {

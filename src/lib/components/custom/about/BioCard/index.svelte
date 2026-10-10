@@ -40,7 +40,11 @@
     <Container width="md">
       <div class="card">
         <!-- <div class="img">
-          <img src={asset('/media/Prasanta_KrDutta.jpg')} alt="" />
+          <img
+            src={asset('/media/Prasanta_KrDutta.jpg')}
+            alt=""
+            loading="lazy"
+          />
         </div> -->
         <div class="body">
           <h1>{hed}</h1>

@@ -54,6 +54,10 @@ published: true
 <style lang="scss">
   .featured {
     text-decoration: none;
+    display: block;
+    // Same step the grid uses between cards, so the hero reads as the first
+    // row of one continuous grid rather than a separate banner.
+    margin-block-end: var(--project-gap);
 
     :global(.card) {
       width: 100%;

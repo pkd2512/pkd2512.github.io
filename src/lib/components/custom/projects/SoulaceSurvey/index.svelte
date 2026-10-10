@@ -17,7 +17,11 @@
           Views on Death-care service. If the answer to the first question is
           'NO', then the respondent skips to Section 3 of the survey.
         </p>
-        <img src={asset('/media/projects/soulace/survey.webp')} alt="" />
+        <img
+          src={asset('/media/projects/soulace/survey.webp')}
+          alt="Three-page Google Form titled Death care service design. Page 1 asks whether the respondent has experienced a death in the family. Page 2, Dealing with the loss, asks about the relation to the person, their occupation, place of death and difficulties arranging final rites. Page 3, Death care service, asks which services respondents would want and for any suggestions."
+          loading="lazy"
+        />
       </Container>
     </Modal>
   </div>

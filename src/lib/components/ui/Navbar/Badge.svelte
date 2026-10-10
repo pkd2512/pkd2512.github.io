@@ -3,7 +3,6 @@
   import CircleType from 'circletype';
   import GraphemeSplitter from 'grapheme-splitter';
   import { onMount } from 'svelte';
-  import remToPixels from '$utils/remToPixels';
   import { scaleLinear } from 'd3-scale';
 
   let { mobile = false } = $props();
@@ -25,10 +24,17 @@
 
   let scrollY = $state(0);
   let windowHeight = $state(0);
+  /** Held back until the ring has been measured against the real webfont. */
+  let ready = $state(false);
 
   let size = $derived(mobile ? '7.5rem' : '8.75rem');
 
-  let getRotation = $state((/** @type {any} */ d) => d);
+  let getRotation = $derived(
+    scaleLinear()
+      .domain([0, windowHeight * 0.8])
+      .range([0, 360])
+      .clamp(true)
+  );
 
   const makeText = (/** @type {String} */ text) => {
     let chars = new GraphemeSplitter().splitGraphemes(text);
@@ -45,66 +51,93 @@
   };
 
   const makeCircleText = () => {
-    circleText = new CircleType(circleTextEl, makeText);
+    // @ts-ignore
+    circleText?.destroy();
 
-    const badgeRect = badgeEl.getBoundingClientRect();
-    const radius = (Math.min(badgeRect.width, badgeRect.height) / 2) * 0.75;
+    // CircleType sizes the ring by measuring each letter with
+    // getBoundingClientRect, which reports the *rotated* bounding box. Once the
+    // badge has spun with the scroll every glyph reads wider than it is, so the
+    // radius inflates and the arc stops closing on itself — the ring drifts off
+    // the disc. Measure it square and hand the angle straight back; the two
+    // writes are in one task, so nothing paints in between.
+    const angle = badgeEl.style.getPropertyValue('--angle');
+    badgeEl.style.setProperty('--angle', '0deg');
+    circleText = new CircleType(circleTextEl, makeText);
+    badgeEl.style.setProperty('--angle', angle);
+
+    // offsetWidth, not getBoundingClientRect, for the same reason.
+    const radius =
+      (Math.min(badgeEl.offsetWidth, badgeEl.offsetHeight) / 2) * 0.75;
 
     circleText.dir(1).forceWidth(true).radius(radius);
-
-    getRotation = scaleLinear()
-      .domain([0, windowHeight * 0.8])
-      .range([0, 360])
-      .clamp(true);
   };
 
   onMount(() => {
-    makeCircleText();
+    /** @type {number} */
+    let rafId;
 
-    let prevWidth = window.innerWidth;
+    // Fires once immediately on observe, covering the initial layout too.
+    const observer = new ResizeObserver(() => {
+      cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(makeCircleText);
+    });
 
-    const onResize = () => {
-      const w = window.innerWidth;
-      if (w === prevWidth) return;
-      prevWidth = w;
+    observer.observe(badgeEl);
 
-      // @ts-ignore
-      circleText.destroy();
-      makeCircleText();
-    };
+    let alive = true;
 
-    if (window) window.addEventListener('resize', onResize);
+    // Letter widths are font-dependent, and the badge is a fixed size, so a
+    // webfont swapping in never trips the ResizeObserver — the ring would keep
+    // the fallback's measurements until something else resized it. Wait on this
+    // element's own face, not document.fonts.ready, which doesn't settle until
+    // every font on the page has (measured at 8s here, with the ring hidden for
+    // all of it). The text stays out until then rather than showing a ring
+    // built to the wrong metrics and snapping.
+    const { fontWeight, fontSize, fontFamily } = getComputedStyle(circleTextEl);
+    document.fonts
+      .load(`${fontWeight} ${fontSize} ${fontFamily}`)
+      .catch(() => {})
+      .then(() => {
+        if (!alive) return;
+        makeCircleText();
+        ready = true;
+      });
 
     return () => {
-      window.removeEventListener('resize', onResize);
-    };
-  });
-
-  $effect(() => {
-    if (circleText && circleTextEl) {
+      alive = false;
+      cancelAnimationFrame(rafId);
+      observer.disconnect();
       // @ts-ignore
-      circleText.refresh();
-      circleTextEl.classList.add('visible');
-    }
+      circleText?.destroy();
+    };
   });
 </script>
 
 <svelte:window bind:scrollY bind:innerHeight={windowHeight} />
 
-<div
-  class="badge"
-  aria-hidden="true"
-  bind:this={badgeEl}
-  style="--angle:{getRotation(scrollY)}deg; width: {size}; height: {size}"
->
-  <div class="logo">
-    <Logo size={mobile ? '3rem' : '3.75rem'} colour="var(--white)" />
+<div class="wrapper">
+  <div
+    class="badge"
+    aria-hidden="true"
+    bind:this={badgeEl}
+    style="--angle:{getRotation(scrollY)}deg; width: {size}; height: {size}"
+  >
+    <div class="logo">
+      <Logo size={mobile ? '3rem' : '3.75rem'} colour="var(--white)" />
+    </div>
+    <div class="text" class:visible={ready} bind:this={circleTextEl}>
+      Designer;Developer;Dreamer;
+    </div>
   </div>
-  <div class="text" bind:this={circleTextEl}>Designer;Developer;Dreamer;</div>
 </div>
 
 <style lang="scss">
   @use 'src/lib/styles/mixins/shadows' as *;
+
+  .wrapper {
+    border-radius: 50%;
+    box-shadow: var(--shadow-3);
+  }
   .badge {
     pointer-events: none;
     aspect-ratio: var(--ratio-square);
@@ -113,13 +146,10 @@
     display: flex;
     align-items: center;
     justify-content: center;
-
-    filter: drop-shadow(0 1px 35px hsl(269, 33%, 22%));
+    // filter: drop-shadow(0 1px 25px hsl(269, 33%, 22%));
 
     background-image: url('/media/textures/small-crackle-bright.webp');
     background-blend-mode: overlay;
-
-    box-shadow: var(--shadow-3);
 
     transform-origin: center;
     transition: transform 0.3s step-start;

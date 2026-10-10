@@ -26,6 +26,7 @@ published: true
   import List from '$lib/components/custom/community/List/index.svelte';
   import ParallaxHero from '$lib/components/ui/ParallaxHero/index.svelte';
   import ReferralCard from '$lib/components/ui/ReferralCard/index.svelte';
+  import PhotoPile from '$lib/components/ui/PhotoPile/index.svelte';
   import { asset } from '$app/paths';
 
   import talks from '/src/contents/data/talks.csv';
@@ -41,30 +42,116 @@ published: true
 
 <ParallaxHero img='/media/hero-community.webp'/>
 
-<Container width=md>
+<Container grid style="margin-block-start: var(--space-l);">
+<div class="hed col-span-md-5">
 
-<p style="margin-block-start: var(--space-l)">
-  I love to talk about design and data visualisation. Over the years, I have instructed students and professionals on data representation, geographic visualisation and visual storytelling.
-</p>
+## Talks, teaching and community
 
+</div>
+<div class="dek col-span-md-7">
+
+I love to talk about design and data visualisation. Over the years, I have instructed students and professionals on data representation, geographic visualisation and visual storytelling.
+
+<LinkButton solid="{true}" url="https://topmate.io/prasanta_kumar_dutta" label="Schedule a call" />
+
+</div>
 </Container>
 
-<Container width=md style="text-align: center; margin-top: var(--space-m); margin-bottom: var(--space-l);">
-
- <LinkButton solid="{true}"  url="https://topmate.io/prasanta_kumar_dutta" label="Schedule a call" />
-
- </Container>
-
-<Container width=lg>
+<Container grid style="margin-block-start: var(--space-xl);">
+<div class="col-span-full">
 <List title='Interviews and Features' content={mentions}/>
+</div>
+</Container>
+
+<Container grid style="margin-block-start: var(--space-xl);">
+<div class="col-span-full">
+<div style="margin-block-end: var(--space-xl);">
+<PhotoPile orientation="widescreen"
+  items={[
+    {
+      src: '/media/community/community-1.webp',
+      alt: "Prasanta speaking at a podium at VizChitra, with a slide reading 'If it doesn't look right, it probably isn't going to be read or understood right.'",
+      caption: 'Speaking on gestalt principles at VizChitra.',
+    },
+    {
+      src: '/media/community/community-8.webp',
+      alt: "Prasanta speaking at a podium with a slide reading 'Data journalism renders the invisible visible — and makes people care.'",
+      caption: "Speaking on data journalism's power to make people care at a Gyaan Adda session,  National Institute of Design, Bangalore",
+    },
+    {
+      src: '/media/community/community-2.webp',
+      alt: 'Prasanta leading a workshop, gesturing toward a map visualisation on screen while participants work at laptops.',
+      caption: 'Walking participants through a mapping exercise during a VizChitra workshop.',
+    },
+    {
+      src: '/media/community/community-4.webp',
+      alt: 'Prasanta on stage at VizChitra with a large heatmap visualisation projected behind him, addressing a seated audience.',
+      caption: 'Presenting a data visualisation case study to a full auditorium at VizChitra.',
+    },
+    {
+      src: '/media/community/community-5.webp',
+      alt: 'A small group seated around a table in a bookshop lounge, deep in conversation.',
+      caption: 'Charts and chats with fellow designers at a design meetup in Kolkata.',
+    },
+    {
+      src: '/media/community/community-6.webp',
+      alt: "Prasanta speaking to an audience seated with laptops, with a slide reading 'From data to Art' projected behind him.",
+      caption: 'Talking about data art at a C3S event in London.',
+    },
+    {
+      src: '/media/community/community-7.webp',
+      alt: 'A large group photo of workshop participants and instructors in an auditorium.',
+      caption: 'Gyaan Adda session at National Institute of Design, Bangalore.',
+    },
+  ]}
+/>
+</div>
 <List title='Talks and Workshops' content={talks}/>
+</div>
+
+</Container>
+<Container grid style="margin-block-start: var(--space-xl);">
+<div class="col-span-full">
+<div style="margin-block-end: var(--space-xl);">
+<PhotoPile orientation="ultrawide"
+  items={[
+    {
+      src: '/media/community/teaching-3.webp',
+      alt: "Prasanta presenting beside a wooden lectern in a classroom, with a projected slide titled 'Designing maps for news'. Students sit around a wooden table with laptops, notebooks and water bottles.",
+    },
+    {
+      src: '/media/community/teaching-6.webp',
+      alt: "About fourteen students and instructors pose in a sunny courtyard in front of poster display boards. Two of them hold small booklets.",
+    },
+    {
+      src: '/media/community/teaching-4.webp',
+      alt: "About fourteen students and instructors stand in a loose line outdoors in front of tall white display boards, smiling at the camera.",
+    },
+    {
+      src: '/media/community/teaching-1.webp',
+      alt: "More than forty students and instructors stand in two rows in a hall, smiling, with laptops on a long wooden table in front and printed maps pinned on the wall behind them.",
+    },
+    {
+      src: '/media/community/teaching-2.webp',
+      alt: "Around twenty students wearing ID lanyards pose in a bright corridor with their instructor.",
+    },
+    {
+      src: '/media/community/teaching-5.webp',
+      alt: "A large group of about thirty-five students and a teacher pose outdoors in a sunny courtyard, some crouching in the front row, in front of a bamboo-roofed structure.",
+    },
+  ]}
+/>
+</div>
 <List title='In the classroom' content={teachings}/>
+</div>
 </Container>
 
 <Container width=md style="text-align: center;">
 <ReferralCard  url="https://medium.com/diarium-da-pacific/showcasing-brilliance-2fe5fa976b5b" image="/media/teachings.webp" title="Showcasing Brilliance" description="A curation of data visualisation projects from my students"/>
 </Container>
 
-<Container width=lg>
+<Container grid style="margin-block-start: var(--space-xl);">
+<div class="col-span-full">
 <List title='Resources and Tools' content={resources}/>
+</div>
 </Container>
