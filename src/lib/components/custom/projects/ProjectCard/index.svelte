@@ -143,17 +143,21 @@
     transform: translateX(-50%);
     width: min(
       calc(var(--sm) + 2 * var(--space-s)),
-      calc(100% - 2 * var(--project-gap))
+      calc(100% - 7 * var(--project-gap))
     );
     background-color: rgba(255, 255, 255, 0.65);
     backdrop-filter: blur(8px);
     // Matches the PhotoPile images so rounded things on the page agree.
     border-radius: 0.5rem;
-    padding: var(--space-m) var(--space-s);
+    padding: var(--space-l) var(--space-s);
     box-shadow: var(--shadow-2);
     display: flex;
     flex-flow: column;
     transition: background-color 0.35s ease;
+
+    @media (--sm-n-below) {
+      padding: var(--space-m) 0;
+    }
 
     .hed {
       font-size: var(--font-size-1);
@@ -214,12 +218,13 @@
   .tags {
     display: flex;
     flex-wrap: wrap;
+    // gap, not margin-right: a margin leaves wrapped rows touching.
+    gap: var(--space-3xs);
     // margin-top: var(--space-xs);
     // background-color: var(--white);
 
     .tag {
       border-radius: 0.25rem;
-      margin-right: var(--space-3xs);
       padding: var(--space-3xs) var(--space-2xs);
       font-size: var(--font-size--2);
       text-transform: capitalize;

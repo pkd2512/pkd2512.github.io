@@ -15,12 +15,7 @@
     --space-2xs-xs,
     clamp(0.5625rem, 0.3306rem + 1.1561vw, 1.0625rem)
   );
-  // Outer page margin: the space between the viewport edge and the content
-  // grid, kept apart from --grid-gutter (the gap *between* columns). It is the
-  // gutter plus a boost that fades out linearly by 768px, so a phone gets
-  // roughly 1.5x the gutter (~15px at 390px wide) and anything from a tablet up
-  // gets exactly the gutter, as before. Raise the 0.013 to widen phone margins.
-  --grid-margin: calc(var(--grid-gutter) + max(0px, (48rem - 100vw) * 0.013));
+  --grid-margin: calc(var(--grid-gutter) + max(0px, (48rem - 100vw) * 0.033));
 }
 
 .grid,

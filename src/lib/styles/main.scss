@@ -23,4 +23,14 @@
       margin-block-start: calc(var(--grid-baseline) * 1);
     }
   }
+  @media (--md-n-below) {
+    h2::after {
+      content: '';
+      background: var(--gray-soft);
+      display: block;
+      width: 100%;
+      height: calc(var(--grid-baseline) * 1);
+      margin-block-start: calc(var(--grid-baseline) * 1);
+    }
+  }
 }

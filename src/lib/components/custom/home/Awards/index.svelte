@@ -64,8 +64,8 @@
     padding-block: var(--space-2xs);
 
     @media (--md-n-below) {
-      height: 50px;
-      margin: var(--space-s);
+      height: 75px;
+      margin-inline: var(--space-s);
     }
   }
 

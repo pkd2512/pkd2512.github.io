@@ -27,5 +27,9 @@
   ul {
     padding: 0;
     margin-block: var(--space-s) 0;
+    background-color: var(--white-soft);
+    padding-block-start: var(--space-s);
+    border-top: 1px solid var(--gray-soft);
+    border-bottom: 1px solid var(--gray-soft);
   }
 </style>

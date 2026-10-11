@@ -69,6 +69,10 @@
       flex-wrap: wrap;
       justify-content: center;
       max-height: none;
+
+      @media (--md-n-below) {
+        column-gap: var(--space-2xs);
+      }
     }
   }
 
@@ -96,6 +100,14 @@
       flex: 0 1 calc((100% - 5 * var(--grid-gutter)) / 6);
       min-width: 130px;
       max-width: none;
+
+      // On phones let each tile share its row, so a pair spreads across the
+      // full column. Capped at half a row (less the column gap) so a lone
+      // award on the last row stays the same width and sits centred.
+      @media (--md-n-below) {
+        flex: 1 1 130px;
+        max-width: calc((100% - var(--space-2xs)) / 2);
+      }
     }
   }
 

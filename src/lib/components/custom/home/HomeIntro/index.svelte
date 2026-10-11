@@ -104,8 +104,13 @@
       font-weight: var(--font-weight-light);
       @include text-shadow(var(--purple));
       max-width: var(--md);
-      line-height: var(--line-height-medium);
+      line-height: var(--line-height-regular);
       margin-block-end: var(--space-l);
+
+      @media (--md-n-below) {
+        font-size: var(--font-size-0);
+        font-weight: var(--font-weight-regular);
+      }
     }
 
     .cta {
@@ -130,7 +135,7 @@
       color: var(--white-soft);
       text-wrap: balance;
       margin-inline: auto;
-      margin-block: var(--space-l);
+      margin-block: var(--space-s);
       @include filter-shadow(var(--purple));
     }
   }
