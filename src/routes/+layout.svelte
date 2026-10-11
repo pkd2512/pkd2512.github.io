@@ -10,7 +10,6 @@
   import GridOverlay from '$lib/components/ui/GridOverlay/index.svelte';
   import CrtOverlay from '$lib/components/ui/CrtOverlay/index.svelte';
   import ScrollBar from '$lib/components/ui/ScrollBar/index.svelte';
-  import { registerPageview } from '$utils/googleAnalytics';
   import { figureCaptionObserver } from '$lib/actions/figureCaptionObserver';
 
   // Lenis's own rules — chiefly overriding the global `scroll-behavior:
@@ -60,7 +59,6 @@
   });
 
   afterNavigate(() => {
-    registerPageview();
     // The new page is a different length, and SvelteKit has already jumped to
     // its top — Lenis is still holding the old page's measurements and target.
     lenis?.resize();
