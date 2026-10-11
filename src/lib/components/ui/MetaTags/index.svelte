@@ -23,6 +23,13 @@
     'https://prasantakrdutta.com/media/share-images/share.webp';
 
   let isProject = $derived(meta?.type === 'project');
+  let isProjectsIndex = $derived(pageUrl.pathname.replace(/\/$/, '') === '/projects');
+
+  // Frontmatter dates are hand-written; an unparseable one must not throw.
+  const toIso = (d) => {
+    const t = new Date(d);
+    return isNaN(t.getTime()) ? undefined : t.toISOString();
+  };
   let isHome = $derived(
     pageUrl.pathname === '/' || pageUrl.pathname === '/index.html'
   );
@@ -84,24 +91,13 @@
           'Award-winning Information Experience Designer, crafting visual stories with data at Reuters.',
         publisher: { '@type': 'Person', '@id': baseUrl + '/#person' },
         inLanguage: 'en-IN',
-        potentialAction: [
-          {
-            '@type': 'SearchAction',
-            target: {
-              '@type': 'EntryPoint',
-              urlTemplate:
-                baseUrl + '/?q={search_term_string}',
-            },
-            'query-input': 'required name=search_term_string',
-          },
-        ],
       });
     }
 
     // WebPage or Article schema (every page)
     s.push({
       '@context': 'https://schema.org',
-      '@type': isProject ? 'Article' : 'WebPage',
+      '@type': isProject ? 'Article' : isProjectsIndex ? 'CollectionPage' : 'WebPage',
       '@id': canonicalUrl + '#webpage',
       url: canonicalUrl,
       name: title,
@@ -119,8 +115,8 @@
       ...(isProject && meta
         ? {
             headline: meta.intro?.hed || title,
-            datePublished: new Date(meta.date).toISOString() || undefined,
-            dateModified: new Date(meta.date).toISOString() || undefined,
+            datePublished: toIso(meta.date),
+            dateModified: toIso(meta.date),
             author: { '@type': 'Person', '@id': baseUrl + '/#person' },
             publisher: { '@type': 'Person', '@id': baseUrl + '/#person' },
             articleSection: meta.categories?.join(', ') || undefined,
@@ -220,7 +216,7 @@
     <link rel="canonical" href={canonicalUrl} />
 
     <meta property="og:url" content={canonicalUrl} />
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={isProject ? 'article' : 'website'} />
     <meta property="og:locale" content="en_IN" />
     <meta property="og:title" content={title} itemprop="name" />
     <meta

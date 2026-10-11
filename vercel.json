@@ -1,4 +1,18 @@
 {
+  "headers": [
+    {
+      "source": "/_app/immutable/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+      ]
+    },
+    {
+      "source": "/media/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=86400, stale-while-revalidate=604800" }
+      ]
+    }
+  ],
   "redirects": [
     { "source": "/blog", "destination": "https://medium.com/diarium-da-pacific", "permanent": false },
     { "source": "/print-maps", "destination": "/print-maps/", "permanent": true },

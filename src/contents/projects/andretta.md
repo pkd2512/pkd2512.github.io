@@ -7,7 +7,7 @@ keywords: Photography, Photojournalism, Palampur, Valley of Gods,Andretta potter
 
 image: andretta.webp
 type: project
-date: '2017-4-8'
+date: '2017-04-08'
 published: true
 
 categories:

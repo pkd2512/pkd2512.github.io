@@ -7,7 +7,7 @@ keywords: Data Journalist, Graphics Journalist, Reuters Graphics Journalist, Dat
 
 image: dodata.webp
 type: project
-date: '2017-4-9'
+date: '2017-04-09'
 published: true
 
 categories:

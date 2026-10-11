@@ -9,6 +9,7 @@ const attachScript = () => {
   e.type = 'text/javascript';
   e.async = true;
   e.src = URL;
+  e.onerror = () => e.remove();
   document.head.append(e);
 };
 
@@ -23,6 +24,10 @@ export const initGA = () => {
       window.gtag('js', new Date());
       window.gtag('config', GOOGLE_TAG_ID, {
         send_page_view: false,
+        // Add ?ga_debug to a URL to see this session in GA4 DebugView.
+        ...(new URLSearchParams(window.location.search).has('ga_debug')
+          ? { debug_mode: true }
+          : {}),
       });
       registerPageview();
     }
@@ -40,9 +45,9 @@ export const registerPageview = () => {
     const page_referrer = previousPage || document.referrer || undefined;
     previousPage = page_location;
 
-    gtag('config', GOOGLE_TAG_ID, {
+    attachScript();
+    gtag('event', 'page_view', {
       page_title,
-      page_path: window.location.pathname,
       page_location,
       page_referrer,
     });

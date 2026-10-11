@@ -5,7 +5,7 @@ keywords: Data Journalist, Graphics Journalist, Reuters Graphics Journalist, Dat
 
 image: tree.webp
 type: project
-date: '2022-2-28'
+date: '2022-02-28'
 published: false
 
 categories:
