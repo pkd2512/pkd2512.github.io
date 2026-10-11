@@ -47,11 +47,16 @@
     // on the left).
     :global([data-awards='side-2']) & {
       position: absolute;
-      inset-block: 0;
+      // Same top offset as the rail's padding, so the columns start level
+      // with the title rather than at the top of the rail.
+      inset-block: var(--space-xl) 0;
       inset-inline-start: 0;
       flex-direction: column;
       flex-wrap: wrap;
       align-content: flex-start;
+      // Start every wrapped column at the top. Centring (the strip default)
+      // drops the shorter second column down by half the difference.
+      justify-content: flex-start;
       // Width = 2 page-grid columns + 1 gutter between them.
       width: calc(
         (var(--grid-max-width) - 11 * var(--grid-gutter)) / 12 * 2 +
@@ -92,7 +97,7 @@
     align-items: center;
     gap: var(--space-3xs);
     background-color: var(--purple-soft);
-    -webkit-mask: var(--mask-edge-scalloped);
+    // -webkit-mask: var(--mask-edge-scalloped);
 
     // In the bottom layout, each item is sized to span ~2 of the 12 grid
     // columns (i.e. 6 per row), with min-width: 300px so they wrap nicely.
@@ -118,6 +123,6 @@
     color: var(--white-soft);
     text-align: center;
     width: auto;
-    line-height: var(--line-height-tight);
+    line-height: var(--line-height-medium);
   }
 </style>
