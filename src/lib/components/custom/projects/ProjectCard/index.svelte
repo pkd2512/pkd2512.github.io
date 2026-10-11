@@ -225,9 +225,9 @@
 
     .tag {
       border-radius: 0.25rem;
-      padding: var(--space-3xs) var(--space-2xs);
+      padding: calc(0.5 * var(--space-3xs)) var(--space-3xs);
       font-size: var(--font-size--2);
-      text-transform: capitalize;
+      text-transform: uppercase;
       color: var(--purple);
       background-color: var(--white);
       letter-spacing: var(--letter-spaced);
