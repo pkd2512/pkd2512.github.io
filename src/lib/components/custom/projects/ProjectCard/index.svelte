@@ -9,11 +9,15 @@
   // cards that can be above the fold: an inline background is fetched before
   // any script runs.
   /**
-   * @type {{ info: { image: any; intro: { hed: any; }; description: any; categories: any; awards?: { type: string; logo?: string; url?: string; label?: string }[] }, lazy?: boolean }}
+   * `src` is a full path to an image outside share-images, for cards that are
+   * not case studies (collections).
+   * @type {{ info: { image?: any; src?: string; intro: { hed: any; }; description: any; categories: any; awards?: { type: string; logo?: string; url?: string; label?: string }[] }, lazy?: boolean }}
    */
   let { info, lazy = false } = $props();
 
-  let image = $derived(asset('/media/share-images/' + info.image));
+  let image = $derived(
+    info.src ? asset(info.src) : asset('/media/share-images/' + info.image)
+  );
 
   let hasAwards = $derived(!!info.awards && info.awards.length > 0);
 

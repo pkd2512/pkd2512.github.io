@@ -61,7 +61,8 @@
               target={resolveLinkTarget(link.url, page.url.hostname)}
               url={link.url}
               active={pageId?.includes(link.url) ||
-                pageHash?.includes(link.name.toLowerCase())}
+                pageHash?.includes(link.name.toLowerCase()) ||
+                (link.url === '/projects' && pageId?.startsWith('/[collection'))}
             >
               <span>{link.name}</span>
             </NavLink>

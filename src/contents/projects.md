@@ -16,33 +16,55 @@ published: true
   import { asset, resolve } from '$app/paths';
   import ReferralCard from '$lib/components/ui/ReferralCard/index.svelte';
   import Container from '$lib/components/ui/Container/index.svelte';
+  import collectionData from '$lib/data/collections.js';
   import { page } from '$app/state';
 
   let contents = page.data.contents
     .filter((d) => d.type === 'project')
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
-  let featured = contents[0];
+  const gallery = {
+    src: '/media/page.webp',
+    intro: { hed: 'Dataviz gallery' },
+    description: 'An interactive gallery of charts, maps and graphics.',
+    categories: ['Interactive'],
+    href: '#',
+  };
+
+  const collections = collectionData.map((c) => ({
+    src: c.src,
+    intro: { hed: c.title },
+    description: c.description,
+    categories: c.categories,
+    href: resolve('/[collection=collection]', { collection: c.slug }),
+  }));
 </script>
 
-<a class="featured" href={resolve('/projects/[slug]', { slug: featured.slug })}>
-<ProjectCard info={featured} />
+<!--
+  Case studies: every published project, newest first.
+  The hero is a placeholder until the dataviz gallery is merged: swap in its
+  link and a still that carries no baked-in text.
+  Collections come from src/lib/data/collections.js.
+  Do not put // comments inside the script above: mdsvex crashes on them.
+-->
+
+<a class="featured" href={gallery.href}>
+  <ProjectCard info={gallery} />
 </a>
 
-<ProjectList posts={contents.slice(1, 5)} />
+<ProjectList posts={collections} />
 
-<Container width="md" style="text-align: center;">
+<h2 class="label">Case studies</h2>
+<ProjectList posts={contents} />
+
+<h2 class="label">Elsewhere</h2>
+<Container width="xl" style="display:flex; flex-wrap:wrap; justify-content:center; gap:var(--space-s);">
   <ReferralCard
     url="https://muckrack.com/pkddapacific"
     image={asset('/media/muckrack.webp')}
     title="Muckrack portfolio"
     description="Visual journalism and data graphics projects"
   />
-</Container>
-
-<ProjectList posts={contents.slice(5)} />
-
-<Container width="md" style="text-align: center;">
   <ReferralCard
     url="https://www.behance.net/pkddapacific"
     image={asset('/media/behance.webp')}
@@ -52,6 +74,15 @@ published: true
 </Container>
 
 <style lang="scss">
+  @use 'lib/styles/mixins' as m;
+
+  // Slim section labels: tight to the grid so they read as pauses in one
+  // gallery, not breaks between separate sections.
+  .label {
+    @include m.sectionTitle;
+    margin-block: var(--space-xl) var(--space-s);
+  }
+
   .featured {
     text-decoration: none;
     display: block;
