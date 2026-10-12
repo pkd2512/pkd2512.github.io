@@ -30,37 +30,37 @@ awards:
   - type: Society of Environmental Journalists (SEJ) Awards
     logo: awards/sej.webp
     url: https://www.sej.org/kevin-carmody-award-outstanding-investigative-reporting-large-sej-23rd-annual-awards-reporting
-    label: 🏆Winner, Investigative Reporting, 2024
+    label: 🏆 Winner, Investigative Reporting, 2024
 
   - type: Online Journalism Awards (OJAs)
     logo: awards/oja.webp
     url: https://awards.journalists.org/entries/the-bat-lands/
-    label: 🏆Winner, Truth in Science Award, 2024
+    label: 🏆 Winner, Truth in Science Award, 2024
 
   - type: Scripps Howard Journalism Awards
     logo: awards/scripps.webp
     url: https://scripps.com/fund/news/scripps-howard-fund-announces-winners-of-71st-scripps-howard-journalism-awards/#:~:text=Excellence%20in%20Multimedia%20Journalism
-    label: 🏆Winner, Excellence in Multimedia Journalism, 2024
+    label: 🏆 Winner, Excellence in Multimedia Journalism, 2024
 
   - type: The Sigma Awards
     logo: awards/sigma.webp
     url: https://www.sigmaawards.org/shortlist-2024/
-    label: Finalist, 2024
+    label: ⭐ Finalist, 2024
 
   - type: The Whitman Bassow Award
     logo: awards/whitman.webp
     url: http://web.archive.org/web/20260215071544/https://opcofamerica.org/Awardarchive/the-whitman-bassow-award-2023/
-    label: 🏆Winner, International Environmental Reporting, 2023
+    label: 🏆 Winner, International Environmental Reporting, 2023
 
   - type: Association of Healthcare Journalists
     logo: awards/ahcj.webp
     url: https://healthjournalism.org/contest-entry/the-bat-lands/
-    label: 🏆Winner, Public Health Reporting, 2023
+    label: 🏆 Winner, Public Health Reporting, 2023
 
   - type: John B. Oakes Award
     logo: awards/oakes.webp
     url: https://journalism.columbia.edu/news/2024-oakes-award
-    label: Finalist, 2023
+    label: ⭐ Finalist, 2023
 
 
 intro:
