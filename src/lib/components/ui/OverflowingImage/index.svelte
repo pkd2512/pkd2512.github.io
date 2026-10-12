@@ -1,6 +1,6 @@
 <script>
   import Icon from '@iconify/svelte';
-  import { asset } from '$app/paths';
+  import media from '$utils/media';
   import { visibility } from '$lib/actions/visibility';
 
   let {
@@ -50,7 +50,7 @@
     onscroll={handleScroll}
   >
     <img
-      src={asset('/' + url)}
+      src={media('/' + url)}
       {alt}
       loading="lazy"
       style="max-width:{width !== undefined && width < breakpoint

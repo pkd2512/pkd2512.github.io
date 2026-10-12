@@ -6,9 +6,10 @@
   "scripts": {
     "dev": "vite dev --open",
     "prebuild": "node scripts/sync-data-from-sheet.js",
-    "build": "rm -rf docs && vite build",
+    "build": "node scripts/generate-media-manifest.js && rm -rf docs && vite build",
     "postbuild": "node scripts/generate-sitemap.js",
     "webpify": "node scripts/webpify-images.js",
+    "media:manifest": "node scripts/generate-media-manifest.js",
     "archive-urls": "node scripts/archive-urls.js",
     "sync:data": "node scripts/sync-data-from-sheet.js",
     "preview": "vite preview",

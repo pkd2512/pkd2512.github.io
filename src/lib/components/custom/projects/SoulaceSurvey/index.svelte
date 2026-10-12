@@ -1,6 +1,6 @@
 <script>
   import Container from '$lib/components/ui/Container/index.svelte';
-  import { asset } from '$app/paths';
+  import media from '$utils/media';
   import Modal from '$lib/components/ui/Modal/index.svelte';
 
   let showModal = $state(false);
@@ -18,7 +18,7 @@
           'NO', then the respondent skips to Section 3 of the survey.
         </p>
         <img
-          src={asset('/media/projects/soulace/survey.webp')}
+          src={media('/media/projects/soulace/survey.webp')}
           alt="Three-page Google Form titled Death care service design. Page 1 asks whether the respondent has experienced a death in the family. Page 2, Dealing with the loss, asks about the relation to the person, their occupation, place of death and difficulties arranging final rites. Page 3, Death care service, asks which services respondents would want and for any suggestions."
           loading="lazy"
         />

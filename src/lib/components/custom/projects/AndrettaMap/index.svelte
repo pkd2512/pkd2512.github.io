@@ -4,7 +4,7 @@
   import Container from '$lib/components/ui/Container/index.svelte';
   import places from './places';
 
-  import { asset } from '$app/paths';
+  import media from '$utils/media';
   import { onMount } from 'svelte';
 
   let index = $state(0);
@@ -64,7 +64,7 @@
             {#if place.img}
               <figure>
                 <img
-                  src={asset('/media/projects/andretta/' + place.img)}
+                  src={media('/media/projects/andretta/' + place.img)}
                   alt={place.alt}
                   loading="lazy"
                 />

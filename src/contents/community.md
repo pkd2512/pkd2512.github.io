@@ -27,7 +27,7 @@ published: true
   import ParallaxHero from '$lib/components/ui/ParallaxHero/index.svelte';
   import ReferralCard from '$lib/components/ui/ReferralCard/index.svelte';
   import PhotoPile from '$lib/components/ui/PhotoPile/index.svelte';
-  import { asset } from '$app/paths';
+  import media from '$utils/media';
 
   import talks from '/src/contents/data/talks.csv';
   import teachings from '/src/contents/data/teachings.csv';
@@ -37,7 +37,7 @@ published: true
 
 <svelte:head>
 
-  <link rel="preload" href={asset('/media/hero-community.webp')} as="image" fetchpriority="high">
+  <link rel="preload" href={media('/media/hero-community.webp')} as="image" fetchpriority="high">
 </svelte:head>
 
 <ParallaxHero img='/media/hero-community.webp'/>

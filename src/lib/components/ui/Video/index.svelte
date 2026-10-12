@@ -1,6 +1,6 @@
 <script>
   import Icon from '@iconify/svelte';
-  import { asset } from '$app/paths';
+  import media from '$utils/media';
   import { onMount } from 'svelte';
 
   /**
@@ -120,8 +120,8 @@
       bind:currentTime={time}
       bind:duration
       bind:paused
-      src={asset('/' + url)}
-      poster={asset('/' + poster)}
+      src={media('/' + url)}
+      poster={media('/' + poster)}
     >
       <track kind="captions" />
       <meta itemprop="description" content={alt} />

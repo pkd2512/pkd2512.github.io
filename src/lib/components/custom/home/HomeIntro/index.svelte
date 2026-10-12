@@ -2,7 +2,7 @@
   import Container from '$lib/components/ui/Container/index.svelte';
   import LinkButton from '$lib/components/ui/LinkButton/index.svelte';
   import { page } from '$app/state';
-  import { asset } from '$app/paths';
+  import media from '$utils/media';
 
   let intro = $derived(page.data.meta.intro);
 </script>
@@ -10,7 +10,7 @@
 <svelte:head>
   <link
     rel="preload"
-    href={asset('/media/' + intro.img)}
+    href={media('/media/' + intro.img)}
     as="image"
     fetchpriority="high"
   />
@@ -35,7 +35,7 @@
       </div>
       <div
         class="img"
-        style={'background-image:url(' + asset('/media/' + intro.img) + ')'}
+        style={'background-image:url(' + media('/media/' + intro.img) + ')'}
       ></div>
     </header>
   </Container>

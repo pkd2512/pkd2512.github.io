@@ -3,6 +3,7 @@
   import truncateText from '$utils/truncateText';
   import NavLink from '$lib/components/ui/Navlink/index.svelte';
   import { lazyBackground } from '$lib/actions/lazyBackground';
+  import media from '$utils/media';
 
   let {
     image,
@@ -25,9 +26,9 @@
 >
   <div class="preview-card">
     {#if lazy}
-      <div class="image" use:lazyBackground={image}></div>
+      <div class="image" use:lazyBackground={media(image)}></div>
     {:else}
-      <div class="image" style="background-image:url({image})"></div>
+      <div class="image" style="background-image:url({media(image)})"></div>
     {/if}
     <div class="label">
       <div class="title">{@html title}</div>

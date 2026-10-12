@@ -1,7 +1,7 @@
 <script>
   import Container from '$lib/components/ui/Container/index.svelte';
   import truncateText from '$utils/truncateText';
-  import { asset } from '$app/paths';
+  import media from '$utils/media';
   import AwardBadge from '$lib/components/custom/projects/AwardBadge/index.svelte';
   import { lazyBackground } from '$lib/actions/lazyBackground';
 
@@ -13,7 +13,7 @@
    */
   let { info, lazy = false } = $props();
 
-  let image = $derived(asset('/media/share-images/' + info.image));
+  let image = $derived(media('/media/share-images/' + info.image));
 
   let hasAwards = $derived(!!info.awards && info.awards.length > 0);
 

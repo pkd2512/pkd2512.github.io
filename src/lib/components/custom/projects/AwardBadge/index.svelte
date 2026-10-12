@@ -1,6 +1,6 @@
 <script>
   import Icon from '@iconify/svelte';
-  import { asset } from '$app/paths';
+  import media from '$utils/media';
 
   /**
    * @type {{ type: string; logo?: string; url?: string; label?: string; link?: boolean; inverted?: boolean; size?: string; }}
@@ -35,7 +35,7 @@
   />
 
   {#if logo}
-    <img class="logo" src={asset('/media/' + logo)} alt={type} />
+    <img class="logo" src={media('/media/' + logo)} alt={type} />
   {/if}
 
   <Icon

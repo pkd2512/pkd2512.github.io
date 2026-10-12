@@ -3,6 +3,7 @@
   import { onMount } from 'svelte';
   import { gsap } from 'gsap';
   import { asset } from '$app/paths';
+  import media from '$utils/media';
   import Icon from '@iconify/svelte';
   import { createPileAnimator } from './pile-animation.js';
   import { attachGestures } from './pile-gestures.js';
@@ -11,6 +12,7 @@
   // ─── Helpers ───────────────────────────────────────────────────────────────
 
   function resolveSrc(src) {
+    if (/^\/?media\//.test(src)) return media(src);
     if (/^(https?:|data:|\/\/|\/)/.test(src)) return src;
     return asset(src);
   }
