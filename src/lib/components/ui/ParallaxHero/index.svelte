@@ -1,6 +1,7 @@
 <script>
   import { scaleLinear } from 'd3-scale';
   import { onMount } from 'svelte';
+  import media from '$utils/media';
 
   let { img = '', children } = $props();
 
@@ -35,7 +36,7 @@
 <div class="hero">
   <div
     class="hero-bg"
-    style="background-image: url({img}); --y: {vPos}%"
+    style="background-image: url({media(img)}); --y: {vPos}%"
     aria-hidden="true"
   ></div>
   {#if children}{@render children()}{/if}

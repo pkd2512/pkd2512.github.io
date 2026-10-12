@@ -40,7 +40,7 @@ awards:
   - type: Kalinga Forein Correspondents' Club
     logo: awards/fcc.webp
     url: https://web.archive.org/web/20260615222916/https://www.newindianexpress.com/india/2019/Aug/28/reuters-bbc-journalists-win-big-at-kalinga-fcc-awards-for-excellence-in-journalism-2025710.html
-    label: 🥇Digital Journalist of the Year, 2019
+    label: 🏆Digital Journalist of the Year, 2019
 
 
 

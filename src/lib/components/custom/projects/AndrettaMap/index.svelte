@@ -4,7 +4,7 @@
   import Container from '$lib/components/ui/Container/index.svelte';
   import places from './places';
 
-  import { asset } from '$app/paths';
+  import media from '$utils/media';
   import { onMount } from 'svelte';
 
   let index = $state(0);
@@ -12,6 +12,15 @@
   let progress = $state(0);
 
   let activeChapter = $derived(places[index]?.key || '');
+
+  // Several slides share one place key, and an id cannot repeat or contain
+  // spaces: the first slide keeps the key, later ones get a numeric suffix.
+  const seen = {};
+  const chapterIds = places.map((place) => {
+    const base = place.key.replace(/\s+/g, '-');
+    seen[base] = (seen[base] ?? 0) + 1;
+    return seen[base] === 1 ? base : `${base}-${seen[base]}`;
+  });
 
   let windowWidth = $state();
   let Map = $state(null);
@@ -43,7 +52,7 @@
     <div slot="foreground">
       {#each places as place, i}
         <div class="slide {index === i ? 'visible' : 'invisible'}">
-          <Container width="sm" id={place.key}>
+          <Container width="sm" id={chapterIds[i]}>
             {#if place.hed}
               <div class="h4">{place.hed}</div>
             {/if}
@@ -55,7 +64,7 @@
             {#if place.img}
               <figure>
                 <img
-                  src={asset('/media/projects/andretta/' + place.img)}
+                  src={media('/media/projects/andretta/' + place.img)}
                   alt={place.alt}
                   loading="lazy"
                 />

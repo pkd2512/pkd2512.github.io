@@ -1,5 +1,12 @@
 <script>
   import { page } from '$app/state';
+  import { mediaVersion } from '$utils/media';
+
+  /** @param {string} file */
+  const shareImage = (file) => {
+    const v = mediaVersion('/media/share-images/' + file);
+    return `https://prasantakrdutta.com/media/share-images/${file}` + (v ? `?v=${v}` : '');
+  };
 
   let {
     title = 'Prasanta Kumar Dutta',
@@ -16,11 +23,8 @@
       ''
     )
   );
-  let imageUrl = $derived(
-    `https://prasantakrdutta.com/media/share-images/${image}`
-  );
-  let personImageUrl =
-    'https://prasantakrdutta.com/media/share-images/share.webp';
+  let imageUrl = $derived(shareImage(image));
+  let personImageUrl = shareImage('share.webp');
 
   let isProject = $derived(meta?.type === 'project');
   let isProjectsIndex = $derived(pageUrl.pathname.replace(/\/$/, '') === '/projects');

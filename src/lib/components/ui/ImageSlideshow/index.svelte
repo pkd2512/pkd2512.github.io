@@ -1,7 +1,7 @@
 <script>
   import Icon from '@iconify/svelte';
   import Container from '$lib/components/ui/Container/index.svelte';
-  import { asset } from '$app/paths';
+  import media from '$utils/media';
 
   let { images = [] } = $props();
 
@@ -31,7 +31,7 @@
     {/if}
   </div>
   <img
-    src={asset('/media/projects/soulace/screens/' + images[index])}
+    src={media('/media/projects/soulace/screens/' + images[index])}
     alt="Mockup of a screen of the app"
     loading="lazy"
     draggable="false"

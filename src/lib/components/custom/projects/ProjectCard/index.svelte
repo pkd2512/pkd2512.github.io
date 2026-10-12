@@ -1,7 +1,7 @@
 <script>
   import Container from '$lib/components/ui/Container/index.svelte';
   import truncateText from '$utils/truncateText';
-  import { asset } from '$app/paths';
+  import media from '$utils/media';
   import AwardBadge from '$lib/components/custom/projects/AwardBadge/index.svelte';
   import { lazyBackground } from '$lib/actions/lazyBackground';
 
@@ -16,7 +16,7 @@
   let { info, lazy = false } = $props();
 
   let image = $derived(
-    info.src ? asset(info.src) : asset('/media/share-images/' + info.image)
+    media(info.src ?? '/media/share-images/' + info.image)
   );
 
   let hasAwards = $derived(!!info.awards && info.awards.length > 0);
@@ -229,9 +229,9 @@
 
     .tag {
       border-radius: 0.25rem;
-      padding: var(--space-3xs) var(--space-2xs);
+      padding: calc(0.5 * var(--space-3xs)) var(--space-3xs);
       font-size: var(--font-size--2);
-      text-transform: capitalize;
+      text-transform: uppercase;
       color: var(--purple);
       background-color: var(--white);
       letter-spacing: var(--letter-spaced);

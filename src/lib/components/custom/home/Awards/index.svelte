@@ -1,7 +1,7 @@
 <script>
   import Container from '$lib/components/ui/Container/index.svelte';
   import Marquee from 'svelte-fast-marquee';
-  import { asset } from '$app/paths';
+  import media from '$utils/media';
   import { visibility } from '$lib/actions/visibility';
   // @ts-ignore
   import awards from '$contents/data/awards.csv';
@@ -24,9 +24,9 @@
       <div class="mobile">
         <Marquee pauseOnHover={true} speed={15} {play}>
           {#each awards.slice(0, slice) as item}
-            <a target="" id={item.id} href={item.archive_url || item.url}
+            <a target="" data-award={item.id} href={item.archive_url || item.url}
               ><img
-                src={asset('/media/awards/' + item.img)}
+                src={media('/media/awards/' + item.img)}
                 alt={item.alt}
               /></a
             >
@@ -34,9 +34,9 @@
         </Marquee>
         <Marquee pauseOnHover={true} speed={15} {play} direction="right">
           {#each awards.slice(slice, slice * 2) as item}
-            <a target="" id={item.id} href={item.archive_url || item.url}
+            <a target="" data-award={item.id} href={item.archive_url || item.url}
               ><img
-                src={asset('/media/awards/' + item.img)}
+                src={media('/media/awards/' + item.img)}
                 alt={item.alt}
               /></a
             >
@@ -46,8 +46,8 @@
     {:else}
       <Marquee pauseOnHover={true} speed={45} {play}>
         {#each awards as item}
-          <a target="" id={item.id} href={item.archive_url || item.url}
-            ><img src={asset('/media/awards/' + item.img)} alt={item.alt} /></a
+          <a target="" data-award={item.id} href={item.archive_url || item.url}
+            ><img src={media('/media/awards/' + item.img)} alt={item.alt} /></a
           >
         {/each}
       </Marquee>

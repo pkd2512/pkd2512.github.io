@@ -3,7 +3,7 @@
   import ParallaxHero from '$lib/components/ui/ParallaxHero/index.svelte';
   import Icon from '@iconify/svelte';
   import { copy } from 'svelte-copy';
-  import { asset } from '$app/paths';
+  import media from '$utils/media';
 
   let { hed = '', dek = '' } = $props();
 
@@ -27,7 +27,7 @@
 <svelte:head>
   <link
     rel="preload"
-    href={asset('/media/hero-about.webp')}
+    href={media('/media/hero-about.webp')}
     as="image"
     fetchpriority="high"
   />
@@ -35,13 +35,13 @@
 
 <section>
   <header>
-    <ParallaxHero img={asset('/media/hero-about.webp')} />
+    <ParallaxHero img={media('/media/hero-about.webp')} />
 
     <Container width="md">
       <div class="card">
         <!-- <div class="img">
           <img
-            src={asset('/media/Prasanta_KrDutta.jpg')}
+            src={media('/media/Prasanta_KrDutta.jpg')}
             alt=""
             loading="lazy"
           />

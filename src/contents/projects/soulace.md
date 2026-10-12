@@ -47,6 +47,7 @@ intro:
 <script>
   import Container from '$lib/components/ui/Container/index.svelte';
   import OverflowImage from '$lib/components/ui/OverflowingImage/index.svelte';
+  import PhotoPile from '$lib/components/ui/PhotoPile/index.svelte';
   import LinkButton from '$lib/components/ui/LinkButton/index.svelte';
   import ProjectNav from '$lib/components/custom/projects/ProjectNav/index.svelte';
   import Video from '$lib/components/ui/Video/index.svelte';
@@ -138,13 +139,22 @@ intro:
   }
 }
 
-.ui-gif {
-  :global(.overflow-img:not(:last-child)) {
-    margin-block-end :0;
+
+// Two images side by side, centred, one per row on phones.
+.pair {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  align-items: center;
+  gap: var(--project-gap);
+  margin-block: var(--space-s);
+
+  @media (--sm-n-below) {
+    grid-template-columns: 1fr;
   }
 
-  :global(figure) {
-    margin-block-start: var(--space-s);
+  :global(img) {
+    width: 100%;
+    height: auto;
   }
 }
 
@@ -437,7 +447,7 @@ Given the vast scope of the service, I identified key requirements for the servi
 
 </div>
 
-<div class="dek col-span-md-7">
+<div class="dek col-start-md-6 col-span-md-7">
 
 The user will use the interface to fulfil the requirements. The AI agents will strive to act as the connector between the users and the service providers. However, based on the physical nature of the processes, it will also involve some amount of interaction with the physical agents associated with the stakeholders. The service will integrate the different service providers and stakeholders for easy management and information exchange.
 
@@ -509,19 +519,23 @@ I decided to go with Proxima Nova, a geometric sans-serif font by Mark Simonson,
 
 </div>
 
-<div class="dek col-span-md-7">
+</Container>
+
+<Container width="lg">
+
+<div class="pair">
 
 ![Sample of typeface Proxima Nova](/media/projects/soulace/type.webp)
 
 ![Explorations of the wordmark soulace](/media/projects/soulace/logoexp.webp)
 
-  <Container width='sm' style="margin-block-start: var(--space-l)">
+</div>
+
+<div class="pair">
 
 ![Outline view of the logo showing dimensions and measurements.](/media/projects/soulace/logo-outline.webp)
 
 ![Final soulace logo at different sizes](/media/projects/soulace/logo-full.webp)
-
-  </Container>
 
 </div>
 
@@ -548,7 +562,7 @@ The service will be presented to the user through an assistive-agentive Progress
 
 </div>
 
-<div class="dek col-span-md-7">
+<div class="dek col-start-md-6 col-span-md-7">
 
 So, why a Progressive Web App (PWA) for soulace?
 
@@ -564,25 +578,51 @@ So, why a Progressive Web App (PWA) for soulace?
 
 One of the preliminary ideas was to have a voice-UI that assists the user. However, given the emotional condition of the user, is was not prudent to expect them to talk to a device or learn how to use the app. What was required was an interface that would give the user the perception of control and support, while handling the assistive tasks in the background.
 
-<div class=ui-gif>
-
-  <OverflowImage breakpoint=480 maxWidth='150%' shadow="{true}" url='media/projects/soulace/ui1.gif' alt="Sketch of screen showing parts of the webpage" caption="Home-screen with onboarding. (discarded)" />
-
-  <OverflowImage breakpoint=480 maxWidth='150%' shadow="{true}" url='media/projects/soulace/ui2.gif' alt="Sketch of screen showing parts of the webpage" caption="About screen with service listing. (they were separated in later designs)" />
-
-  <OverflowImage breakpoint=480 maxWidth='150%' shadow="{true}" url='media/projects/soulace/ui3.gif' alt="Sketch of screen showing parts of the webpage" caption="Voice assistant screen. (discarded)" />
-
-  <OverflowImage breakpoint=480 maxWidth='150%' shadow="{true}" url='media/projects/soulace/ui4.gif' alt="Sketch of screen showing parts of the webpage" caption="User dashboard with chat assistant. (modified in later designs)" />
-
-  <OverflowImage breakpoint=480 maxWidth='150%' shadow="{true}" url='media/projects/soulace/ui5.gif' alt="Sketch of screen showing parts of the webpage" caption="Homepage with service listing. (used in final design)" />
-
 </div>
+</Container>
+
+<Container width="md">
+
+<PhotoPile
+  orientation="landscape"
+  items={[
+    {
+      src: "/media/projects/soulace/ui1.gif",
+      alt: "Sketch of screen showing parts of the webpage",
+      caption: "Home-screen with onboarding. (discarded)",
+    },
+    {
+      src: "/media/projects/soulace/ui2.gif",
+      alt: "Sketch of screen showing parts of the webpage",
+      caption: "About screen with service listing. (they were separated in later designs)",
+    },
+    {
+      src: "/media/projects/soulace/ui3.gif",
+      alt: "Sketch of screen showing parts of the webpage",
+      caption: "Voice assistant screen. (discarded)",
+    },
+    {
+      src: "/media/projects/soulace/ui4.gif",
+      alt: "Sketch of screen showing parts of the webpage",
+      caption: "User dashboard with chat assistant. (modified in later designs)",
+    },
+    {
+      src: "/media/projects/soulace/ui5.gif",
+      alt: "Sketch of screen showing parts of the webpage",
+      caption: "Homepage with service listing. (used in final design)",
+    },
+  ]}
+/>
+
+</Container>
+
+<Container grid style="margin-block-start:var(--space-xl)">
+<div class="col-start-md-6 col-span-md-7">
 
 The final design focussed on two major items — search and service listing. Information related to the service in general is pushed down to the bottom of the page.
 I created the design in Adobe XD using a standard 12-column responsive grid. It was later adapted to a mobile-screen size and a prototype was made.
 
 </div>
-
 </Container>
 
 <Container width="xl">

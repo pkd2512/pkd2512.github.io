@@ -1,4 +1,6 @@
 <script>
+  import media from '$utils/media';
+
   /**
    * @type {any}
    */
@@ -8,7 +10,7 @@
   let { src, alt } = $props();
 </script>
 
-<img {src} {alt} loading="lazy" draggable="false" />
+<img src={media(src)} {alt} loading="lazy" draggable="false" />
 
 <style>
   img {

@@ -2,7 +2,7 @@
   import Container from '$lib/components/ui/Container/index.svelte';
   import ParallaxHero from '$lib/components/ui/ParallaxHero/index.svelte';
 
-  import { asset } from '$app/paths';
+  import media from '$utils/media';
 
   import { scaleLinear } from 'd3-scale';
 
@@ -45,7 +45,7 @@
   {#if meta?.intro}
     <link
       rel="preload"
-      href={asset('/media/' + meta.intro.img)}
+      href={media('/media/' + meta.intro.img)}
       as="image"
       fetchpriority="high"
     />
@@ -56,7 +56,7 @@
 
 {#if meta?.intro}
   <div class="img">
-    <ParallaxHero img={asset('/media/' + meta.intro.img)} />
+    <ParallaxHero img={media('/media/' + meta.intro.img)} />
   </div>
 
   <Container width="fluid">

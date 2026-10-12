@@ -2,7 +2,8 @@
   import Container from '$lib/components/ui/Container/index.svelte';
   import LinkButton from '$lib/components/ui/LinkButton/index.svelte';
   import ReferralCard from '$lib/components/ui/ReferralCard/index.svelte';
-  import { asset, resolve } from '$app/paths';
+  import { resolve } from '$app/paths';
+  import media from '$utils/media';
   import truncateText from '$utils/truncateText';
 
   let { adjacent } = $props();
@@ -27,7 +28,7 @@
       <ReferralCard
         target=""
         url={resolve('/projects/[slug]', { slug: adjacent.next.slug })}
-        image={asset('/media/share-images/' + adjacent.next.image)}
+        image={media('/media/share-images/' + adjacent.next.image)}
         title={adjacent.next.intro.hed}
         description={adjacent.next.description}
       />
