@@ -24,7 +24,7 @@
       <div class="mobile">
         <Marquee pauseOnHover={true} speed={15} {play}>
           {#each awards.slice(0, slice) as item}
-            <a target="" id={item.id} href={item.archive_url || item.url}
+            <a target="" data-award={item.id} href={item.archive_url || item.url}
               ><img
                 src={asset('/media/awards/' + item.img)}
                 alt={item.alt}
@@ -34,7 +34,7 @@
         </Marquee>
         <Marquee pauseOnHover={true} speed={15} {play} direction="right">
           {#each awards.slice(slice, slice * 2) as item}
-            <a target="" id={item.id} href={item.archive_url || item.url}
+            <a target="" data-award={item.id} href={item.archive_url || item.url}
               ><img
                 src={asset('/media/awards/' + item.img)}
                 alt={item.alt}
@@ -46,7 +46,7 @@
     {:else}
       <Marquee pauseOnHover={true} speed={45} {play}>
         {#each awards as item}
-          <a target="" id={item.id} href={item.archive_url || item.url}
+          <a target="" data-award={item.id} href={item.archive_url || item.url}
             ><img src={asset('/media/awards/' + item.img)} alt={item.alt} /></a
           >
         {/each}
