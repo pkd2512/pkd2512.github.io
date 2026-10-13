@@ -20,15 +20,15 @@ published: true
   import { page } from '$app/state';
 
   let contents = page.data.contents
-    .filter((d) => d.type === 'project')
+    .filter((d) => d.type === 'project' && d.slug !== 'dataviz-gallery')
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
   const gallery = {
-    src: '/media/page.webp',
+    src: '/media/share-images/dataviz-gallery.webp',
     intro: { hed: 'Dataviz gallery' },
     description: 'An interactive gallery of charts, maps and graphics.',
     categories: ['Interactive'],
-    href: '#',
+    href: resolve('/projects/[slug]', { slug: 'dataviz-gallery' }),
   };
 
   const collections = collectionData.map((c) => ({
@@ -42,8 +42,8 @@ published: true
 
 <!--
   Case studies: every published project, newest first.
-  The hero is a placeholder until the dataviz gallery is merged: swap in its
-  link and a still that carries no baked-in text.
+  The hero links to the dataviz gallery project page; it is left out of the
+  case studies below. Swap its still for one with no baked-in text.
   Collections come from src/lib/data/collections.js.
   Do not put // comments inside the script above: mdsvex crashes on them.
 -->
