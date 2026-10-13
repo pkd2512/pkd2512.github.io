@@ -41,7 +41,8 @@
    *   originRect: DOMRect | null,
    *   reveal?: {polygon: [number, number][], x: number, y: number, scale: number, anchor: [number, number]} | null,
    *   portalEl?: HTMLElement | null,
-   *   onclose: () => void
+   *   embedded?: boolean,
+   *   onclose?: () => void
    * }}
    */
   let {
@@ -50,8 +51,21 @@
     originRect = null,
     reveal = null,
     portalEl = null,
+    // Sits in the page flow (navbar and footer stay) instead of covering it.
+    embedded = false,
     onclose,
   } = $props();
+
+  /**
+   * The area the wall is drawn in: the viewport when it covers the page, the
+   * element's own box when embedded.
+   */
+  function box() {
+    const r = embedded ? overlayEl?.getBoundingClientRect() : null;
+    return r
+      ? { left: r.left, top: r.top, width: r.width, height: r.height }
+      : { left: 0, top: 0, width: window.innerWidth, height: window.innerHeight };
+  }
 
   // Snapshot originRect into plain numbers so a layout shift in the
   // page beneath us can't invalidate the live DOMRect mid-tween.
@@ -382,7 +396,7 @@
     let cancelled = false;
 
     function applyMetrics() {
-      const next = frameMetrics(window.innerWidth);
+      const next = frameMetrics(box().width);
       if (next.frameW !== metrics.frameW) metrics = next;
       contentWidth = calcMasonryWidth(items.length, next.frameW, next.gap);
     }
@@ -391,8 +405,10 @@
     // Lock page scroll, padding for the scrollbar that disappears — the
     // chart underneath must not shift while the gallery sits over it.
     const scrollbar = window.innerWidth - document.documentElement.clientWidth;
-    document.body.style.overflow = 'hidden';
-    if (scrollbar > 0) document.body.style.paddingRight = `${scrollbar}px`;
+    if (!embedded) {
+      document.body.style.overflow = 'hidden';
+      if (scrollbar > 0) document.body.style.paddingRight = `${scrollbar}px`;
+    }
 
     /** Starts upgrading tiles to their full srcset; set up once gsap loads. */
     let observeImages = () => {};
@@ -590,7 +606,23 @@
     /** @param {WheelEvent} e */
     function onWheel(e) {
       if (!stageEl || !xTo) return;
+
+      // Embedded, a wheel that pushes against the wall's top or bottom edge
+      // belongs to the page, so the footer stays reachable.
+      if (
+        embedded &&
+        !e.ctrlKey &&
+        zoomedIndex < 0 &&
+        Math.abs(e.deltaY) >= Math.abs(e.deltaX) &&
+        ((e.deltaY > 0 && ty <= _bounds.minY + 1) ||
+          (e.deltaY < 0 && ty >= _bounds.maxY - 1))
+      )
+        return;
+
       e.preventDefault();
+      // The page's smooth scroller (Lenis) listens on window; keep a pan from
+      // also scrolling the page.
+      e.stopPropagation();
 
       // Trackpad pinch and ctrl+wheel arrive as a wheel event with
       // ctrlKey set — treat those as zoom rather than pan.
@@ -602,11 +634,14 @@
         );
         const px = Number(gsap.getProperty(stageEl, 'x')) || 0;
         const py = Number(gsap.getProperty(stageEl, 'y')) || 0;
-        const localX = (e.clientX - px) / cur;
-        const localY = (e.clientY - py) / cur;
+        const b = box();
+        const cx = e.clientX - b.left;
+        const cy = e.clientY - b.top;
+        const localX = (cx - px) / cur;
+        const localY = (cy - py) / cur;
         gsap.killTweensOf(stageEl);
-        tx = e.clientX - scale * localX;
-        ty = e.clientY - scale * localY;
+        tx = cx - scale * localX;
+        ty = cy - scale * localY;
         gsap.set(stageEl, { scale, x: tx, y: ty });
         setInverseScale(scale);
         recomputeBounds();
@@ -625,7 +660,7 @@
       //   deltaMode 1 → lines (Windows mouse wheel)
       //   deltaMode 2 → pages (some legacy)
       const mult =
-        e.deltaMode === 1 ? 16 : e.deltaMode === 2 ? window.innerHeight : 1;
+        e.deltaMode === 1 ? 16 : e.deltaMode === 2 ? box().height : 1;
       tx = Math.max(_bounds.minX, Math.min(_bounds.maxX, tx - e.deltaX * mult));
       ty = Math.max(_bounds.minY, Math.min(_bounds.maxY, ty - e.deltaY * mult));
       xTo(tx);
@@ -638,8 +673,7 @@
         stageEl.querySelector('.masonry-inner')
       );
       const k = stageScale();
-      const vw = window.innerWidth;
-      const vh = window.innerHeight;
+      const { width: vw, height: vh } = box();
       const cw = contentWidth * k;
       const ch = (masonryInner ? masonryInner.scrollHeight : vh) * k;
       const maxX = PADDING;
@@ -767,6 +801,9 @@
           recomputeBounds();
         });
         resizeObs.observe(overlayEl);
+        // The wall's height settles after first paint; the pan limits follow it.
+        const inner = stageEl?.querySelector('.masonry-inner');
+        if (inner) resizeObs.observe(inner);
       }
 
       // Tiles start on the small 300w thumb (already cached by the chart's
@@ -802,7 +839,7 @@
       stageEl?.addEventListener('pointermove', onPointerMove);
       stageEl?.addEventListener('pointerup', onPointerUp);
       stageEl?.addEventListener('pointercancel', onPointerUp);
-      overlayEl?.focus();
+      overlayEl?.focus({ preventScroll: true });
     })();
 
     return () => {
@@ -903,18 +940,19 @@
     // ratio is relative to where we're standing now.
     // The caption band unfolds below the card at a fixed on-screen height,
     // so reserve it before fitting the image.
+    const b = box();
     const fit = Math.min(
-      (window.innerWidth * FOCUS_FIT) / rect.width,
-      (window.innerHeight * FOCUS_FIT - CAPTION_H) / rect.height
+      (b.width * FOCUS_FIT) / rect.width,
+      (b.height * FOCUS_FIT - CAPTION_H) / rect.height
     );
     const S = Math.max(MIN_SCALE, Math.min(MAX_SCALE, curScale * fit));
 
     // Tile centre in stage-local (untransformed) coordinates, then the
     // translation that lands card + band centred once scaled.
-    const localX = (rect.x + rect.width / 2 - curX) / curScale;
-    const localY = (rect.y + rect.height / 2 - curY) / curScale;
-    const nx = window.innerWidth / 2 - S * localX;
-    const ny = window.innerHeight / 2 - S * localY - CAPTION_H / 2;
+    const localX = (rect.x - b.left + rect.width / 2 - curX) / curScale;
+    const localY = (rect.y - b.top + rect.height / 2 - curY) / curScale;
+    const nx = b.width / 2 - S * localX;
+    const ny = b.height / 2 - S * localY - CAPTION_H / 2;
 
     // Pause panning: Draggable continually re-applies its own transform,
     // which fights the tween. `disable()` alone isn't enough — kill any
@@ -1006,7 +1044,7 @@
   function handleKeydown(e) {
     if (e.key === 'Escape') {
       if (zoomedIndex >= 0) closeZoom();
-      else close();
+      else if (!embedded) close();
       return;
     }
 
@@ -1107,9 +1145,10 @@
 
 <div
   class="infinite-canvas-overlay"
+  class:embedded
   bind:this={overlayEl}
-  role="dialog"
-  aria-modal="true"
+  role={embedded ? 'region' : 'dialog'}
+  aria-modal={embedded ? undefined : 'true'}
   aria-label={title ? `Gallery: ${title}` : 'Image gallery'}
   tabindex="-1"
   onkeydown={handleKeydown}
@@ -1119,11 +1158,13 @@
   <div class="ghost" bind:this={ghostEl}></div>
 
   <div class="canvas-content" class:ready={ready || !!reveal}>
-    <button class="back-pill" onclick={close}>
-      <span aria-hidden="true">&larr;</span> Topics
-      {#if title}<span class="back-sep" aria-hidden="true">&middot;</span>
-        <span class="back-topic">{title}</span>{/if}
-    </button>
+    {#if !embedded}
+      <button class="back-pill" onclick={close}>
+        <span aria-hidden="true">&larr;</span> Topics
+        {#if title}<span class="back-sep" aria-hidden="true">&middot;</span>
+          <span class="back-topic">{title}</span>{/if}
+      </button>
+    {/if}
 
     <div class="stage" bind:this={stageEl} class:is-zoomed={zoomedIndex >= 0}>
       <div
@@ -1204,6 +1245,14 @@
     background: var(--white-soft);
     overflow: hidden;
     outline: none;
+  }
+
+  // In the page flow, under the navbar and above the footer.
+  .infinite-canvas-overlay.embedded {
+    position: relative;
+    inset: auto;
+    z-index: auto;
+    height: 100svh;
   }
 
   .ghost {
