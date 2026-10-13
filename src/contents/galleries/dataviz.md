@@ -1,11 +1,21 @@
 ---
 title: Data Visualization Gallery | Prasanta Kumar Dutta
 
-description: A collection of charts, maps, and illustrations from my work at Reuters and design school.
+description: Explore a diverse range of projects that highlight the power of visual communication in conveying insights and narratives through data.
 
 image: dataviz-gallery.webp
 
-type: collection
+type: gallery
+
+# Card on the projects page
+order: 1
+featured: true
+intro:
+  hed: Data Visualization
+src: /media/share-images/dataviz-gallery.webp
+categories:
+  - Reuters
+  - Infographics
 
 published: true
 ---

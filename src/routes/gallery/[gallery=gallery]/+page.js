@@ -1,8 +1,11 @@
 import { error } from '@sveltejs/kit';
-import galleries from '$lib/data/galleries.js';
 
 export function entries() {
-  return galleries.map((g) => ({ gallery: g.slug }));
+  return Object.keys(import.meta.glob('/src/contents/galleries/*.md')).map(
+    (path) => ({
+      gallery: /** @type {string} */ (path.split('/').at(-1)).replace('.md', ''),
+    })
+  );
 }
 
 /**

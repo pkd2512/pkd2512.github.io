@@ -5,7 +5,16 @@ description: Hand-made zines on travel, food and everyday life by Prasanta Kumar
 
 image: share.webp
 
-type: collection
+type: gallery
+
+# Card on the projects page
+order: 2
+intro:
+  hed: Zines
+src: /media/zines/zines-1.webp
+categories:
+  - Print
+  - 5 zines
 
 published: true
 ---

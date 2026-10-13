@@ -3,6 +3,7 @@
   import NavLink from '$lib/components/ui/Navlink/index.svelte';
   import Logo from '$lib/components/ui/Logo/index.svelte';
   import Contact from '$lib/components/custom/home/Contact/index.svelte';
+  import { page } from '$app/state';
 
   // @ts-ignore
   import socialUrls from '/src/contents/data/socialurls.csv';
@@ -12,9 +13,12 @@
   )[0];
 
   const year = new Date().getFullYear();
+
+  // The gallery wall runs right down to the footer, so no gap above it.
+  let flush = $derived(page.params.gallery === 'dataviz');
 </script>
 
-<div style="margin-top: var(--space-xl)">
+<div style:margin-top={flush ? undefined : 'var(--space-xl)'}>
   <Contact />
 
   <footer>

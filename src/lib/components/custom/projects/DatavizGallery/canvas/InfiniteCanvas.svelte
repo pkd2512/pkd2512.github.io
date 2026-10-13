@@ -57,6 +57,30 @@
   } = $props();
 
   /**
+   * Client plus each category, as the tags shown under a focused tile.
+   * @param {{ client?: string, category?: string }} item
+   */
+  function tagsFor(item) {
+    const tags = [item.client, ...(item.category ?? '').split(',')]
+      .map((t) => t?.trim())
+      .filter((t) => !!t);
+    return [...new Set(tags)];
+  }
+
+  /**
+   * Hides or shows the site navbar as the wall pans, the way it does when the
+   * page scrolls (the `up`/`down` classes scrollDirection.js sets).
+   * @param {number} dy Scroll-style direction: positive is down the wall.
+   */
+  function navDirection(dy) {
+    if (!embedded || Math.abs(dy) < 3) return;
+    document.querySelectorAll('nav.pin').forEach((nav) => {
+      nav.classList.toggle('up', dy < 0);
+      nav.classList.toggle('down', dy >= 0);
+    });
+  }
+
+  /**
    * The area the wall is drawn in: the viewport when it covers the page, the
    * element's own box when embedded.
    */
@@ -124,6 +148,11 @@
 
   /** Index of the tile currently in focus, or -1 while browsing the wall. */
   let zoomedIndex = $state(-1);
+
+  // A focused tile owns the screen: tuck the navbar away while one is open.
+  $effect(() => {
+    if (zoomedIndex >= 0) navDirection(Infinity);
+  });
 
   /** Reference to the Draggable instance so focus/close can pause it. */
   /** @type {any} */
@@ -620,6 +649,7 @@
         return;
 
       e.preventDefault();
+      navDirection(e.deltaY);
       // The page's smooth scroller (Lenis) listens on window; keep a pan from
       // also scrolling the page.
       e.stopPropagation();
@@ -760,6 +790,9 @@
         edgeResistance: 0,
         onDragStart() {
           stageEl?.classList.add('is-dragging');
+        },
+        onDrag() {
+          navDirection(-this.deltaY);
         },
         onDragEnd() {
           stageEl?.classList.remove('is-dragging');
@@ -1204,8 +1237,12 @@
 
               <span class="tile-caption">
                 <span class="tile-title">{t.label}</span>
-                {#if t.item.client}
-                  <span class="tile-client">{t.item.client}</span>
+                {#if tagsFor(t.item).length}
+                  <span class="tile-tags">
+                    {#each tagsFor(t.item) as tag (tag)}
+                      <span class="tile-tag">{tag}</span>
+                    {/each}
+                  </span>
                 {/if}
               </span>
             </button>
@@ -1361,12 +1398,12 @@
   .tile {
     --w: 1;
     --h: 1;
-    --card: #f1ede1;
+    --card: var(--white);
     // Caption band + type hold a constant on-screen size at any zoom.
     // Sized from the zoom we're heading to, not the live one — a value that
     // changes every frame keeps restarting the band's CSS transition.
     --footer-h: calc(var(--cap-h) * var(--inv-end, 1));
-    --cap-fs: calc(15px * var(--inv-end, 1));
+    --cap-fs: calc(var(--font-size--1) * var(--inv-end, 1));
     --unfold: 0.55s cubic-bezier(0.65, 0, 0.35, 1);
     aspect-ratio: var(--w) / var(--h);
     width: 100%;
@@ -1507,12 +1544,26 @@
     overflow: hidden;
   }
 
-  .tile-client {
-    font-family: var(--font-serif);
-    font-style: italic;
-    font-size: 0.9em;
-    color: var(--gray);
-    text-transform: capitalize;
+  // Same look as the tags on a project card. Every size is the design-system
+  // value times --inv-end, which cancels the wall's zoom so the caption keeps
+  // one on-screen size.
+  .tile-tags {
+    display: flex;
+    gap: calc(var(--space-3xs) * var(--inv-end, 1));
+    overflow: hidden;
+  }
+
+  .tile-tag {
+    flex: none;
+    border-radius: calc(0.25rem * var(--inv-end, 1));
+    padding: calc(0.5 * var(--space-3xs) * var(--inv-end, 1))
+      calc(var(--space-3xs) * var(--inv-end, 1));
+    font-size: calc(var(--font-size--2) * var(--inv-end, 1));
+    line-height: 1.3;
+    text-transform: uppercase;
+    letter-spacing: var(--letter-spaced);
+    color: var(--purple);
+    background-color: var(--gray-soft);
   }
 
   // Same icon and nudge as the blog referral cards.

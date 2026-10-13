@@ -16,29 +16,28 @@ published: true
   import { asset, resolve } from '$app/paths';
   import ReferralCard from '$lib/components/ui/ReferralCard/index.svelte';
   import Container from '$lib/components/ui/Container/index.svelte';
-  import galleryData from '$lib/data/galleries.js';
   import { page } from '$app/state';
 
   let contents = page.data.contents
     .filter((d) => d.type === 'project')
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
-  const toCard = (g) => ({
-    src: g.src,
-    intro: { hed: g.title },
-    description: g.description,
-    categories: g.categories,
-    href: resolve('/gallery/[gallery=gallery]', { gallery: g.slug }),
-  });
+  const galleryData = page.data.contents
+    .filter((d) => d.type === 'gallery')
+    .sort((a, b) => a.order - b.order)
+    .map((g) => ({
+      ...g,
+      href: resolve('/gallery/[gallery=gallery]', { gallery: g.slug }),
+    }));
 
-  const featured = galleryData.filter((g) => g.featured).map(toCard);
-  const galleries = galleryData.filter((g) => !g.featured).map(toCard);
+  const featured = galleryData.filter((g) => g.featured);
+  const galleries = galleryData.filter((g) => !g.featured);
 </script>
 
 <!--
   Case studies: every published project, newest first.
-  Galleries come from src/lib/data/galleries.js, each at /gallery/[slug]; the
-  featured one gets the large hero card. Swap its still for one with no
+  Galleries are the pages in src/contents/galleries/, each at /gallery/[slug];
+  the card reads their front matter, and the featured one gets the large hero card. Swap its still for one with no
   baked-in text.
   Do not put // comments inside the script above: mdsvex crashes on them.
 -->

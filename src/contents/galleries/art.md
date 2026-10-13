@@ -5,7 +5,16 @@ description: Generative art and creative coding experiments by Prasanta Kumar Du
 
 image: share.webp
 
-type: collection
+type: gallery
+
+# Card on the projects page
+order: 4
+intro:
+  hed: Art
+src: /media/pkd-islands.webp
+categories:
+  - Creative coding
+  - 30 pieces
 
 published: true
 ---

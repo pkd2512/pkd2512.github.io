@@ -5,7 +5,16 @@ description: Landscapes and street scenes from the travels of Prasanta Kumar Dut
 
 image: share.webp
 
-type: collection
+type: gallery
+
+# Card on the projects page
+order: 3
+intro:
+  hed: Photography
+src: /media/pexels-prasanta-kr-dutta-117541.webp
+categories:
+  - Photography
+  - 120 photos
 
 published: true
 ---

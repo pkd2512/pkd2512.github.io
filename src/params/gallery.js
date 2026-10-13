@@ -1,7 +1,9 @@
-import galleries from '../lib/data/galleries.js';
+// A /gallery/[slug] only matches a page in src/contents/galleries/.
+const slugs = Object.keys(import.meta.glob('/src/contents/galleries/*.md')).map(
+  (path) => /** @type {string} */ (path.split('/').at(-1)).replace('.md', '')
+);
 
-// A /gallery/[slug] only matches a slug listed in src/lib/data/galleries.js.
 /** @param {string} param */
 export function match(param) {
-  return galleries.some((g) => g.slug === param);
+  return slugs.includes(param);
 }
