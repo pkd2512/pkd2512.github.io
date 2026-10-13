@@ -94,7 +94,7 @@
               url={link.url}
               active={pageId?.includes(link.url) ||
                 pageHash?.includes(link.name.toLowerCase()) ||
-                (link.url === '/projects' && pageId?.startsWith('/[collection'))}
+                (link.url === '/projects' && pageId?.startsWith('/gallery'))}
             >
               <span>{link.name}</span>
             </NavLink>

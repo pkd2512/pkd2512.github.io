@@ -1,7 +1,18 @@
-// Collections shown under the dataviz hero on the projects page. `slug` is the
-// page at /[slug], whose content lives in src/contents/collections/[slug].md.
+// Every gallery, at /gallery/[slug]. Content lives in src/contents/galleries/[slug].md.
+// This is the one list the routes, the slug matcher and the projects page read:
+// add an entry here and a matching .md file to add a gallery.
+// `featured` galleries get the large hero card on the projects page; the rest
+// are the smaller cards under it.
 // Not a CSV in src/contents/data: those are synced from the Google Sheet.
 export default [
+  {
+    slug: 'dataviz',
+    title: 'Dataviz gallery',
+    description: 'An interactive gallery of charts, maps and graphics.',
+    src: '/media/share-images/dataviz-gallery.webp',
+    categories: ['Interactive'],
+    featured: true,
+  },
   {
     slug: 'zines',
     title: 'Zines',

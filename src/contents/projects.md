@@ -16,43 +16,40 @@ published: true
   import { asset, resolve } from '$app/paths';
   import ReferralCard from '$lib/components/ui/ReferralCard/index.svelte';
   import Container from '$lib/components/ui/Container/index.svelte';
-  import collectionData from '$lib/data/collections.js';
+  import galleryData from '$lib/data/galleries.js';
   import { page } from '$app/state';
 
   let contents = page.data.contents
-    .filter((d) => d.type === 'project' && d.slug !== 'dataviz-gallery')
+    .filter((d) => d.type === 'project')
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
-  const gallery = {
-    src: '/media/share-images/dataviz-gallery.webp',
-    intro: { hed: 'Dataviz gallery' },
-    description: 'An interactive gallery of charts, maps and graphics.',
-    categories: ['Interactive'],
-    href: resolve('/projects/[slug]', { slug: 'dataviz-gallery' }),
-  };
+  const toCard = (g) => ({
+    src: g.src,
+    intro: { hed: g.title },
+    description: g.description,
+    categories: g.categories,
+    href: resolve('/gallery/[gallery=gallery]', { gallery: g.slug }),
+  });
 
-  const collections = collectionData.map((c) => ({
-    src: c.src,
-    intro: { hed: c.title },
-    description: c.description,
-    categories: c.categories,
-    href: resolve('/[collection=collection]', { collection: c.slug }),
-  }));
+  const featured = galleryData.filter((g) => g.featured).map(toCard);
+  const galleries = galleryData.filter((g) => !g.featured).map(toCard);
 </script>
 
 <!--
   Case studies: every published project, newest first.
-  The hero links to the dataviz gallery project page; it is left out of the
-  case studies below. Swap its still for one with no baked-in text.
-  Collections come from src/lib/data/collections.js.
+  Galleries come from src/lib/data/galleries.js, each at /gallery/[slug]; the
+  featured one gets the large hero card. Swap its still for one with no
+  baked-in text.
   Do not put // comments inside the script above: mdsvex crashes on them.
 -->
 
-<a class="featured" href={gallery.href}>
-  <ProjectCard info={gallery} />
-</a>
+{#each featured as gallery}
+  <a class="featured" href={gallery.href}>
+    <ProjectCard info={gallery} />
+  </a>
+{/each}
 
-<ProjectList posts={collections} />
+<ProjectList posts={galleries} />
 
 <h2 class="label">Case studies</h2>
 <ProjectList posts={contents} />
