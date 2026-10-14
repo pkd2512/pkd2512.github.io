@@ -29,7 +29,7 @@ published: true
 <ProjectCard info={featured} />
 </a>
 
-<ProjectList posts={contents.slice(1, 5)} />
+<ProjectList posts={contents.slice(1)} />
 
 <Container width="md" style="text-align: center;">
   <ReferralCard
@@ -39,8 +39,6 @@ published: true
     description="Visual journalism and data graphics projects"
   />
 </Container>
-
-<ProjectList posts={contents.slice(5)} />
 
 <Container width="md" style="text-align: center;">
   <ReferralCard
