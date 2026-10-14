@@ -220,9 +220,9 @@ async function main() {
     }
 
     // ── pick output component ─────────────────────────────
-    const components = findComponentDirs('src/lib/components/custom/projects');
+    const components = findComponentDirs('src/lib/components/custom/galleries');
     if (!components.length) {
-      p.cancel('No components found in src/lib/components/custom/projects/');
+      p.cancel('No components found in src/lib/components/custom/galleries/');
       process.exit(1);
     }
     let compDir;
@@ -317,9 +317,9 @@ async function main() {
   }
 
   // ── pick output component ─────────────────────────────
-  const components = findComponentDirs('src/lib/components/custom/projects');
+  const components = findComponentDirs('src/lib/components/custom/galleries');
   if (!components.length) {
-    p.cancel('No components found in src/lib/components/custom/projects/');
+    p.cancel('No components found in src/lib/components/custom/galleries/');
     process.exit(1);
   }
   const compDir = await p.select({

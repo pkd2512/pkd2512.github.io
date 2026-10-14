@@ -3,7 +3,7 @@
   import Container from '$lib/components/ui/Container/index.svelte';
   import ColumnPicker from './ui/ColumnPicker.svelte';
   import Voronoi from './charts/Voronoi.svelte';
-  import InfiniteCanvas from './canvas/InfiniteCanvas.svelte';
+  import InfiniteCanvas from '../canvas/InfiniteCanvas.svelte';
   // @ts-ignore
   import { getCounts, getGroup } from './data/dataviz-gallery-counts.js';
   // @ts-ignore

@@ -190,3 +190,67 @@ export function calcMasonryWidth(itemCount, frameW, gap) {
 export function masonryContainerStyle(width, frameW, gap) {
   return `display: grid; margin: calc(-1 * ${gap}px / 2); grid-template-columns: repeat(auto-fill, minmax(${frameW}px, 1fr)); width: ${width}px;`;
 }
+
+/**
+ * Columns for a roughly square wall.
+ * @param {number} itemCount
+ * @returns {number}
+ */
+export function wallColumns(itemCount) {
+  return Math.max(1, Math.ceil(Math.sqrt(itemCount)));
+}
+
+/**
+ * Masonry placement: each tile goes under the shortest column so far, which
+ * keeps the columns level and leaves no holes (CSS auto-placement fills rows
+ * left to right and strands gaps beside tall tiles). Heights are in row
+ * units — a tile's span — so the result doesn't depend on the frame size.
+ *
+ * @param {Array<{aspect?:number}>} items
+ * @param {number} cols
+ * @returns {{ cells: Array<{col:number,row:number,span:number}>, rows: number }}
+ */
+export function masonryPlacements(items, cols) {
+  const heights = new Array(cols).fill(0);
+  const cells = items.map((item) => {
+    const span = Math.max(1, Math.round(PRECISION / (item.aspect || 1)));
+    let col = 0;
+    for (let c = 1; c < cols; c++) if (heights[c] < heights[col]) col = c;
+    const row = heights[col];
+    heights[col] += span;
+    return { col, row, span };
+  });
+  return { cells, rows: Math.max(0, ...heights) };
+}
+
+/**
+ * Frame size for an embedded wall. A wall with few tiles is sized so the whole
+ * of it fits the screen at once; one too big to fit at the smallest frame
+ * keeps the default size and is panned.
+ *
+ * @param {{ frameW: number, gap: number }} base From frameMetrics.
+ * @param {number} rows Tallest column, in row units (masonryPlacements).
+ * @param {number} cols
+ * @param {number} width Visible width.
+ * @param {number} height Visible height.
+ * @returns {{ frameW: number, gap: number }}
+ */
+export function fitMetrics(base, rows, cols, width, height) {
+  const fit = Math.floor(
+    Math.min((width * 0.9) / cols, (height * 0.85 * PRECISION) / rows)
+  );
+  if (fit < FRAME_MIN || fit >= base.frameW) return base;
+  return { frameW: fit, gap: Math.round(fit * GAP_RATIO) };
+}
+
+/**
+ * Inline styles for the wall's grid: fixed-width columns, so the gaps between
+ * tiles are the same across and down.
+ * @param {number} cols
+ * @param {number} frameW
+ * @param {number} gap
+ * @returns {string}
+ */
+export function wallStyle(cols, frameW, gap) {
+  return `display: grid; margin: calc(-1 * ${gap}px / 2); grid-template-columns: repeat(${cols}, ${frameW}px); width: ${cols * frameW}px;`;
+}

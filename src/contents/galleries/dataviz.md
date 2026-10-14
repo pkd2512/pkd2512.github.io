@@ -21,7 +21,8 @@ published: true
 ---
 
 <script>
-  import Wall from '$lib/components/custom/projects/DatavizGallery/Wall.svelte';
+  import Gallery from '$lib/components/custom/galleries/Gallery/index.svelte';
+  import { getAllRows } from '$lib/components/custom/galleries/dataviz/data/dataviz-gallery-counts.js';
 </script>
 
-<Wall />
+<Gallery items={getAllRows()} title="Dataviz gallery" />

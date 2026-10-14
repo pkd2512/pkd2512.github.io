@@ -3,9 +3,11 @@
   import Icon from '@iconify/svelte';
   import {
     tileStyle,
-    masonryContainerStyle,
+    wallStyle,
+    wallColumns,
+    masonryPlacements,
+    fitMetrics,
     makePerm,
-    calcMasonryWidth,
     frameMetrics,
   } from './infiniteCanvas.js';
   import { mediaUrl, thumbUrl } from '../data/mediaUrl.js';
@@ -35,6 +37,7 @@
    *   items: Array<{
    *     img_url: string, ref_url?: string, title?: string, alt?: string,
    *     client?: string, graphic_type?: string, category?: string,
+   *     thumbs?: boolean,
    *     aspect: number
    *   }>,
    *   title?: string,
@@ -42,6 +45,7 @@
    *   reveal?: {polygon: [number, number][], x: number, y: number, scale: number, anchor: [number, number]} | null,
    *   portalEl?: HTMLElement | null,
    *   embedded?: boolean,
+   *   Detail?: import('svelte').Component<any>,
    *   onclose?: () => void
    * }}
    */
@@ -53,6 +57,9 @@
     portalEl = null,
     // Sits in the page flow (navbar and footer stay) instead of covering it.
     embedded = false,
+    // Opens a tapped tile into this component instead of zooming the wall to
+    // it. It gets the tile's item as `item`.
+    Detail = undefined,
     onclose,
   } = $props();
 
@@ -125,14 +132,21 @@
   // Precompute the per-tile data (style string + thumbnail URLs) once
   // per `items`/`title`/`perm`/`metrics` change, so the `{#each}` block
   // doesn't rebuild strings on every reactive tick.
+  let cols = $derived(wallColumns(items.length));
+  let layout = $derived(masonryPlacements(items, cols));
+
   let tiles = $derived(
     items.map((it, i) => ({
       item: it,
-      style: tileStyle(it, title, i, perm, metrics.frameW, metrics.gap),
-      small: thumbUrl(it.img_url, 300),
-      srcset: THUMB_WIDTHS.map((w) => `${thumbUrl(it.img_url, w)} ${w}w`).join(
-        ', '
-      ),
+      style:
+        tileStyle(it, title, i, perm, metrics.frameW, metrics.gap) +
+        ` grid-column: ${layout.cells[i].col + 1}; grid-row: ${layout.cells[i].row + 1} / span ${layout.cells[i].span};`,
+      // thumbs: false marks an image with no resized copies on disk.
+      small: it.thumbs === false ? mediaUrl(it.img_url) : thumbUrl(it.img_url, 300),
+      srcset:
+        it.thumbs === false
+          ? ''
+          : THUMB_WIDTHS.map((w) => `${thumbUrl(it.img_url, w)} ${w}w`).join(', '),
       full: mediaUrl(it.img_url),
       label: it.title || '',
       key: it.img_url + '#' + i,
@@ -149,9 +163,12 @@
   /** Index of the tile currently in focus, or -1 while browsing the wall. */
   let zoomedIndex = $state(-1);
 
+  /** Index of the tile open in `Detail`, or -1. */
+  let detailIndex = $state(-1);
+
   // A focused tile owns the screen: tuck the navbar away while one is open.
   $effect(() => {
-    if (zoomedIndex >= 0) navDirection(Infinity);
+    if (zoomedIndex >= 0 || detailIndex >= 0) navDirection(Infinity);
   });
 
   /** Reference to the Draggable instance so focus/close can pause it. */
@@ -425,9 +442,13 @@
     let cancelled = false;
 
     function applyMetrics() {
-      const next = frameMetrics(box().width);
+      const b = box();
+      const base = frameMetrics(b.width);
+      const next = embedded
+        ? fitMetrics(base, layout.rows, cols, b.width, b.height)
+        : base;
       if (next.frameW !== metrics.frameW) metrics = next;
-      contentWidth = calcMasonryWidth(items.length, next.frameW, next.gap);
+      contentWidth = cols * next.frameW;
     }
     applyMetrics();
 
@@ -636,6 +657,13 @@
     function onWheel(e) {
       if (!stageEl || !xTo) return;
 
+      // The wall holds still behind an open detail.
+      if (detailIndex >= 0) {
+        e.preventDefault();
+        e.stopPropagation();
+        return;
+      }
+
       // Embedded, a wheel that pushes against the wall's top or bottom edge
       // belongs to the page, so the footer stays reachable.
       if (
@@ -706,10 +734,29 @@
       const { width: vw, height: vh } = box();
       const cw = contentWidth * k;
       const ch = (masonryInner ? masonryInner.scrollHeight : vh) * k;
-      const maxX = PADDING;
-      const minX = -(cw - vw) - PADDING;
-      const maxY = PADDING;
-      const minY = -(ch - vh) - PADDING;
+      // A wall smaller than the screen sits in the middle of it, via the
+      // stage's own left/top, and has nothing to pan. Sized from the
+      // unzoomed wall so the offset doesn't move while zooming.
+      // The cards are inset by half a gap inside their cells, so the visible
+      // wall is one gap smaller each way than the grid.
+      const gap = metrics.gap;
+      // At least a gap from the top-left corner, so a big wall opens clear
+      // of the navbar rather than tucked under it.
+      const offX = embedded
+        ? Math.max(gap, (vw - (contentWidth - gap)) / 2)
+        : 0;
+      const offY = embedded
+        ? Math.max(
+            gap,
+            (vh - ((masonryInner ? masonryInner.scrollHeight : vh) - gap)) / 2
+          )
+        : 0;
+      stageEl.style.left = offX + 'px';
+      stageEl.style.top = offY + 'px';
+      const maxX = cw <= vw ? 0 : PADDING - offX;
+      const minX = cw <= vw ? 0 : -(cw - vw) - PADDING - offX;
+      const maxY = ch <= vh ? 0 : PADDING - offY;
+      const minY = ch <= vh ? 0 : -(ch - vh) - PADDING - offY;
       // Always admit where the wall is now (e.g. where the chart's window
       // placed it) — applyBounds would otherwise yank it into range.
       const px = gsap ? Number(gsap.getProperty(stageEl, 'x')) || 0 : tx;
@@ -982,10 +1029,13 @@
 
     // Tile centre in stage-local (untransformed) coordinates, then the
     // translation that lands card + band centred once scaled.
-    const localX = (rect.x - b.left + rect.width / 2 - curX) / curScale;
-    const localY = (rect.y - b.top + rect.height / 2 - curY) / curScale;
-    const nx = b.width / 2 - S * localX;
-    const ny = b.height / 2 - S * localY - CAPTION_H / 2;
+    // The stage may sit off the corner (a small wall is centred).
+    const offX = stageEl.offsetLeft;
+    const offY = stageEl.offsetTop;
+    const localX = (rect.x - b.left + rect.width / 2 - offX - curX) / curScale;
+    const localY = (rect.y - b.top + rect.height / 2 - offY - curY) / curScale;
+    const nx = b.width / 2 - S * localX - offX;
+    const ny = b.height / 2 - S * localY - offY - CAPTION_H / 2;
 
     // Pause panning: Draggable continually re-applies its own transform,
     // which fights the tween. `disable()` alone isn't enough — kill any
@@ -1021,7 +1071,11 @@
       ease: 'power3.inOut',
       force3D: true,
       overwrite: true,
-      onComplete: () => setInverseScale(S),
+      onComplete: () => {
+        setInverseScale(S);
+        // The wall has finished flying in: now the detail takes over.
+        if (Detail && zoomedIndex === idx) detailIndex = idx;
+      },
     });
   }
 
@@ -1066,6 +1120,20 @@
     });
   }
 
+  // Back out of a detail: the wall flies out the way it flew in.
+  function closeDetail() {
+    detailIndex = -1;
+    overlayEl?.focus({ preventScroll: true });
+    closeZoom();
+  }
+
+  /** @param {number} dir */
+  function stepDetail(dir) {
+    const next = (detailIndex + dir + tiles.length) % tiles.length;
+    detailIndex = -1;
+    openZoom(next);
+  }
+
   /** Move focus to the neighbouring item without stepping back first. */
   /** @param {number} dir */
   function stepZoom(dir) {
@@ -1075,6 +1143,13 @@
 
   /** @param {KeyboardEvent} e */
   function handleKeydown(e) {
+    if (detailIndex >= 0) {
+      if (e.key === 'Escape') closeDetail();
+      else if (e.key === 'ArrowLeft') stepDetail(-1);
+      else if (e.key === 'ArrowRight') stepDetail(1);
+      return;
+    }
+
     if (e.key === 'Escape') {
       if (zoomedIndex >= 0) closeZoom();
       else if (!embedded) close();
@@ -1202,7 +1277,7 @@
     <div class="stage" bind:this={stageEl} class:is-zoomed={zoomedIndex >= 0}>
       <div
         class="masonry-inner"
-        style={masonryContainerStyle(contentWidth, metrics.frameW, metrics.gap)}
+        style={wallStyle(cols, metrics.frameW, metrics.gap)}
       >
         {#each tiles as t, i (t.key)}
           <div
@@ -1264,6 +1339,35 @@
       </div>
     </div>
   </div>
+  {#if Detail && detailIndex >= 0}
+    {@const open = tiles[detailIndex].item}
+    <!-- svelte-ignore a11y_click_events_have_key_events, a11y_no_static_element_interactions -->
+    <div
+      class="detail"
+      role="dialog"
+      aria-modal="true"
+      aria-label={open.title}
+      onclick={closeDetail}
+    >
+      <!-- svelte-ignore a11y_click_events_have_key_events, a11y_no_static_element_interactions -->
+      <div class="detail-panel" onclick={(e) => e.stopPropagation()}>
+        <Detail item={open} />
+        <div class="detail-caption">
+          <span class="tile-title">{open.title}</span>
+          {#if tagsFor(open).length}
+            <span class="tile-tags">
+              {#each tagsFor(open) as tag (tag)}
+                <span class="tile-tag">{tag}</span>
+              {/each}
+            </span>
+          {/if}
+        </div>
+      </div>
+      <button class="detail-close" onclick={closeDetail} aria-label="Close">
+        <Icon icon="iconamoon:close" />
+      </button>
+    </div>
+  {/if}
 </div>
 
 <style lang="scss">
@@ -1282,6 +1386,79 @@
     background: var(--white-soft);
     overflow: hidden;
     outline: none;
+  }
+
+  // The component a tile opens into, over the wall.
+  .detail {
+    position: absolute;
+    inset: 0;
+    z-index: 30;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-m);
+
+    // The wall stays faintly visible behind, as it does around a focused tile.
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-color: var(--white-soft);
+      opacity: 0.92;
+      z-index: -1;
+    }
+
+    animation: detail-in 0.3s ease both;
+  }
+
+  @keyframes detail-in {
+    from {
+      opacity: 0;
+    }
+  }
+
+  .detail-panel {
+    width: min(100%, var(--md));
+    max-height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-s);
+    font-size: var(--font-size--1);
+  }
+
+  .detail-caption {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3xs);
+    text-transform: none;
+    letter-spacing: normal;
+
+    .tile-title {
+      font-size: var(--font-size-0);
+    }
+
+    .tile-tags {
+      gap: var(--space-3xs);
+    }
+
+    .tile-tag {
+      font-size: var(--font-size--2);
+      padding: calc(0.5 * var(--space-3xs)) var(--space-3xs);
+    }
+  }
+
+  .detail-close {
+    position: absolute;
+    top: var(--space-s);
+    right: var(--space-s);
+    display: inline-flex;
+    margin: 0;
+    padding: var(--space-3xs);
+    font-size: var(--font-size-1);
+    color: var(--black-soft);
+    background: none;
+    border: 0;
+    cursor: pointer;
   }
 
   // In the page flow, under the navbar and above the footer.

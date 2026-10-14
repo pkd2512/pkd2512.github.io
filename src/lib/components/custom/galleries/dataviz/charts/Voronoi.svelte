@@ -2,8 +2,8 @@
   import { hierarchy } from 'd3-hierarchy';
   import { voronoiTreemap } from 'd3-voronoi-treemap';
   import { weightedVoronoi } from 'd3-weighted-voronoi';
-  import WallPreview from '../canvas/WallPreview.svelte';
-  import { frameMetrics, calcMasonryWidth } from '../canvas/infiniteCanvas.js';
+  import WallPreview from '../../canvas/WallPreview.svelte';
+  import { frameMetrics, calcMasonryWidth } from '../../canvas/infiniteCanvas.js';
 
   // ==========================================================
   // CONFIG (tweak freely)
