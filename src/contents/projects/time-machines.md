@@ -8,7 +8,7 @@ keywords: Photography, Simple Camera, Camera Making, Wet Collodion, Sinar, Natio
 categories:
   - NID
   - Photography
-  - Making
+
 
 image: time-machines.webp
 type: project
