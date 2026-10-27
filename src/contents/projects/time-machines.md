@@ -23,10 +23,10 @@ links:
 intro:
   hed: We are Time Machines
 
-  dek: "How we built a basic photographic camera in 10 days and froze the world around in time with our own lens.
+  dek: "In 2017, I had the opportunity to participate in a unique workshop as a part of the International Open Electives programme at the National Institute of Design, Gandhinagar.
 
   <br>
-  A workshop at NID Gandhinagar, headed by Hiro Sato of Osaka University of Arts, where we made cameras from cardboard, paper and a magnifying glass."
+  Hiro Sato of Osaka University of Arts, Japan, took us back in time to the world of wet collodion photography and the fundamentals of camera-making, where we made cameras from cardboard, paper and a magnifying glass."
 
   img: projects/time-machines/hero.webp
 
@@ -34,7 +34,7 @@ intro:
 
   client: National Institute of Design, Gandhinagar
 
-  url: '#day-1'
+  url: '#day-10'
 
   quote: “You don’t take a photograph, you make it.” — Ansel Adams
 ---
@@ -181,15 +181,15 @@ The first task was to make the bellow, as it was a crucial part as well as a rel
 </div>
 </Container>
 
-<Container grid style="margin-block-start:var(--space-xl)">
+<Container grid>
 <div class="col-span-full">
 
-> In photography, a bellows is the accordion-like, pleated expandable part of a camera, usually a large or medium format camera, to allow the lens to be moved with respect to the focal plane for focusing.
+> In photography, a bellow is the accordion-like, pleated expandable part of a camera, usually a large or medium format camera, to allow the lens to be moved with respect to the focal plane for focusing.
 > Two kinds of bellows are commonly used on cameras — bag bellows are normally used with a lens of short focal length, and accordion bellows with a much longer range of extension.
 
 </div>
 </Container>
-<Container grid style="margin-block-start:var(--space-xl)">
+<Container grid >
 <div class="col-start-md-6 col-span-md-7">
 
 We were making accordion bellows for our camera, which required getting comfortable with paper-folding techniques. Hiro had given us pieces of paper, marked with lines for the mountain-valley folds, to practise bellow-making.
@@ -543,4 +543,3 @@ It was the day for final exhibition. We had assembled our cameras and photograph
 <OverflowImage breakpoint=480 maxWidth='100%' shadow="{true}" url='media/projects/time-machines/37.webp' alt="The author’s camera displayed next to classmates’ work." caption="My camera at the display alongside my classmates’ works" />
 
 </Container>
-
