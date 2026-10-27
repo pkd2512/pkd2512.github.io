@@ -38,8 +38,8 @@
 
     // Stack offsets [bottom, middle, top]
     stackPositions = [
-      { y: 28, x: 20, rotation: 3.5, scale: 0.82, rotateY: 5 },
-      { y: 14, x: 10, rotation: -2, scale: 0.91, rotateY: -2 },
+      { y: 28, x: 20, rotation: 3.5, scale: 0.92, rotateY: 5 },
+      { y: 14, x: 10, rotation: -2, scale: 0.96, rotateY: -2 },
       { y: 0, x: 0, rotation: 0, scale: 1, rotateY: 0 },
     ],
   } = $props();
