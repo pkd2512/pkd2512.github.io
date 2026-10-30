@@ -61,7 +61,7 @@ intro:
 <Container grid style="margin-block-start:var(--space-xl)">
 <div class="hed col-span-md-5">
 
-## The Brief
+## The brief
 
 </div>
 <div class="dek col-span-md-7">
@@ -86,7 +86,7 @@ Before any design, we sketched the sequence as sticky notes and listed every vis
 <Container width="md">
 
 <PhotoPile
-  orientation="landscape"
+  orientation="widescreen"
   items={[
     {
       src: "/media/projects/sahara-thunder/visual-ideas-1.webp",
@@ -111,7 +111,7 @@ Before any design, we sketched the sequence as sticky notes and listed every vis
 <Container grid style="margin-block-start:var(--space-xl)">
 <div class="hed col-span-md-5">
 
-## Getting to Know the Data
+## Getting to know the data
 
 </div>
 <div class="dek col-span-md-7">
@@ -126,7 +126,7 @@ Names change but IMO numbers mostly don't, so we anchored every ship on its IMO 
 <Container width="md">
 
 <PhotoPile
-  orientation="portrait"
+  orientation="square"
   items={[
     {
       src: "/media/projects/sahara-thunder/pinpoint.webp",
@@ -151,7 +151,7 @@ Names change but IMO numbers mostly don't, so we anchored every ship on its IMO 
 <Container grid style="margin-block-start:var(--space-xl)">
 <div class="hed col-span-md-5">
 
-## From Documents to One Table
+## From documents to one table
 
 </div>
 <div class="dek col-span-md-7">
@@ -187,6 +187,16 @@ We recorded the from-ship, to-ship, date, location and volume of every transfer 
       alt: "A long spreadsheet listing every ship-to-ship transfer.",
       caption: "The master table of ship-to-ship transfers",
     },
+  ]}
+/>
+
+</Container>
+
+<Container width="md">
+
+<PhotoPile
+  orientation="portrait"
+  items={[
     {
       src: "/media/projects/sahara-thunder/data-stssize.webp",
       alt: "A table of ship-to-ship transfers with cargo sizes.",
@@ -210,7 +220,7 @@ We recorded the from-ship, to-ship, date, location and volume of every transfer 
 <Container grid style="margin-block-start:var(--space-xl)">
 <div class="hed col-span-md-5">
 
-## Reconstructing the Journeys
+## Reconstructing the journeys
 
 </div>
 <div class="dek col-span-md-7">
@@ -269,7 +279,7 @@ With a journey for every ship, we laid them all out in Miro. Each journey became
 <Container width="md">
 
 <PhotoPile
-  orientation="landscape"
+  orientation="widescreen"
   items={[
     {
       src: "/media/projects/sahara-thunder/journey-12.webp",
@@ -282,16 +292,6 @@ With a journey for every ship, we laid them all out in Miro. Each journey became
       caption: "The Remy's journey, transfer by transfer",
     },
     {
-      src: "/media/projects/sahara-thunder/journey-2.webp",
-      alt: "A diagram of a journey with several oil transfers off Bandar Abbas.",
-      caption: "A journey with several transfers off Bandar Abbas",
-    },
-    {
-      src: "/media/projects/sahara-thunder/journey-5.webp",
-      alt: "A diagram of a journey with transfers off Qeshm Island.",
-      caption: "Transfers off Qeshm Island",
-    },
-    {
       src: "/media/projects/sahara-thunder/journey-3.webp",
       alt: "A short journey diagram of a ship loading at Kharg Terminal.",
       caption: "A short journey from Kharg Terminal",
@@ -301,10 +301,30 @@ With a journey for every ship, we laid them all out in Miro. Each journey became
 
 </Container>
 
+<Container width="md">
+
+<PhotoPile
+  orientation="portrait"
+  items={[
+    {
+      src: "/media/projects/sahara-thunder/journey-2.webp",
+      alt: "A diagram of a journey with several oil transfers off Bandar Abbas.",
+      caption: "A journey with several transfers off Bandar Abbas",
+    },
+    {
+      src: "/media/projects/sahara-thunder/journey-5.webp",
+      alt: "A diagram of a journey with transfers off Qeshm Island.",
+      caption: "Transfers off Qeshm Island",
+    },
+  ]}
+/>
+
+</Container>
+
 <Container grid style="margin-block-start:var(--space-xl)">
 <div class="hed col-span-md-5">
 
-## Checking the Evidence
+## Checking the evidence
 
 </div>
 <div class="dek col-span-md-7">
@@ -319,7 +339,7 @@ We also checked IMO numbers against public registries, and used hull photos to c
 <Container width="md">
 
 <PhotoPile
-  orientation="landscape"
+  orientation="widescreen"
   items={[
     {
       src: "/media/projects/sahara-thunder/roke-1.webp",
@@ -349,7 +369,7 @@ We also checked IMO numbers against public registries, and used hull photos to c
 <Container grid style="margin-block-start:var(--space-xl)">
 <div class="hed col-span-md-5">
 
-## Art Direction
+## Art direction
 
 </div>
 <div class="dek col-span-md-7">
@@ -406,7 +426,7 @@ We wanted the piece to feel like looking over the shoulder of someone going thro
 <Container grid style="margin-block-start:var(--space-xl)">
 <div class="hed col-span-md-5">
 
-## Type and Email Mockups
+## Type and email mockups
 
 </div>
 <div class="dek col-span-md-7">
@@ -428,7 +448,7 @@ The leaked emails were the evidence, so they had to be both readable and recogni
 <Container width="md">
 
 <PhotoPile
-  orientation="landscape"
+  orientation="widescreen"
   items={[
     {
       src: "/media/projects/sahara-thunder/emails-1.webp",
@@ -448,7 +468,7 @@ The leaked emails were the evidence, so they had to be both readable and recogni
 <Container grid style="margin-block-start:var(--space-xl)">
 <div class="hed col-span-md-5">
 
-## Designing the Visualisations
+## Designing the visualisations
 
 </div>
 <div class="dek col-span-md-7">
@@ -463,7 +483,7 @@ Every visual below started as a rough idea, and many did not make it into the fi
 <Container grid style="margin-block-start:var(--space-xl)">
 <div class="hed col-span-md-5">
 
-### The Transfer Network
+### The transfer network
 
 </div>
 <div class="dek col-span-md-7">
@@ -485,7 +505,7 @@ The network shows how oil moves from ship to ship, and how a handful of ships si
 <Container width="md">
 
 <PhotoPile
-  orientation="landscape"
+  orientation="widescreen"
   items={[
     {
       src: "/media/projects/sahara-thunder/sts.webp",
@@ -526,7 +546,7 @@ The network shows how oil moves from ship to ship, and how a handful of ships si
 <Container width="md">
 
 <PhotoPile
-  orientation="landscape"
+  orientation="widescreen"
   items={[
     {
       src: "/media/projects/sahara-thunder/sts-locs.webp",
@@ -546,7 +566,7 @@ The network shows how oil moves from ship to ship, and how a handful of ships si
 <Container grid style="margin-block-start:var(--space-xl)">
 <div class="hed col-span-md-5">
 
-### Where the Oil Went
+### Where the oil went
 
 </div>
 <div class="dek col-span-md-7">
@@ -604,7 +624,7 @@ To show how much oil moved, and where it ended up, we used a Sankey that follows
 <Container grid style="margin-block-start:var(--space-xl)">
 <div class="hed col-span-md-5">
 
-### Journeys on the Map
+### Journeys on the map
 
 </div>
 <div class="dek col-span-md-7">
@@ -617,7 +637,7 @@ The maps were built in QGIS and then styled by hand. We tried many versions of t
 <Container width="md">
 
 <PhotoPile
-  orientation="landscape"
+  orientation="widescreen"
   items={[
     {
       src: "/media/projects/sahara-thunder/qgis.webp",
@@ -657,7 +677,7 @@ The maps were built in QGIS and then styled by hand. We tried many versions of t
 <Container grid style="margin-block-start:var(--space-xl)">
 <div class="hed col-span-md-5">
 
-### Showing AIS Spoofing
+### Showing AIS spoofing
 
 </div>
 <div class="dek col-span-md-7">
@@ -670,7 +690,7 @@ Spoofing was the hardest tactic to explain. Positions broadcast by the ships for
 <Container width="md">
 
 <PhotoPile
-  orientation="landscape"
+  orientation="golden"
   items={[
     {
       src: "/media/projects/sahara-thunder/spoof-remy-circle.webp",
@@ -771,7 +791,7 @@ The page animations were built in After Effects and exported for the web as Lott
 <Container grid style="margin-block-start:var(--space-xl)">
 <div class="hed col-span-md-5">
 
-## Impact and Learnings
+## Impact and learnings
 
 </div>
 <div class="dek col-span-md-7">
